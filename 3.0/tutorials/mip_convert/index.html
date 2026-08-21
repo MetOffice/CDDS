@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -107,6 +111,36 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -197,7 +231,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../search_inventory/" class="md-tabs__link md-tabs__link--active">
+      <a href="../quickstart/" class="md-tabs__link md-tabs__link--active">
         Tutorials
       </a>
     </li>
@@ -210,7 +244,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../developer_documentation/" class="md-tabs__link">
+    <a href="../../developer_documentation/developer_documentation/" class="md-tabs__link">
       Developer Documentation
     </a>
   </li>
@@ -222,8 +256,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -234,8 +268,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference/SUMMARY/" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -314,6 +348,48 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (MIP Convert)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7 operational procedure
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -360,8 +436,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../operational_procedure/cmip6/" class="md-nav__link">
-        CMIP6 and CMIP6 Plus
+        CMIP6 and CMIP6Plus
       </a>
     </li>
   
@@ -377,7 +467,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -387,14 +477,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
           
-            <label for="__nav_2_2">
+            <label for="__nav_2_3">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_2">
+        <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           GCModelDev
         </label>
@@ -477,6 +567,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/common_issues/" class="md-nav__link">
+        Common Issues
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -519,6 +623,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../search_inventory/" class="md-nav__link">
         Search Inventory
       </a>
@@ -535,6 +653,20 @@
     <li class="md-nav__item">
       <a href="../add_mapping/" class="md-nav__link">
         Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
       </a>
     </li>
   
@@ -731,7 +863,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
       
       
       
@@ -741,14 +873,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../request/config_request/">Request Configuration</a>
           
-            <label for="__nav_3_5">
+            <label for="__nav_3_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
+        <label class="md-nav__title" for="__nav_3_7">
           <span class="md-nav__icon md-icon"></span>
           Request Configuration
         </label>
@@ -887,6 +1019,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mass_data_retrieval/" class="md-nav__link">
+        Mass Data Retrieval
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -912,7 +1058,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/">Developer Documentation</a>
+          <a href="../../developer_documentation/developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -987,20 +1133,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -1030,16 +1162,10 @@
       
       
       
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/development_practices/">Development Practices</a>
-          
-            <label for="__nav_4_2">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
         <label class="md-nav__title" for="__nav_4_2">
@@ -1096,34 +1222,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/github/" class="md-nav__link">
-        Working with Github and Git
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../developer_documentation/jira/" class="md-nav__link">
-        Working with Jira
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
         Managing Conda Environments
       </a>
@@ -1138,7 +1236,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+      <a href="../../developer_documentation/documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1304,12 +1402,73 @@
       
       
         <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
           Plugins
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Plugins
         </label>
@@ -1375,7 +1534,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../cdds_components/">CDDS Components</a>
+          <a href="../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1383,10 +1542,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1396,8 +1555,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1410,8 +1569,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1424,8 +1583,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1438,8 +1597,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../subpackages/sim_review/" class="md-nav__link">
+        cdds.sim_review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1460,8 +1633,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/SUMMARY/" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1632,32 +1805,36 @@
   <h1>MIP Convert User Guide</h1>
 
 <h2 id="overview">Overview</h2>
-<p>The <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert"><code>mip_convert</code></a> package enables a user to produce the output netCDF files for a MIP using model output files.</p>
+<p>The <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert"><code>mip_convert</code></a> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> enables a user to produce the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> for a <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> using <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>.</p>
 <pre class="mermaid"><code>graph LR
   A[model output .pp data] --&gt; C[MIP Convert + CMOR];
   B[model output .nc data] --&gt; C;
   C --&gt; D[CF/CMIP6 Compliant .nc data];</code></pre>
 <ol>
-<li>The user makes requests for one or more MIP requested variables by providing specific information (including the appropriate MIP requested variable names) in the user configuration file.</li>
-<li>The information required to produce the MIP requested variables is gathered from the user configuration file, the model to MIP mapping configuration files and the appropriate MIP table, in that order.</li>
-<li>The following steps are then performed for each MIP requested variable name in the user configuration file to produce the output netCDF files:<ol>
-<li>load the relevant data from the model output files into one or more input variables depending on whether there is a one-to-one / simple arithmetic relationship between the MIP output variable and the input variables or if the MIP output variable is based on an arithmetic combination of two or more input variables, respectively, using Iris and the information provided in the user configuration file and the model to MIP mapping configuration files.</li>
-<li>process the input variable / input variables to produce the MIP output variable using the information provided in the model to MIP mapping configuration files.</li>
-<li>save the MIP output variable to an output netCDF file using CMOR and the information provided in the user configuration file and the appropriate MIP table.</li>
+<li>The user makes requests for one or more <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables by providing specific information (including the appropriate <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable names) in the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>.</li>
+<li>The information required to produce the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables is gathered from the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>, the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files and the appropriate <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table, in that order.</li>
+<li>The following steps are then performed for each <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name in the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> to produce the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr>:<ol>
+<li>load the relevant data from the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> into one or more input variables depending on whether there is a one-to-one / simple arithmetic relationship between the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable and the input variables or if the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable is based on an arithmetic combination of two or more input variables, respectively, using <abbr title="A Python library for Meteorology and Climatology.">Iris</abbr> and the information provided in the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> and the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files.</li>
+<li>process the input variable / input variables to produce the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable using the information provided in the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files.</li>
+<li>save the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable to an <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr> using <abbr title="Climate Model Output Rewriter">CMOR</abbr> and the information provided in the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> and the appropriate <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table.</li>
 </ol>
 </li>
 </ol>
 <h3 id="recommended-reading">Recommended Reading</h3>
 <ul>
-<li>The <a href="https://cmor.llnl.gov/#design-considerations-and-overview">Design Considerations and Overview</a> section in the CMOR Documentation.</li>
+<li>The <a href="https://cmor.llnl.gov/#design-considerations-and-overview">Design Considerations and Overview</a> section in the <abbr title="Climate Model Output Rewriter">CMOR</abbr> Documentation.</li>
 </ul>
 <h2 id="quick-start-guide">Quick Start Guide</h2>
 <ol>
 <li>
-<p>Download the template user configuration file <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert.cfg"><code>mip_convert.cfg</code></a>.</p>
+<p>Download a template <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>. Below are provided two examples, one with parent information and one without. Parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> information is used in CMIP to define where the initial conditions in a <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> are taken from, for example the historical experiments take their initial conditions from a point the pre-industrial control run (which needs to be documented). Certain experiments, such as the amip (atmosphere only recent history <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>) do not have a parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> and therefore this information is not required. For ad hoc use we recommend using the no parent example:</p>
+<ul>
+<li>If you intend to convert a dataset without parent information: <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_amip_no_parent.cfg"><code>mip_convert_amip_no_parent.cfg</code></a>.</li>
+<li>If you intend to convert a dataset with parent information: <a href="https://github.com/MetOffice/CDDS/blob/main/mip_convert/etc/mip_convert_piControl_with_parent.cfg"><code>mip_convert_piControl_with_parent.cfg</code></a>.</li>
+</ul>
 </li>
 <li>
-<p>Make the appropriate edits to the template user configuration file using the information provided in the "User Configuration File" section and the specified sections in the <a href="https://cmor.llnl.gov/">CMOR Documentation</a>.</p>
+<p>Make the appropriate edits to the template <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> using the information provided in the "<abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">User Configuration File</abbr>" section and the specified sections in the <a href="https://cmor.llnl.gov/"><abbr title="Climate Model Output Rewriter">CMOR</abbr> Documentation</a>.</p>
 </li>
 <li>
 <p>Source an environment with <code>cdds</code> and verify that <code>mip_convert</code> runs.
@@ -1665,8 +1842,8 @@
 </code></pre></div></p>
 </li>
 <li>
-<p>Produce the output netCDF files by running <code>mip_convert</code> and passing in the modified user configuration file as an argument.
-    <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg
+<p>Produce the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> by running <code>mip_convert</code> and passing in the modified <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> as an argument.
+    <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert_&lt;modified_template_name&gt;.cfg
 </code></pre></div></p>
 </li>
 <li>
@@ -1687,21 +1864,21 @@
 </tr>
 <tr>
 <td>1</td>
-<td>An exception was raised and no MIP requested variables were produced.</td>
+<td>An exception was raised and no <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables were produced.</td>
 </tr>
 <tr>
 <td>2</td>
-<td>One or more MIP requested variables were produced but not <em>all</em> variables were produced. See the <code>CRITICAL</code> messages in the log for further information about the MIP requested variables not produced.</td>
+<td>One or more <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables were produced but not <em>all</em> variables were produced. See the <code>CRITICAL</code> messages in the log for further information about the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables not produced.</td>
 </tr>
 </tbody>
 </table>
 </li>
 <li>
-<p>Check that the output netCDF files are as expected.
+<p>Check that the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> are as expected.
     For help or to report an issue, please see <code>support</code>.</p>
 </li>
 </ol>
-<h3 id="selected-mip-convert-arguments">Selected MIP Convert Arguments</h3>
+<h3 id="selected-mip-convert-arguments">Selected <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert Arguments</h3>
 <table>
 <thead>
 <tr>
@@ -1712,23 +1889,23 @@
 <tbody>
 <tr>
 <td><code>config_file</code></td>
-<td>The name of the user configuration file. For more information, please see the MIP Convert user guide</td>
+<td>The name of the <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>. For more information, please see the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert user guide</td>
 </tr>
 <tr>
 <td><code>-s</code> or <code>--stream_identifiers</code></td>
-<td>The stream identifiers to process. If all streams should be processed, do not specify this option.</td>
+<td>The <abbr title="The names of streams in the form (a|o)(d|p)(a-z), where each (a|o) describes the aspect of the modelling system used to create the data in the stream i.e., a = atmosphere, o = ocean, (d|p) describes the status of the data i.e., d = dump and p = post processing, and a-z describes the grouping, e.g. m = monthly, s = seasonal, y = yearly.">stream identifiers</abbr> to process. If all <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> should be processed, do not specify this option.</td>
 </tr>
 <tr>
 <td><code>--relaxed-cmor</code></td>
-<td>If specified, CMIP6 style validation is not performed by CMOR. If the  validation is run then the following fields are not checked; <code>model_id</code> (<code>source_id</code>),    <code>experiment_id</code>, <code>further_info_url</code>, <code>grid_label</code>, <code>parent_experiment_id</code>, <code>sub_experiment_id</code>.</td>
+<td>If specified, <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> style validation is not performed by <abbr title="Climate Model Output Rewriter">CMOR</abbr>. If the  validation is run then the following fields are not checked; <code>model_id</code> (<code>source_id</code>),    <code>experiment_id</code>, <code>further_info_url</code>, <code>grid_label</code>, <code>parent_experiment_id</code>, <code>sub_experiment_id</code>.</td>
 </tr>
 <tr>
 <td><code>--mip_era</code></td>
-<td>The MIP era (e.g. CMIP6).</td>
+<td>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era (e.g. <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>).</td>
 </tr>
 <tr>
 <td><code>--external_plugin</code></td>
-<td>Module path to external CDDS plugin (e.g. <code>arise.plugin</code>)</td>
+<td>Module path to external <abbr title="Climate Data Dissemination System">CDDS</abbr> plugin (e.g. <code>arise.plugin</code>)</td>
 </tr>
 <tr>
 <td><code>--external_plugin_location</code></td>
@@ -1738,17 +1915,17 @@
 </table>
 <h3 id="example-usage">Example Usage</h3>
 <div class="admonition example">
-<p class="admonition-title">Run for all streams with full checking of metadata</p>
+<p class="admonition-title">Run for all <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> with full checking of metadata</p>
 <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg
 </code></pre></div>
 </div>
 <div class="admonition example">
-<p class="admonition-title">Run for a single stream in relaxed mode</p>
+<p class="admonition-title">Run for a single <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> in relaxed mode</p>
 <div class="highlight"><pre><span></span><code>mip_convert<span class="w"> </span>mip_convert.cfg<span class="w"> </span>-s<span class="w"> </span>ap4<span class="w"> </span>--relaxed_cmor
 </code></pre></div>
 </div>
-<h2 id="user-configuration-file-reference">User Configuration File Reference</h2>
-<p>The user configuration file provides the information required by MIP Convert to produce the output netCDF files.
+<h2 id="user-configuration-file-reference"><abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">User Configuration File</abbr> Reference</h2>
+<p>The <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr> provides the information required by <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert to produce the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr>.
 It contains the following sections, some of which are optional.</p>
 <table>
 <thead>
@@ -1764,11 +1941,11 @@ It contains the following sections, some of which are optional.</p>
 </tr>
 <tr>
 <td><code>[cmor_setup]</code></td>
-<td>Passed through to CMOR's <code>cmor_setup()</code> routine.</td>
+<td>Passed through to <abbr title="Climate Model Output Rewriter">CMOR</abbr>'s <code>cmor_setup()</code> routine.</td>
 </tr>
 <tr>
 <td><code>[cmor_dataset]</code></td>
-<td>Passed through to CMOR's <code>cmor_data_set_json()</code> routine.</td>
+<td>Passed through to <abbr title="Climate Model Output Rewriter">CMOR</abbr>'s <code>cmor_data_set_json()</code> routine.</td>
 </tr>
 <tr>
 <td><code>[request]</code></td>
@@ -1788,11 +1965,11 @@ It contains the following sections, some of which are optional.</p>
 </tr>
 <tr>
 <td><code>[slicing_periods]</code></td>
-<td>Using the slicing period for a particular stream if given.</td>
+<td>Using the slicing period for a particular <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> if given.</td>
 </tr>
 <tr>
 <td><code>[global_attributes]</code></td>
-<td>Add global attributes to the output netCDF.</td>
+<td>Add global attributes to the output <abbr title="Network Common Data Form">netCDF</abbr>.</td>
 </tr>
 </tbody>
 </table>
@@ -1807,54 +1984,54 @@ For a description of each option please see the documentation for <a href="https
 <th>Option</th>
 <th>Required by</th>
 <th>Used by</th>
-<th>CMOR Name</th>
+<th><abbr title="Climate Model Output Rewriter">CMOR</abbr> Name</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>mip_table_dir</code></td>
-<td>MIP Convert</td>
-<td>CMOR + MIP Convert</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr> + <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
 <td><code>inpath</code></td>
 </tr>
 <tr>
 <td><code>netcdf_file_action</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 <tr>
 <td><code>set_verbosity</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 <tr>
 <td><code>exit_control</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 <tr>
 <td><code>cmor_log_file</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td><code>log_file</code></td>
 </tr>
 <tr>
 <td><code>create_subdirectories</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>When configuring a user configuration file, the <code>mip_table_dir</code> is likely to be the only value that will need modification.</p>
+<p>When configuring a <abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>, the <code>mip_table_dir</code> is likely to be the only value that will need modification.</p>
 </div>
 <h3 id="cmor_dataset"><strong>cmor_dataset</strong></h3>
-<p>The required <code>cmor_dataset</code> section contains the following options used for <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_dataset_json">cmor_data_set_json()</a></p>
+<p>The required <code>cmor_dataset</code> section contains the following options used for <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_dataset_json">cmor_data_set_json()</a> for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>.</p>
 <table>
 <thead>
 <tr>
@@ -1867,151 +2044,162 @@ For a description of each option please see the documentation for <a href="https
 <tbody>
 <tr>
 <td><code>branch_method</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>calendar</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[2]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>2</em></td>
 </tr>
 <tr>
 <td><code>comment</code></td>
 <td></td>
-<td>CMOR</td>
-<td>[1][3]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em>, <em>3</em></td>
 </tr>
 <tr>
 <td><code>contact</code></td>
 <td></td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>experiment_id</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>grid</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>grid_label</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>institution_id</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>license</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>mip</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1][4]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em>, <em>4</em></td>
 </tr>
 <tr>
 <td><code>mip_era</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>model_id</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1][5]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em>, <em>5</em></td>
 </tr>
 <tr>
 <td><code>model_type</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1][6]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em>, <em>6</em></td>
 </tr>
 <tr>
 <td><code>nominal_resolution</code></td>
-<td>CMOR</td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>output_dir</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[7]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>7</em></td>
 </tr>
 <tr>
 <td><code>output_file_template</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 <tr>
 <td><code>output_path_template</code></td>
 <td></td>
-<td>CMOR</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
 <td></td>
 </tr>
 <tr>
 <td><code>references</code></td>
 <td></td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>sub_experiment_id</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>variant_info</code></td>
 <td></td>
-<td>CMOR</td>
-<td>[1]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>variant_label</code></td>
-<td>MIP Convert + CMOR</td>
-<td>MIP Convert + CMOR</td>
-<td>[1]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert + <abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>1</em></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes</strong></p>
 <ol>
-<li>For a description of each option, please see the <code>CMIP6 Global Attributes document</code>_.</li>
-<li>See calendars for allowed values.</li>
-<li>It is recommended to use the <code>comment</code> to record any perturbed physicsdetails.</li>
-<li>See MIP.</li>
-<li>See model identifier.</li>
-<li>See model type.</li>
-<li>See <code>outpath</code> in the documentation for <code>cmor_dataset_json</code>_.</li>
+<li>For a description of each option, please see the <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/"><abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Global Attributes document</a>.</li>
+<li>Calendar types allowed are:<ul>
+<li>standard</li>
+<li>gregorian</li>
+<li>proleptic_gregorian</li>
+<li>noleap</li>
+<li>365_day</li>
+<li>360_day</li>
+<li>julian</li>
+<li>all_leap</li>
+<li>366_day</li>
+</ul>
+</li>
+<li>It is recommended to use the <code>comment</code> option to record any perturbed physics details.</li>
+<li>See <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/">activity_id</a>. For more examples see <a href="https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_experiment_id.html"><abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Controlled Vocabulary. It is a pre-defined set of terms describing acceptable values for various quantities.">CV</abbr>'s</a>.</li>
+<li>See <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/">source_id</a>. For more examples see <a href="https://wcrp-cmip.github.io/CMIP6_CVs/docs/CMIP6_source_id_licenses.html"><abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> <abbr title="Controlled Vocabulary. It is a pre-defined set of terms describing acceptable values for various quantities.">CV</abbr>'s</a>.</li>
+<li>See <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/">source_type</a>.</li>
+<li>If <code>create_subdirectories</code> is set to True <abbr title="Climate Model Output Rewriter">CMOR</abbr> will construct the full directory structure used by CMIP, as specified in the DRS (Directory Reference Syntax) information held in the CVs, underneath <code>output_dir</code>. If <code>create_directories</code> is set to False (as is usual within <abbr title="Climate Data Dissemination System">CDDS</abbr>) files will be directly written to <code>output_dir</code>.</li>
 </ol>
-<p>MIP Convert determines:</p>
+<p><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert determines:</p>
 <ul>
-<li>the <code>experiment</code>, <code>institution</code>, <code>source</code>, <code>sub_experiment</code> from the CV file using the <code>experiment_id</code>, <code>institution_id</code>, <code>source_id</code> and <code>sub_experiment_id</code>, respectively</li>
+<li>the <code>experiment</code>, <code>institution</code>, <code>source</code>, <code>sub_experiment</code> from the <abbr title="Controlled Vocabulary. It is a pre-defined set of terms describing acceptable values for various quantities.">CV</abbr> file using the <code>experiment_id</code>, <code>institution_id</code>, <code>source_id</code> and <code>sub_experiment_id</code>, respectively</li>
 <li>the <code>forcing_index</code>, <code>initialization_index</code>, <code>physics_index</code> and <code>realization_index</code> from the <code>variant_label</code></li>
-<li>the <code>further_info_url</code> and <code>tracking_prefix</code> based on the information from the CV file</li>
+<li>the <code>further_info_url</code> and <code>tracking_prefix</code> based on the information from the <abbr title="Controlled Vocabulary. It is a pre-defined set of terms describing acceptable values for various quantities.">CV</abbr> file</li>
 <li>the <code>history</code></li>
 </ul>
 <div class="admonition info">
-<p class="admonition-title">Whenever a parent experiment exists the following options must also be specified.</p>
+<p class="admonition-title">Whenever a parent <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> exists the following options must also be specified.</p>
 <table>
 <thead>
 <tr>
@@ -2023,56 +2211,56 @@ For a description of each option please see the documentation for <a href="https
 <tbody>
 <tr>
 <td><code>branch_date_in_child</code></td>
-<td>MIP Convert</td>
-<td>[1][2][3]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
+<td><em>1</em>,<em>2</em>,<em>3</em></td>
 </tr>
 <tr>
 <td><code>branch_date_in_parent</code></td>
-<td>MIP Convert</td>
-<td>[1][2][3]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
+<td><em>1</em>,<em>2</em>,<em>3</em></td>
 </tr>
 <tr>
 <td><code>parent_base_date</code></td>
-<td>MIP Convert</td>
-<td>[1][2]</td>
+<td><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert</td>
+<td><em>1</em>,<em>2</em></td>
 </tr>
 <tr>
 <td><code>parent_experiment_id</code></td>
-<td>CMOR</td>
-<td>[3]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>3</em></td>
 </tr>
 <tr>
 <td><code>parent_mip_era</code></td>
-<td>CMOR</td>
-<td>[3]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>3</em></td>
 </tr>
 <tr>
 <td><code>parent_model_id</code></td>
-<td>CMOR</td>
-<td>[3][4]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>3</em><em>4</em></td>
 </tr>
 <tr>
 <td><code>parent_time_units</code></td>
-<td>CMOR</td>
-<td>[3]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>3</em></td>
 </tr>
 <tr>
 <td><code>parent_variant_label</code></td>
-<td>CMOR</td>
-<td>[3]</td>
+<td><abbr title="Climate Model Output Rewriter">CMOR</abbr></td>
+<td><em>3</em></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes</strong></p>
 <ol>
-<li>CMOR requires <code>branch_time_in_child</code> and <code>branch_time_in_parent</code>, which is determined from the options <code>base_date</code> (see the <code>request &lt;request_section&gt;</code> section) / <code>parent_base_date</code> (the base date of the <code>child_experiment_id</code> / <code>parent_experiment_id</code>) and <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> (the date in the <code>child_experiment_id</code> / <code>parent_experiment_id</code> from which the experiment branches) from the <code>cmor_dataset &lt;cmor_dataset_section&gt;</code> section in the |user configuration file| by taking the difference (in days) between the <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> and the <code>base_date</code> / <code>parent_base_date</code>. If <code>branch_date_in_child</code> or <code>branch_date_in_parent</code> is <code>N/A</code> then <code>branch_time_in_parent</code> is set to 0.</li>
+<li><abbr title="Climate Model Output Rewriter">CMOR</abbr> requires <code>branch_time_in_child</code> and <code>branch_time_in_parent</code>, which is determined from the options <code>base_date</code> (see the <code>request &lt;request_section&gt;</code> section) / <code>parent_base_date</code> (the base date of the <code>child_experiment_id</code> / <code>parent_experiment_id</code>) and <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> (the date in the <code>child_experiment_id</code> / <code>parent_experiment_id</code> from which the <abbr title="A defined set of forcing inputs, and duration, for a model run.">experiment</abbr> branches) from the <code>cmor_dataset &lt;cmor_dataset_section&gt;</code> section in the |<abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>| by taking the difference (in days) between the <code>branch_date_in_child</code> / <code>branch_date_in_parent</code> and the <code>base_date</code> / <code>parent_base_date</code>. If <code>branch_date_in_child</code> or <code>branch_date_in_parent</code> is <code>N/A</code> then <code>branch_time_in_parent</code> is set to 0.</li>
 <li>Dates should be provided in the form <code>YYYY-MM-DDThh:mm:ssZ</code>.</li>
-<li>For a description of each option, please see the <a href="https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk">CMIP6 Global Attributes document</a>.</li>
-<li>See <code>parent_source_id</code> in the <a href="https://docs.google.com/document/d/1h0r8RZr_f3-8egBMMh7aqLwy3snpD6_MrDz1q8n5XUk">CMIP6 Global Attributes document</a>.</li>
+<li>For a description of each option, please see the <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/"><abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Global Attributes document</a>.</li>
+<li>See <code>parent_source_id</code> in the <a href="https://wcrp-cmip.github.io/cmip7-guidance/CMIP6/global_attributes/"><abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> Global Attributes document</a>.</li>
 </ol>
 </div>
 <h3 id="request"><strong>request</strong></h3>
-<p>The required <code>request</code> section contains the following options which are used only by MIP Convert.</p>
+<p>The required <code>request</code> section contains the following options which are used only by <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert.</p>
 <table>
 <thead>
 <tr>
@@ -2093,18 +2281,18 @@ For a description of each option please see the documentation for <a href="https
 <td><code>atmos_timestep</code></td>
 <td></td>
 <td>The atmospheric model timestep in integer seconds.</td>
-<td>[1]</td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>base_date</code></td>
 <td>Yes</td>
 <td>The date in the form <code>YYYY-MM-DDThh:mm:ss</code>.</td>
-<td>[2]</td>
+<td><em>2</em></td>
 </tr>
 <tr>
 <td><code>deflate_level</code></td>
 <td></td>
-<td>The deflation level when writing the output netCDF file from 0 (no compression) to 9 (maximum compression).</td>
+<td>The deflation level when writing the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr> from 0 (no compression) to 9 (maximum compression).</td>
 <td></td>
 </tr>
 <tr>
@@ -2117,31 +2305,49 @@ For a description of each option please see the documentation for <a href="https
 <td><code>hybrid_heights_file</code></td>
 <td></td>
 <td>A space separated list of the full path to the files containing the information about the hybrid heights.</td>
-<td>[3]</td>
+<td><em>3</em></td>
 </tr>
 <tr>
 <td><code>mask_slice</code></td>
 <td>Yes</td>
 <td>Optional slicing expression for masking data in the form of <code>n:m,i:j</code>, or <code>no_mask</code></td>
-<td>[4][8]</td>
+<td><em>4</em>,<em>8</em></td>
 </tr>
 <tr>
 <td><code>model_output_dir</code></td>
 <td>Yes</td>
-<td>The full path to the root directory containing the model output files.</td>
-<td>[5]</td>
+<td>The full path to the root directory containing the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>.</td>
+<td><em>5</em></td>
+</tr>
+<tr>
+<td><code>mip_convert_plugin</code></td>
+<td>Yes</td>
+<td>The id of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert plugin that should be used.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>mip_convert_external_plugin</code></td>
+<td></td>
+<td>The module path to external <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert plugin, e.g. <code>cdds_arise.arise_mip_convert_plugin</code>.</td>
+<td></td>
+</tr>
+<tr>
+<td><code>mip_convert_external_plugin_location</code></td>
+<td></td>
+<td>The full path to the external plugin implementation, e.g. <code>$CDDS_ETC/mapping_plugins/arise</code>.</td>
+<td></td>
 </tr>
 <tr>
 <td><code>reference_time</code></td>
 <td>Yes</td>
-<td>The reference time used to construct <code>reftime</code> and <code>leadtime</code> coordinates. Only used if these coordinates are specified corresponding variable entries in the MIP table</td>
+<td>The reference time used to construct <code>reftime</code> and <code>leadtime</code> coordinates. Only used if these coordinates are specified corresponding variable entries in the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table</td>
 <td></td>
 </tr>
 <tr>
-<td><code>replacement_coordinates_file</code></td>
+<td><code>replacement_coordinate_files</code></td>
 <td></td>
-<td>The full path to the netCDF file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the model output files.</td>
-<td>[6]</td>
+<td>The full path to the <abbr title="Network Common Data Form">netCDF</abbr> file containing area variables that refer to the horizontal coordinates that should be used to replace the corresponding values in the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>.</td>
+<td><em>6</em></td>
 </tr>
 <tr>
 <td><code>run_bounds</code></td>
@@ -2152,27 +2358,27 @@ For a description of each option please see the documentation for <a href="https
 <tr>
 <td><code>shuffle</code></td>
 <td></td>
-<td>Whether to shuffle when writing the output netCDF file.</td>
+<td>Whether to shuffle when writing the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>sites_file</code></td>
 <td></td>
 <td>The full path to the file containing the information about the sites.</td>
-<td>[7]</td>
+<td><em>7</em></td>
 </tr>
 <tr>
 <td><code>suite_id</code></td>
 <td>Yes</td>
-<td>The suite identifier of the model.</td>
+<td>The <abbr title="A text code (e.g. u-ar766) that identifies a model run.">suite identifier</abbr> of the model.</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <p><strong>Notes</strong></p>
 <ol>
-<li>The <code>atmos_timestep</code> is required for atmospheric tendency diagnostics, which have model to MIP mappings that depend on the atmospheric model timestep, i.e., the expression contains <code>ATMOS_TIMESTEP</code>.</li>
-<li>The <code>base_date</code> is used to define the units of the time coordinate in the output netCDF file and is specified by the MIP.</li>
+<li>The <code>atmos_timestep</code> is required for atmospheric tendency diagnostics, which have model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mappings that depend on the atmospheric model timestep, i.e., the expression contains <code>ATMOS_TIMESTEP</code>.</li>
+<li>The <code>base_date</code> is used to define the units of the time coordinate in the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr> and is specified by the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr>.</li>
 <li>The file containing the information about the hybrid heights has the following columns;<ol>
 <li>the <code>model level number</code> (int)</li>
 <li>the <code>a_value</code> (float)</li>
@@ -2183,8 +2389,8 @@ For a description of each option please see the documentation for <a href="https
 <li>the <code>b_upper_bound</code> (float)</li>
 </ol>
 </li>
-<li>If not specified, <code>mip_convert</code> will try to retrieve masking expressions from plugins (this is a default behaviour for CMIP6-like processing). Putting <code>no_mask</code> into configuration file allows <code>mip_convert</code> to process model output that does not require any masking; custom masks can be specified and passed to <code>mip_convert</code> without plugins dependencies.</li>
-<li>It is expected that the model output files are located in the directory <code>&lt;model_output_dir&gt;/&lt;suite_id&gt;/&lt;stream_id&gt;/</code>, where the <code>&lt;suite_id&gt;</code> is the suite identifier and the <code>&lt;stream_id&gt;</code> is the |stream identifier|. Note that MIP Convert will load all the files in this directory and then use the <code>run_bounds</code> to select the required data; when selecting a short time period from a large number of |model output files| it is recommended to copy the relevant files to an empty directory to save time when loading.</li>
+<li>If not specified, <code>mip_convert</code> will try to retrieve masking expressions from plugins (this is a default behaviour for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>-like processing). Putting <code>no_mask</code> into configuration file allows <code>mip_convert</code> to process model output that does not require any masking; custom masks can be specified and passed to <code>mip_convert</code> without plugins dependencies.</li>
+<li>It is expected that the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> are located in the directory <code>&lt;model_output_dir&gt;/&lt;suite_id&gt;/&lt;stream_id&gt;/</code>, where the <code>&lt;suite_id&gt;</code> is the <abbr title="A text code (e.g. u-ar766) that identifies a model run.">suite identifier</abbr> and the <code>&lt;stream_id&gt;</code> is the |<abbr title="The name of a stream in the form (a|o)(d|p)(a-z), where (a|o) describes the aspect of the modelling system used to create the data in the stream i.e., a = atmosphere, o = ocean, (d|p) describes the status of the data i.e., d = dump and p = post processing, and a-z describes the grouping, e.g. m = monthly, s = seasonal, y = yearly.">stream identifier</abbr>|. Note that <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert will load all the files in this directory and then use the <code>run_bounds</code> to select the required data; when selecting a short time period from a large number of |<abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr>| it is recommended to copy the relevant files to an empty directory to save time when loading.</li>
 <li>Currently, only CICE horizontal coordinates can be replaced.</li>
 <li>The file containing the information about the sites has the following columns;<ol>
 <li>the <code>site number</code> (int)</li>
@@ -2193,34 +2399,34 @@ For a description of each option please see the documentation for <a href="https
 <li>the <code>orography</code> (float) [metres] and a <code>comment</code> (string).</li>
 </ol>
 </li>
-<li>This is usually only used to mask ocean/seaice data as part of a CDDS run.</li>
+<li>This is usually only used to mask ocean/seaice data as part of a <abbr title="Climate Data Dissemination System">CDDS</abbr> run.</li>
 </ol>
 <h3 id="stream_stream_id"><strong>stream_&lt;\stream_id&gt;</strong></h3>
-<p>The required <code>[stream_&lt;stream_id&gt;]</code> section, where the <code>&lt;stream_id&gt;</code> is the stream identifier, contains options equal to the name of the MIP table and values equal to a space-separated list of MIP requested variable names.
+<p>The required <code>[stream_&lt;stream_id&gt;]</code> section, where the <code>&lt;stream_id&gt;</code> is the <abbr title="The name of a stream in the form (a|o)(d|p)(a-z), where (a|o) describes the aspect of the modelling system used to create the data in the stream i.e., a = atmosphere, o = ocean, (d|p) describes the status of the data i.e., d = dump and p = post processing, and a-z describes the grouping, e.g. m = monthly, s = seasonal, y = yearly.">stream identifier</abbr>, contains options equal to the name of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table and values equal to a space-separated list of <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable names.
 Multiple <code>[stream_&lt;stream_id&gt;]</code> sections can be defined.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>All output netCDF files are created for a stream before moving onto the next stream.</p>
+<p>All <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> are created for a <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> before moving onto the next <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>.</p>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>If we wanted to produce the following variables <code>Amon/tas</code>, <code>Amon/pr</code>, <code>Emon/ps</code>, <code>Amon/tasmax</code>, <code>day/tasmin</code> using the <code>CMIP6</code> tables.</p>
 <ol>
-<li>We need two <code>stream_stream_id</code> sections as the list of MIP requested variables span streams <code>ap5</code> and <code>ap6</code>.</li>
+<li>We need two <code>stream_stream_id</code> sections as the list of <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables span <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> <code>ap5</code> and <code>ap6</code>.</li>
 <li>Within each of these sections we specify the mip table in the form <code>&lt;MIP_ERA&gt;_&lt;MIP_TABLE&gt;:</code></li>
 <li>Then the list of variables names as a space seperated list.</li>
 </ol>
 <div class="highlight"><pre><span></span><code>[stream_ap5]
-CMIP6_Amon: tas pr
-CMIP6_Emon: ps
+CMIP6_Amon = tas pr
+CMIP6_Emon = ps
 
 [stream_ap6]
-CMIP6_Amon: tasmax
-CMIP6_day: tasmin
+CMIP6_Amon = tasmax
+CMIP6_day = tasmin
 </code></pre></div>
 </div>
 <h3 id="masking"><strong>masking</strong></h3>
-<p>The optional <code>masking</code> section is used if a particular stream needs to be masked.
+<p>The optional <code>masking</code> section is used if a particular <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> needs to be masked.
 This is usually only used for polar row masking in NEMO &amp; CICE output</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
@@ -2229,27 +2435,36 @@ stream_inm_cice-T: -1:,180:
 </code></pre></div>
 </div>
 <h3 id="halo_removal"><strong>halo_removal</strong></h3>
-<p>The optional <code>halo removal</code> section is used if for a particular stream haloes are to be removed.</p>
+<p>The optional <code>halo_removal</code> section is used if haloes need to be removed from particular <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code>[halo_removal]
-stream_apa: 5:,:-10
-stream_ap6: 20:-15
+stream_apa = 5:,:-10
+stream_ap6 = 20:-15
 </code></pre></div>
 </div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If a cube is used which has the <code>haloes_removed = "true"</code> global attribute, the halo removal process will be skipped for that cube.</p>
+</div>
 <h3 id="slicing_periods"><strong>slicing_periods</strong></h3>
-<p>The optional <code>slicing_periods</code> section is used if for a particular stream a period for slicing is specified. 
-For all streams that have no specified slicing period the default slicing period is <code>year</code>.</p>
+<p>The optional <code>slicing_periods</code> section is used if for a particular <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> a period for slicing is specified. 
+For all <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> that have no specified slicing period the default slicing period is <code>year</code>.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code>[slicing_periods]
-stream_apa: month
-stream_ap6: year
+stream_apa = month
+stream_ap6 = year
 </code></pre></div>
 </div>
 <h3 id="global_attributes"><strong>global_attributes</strong></h3>
-<p>The optional <code>global_attributes</code> section.
-Any information provided in the optional <code>global_attributes &lt;global_attributes&gt;</code> section will be written to the header of the output netCDF files.</p>
+<p>The <code>global_attributes</code> section takes additional metadata to be added to the global attributes of 
+every <abbr title="Network Common Data Form">netCDF</abbr> file produced.</p>
+<p>Where a project specifies additional <code>required_global_attributes</code> in the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> files 
+these <em>must</em> be specified in this section. For example, for <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr> you must add the following line 
+here or <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert will fail:</p>
+<div class="highlight"><pre><span></span><code>further_info_url = https://furtherinfo.es-doc.org/
+</code></pre></div>
 
 
 

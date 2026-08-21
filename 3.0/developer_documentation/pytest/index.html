@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -107,6 +111,36 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -195,7 +229,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../tutorials/search_inventory/" class="md-tabs__link">
+      <a href="../../tutorials/quickstart/" class="md-tabs__link">
         Tutorials
       </a>
     </li>
@@ -210,7 +244,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../" class="md-tabs__link md-tabs__link--active">
+    <a href="../developer_documentation/" class="md-tabs__link md-tabs__link--active">
       Developer Documentation
     </a>
   </li>
@@ -222,8 +256,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -234,8 +268,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference/SUMMARY/" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -314,6 +348,48 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (MIP Convert)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7 operational procedure
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -360,8 +436,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../operational_procedure/cmip6/" class="md-nav__link">
-        CMIP6 and CMIP6 Plus
+        CMIP6 and CMIP6Plus
       </a>
     </li>
   
@@ -377,7 +467,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -387,14 +477,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
           
-            <label for="__nav_2_2">
+            <label for="__nav_2_3">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_2">
+        <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           GCModelDev
         </label>
@@ -477,6 +567,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/common_issues/" class="md-nav__link">
+        Common Issues
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -517,6 +621,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/search_inventory/" class="md-nav__link">
         Search Inventory
       </a>
@@ -533,6 +651,20 @@
     <li class="md-nav__item">
       <a href="../../tutorials/add_mapping/" class="md-nav__link">
         Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
       </a>
     </li>
   
@@ -576,7 +708,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
       
       
       
@@ -586,14 +718,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../tutorials/request/config_request/">Request Configuration</a>
           
-            <label for="__nav_3_5">
+            <label for="__nav_3_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
+        <label class="md-nav__title" for="__nav_3_7">
           <span class="md-nav__icon md-icon"></span>
           Request Configuration
         </label>
@@ -732,6 +864,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/mass_data_retrieval/" class="md-nav__link">
+        Mass Data Retrieval
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -759,7 +905,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">Developer Documentation</a>
+          <a href="../developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -834,20 +980,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment/documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../deployment/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -877,16 +1009,10 @@
       
       
       
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../development_practices/">Development Practices</a>
-          
-            <label for="__nav_4_2">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
         <label class="md-nav__title" for="__nav_4_2">
@@ -943,34 +1069,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../github/" class="md-nav__link">
-        Working with Github and Git
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../jira/" class="md-nav__link">
-        Working with Jira
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../managing_environments/" class="md-nav__link">
         Managing Conda Environments
       </a>
@@ -985,7 +1083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../building_documentation/" class="md-nav__link">
+      <a href="../documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1238,12 +1336,73 @@
       
       
         <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
           Plugins
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Plugins
         </label>
@@ -1309,7 +1468,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../cdds_components/">CDDS Components</a>
+          <a href="../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1317,10 +1476,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1330,8 +1489,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1344,8 +1503,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1358,8 +1517,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1372,8 +1531,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../subpackages/sim_review/" class="md-nav__link">
+        cdds.sim_review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1394,8 +1567,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/SUMMARY/" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1526,7 +1699,7 @@ It currently serves two main functions.</p>
 <span class="w">    </span><span class="na">style</span>
 </code></pre></div>
 <h2 id="running-pytest">Running pytest</h2>
-<p>CDDS already provides a script to run all tests via pytest:</p>
+<p><abbr title="Climate Data Dissemination System">CDDS</abbr> already provides a script to run all tests via pytest:</p>
 <p>Activate the conda environment:
 <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
 </code></pre></div></p>
@@ -1537,7 +1710,7 @@ It currently serves two main functions.</p>
 It does not run the RabbitMQ tests!
 Tests failures will be logged in the cdds_test_failures.log file.</p>
 <p>Run RabbitMQ tests
-The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055 and els056 have RabbitMQ properly installed for CDDS. </p>
+The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055 and els056 have RabbitMQ properly installed for <abbr title="Climate Data Dissemination System">CDDS</abbr>. </p>
 <p>RabbitMQ needs credentials that are specified in your home directory $HOME/.cdds_credentials and has following content:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[rabbit]</span>
 <span class="na">host</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&lt;hostname&gt;</span>
@@ -1551,7 +1724,7 @@ The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055
 <p>Connect to one of the servers via ssh, e.g:</p>
 <div class="highlight"><pre><span></span><code>ssh<span class="w"> </span>els055
 </code></pre></div>
-<p>Go to your workspace directory for CDDS. (the same as on your local VM)</p>
+<p>Go to your workspace directory for <abbr title="Climate Data Dissemination System">CDDS</abbr>. (the same as on your local VM)</p>
 <p>Activate the conda environment:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>setup_env_for_devel
 </code></pre></div>
@@ -1560,7 +1733,7 @@ The RabbitMQ tests needs a proper RabbitMQ installation. Only, the server els055
 </code></pre></div>
 <p>Any test failures will be recorded in the cdds_rabbitmq_test_failures.log file.</p>
 <p>Run single tests
-Run all tests in a specific package</p>
+Run all tests in a specific <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr></p>
 <div class="highlight"><pre><span></span><code>pytest<span class="w"> </span>-s<span class="w"> </span>&lt;package-folder&gt;
 </code></pre></div>
 <p>For example: run all tests in mip_convert:</p>

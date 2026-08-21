@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -107,6 +111,36 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -197,7 +231,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../search_inventory/" class="md-tabs__link md-tabs__link--active">
+      <a href="../quickstart/" class="md-tabs__link md-tabs__link--active">
         Tutorials
       </a>
     </li>
@@ -210,7 +244,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../developer_documentation/" class="md-tabs__link">
+    <a href="../../developer_documentation/developer_documentation/" class="md-tabs__link">
       Developer Documentation
     </a>
   </li>
@@ -222,8 +256,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -234,8 +268,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference/SUMMARY/" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -314,6 +348,48 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (MIP Convert)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7 operational procedure
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -360,8 +436,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../operational_procedure/cmip6/" class="md-nav__link">
-        CMIP6 and CMIP6 Plus
+        CMIP6 and CMIP6Plus
       </a>
     </li>
   
@@ -377,7 +467,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -387,14 +477,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
           
-            <label for="__nav_2_2">
+            <label for="__nav_2_3">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_2">
+        <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           GCModelDev
         </label>
@@ -477,6 +567,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/common_issues/" class="md-nav__link">
+        Common Issues
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -519,6 +623,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../search_inventory/" class="md-nav__link">
         Search Inventory
       </a>
@@ -535,6 +653,20 @@
     <li class="md-nav__item">
       <a href="../add_mapping/" class="md-nav__link">
         Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
       </a>
     </li>
   
@@ -578,7 +710,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
       
       
       
@@ -588,14 +720,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../request/config_request/">Request Configuration</a>
           
-            <label for="__nav_3_5">
+            <label for="__nav_3_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
+        <label class="md-nav__title" for="__nav_3_7">
           <span class="md-nav__icon md-icon"></span>
           Request Configuration
         </label>
@@ -788,6 +920,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#halo-removal" class="md-nav__link">
+    Halo removal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#grid-information" class="md-nav__link">
     Grid information
   </a>
@@ -837,6 +976,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mass_data_retrieval/" class="md-nav__link">
+        Mass Data Retrieval
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -862,7 +1015,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/">Developer Documentation</a>
+          <a href="../../developer_documentation/developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -937,20 +1090,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -980,16 +1119,10 @@
       
       
       
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/development_practices/">Development Practices</a>
-          
-            <label for="__nav_4_2">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
         <label class="md-nav__title" for="__nav_4_2">
@@ -1046,34 +1179,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/github/" class="md-nav__link">
-        Working with Github and Git
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../developer_documentation/jira/" class="md-nav__link">
-        Working with Jira
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
         Managing Conda Environments
       </a>
@@ -1088,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+      <a href="../../developer_documentation/documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1254,12 +1359,73 @@
       
       
         <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
           Plugins
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Plugins
         </label>
@@ -1325,7 +1491,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../cdds_components/">CDDS Components</a>
+          <a href="../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1333,10 +1499,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1346,8 +1512,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1360,8 +1526,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1374,8 +1540,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1388,8 +1554,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../subpackages/sim_review/" class="md-nav__link">
+        cdds.sim_review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1410,8 +1590,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/SUMMARY/" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1467,6 +1647,13 @@
         <li class="md-nav__item">
   <a href="#sub-daily-streams" class="md-nav__link">
     Sub daily streams
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#halo-removal" class="md-nav__link">
+    Halo removal
   </a>
   
 </li>
@@ -1530,10 +1717,10 @@
 <h1 id="update-model-parameters-json-file">Update Model Parameters JSON File</h1>
 <h2 id="stream-file-frequencies">Stream File Frequencies</h2>
 <p>The <code>stream_file_frequency</code> section contains a key value pairs where the key the frequency is and the value the list of 
-streams. Following frequencies are supported: <code>hourly</code>, <code>daily</code>, <code>10 day</code>, <code>quarterly</code>, <code>monthly</code></p>
+<abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>. Following frequencies are supported: <code>hourly</code>, <code>daily</code>, <code>10 day</code>, <code>quarterly</code>, <code>monthly</code></p>
 <details class="example">
 <summary>Example</summary>
-<p>Assuming <code>ap4</code> and <code>ap5</code> are monthly streams and <code>ap6</code> is a <code>daily</code> stream:
+<p>Assuming <code>ap4</code> and <code>ap5</code> are monthly <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> and <code>ap6</code> is a <code>daily</code> <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>:
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">   </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">       </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
@@ -1546,10 +1733,10 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </code></pre></div></p>
 </details>
 <h2 id="cylc-length-memory-temporary-space">Cylc length / Memory / Temporary space</h2>
-<p>There are following three sections that have an entry for each stream:</p>
+<p>There are following three sections that have an entry for each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>:</p>
 <dl>
 <dt><code>cylc_length</code></dt>
-<dd>lengths of the suite cylc for each stream<details class="example">
+<dd>lengths of the suite cylc for each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr><details class="example">
 <summary>Example</summary>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
@@ -1560,7 +1747,7 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </dd>
 <dt><code>memory</code></dt>
 <dd>
-<p>memory usages of each stream</p>
+<p>memory usages of each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
@@ -1577,7 +1764,7 @@ streams. Following frequencies are supported: <code>hourly</code>, <code>daily</
 </dd>
 <dt><code>temp_space</code></dt>
 <dd>
-<p>temporary space of each stream</p>
+<p>temporary space of each <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is the starting point for memory and adaptive memory, storage and time limits are used.</p>
@@ -1620,8 +1807,8 @@ JSON object has as key the frequency and as value the shape with its coordinates
 <span class="p">}</span>
 </code></pre></div>
 </details>
-<h2 id="sub-daily-streams">Sub daily streams</h2>
-<p>There are one entry for the subdaily streams <code>subdaily_streams</code> that contains an array of subdaily streams.</p>
+<h2 id="sub-daily-streams">Sub daily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr></h2>
+<p>There is one entry for the subdaily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> <code>subdaily_streams</code> that contains an array of subdaily <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
 <details class="example">
 <summary>Example</summary>
 <div class="highlight"><pre><span></span><code><span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -1631,6 +1818,22 @@ JSON object has as key the frequency and as value the shape with its coordinates
 <span class="w">    </span><span class="s2">&quot;ap9&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="s2">&quot;apt&quot;</span>
 <span class="p">]</span>
+</code></pre></div>
+</details>
+<h2 id="halo-removal">Halo removal</h2>
+<p>The <code>halo_removal</code> entry describes the size of haloes to be stripped from the specified <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr>.</p>
+<details class="example">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><span class="nt">&quot;halo_removal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;onm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1:-1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1:-1&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;ond&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1:-1&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1:-1&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">},</span>
 </code></pre></div>
 </details>
 <h2 id="grid-information">Grid information</h2>
@@ -1643,7 +1846,7 @@ JSON object has as key the frequency and as value the shape with its coordinates
 <dt><code>model_info</code></dt>
 <dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
 <dt><code>nominal_resolution</code></dt>
-<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dd>the nominal resolution. This needs to agree with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> for the project.</dd>
 <dt><code>longitude</code></dt>
 <dd>the number of longitude points in the atmosphere grid</dd>
 <dt><code>latitude</code></dt>
@@ -1685,7 +1888,7 @@ request config file</dd>
 <dt><code>model_info</code></dt>
 <dd>a simple description of the grid, e.g. <code>N96 grid</code>. It is interpolated into <code>grid attribute</code>.</dd>
 <dt><code>nominal_resolution</code></dt>
-<dd>the nominal resolution. This needs to agree with the Controlled Vocabulary for the project.</dd>
+<dd>the nominal resolution. This needs to agree with the <abbr title="It is a pre-defined set of terms describing acceptable values for various quantities.">Controlled Vocabulary</abbr> for the project.</dd>
 <dt><code>longitude</code></dt>
 <dd>the number of longitude points in the ocean grid</dd>
 <dt><code>latitude</code></dt>
@@ -1697,7 +1900,7 @@ request config file</dd>
 <dt><code>ancil_filenames</code></dt>
 <dd>the ancillary file names. These are looked for in the directory <code>&lt;root_ancil_dir&gt;/&lt;source_id&gt;</code> as specified in the 
 request config file</dd>
-<dt><code>replacement_coordinates_file</code></dt>
+<dt><code>replacement_coordinate_files</code></dt>
 <dd>the replacement coordinates file for CICE model output</dd>
 <dt><code>hybrid_heights_files</code></dt>
 <dd>
@@ -1707,6 +1910,10 @@ request config file</dd>
 <p>This is not relevant for the ocean, but still needs to be present.</p>
 </div>
 </dd>
+<dt><code>bounds_coordinates</code> (Optional, added in <abbr title="Climate Data Dissemination System">CDDS</abbr> v3.1.0)</dt>
+<dd>This field is a dictionary containing the list of <abbr title="Network Common Data Form">netCDF</abbr> variables that correspond to the bounds variables for
+coordinates in the NEMO output files for each ocean substream. If this is not specified the built in defaults 
+will be used.</dd>
 <dt><code>masked</code></dt>
 <dd>
 <p>a json object of ocean grid polar masks for the grid. Each masked entry as a grid label and its masked value split 
@@ -1730,164 +1937,95 @@ by the <code>slice_latitude</code> and <code>slice_longitude</code>. These are u
 </code></pre></div>
 </details>
 </dd>
-<dt><code>halo_options</code></dt>
-<dd>
-<p>the ncks options needed to move ocean halo rows and columns. Each option are given by grid label. They are used when 
-extracting data from MASS.</p>
-<details class="example">
-<summary>Example</summary>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">    </span><span class="p">]</span>
-<span class="p">}</span>
-</code></pre></div>
-</details>
-</dd>
 </dl>
-<details class="example">
-<summary>Example</summary>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;ocean&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100 km&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">330</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;replacement_coordinates_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cice_eORCA1_coords.nc&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;ocean_constants.nc&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;ocean_byte_masks.nc&quot;</span>
-<span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
-<span class="w">    </span><span class="nt">&quot;masked&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;grid-V&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                </span><span class="mi">-1</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span>
-<span class="w">            </span><span class="p">],</span>
-<span class="w">            </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                </span><span class="mi">180</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span>
-<span class="w">            </span><span class="p">]</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="nt">&quot;cice-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                </span><span class="mi">-1</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span>
-<span class="w">            </span><span class="p">],</span>
-<span class="w">            </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                </span><span class="mi">180</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">                </span><span class="kc">null</span>
-<span class="w">            </span><span class="p">]</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-</details>
 <h2 id="example">Example</h2>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">    </span><span class="nt">&quot;stream_file_frequency&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;monthly&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="s2">&quot;ap4&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="s2">&quot;ap5&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;10 day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;ap6&quot;</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P1Y&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12G&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30G&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;temp_space&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40960</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;sizing_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;mon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;85-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;85-145-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;86-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;75-330-360&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;19-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="s2">&quot;ap6&quot;</span>
 <span class="w">    </span><span class="p">],</span>
-<span class="w">    </span><span class="nt">&quot;10 day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">      </span><span class="s2">&quot;ap6&quot;</span>
-<span class="w">   </span><span class="p">]</span>
-<span class="p">},</span>
-<span class="nt">&quot;cycle_length&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P5Y&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;P1Y&quot;</span>
-<span class="p">},</span>
-<span class="nt">&quot;memory&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12G&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8G&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30G&quot;</span>
-<span class="p">},</span>
-<span class="nt">&quot;temp_space&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;ap4&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap5&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40960</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;ap6&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">98304</span>
-<span class="p">},</span>
-<span class="nt">&quot;sizing_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;mon&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;85-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;85-145-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;86-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;75-330-360&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;day&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;19-144-192&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="p">},</span>
-<span class="nt">&quot;subdaily_streams&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;ap6&quot;</span>
-<span class="p">],</span>
-<span class="nt">&quot;grid_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;atmos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;atmos_timestep&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;N96 grid&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;250 km&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">192</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">144</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;v_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;qrparm.landfrac.pp&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;qrparm.soil.pp&quot;</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;atmosphere_theta_levels_85.txt&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;atmosphere_rho_levels_86.txt&quot;</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">    </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;ocean&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100 km&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">330</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;replacement_coordinates_file&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cice_eORCA1_coords.nc&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">            </span><span class="s2">&quot;ocean_constants.nc&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;ocean_byte_masks.nc&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;ocean_basin.nc&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;diaptr_basin_masks.nc&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="s2">&quot;ocean_zostoga.nc&quot;</span>
-<span class="w">        </span><span class="p">],</span>
-<span class="w">        </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;grid_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;atmos&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;atmos_timestep&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1200</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;N96 grid&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;250 km&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">192</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">144</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;v_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">145</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;qrparm.landfrac.pp&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;qrparm.soil.pp&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;atmosphere_theta_levels_85.txt&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;atmosphere_rho_levels_86.txt&quot;</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;ocean&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;model_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;eORCA1 tripolar primarily 1 deg with meridional refinement down to 1/3 degree in the tropics&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;nominal_resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100 km&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">360</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">330</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;levels&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">75</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;replacement_coordinate_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cice_eORCA1_coords.nc&quot;</span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;ancil_filenames&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;ocean_constants.nc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ocean_byte_masks.nc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ocean_basin.nc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;diaptr_basin_masks.nc&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;ocean_zostoga.nc&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;bounds_coordinates&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;onm-grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;bounds_nav_lon&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;bounds_nav_lat&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;time_centered_bounds&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;deptht_bounds&quot;</span><span class="p">]</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;hybrid_heights_files&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
 <span class="w">            </span><span class="nt">&quot;masked&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="nt">&quot;grid-V&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nt">&quot;slice_latitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">                    </span><span class="mi">-1</span><span class="p">,</span>
 <span class="w">                    </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">                    </span><span class="kc">null</span>
-<span class="w">                </span><span class="p">],</span>
+<span class="w">                    </span><span class="p">],</span>
 <span class="w">                    </span><span class="nt">&quot;slice_longitude&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">                        </span><span class="mi">180</span><span class="p">,</span>
 <span class="w">                        </span><span class="kc">null</span><span class="p">,</span>
@@ -1901,16 +2039,6 @@ extracting data from MASS.</p>
 <span class="w">                        </span><span class="kc">null</span>
 <span class="w">                    </span><span class="p">]</span>
 <span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="nt">&quot;halo_options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="nt">&quot;grid-T&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                    </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">                </span><span class="p">],</span>
-<span class="w">                </span><span class="nt">&quot;grid-U&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">                    </span><span class="s2">&quot;-dx,1,360&quot;</span><span class="p">,</span>
-<span class="w">                    </span><span class="s2">&quot;-dy,1,330&quot;</span>
-<span class="w">                </span><span class="p">]</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -1960,13 +2088,13 @@ where the <code>&lt;request file&gt;</code> is the path to your request that use
       
       
         
-        <a href="../../developer_documentation/" class="md-footer__link md-footer__link--next" aria-label="Next: Developer Documentation" rel="next">
+        <a href="../mass_data_retrieval/" class="md-footer__link md-footer__link--next" aria-label="Next: Mass Data Retrieval" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Developer Documentation
+              Mass Data Retrieval
             </div>
           </div>
           <div class="md-footer__button md-icon">

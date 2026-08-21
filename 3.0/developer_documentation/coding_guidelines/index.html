@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -107,6 +111,36 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -195,7 +229,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../tutorials/search_inventory/" class="md-tabs__link">
+      <a href="../../tutorials/quickstart/" class="md-tabs__link">
         Tutorials
       </a>
     </li>
@@ -210,7 +244,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../" class="md-tabs__link md-tabs__link--active">
+    <a href="../developer_documentation/" class="md-tabs__link md-tabs__link--active">
       Developer Documentation
     </a>
   </li>
@@ -222,8 +256,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -234,8 +268,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference/SUMMARY/" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -314,6 +348,48 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (MIP Convert)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7 operational procedure
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -360,8 +436,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../operational_procedure/cmip6/" class="md-nav__link">
-        CMIP6 and CMIP6 Plus
+        CMIP6 and CMIP6Plus
       </a>
     </li>
   
@@ -377,7 +467,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -387,14 +477,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
           
-            <label for="__nav_2_2">
+            <label for="__nav_2_3">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_2">
+        <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           GCModelDev
         </label>
@@ -477,6 +567,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/common_issues/" class="md-nav__link">
+        Common Issues
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -517,6 +621,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../tutorials/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../tutorials/search_inventory/" class="md-nav__link">
         Search Inventory
       </a>
@@ -533,6 +651,20 @@
     <li class="md-nav__item">
       <a href="../../tutorials/add_mapping/" class="md-nav__link">
         Add a Variable Mapping
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
       </a>
     </li>
   
@@ -576,7 +708,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
       
       
       
@@ -586,14 +718,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../tutorials/request/config_request/">Request Configuration</a>
           
-            <label for="__nav_3_5">
+            <label for="__nav_3_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
+        <label class="md-nav__title" for="__nav_3_7">
           <span class="md-nav__icon md-icon"></span>
           Request Configuration
         </label>
@@ -732,6 +864,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/mass_data_retrieval/" class="md-nav__link">
+        Mass Data Retrieval
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -759,7 +905,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">Developer Documentation</a>
+          <a href="../developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -834,20 +980,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../deployment/documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../deployment/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -879,16 +1011,10 @@
       
       
       
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../development_practices/">Development Practices</a>
-          
-            <label for="__nav_4_2">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
         <label class="md-nav__title" for="__nav_4_2">
@@ -981,8 +1107,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#doctests" class="md-nav__link">
-    Doctests
+  <a href="#doctest" class="md-nav__link">
+    Doctest
   </a>
   
 </li>
@@ -1044,34 +1170,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../github/" class="md-nav__link">
-        Working with Github and Git
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../jira/" class="md-nav__link">
-        Working with Jira
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../managing_environments/" class="md-nav__link">
         Managing Conda Environments
       </a>
@@ -1086,7 +1184,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../building_documentation/" class="md-nav__link">
+      <a href="../documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1252,12 +1350,73 @@
       
       
         <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
           Plugins
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Plugins
         </label>
@@ -1323,7 +1482,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../cdds_components/">CDDS Components</a>
+          <a href="../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1331,10 +1490,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1344,8 +1503,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1358,8 +1517,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1372,8 +1531,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1386,8 +1545,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../subpackages/sim_review/" class="md-nav__link">
+        cdds.sim_review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1408,8 +1581,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/SUMMARY/" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1488,8 +1661,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#doctests" class="md-nav__link">
-    Doctests
+  <a href="#doctest" class="md-nav__link">
+    Doctest
   </a>
   
 </li>
@@ -1533,20 +1706,20 @@
 <h3 id="style-guide">Style Guide</h3>
 <ul>
 <li>Use the <a href="http://www.python.org/dev/peps/pep-0008">Style Guide for Python Code</a><ul>
-<li>Exception - Limit all lines to a maximum of 120 characters for docstrings and comments. (79 in the the PEP 8 guidelines <a href="https://peps.python.org/pep-0008/#maximum-line-length">reference</a>).</li>
+<li>Exception - Limit all lines to a maximum of 120 characters for docstrings and comments. (79 in the the PEP 8 guidelines (<a href="https://peps.python.org/pep-0008/#maximum-line-length">reference</a>)).</li>
 </ul>
 </li>
-<li>All <code>CDDS</code> packages should contain a <code>package_name/package_name/tests/test_coding_standards.py</code> module that uses the <a href="https://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> package to check PEP 8 conformance.</li>
+<li>All <code>CDDS</code> <abbr title="Identifiers indicating the phase of CDDS processing.">packages</abbr> should contain a <code>package_name/package_name/tests/test_coding_standards.py</code> module that uses the <a href="https://pycodestyle.pycqa.org/en/latest/">pycodestyle</a> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> to check PEP 8 conformance.</li>
 <li>In addition to this, it is recommended to use a tool that checks for errors in Python code, coding standard (e.g., PEP 8) conformance and general code quality e.g., <a href="http://www.pylint.org/">pylint</a>.<ul>
 <li>However, some <a href="http://www.python.org/dev/peps/pep-0008">PEP 8</a> guidelines are not checked by these tools; please also:</li>
-<li>Be consistent within a module or function <a href="https://peps.python.org/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds">reference</a>.</li>
-<li>In Python, single-quoted strings and double-quoted strings are the same; pick a rule and stick to it <a href="https://peps.python.org/pep-0008/#string-quotes">reference</a>.</li>
-<li>Use Python's implied line continuation inside parentheses, brackets and braces to wrap long lines, rather than using a backslash <a href="">reference</a>.</li>
-<li>Add a new line before a binary operator, rather than after <a href="https://peps.python.org/pep-0008/#should-a-line-break-before-or-after-a-binary-operator">reference</a>.</li>
-<li>Use blank lines in functions, sparingly, to indicate logical sections <a href="https://peps.python.org/pep-0008/#blank-lines">reference</a>.</li>
+<li>Be consistent within a module or function (<a href="https://peps.python.org/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds">reference</a>).</li>
+<li>In Python, single-quoted strings and double-quoted strings are the same; pick a rule and stick to it (<a href="https://peps.python.org/pep-0008/#string-quotes">reference</a>).</li>
+<li>Use Python's implied line continuation inside parentheses, brackets and braces to wrap long lines, rather than using a backslash </li>
+<li>Add a new line before a binary operator, rather than after (<a href="https://peps.python.org/pep-0008/#should-a-line-break-before-or-after-a-binary-operator">reference</a>).</li>
+<li>Use blank lines in functions, sparingly, to indicate logical sections (<a href="https://peps.python.org/pep-0008/#blank-lines">reference</a>).</li>
 <li>Always use double quote characters for triple-quoted strings """ to be consistent with the docstring conventions in PEP 257 and PEP 8.</li>
-<li>Write comments using complete sentences <a href="https://peps.python.org/pep-0008/#comments">reference</a>.</li>
-<li>Use the https://docs.python.org/3.8/library/stdtypes.html#str.format <code>str.format()</code> method to perform a string formatting operation, e.g., <code>'Coordinates: {latitude}, {longitude}'.format(latitude='37.24N', longitude='-115.81W')</code>, since it is the new standard in Python 3 and is preferred to the % formatting.</li>
+<li>Write comments using complete sentences (<a href="https://peps.python.org/pep-0008/#comments">reference</a>).</li>
+<li>Use the <a href="https://docs.python.org/3.8/library/stdtypes.html#str.format"><code>str.format()</code></a> method to perform a string formatting operation, e.g., <code>'Coordinates: {latitude}, {longitude}'.format(latitude='37.24N', longitude='-115.81W')</code>, i.e. avoid using the <code>%</code> operator on strings.</li>
 <li>Include the line <code>(c) British Crown Copyright [year of creation in the form &lt;YYYY&gt;]-[year of last modification in the form &lt;YYYY&gt;], Met Office.</code> as a comment at the top of every module.</li>
 </ul>
 </li>
@@ -1560,67 +1733,75 @@
 </ul>
 <h3 id="imports">Imports</h3>
 <ul>
-<li>Use absolute imports https://www.python.org/dev/peps/pep-0328/#rationale-for-absolute-imports as they are recommended by PEP 8. Also, being able to tell immediately where the function comes from greatly improves code readability and comprehension (Readability Counts). Example:</li>
-<li>import my_package.my_subpackage.my_module and use the my_module.my_function syntax, e.g., import os; os.walk.</li>
-<li>from my_package.my_subpackage.my_module import my_function and use my_function directly.</li>
-<li>group imports, with a blank line between each group, in the following order: standard library imports, related third party imports, local application/library specific imports [reference].</li>
+<li>Use <a href="https://www.python.org/dev/peps/pep-0328/#rationale-for-absolute-imports">absolute imports</a> as they are recommended by PEP 8. Also, being able to tell immediately where the function comes from greatly improves code readability and comprehension (Readability Counts). Example:</li>
+<li><code>import my_package.my_subpackage.my_module</code> and use the <code>my_module.my_function syntax</code>, e.g., <code>import os; os.walk</code>.</li>
+<li><code>from my_package.my_subpackage.my_module import my_function</code> and use <code>my_function</code> directly.</li>
+<li>group imports, with a blank line between each group, in the following order: standard library imports, related third party imports, local application/library specific imports (<a href="">reference needed</a>).</li>
 <li>Within each import group (see above), order the imports alphabetically.</li>
-<li>place module level "dunders" after the module docstring but before any import statements except <code>from __future__ imports</code> [reference].</li>
-<li>Use the pattern <code>import numpy as np</code></li>
+<li>place module level "dunders" after the module docstring but before any import statements except <code>from __future__ imports</code> (<a href="">reference needed</a>).</li>
+<li>Use the pattern <code>import numpy as np</code>.</li>
 </ul>
 <h3 id="typing">Typing</h3>
 <ul>
-<li>Use https://docs.python.org/3/library/typing.html for adding type hints and annotations.</li>
+<li>Use <a href="https://docs.python.org/3/library/typing.html">typing</a> for adding type hints and annotations.</li>
 <li>Use <a href="https://mypy.readthedocs.io/en/stable/">mypy</a> for running static code analysis using aforementioned type hints.</li>
 </ul>
 <h3 id="docstrings">Docstrings</h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>Historically CDDS used the NumpyDoc format for all docstrings but
-as of 2022 the PEP-257 format was adopted.
+<p>Historically <abbr title="Climate Data Dissemination System">CDDS</abbr> used several different doc string formats so there is a mix of styles. If in doubt use the same format as the module </p>
+<p>as of 2022 the PEP-257 format was adopted.
 This means there is currently a mix of docstring formats used
 throughout the <code>CDDS</code> code.</p>
 </div>
 <ul>
-<li>Docstrings should now be written using https://docutils.sourceforge.io/rst.html as recommended by https://www.python.org/dev/peps/pep-0287/, and is rendered using Sphinx.</li>
-<li>An detailed example of the reStructuredText style docstrings can be found here https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html<ul>
-<li>Use double backticks `` around argument names so that they are rendered as code in the HTML produced by Sphinx</li>
+<li>Docstrings should now be written using <a href="https://numpy.org/doc/1.19/docs/howto_document.html">NumPy</a>.</li>
+<li>A detailed example of NumPy style docstrings can be found <a href="https://numpy.org/doc/1.19/docs/howto_document.html">here</a><ul>
+<li>Use double backticks `` around argument names </li>
 <li>Use the appropriate substitutions for glossary terms.</li>
-<li>Make use of the docstring conventions http://www.python.org/dev/peps/pep-0257.</li>
-<li>The docstring is a phrase ending in a period and prescribes the function or method's effect as a command, not as a description [reference].</li>
+<li>Make use of the <a href="http://www.python.org/dev/peps/pep-0257">docstring conventions</a>.</li>
+<li>The docstring is a phrase ending in a period and prescribes the function or method's effect as a command, not as a description <a href="">reference needed</a>.</li>
 </ul>
 </li>
-<li>It is not necessary to write docstrings for non-public classes, methods and functions, see cdds/pylintrc and mip_convert/pylintrc. (The maintenance overhead is reduced when refactoring non-public classes, methods and functions).</li>
+<li>It is not necessary to write docstrings for non-public classes, methods and functions, see <code>cdds/pylintrc</code> and <code>mip_convert/pylintrc</code>. (The maintenance overhead is reduced when refactoring non-public classes, methods and functions).</li>
 </ul>
-<p>Below is an example reStructuredText Docstring Example docstring incorporating all of the guidelines above.</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">my_function</span><span class="p">(</span><span class="n">my_param1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">my_param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<p>Below is an example NumPy Docstring Example docstring incorporating all of the guidelines above.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="n">my_param1</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">my_param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return something.</span>
 
 <span class="sd">    Here&#39;s a longer description about the something that is returned.</span>
 <span class="sd">    It&#39;s so long, it goes over one line!</span>
 
-<span class="sd">    :param my_param1: Description of the first parameter ``my_param1``.</span>
-<span class="sd">    :type my_param1: float</span>
-<span class="sd">    :param my_param2: Description of the second parameter ``my_param2``.</span>
-<span class="sd">    :type my_param2: string</span>
-<span class="sd">    :raises ValueError If ``my_param1`` is less than 0.</span>
-<span class="sd">    :return: Description of anonymous integer return value.</span>
-<span class="sd">    :rtype: int</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    my_param1: float</span>
+<span class="sd">        Description of the first parameter ``my_param1``.</span>
+<span class="sd">    my_param2: string</span>
+<span class="sd">        Description of the second parameter ``my_param2``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    int</span>
+<span class="sd">        Description of anonymous integer return value.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If ``my_param1`` is less than 0.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 </code></pre></div>
-<h2 id="doctests">Doctests</h2>
+<h2 id="doctest">Doctest</h2>
 <ul>
-<li>Where appropriate, a https://docs.python.org/3.8/library/doctest.html should be included in an Examples section of the docstring https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard.</li>
-<li>When multiple examples are provided, they should be separated by blank lines. Comments explaining the examples should have blank lines both above and below them.</li>
+<li><a href="https://docs.python.org/3.8/library/doctest.html">Doctests</a> have been included historically in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert and <abbr title="Climate Data Dissemination System">CDDS</abbr>, but we recommend adding code to test modules instead</li>
 </ul>
 <h2 id="entry-point-scripts">Entry Point Scripts</h2>
 <ul>
 <li>Script names should not have an extension, should be lowercase, and with words separated by underscores as necessary to improve readability, e.g., just_do_it.</li>
-<li>It is recommended that scripts call a main() function located in an importable module so that it is possible to run the code in the script from the Python interpreter / a test module e.g., import my_module; my_module.main().</li>
-<li>https://docs.python.org/3.8/library/argparse.html should be used to parse command line options.</li>
+<li>It is recommended that scripts call a main() function located in an importable module so that it is possible to run the code in the script from the Python interpreter / a test module e.g., <code>import my_module; my_module.main()</code>.</li>
+<li><a href="https://docs.python.org/3.8/library/argparse.html">Argparse</a> should be used to parse command line options.</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
     <span class="c1"># Parse the arguments.</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
@@ -1665,7 +1846,7 @@ throughout the <code>CDDS</code> code.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../development_practices/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Development Practices" rel="prev">
+        <a href="../deployment/infrastructure/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Infrastructure" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -1674,7 +1855,7 @@ throughout the <code>CDDS</code> code.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Development Practices
+              Infrastructure
             </div>
           </div>
         </a>

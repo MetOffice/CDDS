@@ -51,12 +51,16 @@
   
     
     
+      
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="None" data-md-color-accent="None">
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="">
   
     
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -64,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mapping-hierarchy" class="md-skip">
+        <a href="#variable-mappings-for-cdds" class="md-skip">
           Skip to content
         </a>
       
@@ -107,6 +111,36 @@
         </div>
       </div>
     </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
     
     
     
@@ -197,7 +231,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../search_inventory/" class="md-tabs__link md-tabs__link--active">
+      <a href="../quickstart/" class="md-tabs__link md-tabs__link--active">
         Tutorials
       </a>
     </li>
@@ -210,7 +244,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../developer_documentation/" class="md-tabs__link">
+    <a href="../../developer_documentation/developer_documentation/" class="md-tabs__link">
       Developer Documentation
     </a>
   </li>
@@ -222,8 +256,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../cdds_components/" class="md-tabs__link">
-      CDDS Components
+    <a href="../../subpackages/" class="md-tabs__link">
+      Subpackages
     </a>
   </li>
 
@@ -234,8 +268,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../reference/SUMMARY/" class="md-tabs__link">
-      API Documentation
+    <a href="../../mappings/" class="md-tabs__link">
+      Mappings
     </a>
   </li>
 
@@ -314,6 +348,48 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_cdds/" class="md-nav__link">
+        Changelog (CDDS)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changes_mip_convert/" class="md-nav__link">
+        Changelog (MIP Convert)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7 operational procedure
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -360,8 +436,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../../operational_procedure/cmip7/" class="md-nav__link">
+        CMIP7
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../operational_procedure/cmip6/" class="md-nav__link">
-        CMIP6 and CMIP6 Plus
+        CMIP6 and CMIP6Plus
       </a>
     </li>
   
@@ -377,7 +467,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_2" type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_2_3" type="checkbox" id="__nav_2_3" checked>
       
       
       
@@ -387,14 +477,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../operational_procedure/gcmodeldev/">GCModelDev</a>
           
-            <label for="__nav_2_2">
+            <label for="__nav_2_3">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="GCModelDev" data-md-level="2">
-        <label class="md-nav__title" for="__nav_2_2">
+        <label class="md-nav__title" for="__nav_2_3">
           <span class="md-nav__icon md-icon"></span>
           GCModelDev
         </label>
@@ -477,6 +567,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../operational_procedure/common_issues/" class="md-nav__link">
+        Common Issues
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -512,6 +616,20 @@
           Tutorials
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -561,6 +679,20 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variable-mappings-for-cdds" class="md-nav__link">
+    Variable Mappings for CDDS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-plugins" class="md-nav__link">
+    Mapping Plugins
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#mapping-hierarchy" class="md-nav__link">
@@ -619,15 +751,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#requried-information" class="md-nav__link">
-    Requried Information
+  <a href="#required-information" class="md-nav__link">
+    Required Information
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#determine-which-configuration-file-the-model-to-mip-mapping-should-be-added-to" class="md-nav__link">
-    Determine which configuration file the model to MIP mapping should be added to
+  <a href="#find-the-right-configuration-file" class="md-nav__link">
+    Find the right configuration file
   </a>
   
 </li>
@@ -655,6 +787,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add_mapping_plugin/" class="md-nav__link">
+        Add a Mapping Plugin
+      </a>
     </li>
   
 
@@ -697,7 +843,7 @@
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_5" type="checkbox" id="__nav_3_5" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_3_7" type="checkbox" id="__nav_3_7" checked>
       
       
       
@@ -707,14 +853,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../request/config_request/">Request Configuration</a>
           
-            <label for="__nav_3_5">
+            <label for="__nav_3_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
       <nav class="md-nav" aria-label="Request Configuration" data-md-level="2">
-        <label class="md-nav__title" for="__nav_3_5">
+        <label class="md-nav__title" for="__nav_3_7">
           <span class="md-nav__icon md-icon"></span>
           Request Configuration
         </label>
@@ -853,6 +999,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mass_data_retrieval/" class="md-nav__link">
+        Mass Data Retrieval
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -878,7 +1038,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/">Developer Documentation</a>
+          <a href="../../developer_documentation/developer_documentation/">Developer Documentation</a>
           
             <label for="__nav_4">
               <span class="md-nav__icon md-icon"></span>
@@ -953,20 +1113,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/deployment/documentation/" class="md-nav__link">
-        Documentation
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/deployment/infrastructure/" class="md-nav__link">
         Infrastructure
       </a>
@@ -996,16 +1142,10 @@
       
       
       
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../developer_documentation/development_practices/">Development Practices</a>
-          
-            <label for="__nav_4_2">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
+        <label class="md-nav__link" for="__nav_4_2">
+          Development Practices
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <nav class="md-nav" aria-label="Development Practices" data-md-level="2">
         <label class="md-nav__title" for="__nav_4_2">
@@ -1062,34 +1202,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/github/" class="md-nav__link">
-        Working with Github and Git
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../developer_documentation/jira/" class="md-nav__link">
-        Working with Jira
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../developer_documentation/managing_environments/" class="md-nav__link">
         Managing Conda Environments
       </a>
@@ -1104,7 +1216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../developer_documentation/building_documentation/" class="md-nav__link">
+      <a href="../../developer_documentation/documentation_practices/" class="md-nav__link">
         Documentation
       </a>
     </li>
@@ -1270,12 +1382,73 @@
       
       
         <label class="md-nav__link" for="__nav_4_5">
+          Mapping Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Mapping Plugins" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          Mapping Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/available_mapping_plugins/" class="md-nav__link">
+        Available Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer_documentation/mapping_plugins/mapping_plugin_framework/" class="md-nav__link">
+        Mapping Plugin Framework
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
           Plugins
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Plugins" data-md-level="2">
-        <label class="md-nav__title" for="__nav_4_5">
+        <label class="md-nav__title" for="__nav_4_6">
           <span class="md-nav__icon md-icon"></span>
           Plugins
         </label>
@@ -1341,7 +1514,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../cdds_components/">CDDS Components</a>
+          <a href="../../subpackages/">Subpackages</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -1349,10 +1522,10 @@
           
         </div>
       
-      <nav class="md-nav" aria-label="CDDS Components" data-md-level="1">
+      <nav class="md-nav" aria-label="Subpackages" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          CDDS Components
+          Subpackages
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -1362,8 +1535,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/convert/" class="md-nav__link">
-        convert
+      <a href="../../subpackages/convert/" class="md-nav__link">
+        cdds.convert
       </a>
     </li>
   
@@ -1376,8 +1549,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/extract/" class="md-nav__link">
-        extract
+      <a href="../../subpackages/extract/" class="md-nav__link">
+        cdds.extract
       </a>
     </li>
   
@@ -1390,8 +1563,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/qc/" class="md-nav__link">
-        qc
+      <a href="../../subpackages/qc/" class="md-nav__link">
+        cdds.qc
       </a>
     </li>
   
@@ -1404,8 +1577,22 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cdds_components/transfer/" class="md-nav__link">
-        transfer
+      <a href="../../subpackages/sim_review/" class="md-nav__link">
+        cdds.sim_review
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../subpackages/transfer/" class="md-nav__link">
+        cdds.transfer
       </a>
     </li>
   
@@ -1426,8 +1613,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../reference/SUMMARY/" class="md-nav__link">
-        API Documentation
+      <a href="../../mappings/" class="md-nav__link">
+        Mappings
       </a>
     </li>
   
@@ -1456,6 +1643,20 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#variable-mappings-for-cdds" class="md-nav__link">
+    Variable Mappings for CDDS
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapping-plugins" class="md-nav__link">
+    Mapping Plugins
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#mapping-hierarchy" class="md-nav__link">
@@ -1514,15 +1715,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#requried-information" class="md-nav__link">
-    Requried Information
+  <a href="#required-information" class="md-nav__link">
+    Required Information
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#determine-which-configuration-file-the-model-to-mip-mapping-should-be-added-to" class="md-nav__link">
-    Determine which configuration file the model to MIP mapping should be added to
+  <a href="#find-the-right-configuration-file" class="md-nav__link">
+    Find the right configuration file
   </a>
   
 </li>
@@ -1563,20 +1764,26 @@
 
   <h1>Add a Variable Mapping</h1>
 
+<h2 id="variable-mappings-for-cdds">Variable Mappings for <abbr title="Climate Data Dissemination System">CDDS</abbr></h2>
+<p>The following pages are constructed from the Mappings held in <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert:</p>
+<ul>
+<li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_UKESM1.html">UKESM1 Mappings</a></li>
+<li><a href="https://code.metoffice.gov.uk/doc/cdds/mappings_viewer/mappings_view_HadGEM3.html">HadGEM3 Mappings</a></li>
+</ul>
+<h2 id="mapping-plugins">Mapping Plugins</h2>
+<p>The mappings within <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert are managed by the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert mapping plugins. Each base model (e.g. <code>UKESM1</code> or 
+<code>HadGEM3</code>) has its own plugin containing the corresponding mapping configuration files.</p>
+<p>The mapping plugin is used specified in the <code>request</code> section of the <code>mip_convert.cfg</code> file, see: <a href="../mip_convert/"><abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> convert documentation</a></p>
 <h2 id="mapping-hierarchy">Mapping Hierarchy</h2>
-<p>The mappings within MIP Convert are arranged in a hierarchy with names in the following forms</p>
+<p>The mappings within mapping plugins are arranged in a hierarchy with names in the following forms</p>
 <ol>
-<li><code>common_mappings.cfg</code></li>
-<li><code>&lt;mip_table&gt;_mappings.cfg</code></li>
 <li><code>&lt;base_model&gt;_mappings.cfg</code></li>
-<li><code>&lt;base_model&gt;_&lt;mip_table_id&gt;_mappings.cfg</code></li>
-<li><code>&lt;model_id&gt;_mappings.cfg</code></li>
-<li><code>&lt;model_id&gt;_&lt;mip_table_id&gt;_mappings.cfg</code></li>
+<li><code>&lt;base_model&gt;_&lt;mip_table&gt;_mappings.cfg</code></li>
 </ol>
 <p>where <code>&lt;base_model&gt;</code> refers to the section of the model id before the first dash <code>-</code>, e.g. <code>"UKESM1"</code> or <code>"HadGEM3"</code>. </p>
 <p>Mappings in files furthest down this list overload those specified in files at the top.</p>
-<h2 id="model-to-mip-mapping-configuration-files">Model to MIP Mapping Configuration Files</h2>
-<p>Each of the above model to MIP mapping configuration files contains the following sections.</p>
+<h2 id="model-to-mip-mapping-configuration-files">Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping Configuration Files</h2>
+<p>Each of the above model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files contains the following sections.</p>
 <ol>
 <li><code>[DEFAULT]</code></li>
 <li><code>[COMMON]</code></li>
@@ -1592,9 +1799,10 @@ used for that section over the default value defined in the
 <p>The <code>[COMMON]</code> section contains options that may be used by other
 sections by using the syntax <code>${COMMON:&lt;option&gt;}</code>. This is useful for setting
 values for comments or notes that would otherwise be repeated multiple times in
-the model to MIP mapping configuration files.</p>
+the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files.</p>
 <h3 id="the-variable-name-sections">The <code>[variable name]</code> Section(s)</h3>
-<p>The <code>[variable name]</code> sections provide the model to MIP mapping corresponding to the specified MIP requested variable and contains the following required options:</p>
+<p>The <code>[variable name]</code> sections provide the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping corresponding to the specified <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</p>
+<p><strong>The following options are required:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1606,43 +1814,45 @@ the model to MIP mapping configuration files.</p>
 <tbody>
 <tr>
 <td><code>dimension</code></td>
-<td>The dimensions of the MIP requested variable.</td>
+<td>The dimensions of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>expression</code></td>
-<td>The expression required to convert the input variable / input variables to the MIP requested variable.</td>
+<td>The expression required to convert the input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>mip_table_id</code></td>
-<td>A space-separated list of MIP table identifiers that the model to MIP mapping is valid for.</td>
+<td>A space-separated list of <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifiers that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>positive</code></td>
 <td>The direction of a vertical energy (heat) flux or surface momentum flux (stress) input; use 'up' or 'down' depending on whether the direction is positive when it is directed upward or downward, respectively. This argument is required for vertical energy and salt fluxes, for flux correction fields, and for surface stress.</td>
-<td>[1]</td>
+<td><em>1</em></td>
 </tr>
 <tr>
 <td><code>status</code></td>
-<td>The status of the MIP requested variable. Valid values are <code>ok</code> and <code>embargoed</code>.</td>
-<td>[2][3]</td>
+<td>The status of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable. Valid values are <code>ok</code> and <code>embargoed</code>.</td>
+<td><em>2</em>, <em>3</em></td>
 </tr>
 <tr>
 <td><code>units</code></td>
-<td>The units of the data of the MIP requested variable i.e., after the <code>expression</code> has been applied.</td>
+<td>The units of the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable i.e., after the <code>expression</code> has been applied.</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<p><strong>Notes</strong></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <ol>
-<li>This information is used by CMOR to determine whether a sign change is necessary to make the data consistent with the MIP requirements. For more information, please see the <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the CMOR Documentation.</li>
-<li>The MIP requested variables are reviewed to ensure they have been produced correctly, MIP requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.</li>
-<li>This is used by CDDS, but does not affect MIP Convert behaviour</li>
+<li>This information is used by <abbr title="Climate Model Output Rewriter">CMOR</abbr> to determine whether a sign change is necessary to make the data consistent with the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requirements. For more information, please see the <a href="https://cmor.llnl.gov/mydoc_cmor3_api/#cmor_variable">cmor_variable</a> section in the <abbr title="Climate Model Output Rewriter">CMOR</abbr> Documentation.</li>
+<li>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables are reviewed to ensure they have been produced correctly, <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variables that have not passed review will not be submitted to ESGF and so will not be available for other institutes to use.</li>
+<li>This is used by <abbr title="Climate Data Dissemination System">CDDS</abbr>, but does not affect <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert behaviour</li>
 </ol>
-<p>The following options are optional:</p>
+</div>
+<p><strong>The following options are optional:</strong></p>
 <table>
 <thead>
 <tr>
@@ -1654,22 +1864,22 @@ the model to MIP mapping configuration files.</p>
 <tbody>
 <tr>
 <td><code>comment</code></td>
-<td>The details relating to the model to MIP mapping that should be written to the output netCDF file, e.g., to qualify the details of the model to MIP mapping, add health warnings,etc.</td>
+<td>The details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., to qualify the details of the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, add health warnings,etc.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>notes</code></td>
-<td>Any details relating to the model to MIP mapping that should not be written to the output netCDF file, e.g., who added the model to MIP mapping, why, reasons for using this model to MIP mapping over another in certain cases, any other special cases notes, etc.</td>
+<td>Any details relating to the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping that should not be written to the <abbr title="A netCDF file produced by CMOR that is compliant with the MIP specifications and contains a single MIP output variable from a single model and a single simulation.">output netCDF file</abbr>, e.g., who added the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping, why, reasons for using this model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping over another in certain cases, any other special cases notes, etc.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>component</code></td>
-<td>A space-separated list of components that the model to MIP mapping is valid for.</td>
+<td>A space-separated list of components that the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping is valid for.</td>
 <td></td>
 </tr>
 <tr>
 <td><code>valid_min</code></td>
-<td>The minimum valid value for the data of the MIP requested variable; values in the data lower than this value are replaced with zero.</td>
+<td>The minimum valid value for the data of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable; values in the data lower than this value are replaced with zero.</td>
 <td></td>
 </tr>
 </tbody>
@@ -1689,76 +1899,76 @@ the model to MIP mapping configuration files.</p>
 <tr>
 <td><code>stash</code></td>
 <td>PP</td>
-<td>LBUSER(4), STASH Code, see Chapter 4 (page 25) of UMDP F03</td>
+<td>LBUSER(4), <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> Code, see Chapter 4 (page 25) of UMDP F03</td>
 <td></td>
 </tr>
 <tr>
 <td><code>variable_name</code></td>
-<td>netCDF</td>
-<td>The name of the data variable in the model output files that is used to create the input variable.</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
+<td>The name of the data variable in the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> that is used to create the input variable.</td>
 <td></td>
 </tr>
 </tbody>
 </table>
-<div class="admonition example">
-<p class="admonition-title">Example 1. One to One Mapping</p>
+<details class="example">
+<summary>Example 1. One to One Mapping</summary>
 <ul>
 <li><code>expression = m01s03i236</code></li>
 <li><code>expression = sitemptop</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 2a. Constants and Arithmetic</p>
+</details>
+<details class="example">
+<summary>Example 2a. Constants and Arithmetic</summary>
 <p>Expressions can use numerical values and constants (which must be written using
 upper case letters; constants are available in
 :mod:<code>mip_convert.process.constants</code>):</p>
 <ul>
 <li><code>expression = rain_ai * 100. * SECONDS_IN_DAY</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 2b. Constants and Arithmetic</p>
+</details>
+<details class="example">
+<summary>Example 2b. Constants and Arithmetic</summary>
 <p>For atmospheric tendency diagnostics, the atmospheric model timestep must be
 specified (the value of the atmospheric model timestep is obtained from the 
-user configuration file, please see the <code>request_section</code> in the
+<abbr title="A file which is generated by CDDS Configure and used by MIP Convert.">user configuration file</abbr>, please see the <code>request_section</code> in the
 <code>user_guide</code>):</p>
 <ul>
 <li><code>expression = m01s30i181 / ATMOS_TIMESTEP</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 3a. Constraints</p>
+</details>
+<details class="example">
+<summary>Example 3a. Constraints</summary>
 <p>To specify additional constraints, use square brackets:</p>
 <ul>
 <li><code>expression = m01s08i223[blev=0.05]</code></li>
 <li><code>expression = pbo[cell_methods=time: mean (interval: 120 s)]</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 3b. Constraints</p>
+</details>
+<details class="example">
+<summary>Example 3b. Constraints</summary>
 <p>Multiple values for a single constraint should be separated by spaces:</p>
 <ul>
 <li><code>expression = m01s30i201[blev=850.0 500.0 250.0]</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 3c. Constraints</p>
+</details>
+<details class="example">
+<summary>Example 3c. Constraints</summary>
 <p>Multiple constraints within the square brackets should be separated by commas:</p>
 <ul>
 <li><code>expression = m01s02i204[lbplev=4, lbtim=122]</code></li>
 </ul>
-</div>
-<div class="admonition example">
-<p class="admonition-title">Example 4. Processor</p>
+</details>
+<details class="example">
+<summary>Example 4. Processor</summary>
 <p>In cases where it is not possible to describe the conversion of the
-input variable / input variables to the MIP requested variable using a
+input variable / input variables to the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable using a
 basic expression like the ones above, a function can be specified:</p>
 <ul>
 <li><code>expression = my_function_name(m01s03i236)</code></li>
 </ul>
 <p>The values of the arguments of the function must follow the same syntax as the
 basic expression.</p>
-</div>
+</details>
 <p>The following constraints can currently be used in an <code>expression</code>:</p>
 <table>
 <thead>
@@ -1778,13 +1988,13 @@ basic expression.</p>
 </tr>
 <tr>
 <td><code>cell_methods</code></td>
-<td>netCDF</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
 <td>The <a href="https://cfconventions.org/cf-conventions/v1.6.0/cf-conventions.html#cell-methods">cell methods</a></td>
 <td></td>
 </tr>
 <tr>
 <td><code>depth</code></td>
-<td>netCDF</td>
+<td><abbr title="Network Common Data Form">netCDF</abbr></td>
 <td>Value of the depth coordinate</td>
 <td></td>
 </tr>
@@ -1814,44 +2024,63 @@ basic expression.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="how-to-add-a-new-model-to-mip-mapping">How to Add a New Model to MIP mapping</h2>
+<h2 id="how-to-add-a-new-model-to-mip-mapping">How to Add a New Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you want to contribute your changes to CDDS then you must follow the development workflow.
-See the <a href="../../developer_documentation/development_practices/">Developer Documentation</a> pages for guidance.</p>
+<p>If you want to contribute your changes to <abbr title="Climate Data Dissemination System">CDDS</abbr> then you must follow the development workflow.
+See the <a href="../../developer_documentation/development_workflow/">Developer Documentation</a> pages for guidance.</p>
 </div>
-<h3 id="requried-information">Requried Information</h3>
+<h3 id="required-information">Required Information</h3>
 <ol>
-<li>the MIP requested variable name and the MIP table identifier.</li>
-<li>the constraints, i.e., the data to be read from the model output files to create the input variables.</li>
-<li>an expression describing how to process the input variables to produce a MIP output variable.</li>
-<li>the units of the MIP output variable after the expression has been applied.<ol>
-<li>It is not necessary to include the units in model to MIP mappings used for netCDF model output files if the expression consists of a single constraint.</li>
+<li>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name and the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table identifier.</li>
+<li>The constraints, i.e., the data to be read from the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> to create the input variables.</li>
+<li>An expression describing how to process the input variables to produce a <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable.</li>
+<li>The units of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> output variable after the expression has been applied. It is not necessary to include the units 
+   in mappings used for <abbr title="Network Common Data Form">netCDF</abbr> <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> if the expression consists of a single constraint.</li>
+<li>The component, which is the domain.</li>
 </ol>
-</li>
-<li>the component, which is the domain as described ​here.</li>
-</ol>
-<h3 id="determine-which-configuration-file-the-model-to-mip-mapping-should-be-added-to">Determine which configuration file the model to MIP mapping should be added to</h3>
+<h3 id="find-the-right-configuration-file">Find the right configuration file</h3>
 <ol>
-<li>Model to MIP mapping configuration files are located in the <code>mip_convert/process</code> sub package (their names end in <code>_mappings.cfg</code>).</li>
-<li>if there is currently no entry for the MIP requested variable name in the model to MIP mapping configuration files (use, e.g. <code>grep &lt;mip_requested_variable_name&gt; &lt;branch&gt;/mip_convert/mip_convert/process/*_mappings.cfg</code>), add the model to MIP mapping to common_mappings.cfg.</li>
-<li>if there is already an entry in <code>common_mappings.cfg</code>, add the model to MIP mapping to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
-<li>for multiple model to MIP mappings for the same MIP requested variable name, any expressions containing <code>lbproc=128</code> should be added to <code>common_mappings.cfg</code>, while others should be added to the appropriate `<mip_table_id>_mappings.cfg`` configuration file.</li>
-<li>if there are any issues, please ask Matthew Mizielinski.</li>
+<li>Find the corresponding mapping plugin for the model you want to add the mapping. All mappings plugins are located
+   in <code>mip_convert/plugins</code>. Each plugin has its own sub folder named by the base model name.</li>
+<li>Model to mapping configuration files are located in the <code>mip_convert/plugins/&lt;base_model_name&gt;/data</code>. The mapping
+   configuration files end with <code>_mappings.cfg</code>.</li>
+<li>If there is currently no entry for the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name in the mapping configuration files, add the mapping 
+   to <code>&lt;base_model_name&gt;_mappgins.cfg</code>, e.g. <code>UKESM1_mappgins.cfg</code>.</li>
+<li>If there is already an entry in <code>&lt;base_model_name&gt;_mappings.cfg</code>, add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate 
+   <code>&lt;base_model_name&gt;_&lt;mip_table_id&gt;_mappings.cfg</code>, e.g. <code>UKESM1_day_mappings.cfg</code> for a mapping for a <code>day</code> <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table.</li>
+<li>For multiple mappings for the same <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable name, any expressions containing <code>lbproc=128</code> should be 
+   added to <code>&lt;base_model_name&gt;_mappings.cfg</code>, while others should be added to the appropriate 
+   <code>&lt;base_model_name&gt;_&lt;mip_table_id&gt;_mappings.cfg</code> configuration file.</li>
+<li>If there are any issues, please ask Matthew Mizielinski.</li>
 </ol>
-<h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to MIP mapping to the appropriate configuration file.</h3>
+<details class="tip">
+<summary>Searching for variable in mapping configuration files</summary>
+<p>You can use the grep command to search if a mapping for a variable is already defined:
+<div class="highlight"><pre><span></span><code>grep<span class="w"> </span>&lt;variable_name&gt;<span class="w"> </span>&lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/&lt;lowercase_base_model_name&gt;/data/*_mappings.cfg
+</code></pre></div>
+For example: Searching in mappings for the variable <code>tas</code> in the <code>UKESM1</code>:
+<div class="highlight"><pre><span></span><code>grep tas &lt;cdds_directory&gt;/mip_convert/mip_convert/plugins/ukesm1/data/*_mappings.cfg
+</code></pre></div></p>
+</details>
+<h3 id="add-the-model-to-mip-mapping-to-the-appropriate-configuration-file">Add the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping to the appropriate configuration file.</h3>
 <ol>
-<li>The sections in the model to MIP mapping configuration files are the MIP requested variable names and are listed in alphabetical order.</li>
-<li>If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see ​PEP8.</li>
-<li>If the expression contains a function and an appropriate function does not already exist, add the function to <code>mip_convert/process/processors.py</code>​. The function:<ol>
-<li>can have any number of arguments, each corresponding to a cube.</li>
-<li>should work directly on the cube(s) (i.e., do not make a copy of the cube(s) or the data).</li>
-<li>should not update the standard_name or long_name of the cube(s) (the ​MIP table contains this information and will be automatically added to the output netCDF files by CMOR).</li>
+<li>The sections in the model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> mapping configuration files are the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> requested variable names and are listed in alphabetical order.</li>
+<li>If the expression continues beyond the 120 character line limit, add a new line before a binary operator, see PEP8.</li>
+<li>
+<p>If the expression contains a function and an appropriate function does not already exist, add the function to 
+   <code>mip_convert/plugins/&lt;base_model_name&gt;/data/processors.py</code>.</p>
+<p>The function:</p>
+<ol>
+<li>can have any number of arguments each corresponding to a cube.</li>
+<li>should work directly on the cube(s), i.e., do not make a copy of the cube(s) or the data.</li>
+<li>should not update the standard_name or long_name of the cube(s). The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> table contains this information 
+   and will be automatically added to the <abbr title="netCDF files produced by CMOR that are compliant with the MIP specifications and each contains a single MIP output variable from a single model and a single simulation.">output netCDF files</abbr> by <abbr title="Climate Model Output Rewriter">CMOR</abbr>.</li>
 <li>must return a single cube.</li>
 </ol>
 </li>
 </ol>
-<h3 id="test-the-model-to-mip-mapping">Test the Model to MIP Mapping</h3>
+<h3 id="test-the-model-to-mip-mapping">Test the Model to <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Mapping</h3>
 <p>Test and verify all mappings before submitting a pull request.</p>
 
 
@@ -1891,13 +2120,13 @@ See the <a href="../../developer_documentation/development_practices/">Developer
       
       
         
-        <a href="../add_plugin/" class="md-footer__link md-footer__link--next" aria-label="Next: Add a Plugin" rel="next">
+        <a href="../add_mapping_plugin/" class="md-footer__link md-footer__link--next" aria-label="Next: Add a Mapping Plugin" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Add a Plugin
+              Add a Mapping Plugin
             </div>
           </div>
           <div class="md-footer__button md-icon">
