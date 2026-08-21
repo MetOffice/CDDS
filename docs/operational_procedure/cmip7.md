@@ -527,13 +527,13 @@ A page describing [common issues](common_issues.md) will be extended as new issu
 Once the workflows for a particular package have completed update your *CDDS operational simulation issue* confirming that 
 the Extract, Convert, QC and Transfer tasks have been completed.
 
-- [x] Copy the request JSON file and any logs to `$CDDS_PROC_DIR`.
+- [x] Copy the request config file and any logs to the proc directory, e.g.
       ```
-      cp request.json *.log $CDDS_PROC_DIR/
+      cp mo_request_<runid>.cfg *.log $CDDS_PROC_DIR/
       ```
 
 - [x] Add a comment to the *CDDS operational simulation issue* specifying the archived data is ready for submission, 
-      and include the full path to your request configuration location.
+      and include the full path to your request configuration location or attach the request file to the issue.
 
 - [x] Add the label `ready for submission` to the *CDDS operational simulation issue* and 
       assign it to Matthew Mizielinski by selecting this name from the list.
