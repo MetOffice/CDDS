@@ -17,15 +17,15 @@ from cdds.common.request.request import Request
 
 
 @pytest.fixture(autouse=True)
+def cdds_dir_env(monkeypatch):
     """Ensure CDDS_DIR is set for tests whose .cfg files use $CDDS_DIR-relative paths,
     even if the devel environment has not been sourced.
 
     Parameters
     ----------
-    monkeypatch: pytest.MonkeyPatch
+    monkeypatch : pytest.MonkeyPatch
         object used to patch environment
     """
-    even if the devel environment has not been sourced."""
     monkeypatch.setenv("CDDS_DIR", str(Path(__file__).parents[3]))
 
 
