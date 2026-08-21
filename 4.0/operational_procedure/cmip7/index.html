@@ -2458,13 +2458,13 @@ and if support is needed add the <code>help needed</code> label and mention <cod
 the Extract, Convert, QC and Transfer tasks have been completed.</p>
 <ul class="task-list">
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Copy the request JSON file and any logs to <code>$CDDS_PROC_DIR</code>.
-      <div class="highlight"><pre><span></span><code>cp request.json *.log $CDDS_PROC_DIR/
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Copy the request config file and any logs to the proc directory, e.g.
+      <div class="highlight"><pre><span></span><code>cp mo_request_&lt;runid&gt;.cfg *.log $CDDS_PROC_DIR/
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add a comment to the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> specifying the archived data is ready for submission, 
-      and include the full path to your <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> location.</p>
+      and include the full path to your <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr> location or attach the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> to the issue.</p>
 </li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Add the label <code>ready for submission</code> to the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em> and 
