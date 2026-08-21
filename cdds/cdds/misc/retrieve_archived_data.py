@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # (C) British Crown Copyright 2025, Met Office.
 # Please see LICENSE.md for license details.
-"""Retrieve data from MASS whilst replicating it's directory structure."""
+"""Retrieve archived data from MASS whilst replicating it's directory structure."""
 
 import argparse
 import logging
@@ -304,7 +304,7 @@ def transfer_files_to_final_dir(
             shutil.move(str(temporary_filepath), str(destination_filepath))
 
 
-def main_cdds_retrieve_data() -> None:
+def main_cdds_retrieve_archived_data() -> None:
     """Main function to retrieve data from MOOSE using CDDS.
 
     Returns
@@ -312,7 +312,7 @@ def main_cdds_retrieve_data() -> None:
     None
     """
     configure_logger(
-        log_name="retrieve_mass_data",
+        log_name="retrieve_archived_mass_data",
         log_level=20,
         append_log=False,
     )

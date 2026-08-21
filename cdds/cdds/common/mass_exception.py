@@ -63,6 +63,7 @@ class MassError(Exception):
     def __init__(self, mass_failure, command):
         super(MassError, self).__init__(mass_failure.get_message(command))
         self.msg = mass_failure.get_message(command)
+        self.mass_failure = mass_failure
 
 
 class FileNotExistMassError(MassError):
