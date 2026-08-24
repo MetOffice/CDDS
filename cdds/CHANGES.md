@@ -1,3 +1,13 @@
+## Release 4.0.1, August 24, 2026
+
+-   Addition of submission code configured for CMIP7 (#1067)
+-   Correction to tests to work on installed code (#1042)
+-   Update to pygments version in environment and removed environment_dev.yml(#1040)
+-   Added additional retry to repacking tasks (#1054)
+-   Added OPERATION_FAILED error message from moose client to list of errors to handle in extract (#1036)
+-   Fixed check looking for pre-existing archived data (#1061)
+-   Update to UKCM2 memory parameters (#1037)
+
 ## Release 4.0.0, July 28, 2026
 
 -   Adaptations for CMIP7 including adding UKCM2, UKCM2a and UKESM1-3 models (#662, #668, #607, #675, #701, #736, #747, #820, #810, #887, #959, #724, #981, #1005)
