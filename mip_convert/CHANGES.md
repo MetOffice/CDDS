@@ -1,3 +1,7 @@
+## Release 4.0.1, August 24, 2026
+
+-   Update to a few mappings (#1058)
+
 ## Release 4.0.0, July 28th, 2026
 
 -   Adaptations for CMIP7 (#662, #601, #920, #950, #915)
