@@ -603,7 +603,7 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     if field.lbuser[3] == 33 and (('lbuser4', 33) not in pp_info or field.lbtim == 0):
         # Filter out any orog fields that fall outside of the run bounds to avoid interpolation that prevents concat
         start_date = f"{field.lbyr}-{field.lbmon}-{field.lbdat}"
-        if start_date < run_bounds[0]:
+        if start_date < run_bounds[0] and start_date != "0-0-0":
             result = False
         else:
             result = True
