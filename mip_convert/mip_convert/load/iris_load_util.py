@@ -593,6 +593,7 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     boolean
         whether the PP field header information matches with the PP field header information in the single PP field
     """
+    logger = logging.getLogger(__name__)
     result = False
     matches = []
 
@@ -603,7 +604,10 @@ def pp_filter(field, pp_info, run_bounds, ancil_variables):
     if field.lbuser[3] == 33 and (('lbuser4', 33) not in pp_info or field.lbtim == 0):
         # Filter out any orog fields that fall outside of the run bounds to avoid interpolation that prevents concat
         start_date = f"{field.lbyr}-{field.lbmon}-{field.lbdat}"
+        end_date = f"{field.lbyrd}-{field.lbmond}-{field.lbdatd}"
         if start_date < run_bounds[0] and start_date != "0-0-0":
+            logger.debug(f"Removing orography (lbuser4=33) at {start_date} to {end_date} to prevent interpolation "
+                         "based concatenation errors")
             result = False
         else:
             result = True
