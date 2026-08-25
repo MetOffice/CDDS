@@ -102,33 +102,29 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         return datasets
 
     root = ET.fromstring(stdout_str)
-    for node in root.findall('node'):
-        if node.get('kind') != 'F':
+    for item in root.findall('node'):
+        # Skip directories and other non-file entries
+        if item.get('kind') != 'F':
             continue
-        mass_file_path = node.get('url')
-        if mass_file_path is None:
-            continue
-        size_elem = node.find('size')
-        filesize = size_elem.text if size_elem is not None else None
-        checksum_elem = node.find('checksum/value')
-        checksum_value = checksum_elem.text if checksum_elem is not None else None
-        checksum = f"md5:{checksum_value}" if checksum_value is not None else None
+        mass_file_path = item.get('url')
+        filesize = item.find('size').text
+        checksum_value = item.find('checksum/value').text
+        checksum = f"md5:{checksum_value}"
 
         dataset_id, status, timestamp, filename = parse_mass_file_path(mass_file_path, mass_root)
 
-        if filename.endswith('.nc'):
-            if dataset_id not in datasets:
-                datasets[dataset_id] = {
-                    'status': status,
-                    'timestamp': timestamp,
-                    'files': []
-                }
-            datasets[dataset_id]['files'].append({
-                'filesize': filesize,
-                'filename': filename,
-                'mass_path': mass_file_path,
-                'checksum': checksum
-            })
+        if dataset_id not in datasets:
+            datasets[dataset_id] = {
+                'status': status,
+                'timestamp': timestamp,
+                'files': []
+            }
+        datasets[dataset_id]['files'].append({
+            'filesize': filesize,
+            'filename': filename,
+            'mass_path': mass_file_path,
+            'checksum': checksum
+        })
     return datasets
 
 
