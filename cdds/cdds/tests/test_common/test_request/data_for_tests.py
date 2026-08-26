@@ -187,7 +187,7 @@ def expected_test_minimal_common():
         'standard_names_dir': os.path.join(os.environ['CDDS_ETC'], 'standard_names'),
         'standard_names_version': 'latest',
         'simulation': False,
-        'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2'
+        'workflow_basename': 'UKESM1-0-LL_piControl_r1i1p1f2_round-1'
     }
 
 
