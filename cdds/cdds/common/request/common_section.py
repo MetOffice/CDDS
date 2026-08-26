@@ -16,7 +16,7 @@ from cdds.common.request.request_validations import validate_common_section
 from cdds.common.plugins.plugins import PluginStore
 
 
-def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Dict[str, Any]:
+def common_defaults(model_id: str, experiment_id: str, variant_label: str, package: str = '') -> Dict[str, Any]:
     """Calculates the defaults for the common section of
     the request configuration with given model ID,
     experiment ID and variant label.
@@ -29,6 +29,8 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
         Experiment ID
     variant_label : str
         Variant label
+    package : str, optional
+        Package name
 
     Returns
     -------
@@ -41,7 +43,7 @@ def common_defaults(model_id: str, experiment_id: str, variant_label: str) -> Di
     root_replacement_coordinates_dir = os.path.join(os.environ['CDDS_ETC'], 'horizontal_coordinates')
     sites_file = os.path.join(os.environ['CDDS_ETC'], 'cfmip2', 'cfmip2-sites-orog.txt')
     standard_names_dir = os.path.join(os.environ['CDDS_ETC'], 'standard_names')
-    workflow_basename = '{}_{}_{}'.format(model_id, experiment_id, variant_label)
+    workflow_basename = '{}_{}_{}_{}'.format(model_id, experiment_id, variant_label, package)
 
     return {
         'force_plugin': '',
@@ -132,13 +134,17 @@ class CommonSection(Section):
               config.has_option(GlobalAttributesSection.name(), 'driving_experiment_id')):
             experiment_id = config.get(GlobalAttributesSection.name(), 'driving_experiment_id')
 
-        values = common_defaults(model_id, experiment_id, variant_label)
         do_pre_validations(config, CommonSection)
         config_items = load_types(dict(config.items(CommonSection.name())))
         expand_paths(config_items, ['root_proc_dir', 'root_data_dir', 'root_ancil_dir',
                                     'root_hybrid_heights_dir', 'root_replacement_coordinates_dir',
                                     'sites_file', 'standard_names_dir'])
+        package = config_items.get('package', '')
+        values = common_defaults(model_id, experiment_id, variant_label, package)
+        default_workflow_basename = values['workflow_basename']
         values.update(config_items)
+        if not values.get('workflow_basename', '').strip():
+            values['workflow_basename'] = default_workflow_basename
         return CommonSection(**values)
 
     @staticmethod
@@ -160,7 +166,7 @@ class CommonSection(Section):
         model_id = suite_info.data['model-id']
         experiment_id = suite_info.data['experiment-id']
         variant_label = suite_info.data['variant-id']
-        defaults = common_defaults(model_id, experiment_id, variant_label)
+        defaults = common_defaults(model_id, experiment_id, variant_label, arguments.package)
 
         common = CommonSection(**defaults)
         common.external_plugin = arguments.external_plugin
@@ -185,7 +191,7 @@ class CommonSection(Section):
         variant_label : str
             Variable label used to get default values
         """
-        defaults = common_defaults(model_id, experiment_id, variant_label)
+        defaults = common_defaults(model_id, experiment_id, variant_label, self.package)
         self._add_to_config_section(config, CommonSection.name(), defaults)
 
     def is_relaxed_cmor(self) -> bool:
