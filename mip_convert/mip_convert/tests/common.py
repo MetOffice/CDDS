@@ -14,8 +14,14 @@ class DummyField:
     object.
     """
 
-    def __init__(self, lbuser=None, lbvc=None, blev=None, brsvd=None,
-                 brlev=None, lbproc=None, lbsrce=None, t1=None, t2=None):
+    def __init__(self, lbyr=None, lbmon=None, lbdat=None, lbyrd=None, lbmond=None, lbdatd=None, lbuser=None, lbvc=None,
+                 blev=None, brsvd=None, brlev=None, lbproc=None, lbsrce=None, t1=None, t2=None):
+        self.lbyr = lbyr
+        self.lbmon = lbmon
+        self.lbdat = lbdat
+        self.lbyrd = lbyrd
+        self.lbmond = lbmond
+        self.lbdatd = lbdatd
         self.lbuser = lbuser
         self.lbvc = lbvc
         self.blev = blev
