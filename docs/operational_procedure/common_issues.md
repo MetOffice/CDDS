@@ -74,5 +74,5 @@ It's likely that `further_info_url` was not set as described [here](cmip6.md#fur
 
 You have two options:
 
-1. If it's only a small amount of data you processed (for instance if you're just experimenting), you can totally rerun the workflow with the corrected `request.cfg` file (see above).
+1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
 2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
