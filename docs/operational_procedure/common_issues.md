@@ -60,7 +60,7 @@ To deactivate these variables
 
 The cdds_convert workflow should then proceed.
 
-## 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6 processing)
+## 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
 
 e.g.
 
