@@ -200,6 +200,16 @@ You need to adjust your `request.cfg`:
 | `output_mass_root`    | Path to the moose loction where the data should be archived starts with `moose:`  |
 | `output_mass_suffix`  | Sub-directory in MASS to used when moving data.                                   |
 
+<a id="further_info_url_required"></a>
+
+!!! important
+    `further_info_url` must be set to `None` within the `[netcdf_global_attributes]` section (add it if it doesn't already exist). Failing to do this will currently lead to an error during the QC step ("Cannot retrieve global attribute further_info_url").
+    Note: This only necessary when producing CMIP6 data.
+    e.g.
+    ```
+    [netcdf_global_attributes]
+    further_info_url = None
+    ```
 
 !!! note
     Please check the other values as well and do adjustments as needed. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
