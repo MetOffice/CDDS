@@ -59,3 +59,20 @@ To deactivate these variables
 3. Retrigger the corresponding `validate_extract_<stream>` task 
 
 The cdds_convert workflow should then proceed.
+
+## 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
+
+e.g.
+
+        "mip_table": "APmon",
+        "checker": "cmip6",
+        "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
+        "affected_files": 2,
+        "affected_vars": "ps"
+
+It's likely that `further_info_url` was not set as described [here](cmip6.md#further_info_url_required).
+
+You have two options:
+
+1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
+2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
