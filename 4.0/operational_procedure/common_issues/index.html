@@ -642,6 +642,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
+    4. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1615,6 +1622,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
+    4. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1669,6 +1683,20 @@ landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
 <li>Retrigger the corresponding <code>validate_extract_&lt;stream&gt;</code> task </li>
 </ol>
 <p>The cdds_convert workflow should then proceed.</p>
+<h2 id="4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing">4. QC task failure: <code>Cannot retrieve further_info_url</code> (exclusive to <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus processing)</h2>
+<p>e.g.</p>
+<pre><code>    "mip_table": "APmon",
+    "checker": "cmip6",
+    "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
+    "affected_files": 2,
+    "affected_vars": "ps"
+</code></pre>
+<p>It's likely that <code>further_info_url</code> was not set as described <a href="../cmip6/#further_info_url_required">here</a>.</p>
+<p>You have two options:</p>
+<ol>
+<li>If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected <code>request.cfg</code> file (see above).</li>
+<li>If you don't wish to process the data from scratch again, contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.</li>
+</ol>
 
 
 
