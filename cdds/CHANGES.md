@@ -1,7 +1,3 @@
-## Release 4.0.2, August 28, 2026
-
--   Addition of package to workflow_id if default is used (#1074)
-
 ## Release 4.0.1, August 24, 2026
 
 -   Addition of submission code configured for CMIP7 (#1067)
