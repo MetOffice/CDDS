@@ -517,6 +517,20 @@ class FileContentError(object):
         self.error_message = error_message
 
 
+class FileContentWarning(object):
+    """Class representing a problematic file that is non critical."""
+    def __init__(self, filepath, warning_message):
+        """Parameters
+        ----------
+        filepath: str
+            Where the faulty file is stored.
+        warning_message: str
+            What's wrong with the file.
+        """
+        self.filepath = filepath
+        self.warning_message = warning_message
+
+
 class StashError(FileContentError):
     """Class representing a problematic pp file with STASH errors."""
     def __init__(self, filepath, error_message):
@@ -541,6 +555,31 @@ class StashError(FileContentError):
         self.stash_errors.append(stash)
 
 
+class StashWarning(FileContentWarning):
+    """Class representing a problematic pp file with STASH warning, this is different from a STASH error as it should
+    not trigger task failure."""
+    def __init__(self, filepath, warning_message):
+        """Parameters
+        ----------
+        filepath: str
+            Where the faulty file is stored.
+        warning_message: str
+            What's wrong with the file.
+        """
+        super(StashWarning, self).__init__(filepath, warning_message)
+        self.stash_warnings = []
+
+    def add_stash_warning(self, stash):
+        """Adds a faulty stash code.
+
+        Parameters
+        ----------
+        stash: str
+            Faulty stash code.
+        """
+        self.stash_warnings.append(stash)
+
+
 class StreamValidationResult(object):
     """Encapsulates results from validation of a single stream."""
     def __init__(self, stream):
@@ -555,6 +594,7 @@ class StreamValidationResult(object):
         self.file_names_expected = None
         self.file_names_actual = None
         self.file_errors = {}
+        self.file_warnings = {}
         self.mappings = None
 
     def add_mappings(self, mappings):
@@ -591,6 +631,16 @@ class StreamValidationResult(object):
         """
         self.file_errors[file_content_error.filepath] = file_content_error
 
+    def add_file_content_warning(self, file_content_warning):
+        """Adds a file content warning to the results
+
+        Parameters
+        ----------
+        file_content_warning : cdds.extract.common.FileContentWarning
+            Warning to be added to the stream validation results.
+        """
+        self.file_warnings[file_content_warning.filepath] = file_content_warning
+
     def log_results(self, log_directory):
         """Creates a log of issues for this stream (assuming there are any).
 
@@ -606,6 +656,21 @@ class StreamValidationResult(object):
             logger.info("Removed old validation report {}".format(validation_report_filepath))
         except OSError:
             pass
+
+        if self.file_warnings:
+            logger.warning("Validation for stream {} has warnings, copy of the log saved in {}".format(
+                            self.stream, validation_report_filepath))
+            for _, file_warning in self.file_warnings.items():
+                warning_msg = ""
+                warning_msg += "{}: {}\n".format(file_warning.filepath, file_warning.warning_message)
+                if isinstance(file_warning, StashWarning):
+                    warning_msg += (
+                        "\t\tPotential missing STASH codes: {}\n".format(", ".join(file_warning.stash_warnings))
+                    )
+            with open(validation_report_filepath, "w") as fn:
+                fn.write(warning_msg)
+                logger.warning(warning_msg)
+
         if not self.valid:
             logger.critical("Validation for stream {} has failed, copy of the log saved in {}".format(
                 self.stream, validation_report_filepath))
@@ -630,7 +695,7 @@ class StreamValidationResult(object):
                     for _, file_error in self.file_errors.items():
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
-                            msg += "\t\tMissing STASH codes: {}\n".format(", ".join(file_error.stash_errors))
+                            msg += "\t\tMissing required STASH codes: {}\n".format(", ".join(file_error.stash_errors))
                             problematic_stash_codes.update(file_error.stash_errors)
 
                     # Cross-reference missing STASH with requested variables

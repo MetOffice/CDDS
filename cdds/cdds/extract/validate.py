@@ -14,6 +14,7 @@ from cdds.common.request.request import read_request
 from cdds.extract.common import (
     FileContentError,
     StashError,
+    StashWarning,
     StreamValidationResult,
     build_mass_location,
     configure_mappings,
@@ -318,10 +319,16 @@ def check_expected_stash(stash_in_file: dict[str, dict], validation_result: Stre
         if expected_stash.difference(set(stash.keys())):
             stash_diff = expected_stash.difference(set(stash.keys()))
             if stash_diff:
-                error = StashError(os.path.join(path, file), "STASH errors")
-                for diff in stash_diff:
-                    error.add_stash_error(diff)
-                validation_result.add_file_content_error(error)
+                if set(["33"]) == stash_diff:
+                    warning = StashWarning(os.path.join(path, file), "STASH warnings")
+                    for diff in stash_diff:
+                        warning.add_stash_warning(diff)
+                    validation_result.add_file_content_warning(warning)
+                else:
+                    error = StashError(os.path.join(path, file), "STASH errors")
+                    for diff in stash_diff:
+                        error.add_stash_error(diff)
+                    validation_result.add_file_content_error(error)
 
 
 def check_consistent_stash(stash_in_file: dict[str, dict[str, int]], validation_result: StreamValidationResult,
@@ -350,12 +357,28 @@ def check_consistent_stash(stash_in_file: dict[str, dict[str, int]], validation_
     reference_file, reference_stash = next(iter(stash_in_file.items()))
 
     for file, stash in stash_in_file.items():
+        error = ""
+        warning = ""
         if reference_stash != stash:
-            error = StashError(os.path.join(path, file), f"STASH errors relative to reference file {reference_file}")
             for key, value in reference_stash.items():
                 if key not in stash or stash[key] != value:
+                    if not error:
+                        error = StashError(os.path.join(path, file),
+                                           f"STASH errors relative to reference file {reference_file}")
                     error.add_stash_error(key)
             for key in stash:
                 if key not in reference_stash:
-                    error.add_stash_error(key)
-            validation_result.add_file_content_error(error)
+                    if key == "33":
+                        if not warning:
+                            warning = StashWarning(os.path.join(path, file),
+                                                   f"STASH warnings relative to reference file {reference_file}")
+                        warning.add_stash_warning(key)
+                    else:
+                        if not error:
+                            error = StashError(os.path.join(path, file),
+                                               f"STASH errors relative to reference file {reference_file}")
+                        error.add_stash_error(key)
+            if warning:
+                validation_result.add_file_content_warning(warning)
+            if error:
+                validation_result.add_file_content_error(error)
