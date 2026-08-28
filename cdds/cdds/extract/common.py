@@ -695,7 +695,9 @@ class StreamValidationResult(object):
                     for _, file_error in self.file_errors.items():
                         msg += "{}: {}\n".format(file_error.filepath, file_error.error_message)
                         if isinstance(file_error, StashError):
-                            msg += "\t\tMissing required STASH codes: {}\n".format(", ".join(set(file_error.stash_errors)))
+                            msg += (
+                                "\t\tMissing required STASH codes: {}\n".format(", ".join(set(file_error.stash_errors)))
+                            )
                             problematic_stash_codes.update(file_error.stash_errors)
 
                     # Cross-reference missing STASH with requested variables
