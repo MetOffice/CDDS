@@ -356,10 +356,9 @@ def check_consistent_stash(stash_in_file: dict[str, dict[str, int]], validation_
     reference_stash: dict[str, int]
     reference_file, reference_stash = next(iter(stash_in_file.items()))
 
-    error = ""
-    warning = ""
-
     for file, stash in stash_in_file.items():
+        error = ""
+        warning = ""
         if reference_stash != stash:
             for key, value in reference_stash.items():
                 if key not in stash or stash[key] != value:
