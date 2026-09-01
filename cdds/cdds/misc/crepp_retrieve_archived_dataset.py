@@ -108,8 +108,9 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         if item.get('kind') != 'F':
             continue
         mass_file_path = item.get('url')
+        # Three following asserts largely exist to satisfy type checker as MASS should always provide them.
+        assert mass_file_path is not None
         size_elem = item.find('size')
-        # MASS should always provide <size> and <checksum> for file nodes; assert to satisfy type checker.
         assert size_elem is not None
         filesize = size_elem.text
         checksum_elem = item.find('checksum/value')
@@ -345,6 +346,10 @@ def transfer_files_to_final_dir(
 
 def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
     """Split a dataset_id into its base facets and version string.
+
+    MASS listings (see :func:`list_mass_files_with_checksums`) are keyed by the base
+    dataset_id, without the version facet, so callers need the base and version
+    separately in order to look up a dataset and then filter it to a specific version.
 
     Parameters
     ----------
