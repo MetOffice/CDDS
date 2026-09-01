@@ -13,7 +13,6 @@ from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFai
 from cdds.misc.crepp_retrieve_archived_dataset import (
     chunk_files,
     fetch_versioned_files,
-    filter_versioned_files,
     group_files_by_folder,
     list_mass_files_with_checksums,
     mass_error_exit_code,
@@ -266,27 +265,6 @@ class TestTransferFilesToFinalDir(unittest.TestCase):
             transfer_files_to_final_dir(chunk, self.output_dir, dry_run=False)
         self.assertFalse(src.exists())
         self.assertTrue((self.output_dir / "tas.nc").exists())
-
-
-class TestFilterVersionedFiles(unittest.TestCase):
-    def test_keeps_versioned_files(self):
-        files = [{"mass_path": "moose:/path/available/v20200828/tas.nc"}]
-        result = filter_versioned_files(files)
-        self.assertEqual(len(result), 1)
-
-    def test_excludes_unversioned_files(self):
-        files = [{"mass_path": "moose:/path/available/tas.nc"}]
-        result = filter_versioned_files(files)
-        self.assertEqual(result, [])
-
-    def test_mixed_returns_only_versioned(self):
-        files = [
-            {"mass_path": "moose:/path/available/v20200828/tas.nc"},
-            {"mass_path": "moose:/path/available/tas.nc"},
-        ]
-        result = filter_versioned_files(files)
-        self.assertEqual(len(result), 1)
-        self.assertIn("v20200828", result[0]["mass_path"])
 
 
 class TestParseDatasetId(unittest.TestCase):

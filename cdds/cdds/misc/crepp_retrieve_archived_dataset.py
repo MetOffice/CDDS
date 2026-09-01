@@ -13,7 +13,6 @@ import argparse
 import json
 import logging
 import os
-import re
 import shutil
 import subprocess
 import sys
@@ -344,24 +343,6 @@ def transfer_files_to_final_dir(
             shutil.move(str(temporary_filepath), str(destination_filepath))
 
 
-def filter_versioned_files(files: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    """Return only files whose MASS path contains a version directory (e.g. /v20250317/).
-
-    Parameters
-    ----------
-    files : list of dict
-        File info dicts from a MASS listing.
-
-    Returns
-    -------
-    list of dict
-        Filtered list containing only files with a version string in their path.
-    """
-    # Matches a version directory in a MASS path, e.g. /v20200828/
-    version_re = re.compile(r"/v\d{8}/")
-    return [f for f in files if version_re.search(f["mass_path"])]
-
-
 def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
     """Split a dataset_id into its base facets and version string.
 
@@ -440,8 +421,7 @@ def fetch_versioned_files(
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
 
-    files = filter_versioned_files(dataset["files"])
-    files = [f for f in files if f"/{version}/" in f["mass_path"]]
+    files = [f for f in dataset["files"] if f"/{version}/" in f["mass_path"]]
     if not files:
         logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
         return 1
