@@ -55,6 +55,7 @@ nav:
     - Model Parameters JSON File:
       -  tutorials/json_model_parameter.md
     - Mass Data Retrieval: tutorials/mass_data_retrieval.md
+    - CREPP Data Retrieval: tutorials/crepp_retrieve_archived_data.md
   - Developer Documentation:
     - developer_documentation/developer_documentation.md
     - Deployment:
