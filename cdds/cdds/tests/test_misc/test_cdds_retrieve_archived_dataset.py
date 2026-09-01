@@ -9,7 +9,7 @@ from unittest.mock import patch
 import pytest
 
 from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFailure
-from cdds.misc.crepp_retrieve_archived_dataset import (
+from cdds.misc.cdds_retrieve_archived_dataset import (
     chunk_files,
     fetch_versioned_files,
     group_files_by_folder,
@@ -58,7 +58,7 @@ _SAMPLE_XML = """\
   </node>
 </nodes>"""
 
-_MODULE = "cdds.misc.crepp_retrieve_archived_dataset"
+_MODULE = "cdds.misc.cdds_retrieve_archived_dataset"
 
 
 class TestParseMassFilePath:

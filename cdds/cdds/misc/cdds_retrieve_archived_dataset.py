@@ -4,9 +4,9 @@
 """Retrieve or list a single dataset from MASS.
 
 This is a standalone tool intended for use by external publication pipelines
-(e.g. CREPP) that need to retrieve or inspect a single dataset without
-depending on the rest of CDDS (e.g. variables files, bulk retrieval). For
-Met Office bulk retrieval, use ``cdds_retrieve_archived_data`` instead.
+that need to retrieve or inspect a single dataset without depending on the
+rest of CDDS (e.g. variables files, bulk retrieval). For Met Office bulk
+retrieval, use ``cdds_retrieve_archived_data`` instead.
 """
 
 import argparse
@@ -527,8 +527,8 @@ def run_get_action(
     return 0
 
 
-def main_crepp_retrieve_archived_dataset() -> int:
-    """Main function to retrieve or list a single dataset from MASS for CREPP.
+def main_cdds_retrieve_archived_dataset() -> int:
+    """Main function to retrieve or list a single dataset from MASS.
 
     Returns
     -------

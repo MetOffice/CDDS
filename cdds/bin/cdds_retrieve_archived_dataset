@@ -2,8 +2,8 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
 import sys
-from cdds.misc.crepp_retrieve_archived_dataset import main_crepp_retrieve_archived_dataset
+from cdds.misc.cdds_retrieve_archived_dataset import main_cdds_retrieve_archived_dataset
 
 
 if __name__ == '__main__':
-    sys.exit(main_crepp_retrieve_archived_dataset())
+    sys.exit(main_cdds_retrieve_archived_dataset())
