@@ -36,7 +36,7 @@ _CMIP6_FILE_PATH = (
 _CMIP6_FILE_LIST = {
     _CMIP6_BASE_ID: {
         "status": "available",
-        "timestamp": "v20200828",
+        "version": "v20200828",
         "files": [
             {
                 "filesize": "123456",
@@ -292,7 +292,7 @@ class TestFetchVersionedFiles:
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={
         _CMIP6_BASE_ID: {
             "status": "available",
-            "timestamp": "v20190101",
+            "version": "v20190101",
             "files": [{"mass_path": "moose:/path/available/v20190101/tas.nc", "filesize": "1"}],
         }
     })

@@ -88,7 +88,7 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
     -------
     dict
         Dictionary of datasets keyed by dataset_id, each containing the
-        status, timestamp and a list of files with filesize, filename,
+        status, version and a list of files with filesize, filename,
         mass_path and checksum.
     """
     logger = logging.getLogger(__name__)
@@ -118,12 +118,12 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         checksum_value = checksum_elem.text
         checksum = f"md5:{checksum_value}"
 
-        dataset_id, status, timestamp, filename = parse_mass_file_path(mass_file_path, mass_root)
+        dataset_id, status, version, filename = parse_mass_file_path(mass_file_path, mass_root)
 
         if dataset_id not in datasets:
             datasets[dataset_id] = {
                 'status': status,
-                'timestamp': timestamp,
+                'version': version,
                 'files': []
             }
         datasets[dataset_id]['files'].append({
