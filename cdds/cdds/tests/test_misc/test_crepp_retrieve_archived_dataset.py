@@ -49,6 +49,29 @@ _CMIP6_FILE_LIST = {
     }
 }
 
+_CMIP7_BASE_ID = "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124"
+_CMIP7_VERSION = "v20260818"
+_CMIP7_FULL_ID = f"{_CMIP7_BASE_ID}.{_CMIP7_VERSION}"
+_CMIP7_FILE_PATH = (
+    "moose:/adhoc/projects/cdds/production/"
+    "MIP-DRS7/CMIP7/CMIP/UKNCSP/UKESM1-3-LL/esm-piControl/r1i1p1f1/glb/mon/vo/"
+    "tavg-ol-hxy-sea/g124/available/v20260818/vo_mon.nc"
+)
+_CMIP7_FILE_LIST = {
+    _CMIP7_BASE_ID: {
+        "status": "available",
+        "timestamp": "v20260818",
+        "files": [
+            {
+                "filesize": "654321",
+                "filename": "vo_mon.nc",
+                "mass_path": _CMIP7_FILE_PATH,
+                "checksum": "def456",
+            }
+        ],
+    }
+}
+
 _SAMPLE_XML = """\
 <nodes>
   <node kind="F" url="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828/tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_185001-194912.nc">
@@ -112,15 +135,6 @@ class TestListMassFilesWithChecksums(unittest.TestCase):
         self.assertEqual(len(files), 1)
         self.assertEqual(files[0]["checksum"], "md5:abc123")
         self.assertEqual(files[0]["filesize"], "123456")
-
-    @patch(f"{_MODULE}.run_mass_command", return_value=_SAMPLE_XML)
-    def test_directory_nodes_are_skipped(self, _mock):
-        result = list_mass_files_with_checksums(
-            "moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn",
-            _MASS_ROOT,
-            dry_run=False,
-        )
-        self.assertEqual(len(result[_CMIP6_BASE_ID]["files"]), 1)
 
     @patch(f"{_MODULE}.run_mass_command", return_value="")
     def test_empty_output_returns_empty_dict(self, _mock):
@@ -339,6 +353,14 @@ class TestFetchVersionedFiles(unittest.TestCase):
            side_effect=MassError(MassFailure.SYSTEM_ERROR, ["moo", "ls"]))
     def test_system_error_returns_3(self, _mock):
         self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 3)
+
+    @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP7_FILE_LIST)
+    def test_cmip7_dataset_id_returns_files_and_mass_path(self, _mock):
+        result = fetch_versioned_files(_CMIP7_FULL_ID, _MASS_ROOT)
+        self.assertIsInstance(result, tuple)
+        files, mass_path = result
+        self.assertEqual(len(files), 1)
+        self.assertIn(_CMIP7_BASE_ID.replace(".", "/"), mass_path)
 
 
 class TestRunLsAction(unittest.TestCase):

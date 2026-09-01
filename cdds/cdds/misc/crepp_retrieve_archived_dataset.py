@@ -18,7 +18,7 @@ import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path, PurePosixPath
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 from cdds.common import configure_logger
 from cdds.common.mass import run_mass_command
@@ -151,7 +151,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "dataset_id",
-        help="Full CMIP6 dataset_id, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn",
+        help="Full dataset_id, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn",
     )
     if len(sys.argv) > 1 and sys.argv[1] == "get":
         parser.add_argument("destination", help="Destination directory")
@@ -197,7 +197,7 @@ def group_files_by_folder(files: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
         For example::
 
             {
-                "moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828": [
+                "moose:/adhoc/.../piControl/r1i1p1f2/Amon/tas/gn/available/v20200828": [
                     {"filename": "tas_Amon_...", "mass_path": "...", ...},
                     ...
                 ]
@@ -527,12 +527,12 @@ def run_get_action(
     return 0
 
 
-def main_crepp_retrieve_archived_dataset() -> Optional[int]:
+def main_crepp_retrieve_archived_dataset() -> int:
     """Main function to retrieve or list a single dataset from MASS for CREPP.
 
     Returns
     -------
-    int or None
+    int
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
     configure_logger(
