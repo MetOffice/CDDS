@@ -55,7 +55,9 @@ def parse_mass_file_path(mass_file_path: str, mass_root: str) -> tuple[str, str,
     Returns
     -------
     tuple of (str, str, str, str)
-        ``(dataset_id, status, version, filename)``.
+        ``(dataset_id, status, version, filename)``, e.g.
+        ``('CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn',
+        'available', 'v20200828', 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_185001-194912.nc')``.
     """
     prefix = mass_root.rstrip('/')
     relative = mass_file_path[len(prefix):].lstrip('/')
@@ -107,8 +109,13 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         if item.get('kind') != 'F':
             continue
         mass_file_path = item.get('url')
-        filesize = item.find('size').text
-        checksum_value = item.find('checksum/value').text
+        size_elem = item.find('size')
+        # MASS should always provide <size> and <checksum> for file nodes; assert to satisfy type checker.
+        assert size_elem is not None
+        filesize = size_elem.text
+        checksum_elem = item.find('checksum/value')
+        assert checksum_elem is not None
+        checksum_value = checksum_elem.text
         checksum = f"md5:{checksum_value}"
 
         dataset_id, status, timestamp, filename = parse_mass_file_path(mass_file_path, mass_root)
@@ -187,6 +194,14 @@ def group_files_by_folder(files: List[Dict[str, Any]]) -> Dict[str, List[Dict[st
     -------
     dict
         Dictionary with folder paths as keys and lists of file info dicts as values.
+        For example::
+
+            {
+                "moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828": [
+                    {"filename": "tas_Amon_...", "mass_path": "...", ...},
+                    ...
+                ]
+            }
 
     Raises
     ------
@@ -306,8 +321,7 @@ def transfer_files(
 def transfer_files_to_final_dir(
     chunk: List[Dict[str, Any]], output_dir: Path, dry_run: bool
 ) -> None:
-    """Move files from temporary directory to output_dir after each chunk, verifying
-    each file's checksum against the value reported by MASS.
+    """Move files from temporary directory to output_dir after each chunk.
 
     Parameters
     ----------
@@ -330,9 +344,6 @@ def transfer_files_to_final_dir(
             shutil.move(str(temporary_filepath), str(destination_filepath))
 
 
-_VERSION_RE = re.compile(r"/v\d{8}/")
-
-
 def filter_versioned_files(files: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """Return only files whose MASS path contains a version directory (e.g. /v20250317/).
 
@@ -346,7 +357,9 @@ def filter_versioned_files(files: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     list of dict
         Filtered list containing only files with a version string in their path.
     """
-    return [f for f in files if _VERSION_RE.search(f["mass_path"])]
+    # Matches a version directory in a MASS path, e.g. /v20200828/
+    version_re = re.compile(r"/v\d{8}/")
+    return [f for f in files if version_re.search(f["mass_path"])]
 
 
 def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
