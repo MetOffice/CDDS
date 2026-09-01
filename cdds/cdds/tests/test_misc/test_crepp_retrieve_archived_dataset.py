@@ -2,12 +2,11 @@
 # Please see LICENSE.md for license details.
 import io
 import json
-import shutil
-import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
-from tempfile import mkdtemp
 from unittest.mock import patch
+
+import pytest
 
 from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFailure
 from cdds.misc.crepp_retrieve_archived_dataset import (
@@ -85,22 +84,22 @@ _SAMPLE_XML = """\
 _MODULE = "cdds.misc.crepp_retrieve_archived_dataset"
 
 
-class TestParseMassFilePath(unittest.TestCase):
+class TestParseMassFilePath:
     def test_cmip6_available(self):
         dataset_id, status, version, filename = parse_mass_file_path(_CMIP6_FILE_PATH, _MASS_ROOT)
-        self.assertEqual(dataset_id, _CMIP6_BASE_ID)
-        self.assertEqual(status, "available")
-        self.assertEqual(version, "v20200828")
-        self.assertEqual(filename, "tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_185001-194912.nc")
+        assert dataset_id == _CMIP6_BASE_ID
+        assert status == "available"
+        assert version == "v20200828"
+        assert filename == "tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_185001-194912.nc"
 
     def test_embargoed_status(self):
         embargoed_path = _CMIP6_FILE_PATH.replace("available", "embargoed")
         _, status, _, _ = parse_mass_file_path(embargoed_path, _MASS_ROOT)
-        self.assertEqual(status, "embargoed")
+        assert status == "embargoed"
 
     def test_mass_root_trailing_slash_stripped(self):
         dataset_id, _, _, _ = parse_mass_file_path(_CMIP6_FILE_PATH, _MASS_ROOT.rstrip("/"))
-        self.assertEqual(dataset_id, _CMIP6_BASE_ID)
+        assert dataset_id == _CMIP6_BASE_ID
 
     def test_cmip7_path(self):
         cmip7_path = (
@@ -109,19 +108,18 @@ class TestParseMassFilePath(unittest.TestCase):
             "tavg-ol-hxy-sea/g124/available/v20260818/vo_mon.nc"
         )
         dataset_id, status, version, filename = parse_mass_file_path(cmip7_path, _MASS_ROOT)
-        self.assertEqual(
-            dataset_id,
-            "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124",
+        assert dataset_id == (
+            "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124"
         )
-        self.assertEqual(status, "available")
-        self.assertEqual(version, "v20260818")
-        self.assertEqual(filename, "vo_mon.nc")
+        assert status == "available"
+        assert version == "v20260818"
+        assert filename == "vo_mon.nc"
 
 
-class TestListMassFilesWithChecksums(unittest.TestCase):
+class TestListMassFilesWithChecksums:
     def test_dry_run_returns_empty_dict(self):
         result = list_mass_files_with_checksums("moose:/some/path", _MASS_ROOT, dry_run=True)
-        self.assertEqual(result, {})
+        assert result == {}
 
     @patch(f"{_MODULE}.run_mass_command", return_value=_SAMPLE_XML)
     def test_parses_file_nodes(self, _mock):
@@ -130,57 +128,57 @@ class TestListMassFilesWithChecksums(unittest.TestCase):
             _MASS_ROOT,
             dry_run=False,
         )
-        self.assertIn(_CMIP6_BASE_ID, result)
+        assert _CMIP6_BASE_ID in result
         files = result[_CMIP6_BASE_ID]["files"]
-        self.assertEqual(len(files), 1)
-        self.assertEqual(files[0]["checksum"], "md5:abc123")
-        self.assertEqual(files[0]["filesize"], "123456")
+        assert len(files) == 1
+        assert files[0]["checksum"] == "md5:abc123"
+        assert files[0]["filesize"] == "123456"
 
     @patch(f"{_MODULE}.run_mass_command", return_value="")
     def test_empty_output_returns_empty_dict(self, _mock):
         result = list_mass_files_with_checksums("moose:/some/path", _MASS_ROOT, dry_run=False)
-        self.assertEqual(result, {})
+        assert result == {}
 
 
-class TestParseArgs(unittest.TestCase):
+class TestParseArgs:
     def test_ls_action(self):
         with patch("sys.argv", ["prog", "ls", _CMIP6_FULL_ID]):
             args = parse_args()
-        self.assertEqual(args.action, "ls")
-        self.assertEqual(args.dataset_id, _CMIP6_FULL_ID)
+        assert args.action == "ls"
+        assert args.dataset_id == _CMIP6_FULL_ID
 
     def test_get_action_with_destination(self):
         with patch("sys.argv", ["prog", "get", _CMIP6_FULL_ID, "/some/dest"]):
             args = parse_args()
-        self.assertEqual(args.action, "get")
-        self.assertEqual(args.destination, "/some/dest")
+        assert args.action == "get"
+        assert args.destination == "/some/dest"
 
     def test_dry_run_flag(self):
         with patch("sys.argv", ["prog", "ls", _CMIP6_FULL_ID, "--dry-run"]):
             args = parse_args()
-        self.assertTrue(args.dry_run)
+        assert args.dry_run
 
     def test_mass_root_default(self):
         with patch("sys.argv", ["prog", "ls", _CMIP6_FULL_ID]):
             args = parse_args()
-        self.assertEqual(args.mass_root, _MASS_ROOT)
+        assert args.mass_root == _MASS_ROOT
 
     def test_create_directories_false_flag(self):
         with patch("sys.argv", ["prog", "ls", _CMIP6_FULL_ID, "--create-directories-false"]):
             args = parse_args()
-        self.assertFalse(args.create_directories)
+        assert not args.create_directories
 
 
-class TestGroupFilesByFolder(unittest.TestCase):
+class TestGroupFilesByFolder:
     def test_groups_by_parent_folder(self):
         files = [
             {"mass_path": "moose:/path/available/v20200828/file1.nc"},
             {"mass_path": "moose:/path/available/v20200828/file2.nc"},
         ]
         result = group_files_by_folder(files)
-        self.assertEqual(len(result), 1)
-        self.assertIn("moose:/path/available/v20200828", result)
-        self.assertEqual(len(result["moose:/path/available/v20200828"]), 2)
+        assert len(result) == 1
+        assert "moose:/path/available/v20200828" in result
+        assert len(result["moose:/path/available/v20200828"]) == 2
 
     def test_splits_across_multiple_folders(self):
         files = [
@@ -188,104 +186,100 @@ class TestGroupFilesByFolder(unittest.TestCase):
             {"mass_path": "moose:/path/embargoed/v20200829/file2.nc"},
         ]
         result = group_files_by_folder(files)
-        self.assertEqual(len(result), 2)
+        assert len(result) == 2
 
     def test_raises_if_no_available_or_embargoed(self):
         files = [{"mass_path": "moose:/path/other/v20200828/file.nc"}]
-        with self.assertRaises(ValueError):
+        with pytest.raises(ValueError):
             group_files_by_folder(files)
 
 
-class TestChunkFiles(unittest.TestCase):
-    def _make_file(self, size_bytes, name="file.nc"):
-        return {"filesize": str(size_bytes), "mass_path": f"moose:/path/available/v20200828/{name}"}
+def _make_file(size_bytes, name="file.nc"):
+    return {"filesize": str(size_bytes), "mass_path": f"moose:/path/available/v20200828/{name}"}
 
+
+class TestChunkFiles:
     def test_all_files_fit_in_one_chunk(self):
-        files = [self._make_file(100), self._make_file(200)]
+        files = [_make_file(100), _make_file(200)]
         result = chunk_files(files, 1000)
-        self.assertEqual(len(result), 1)
-        self.assertEqual(len(result[0]), 2)
+        assert len(result) == 1
+        assert len(result[0]) == 2
 
     def test_splits_into_multiple_chunks(self):
-        files = [self._make_file(600, "a.nc"), self._make_file(600, "b.nc")]
+        files = [_make_file(600, "a.nc"), _make_file(600, "b.nc")]
         result = chunk_files(files, 1000)
-        self.assertEqual(len(result), 2)
+        assert len(result) == 2
 
     def test_raises_if_file_exceeds_chunk_size(self):
-        files = [self._make_file(2000)]
-        with self.assertRaises(ValueError):
+        files = [_make_file(2000)]
+        with pytest.raises(ValueError):
             chunk_files(files, 1000)
 
     def test_empty_input_returns_empty_list(self):
         result = chunk_files([], 1000)
-        self.assertEqual(result, [])
+        assert result == []
 
 
-class TestTransferFiles(unittest.TestCase):
-    def setUp(self):
-        self.output_dir = Path(mkdtemp())
+def _make_chunk(filename="tas.nc"):
+    return [{"mass_path": f"moose:/path/available/v20200828/{filename}", "filesize": "100", "checksum": "abc"}]
 
-    def tearDown(self):
-        shutil.rmtree(self.output_dir)
 
-    def _make_chunk(self, filename="tas.nc"):
-        return [{"mass_path": f"moose:/path/available/v20200828/{filename}", "filesize": "100", "checksum": "abc"}]
-
+class TestTransferFiles:
     @patch(f"{_MODULE}.transfer_files_to_final_dir")
     @patch(f"{_MODULE}.run_mass_command", return_value="")
-    def test_dry_run_passes_n_flag_to_moo_get(self, mock_run, _mock_transfer):
-        transfer_files([self._make_chunk()], self.output_dir, dry_run=True)
+    def test_dry_run_passes_n_flag_to_moo_get(self, mock_run, _mock_transfer, tmp_path: Path):
+        transfer_files([_make_chunk()], tmp_path, dry_run=True)
         cmd = mock_run.call_args[0][0]
-        self.assertIn("-n", cmd)
+        assert "-n" in cmd
 
     @patch(f"{_MODULE}.transfer_files_to_final_dir")
     @patch(f"{_MODULE}.run_mass_command", return_value="")
-    def test_non_dry_run_omits_n_flag_from_moo_get(self, mock_run, _mock_transfer):
-        transfer_files([self._make_chunk()], self.output_dir, dry_run=False)
+    def test_non_dry_run_omits_n_flag_from_moo_get(self, mock_run, _mock_transfer, tmp_path: Path):
+        transfer_files([_make_chunk()], tmp_path, dry_run=False)
         cmd = mock_run.call_args[0][0]
-        self.assertNotIn("-n", cmd)
+        assert "-n" not in cmd
 
     @patch(f"{_MODULE}.transfer_files_to_final_dir")
     @patch(f"{_MODULE}.run_mass_command", return_value="")
-    def test_calls_transfer_to_final_dir_once_per_chunk(self, _mock_run, mock_transfer):
-        chunks = [self._make_chunk("a.nc"), self._make_chunk("b.nc")]
-        transfer_files(chunks, self.output_dir, dry_run=False)
-        self.assertEqual(mock_transfer.call_count, 2)
+    def test_calls_transfer_to_final_dir_once_per_chunk(self, _mock_run, mock_transfer, tmp_path: Path):
+        chunks = [_make_chunk("a.nc"), _make_chunk("b.nc")]
+        transfer_files(chunks, tmp_path, dry_run=False)
+        assert mock_transfer.call_count == 2
 
 
-class TestTransferFilesToFinalDir(unittest.TestCase):
-    def setUp(self):
-        self.tmpdir = mkdtemp()
-        self.output_dir = Path(mkdtemp())
-
-    def tearDown(self):
-        shutil.rmtree(self.tmpdir, ignore_errors=True)
-        shutil.rmtree(self.output_dir, ignore_errors=True)
-
-    def test_dry_run_does_not_move_files(self):
-        src = Path(self.tmpdir) / "tas.nc"
+class TestTransferFilesToFinalDir:
+    def test_dry_run_does_not_move_files(self, tmp_path: Path):
+        tmpdir = tmp_path / "tmp"
+        output_dir = tmp_path / "output"
+        tmpdir.mkdir()
+        output_dir.mkdir()
+        src = tmpdir / "tas.nc"
         src.touch()
         chunk = [{"mass_path": "moose:/path/available/v20200828/tas.nc"}]
-        with patch(f"{_MODULE}.TMPDIR", self.tmpdir):
-            transfer_files_to_final_dir(chunk, self.output_dir, dry_run=True)
-        self.assertTrue(src.exists())
-        self.assertFalse((self.output_dir / "tas.nc").exists())
+        with patch(f"{_MODULE}.TMPDIR", str(tmpdir)):
+            transfer_files_to_final_dir(chunk, output_dir, dry_run=True)
+        assert src.exists()
+        assert not (output_dir / "tas.nc").exists()
 
-    def test_moves_file_to_output_dir(self):
-        src = Path(self.tmpdir) / "tas.nc"
+    def test_moves_file_to_output_dir(self, tmp_path: Path):
+        tmpdir = tmp_path / "tmp"
+        output_dir = tmp_path / "output"
+        tmpdir.mkdir()
+        output_dir.mkdir()
+        src = tmpdir / "tas.nc"
         src.touch()
         chunk = [{"mass_path": "moose:/path/available/v20200828/tas.nc"}]
-        with patch(f"{_MODULE}.TMPDIR", self.tmpdir):
-            transfer_files_to_final_dir(chunk, self.output_dir, dry_run=False)
-        self.assertFalse(src.exists())
-        self.assertTrue((self.output_dir / "tas.nc").exists())
+        with patch(f"{_MODULE}.TMPDIR", str(tmpdir)):
+            transfer_files_to_final_dir(chunk, output_dir, dry_run=False)
+        assert not src.exists()
+        assert (output_dir / "tas.nc").exists()
 
 
-class TestParseDatasetId(unittest.TestCase):
+class TestParseDatasetId:
     def test_cmip6_dataset_id(self):
         base, version = parse_dataset_id(_CMIP6_FULL_ID)
-        self.assertEqual(base, _CMIP6_BASE_ID)
-        self.assertEqual(version, _CMIP6_VERSION)
+        assert base == _CMIP6_BASE_ID
+        assert version == _CMIP6_VERSION
 
     def test_cmip7_dataset_id(self):
         cmip7_id = (
@@ -293,46 +287,43 @@ class TestParseDatasetId(unittest.TestCase):
             ".r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124.v20260818"
         )
         base, version = parse_dataset_id(cmip7_id)
-        self.assertEqual(
-            base,
-            "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124",
-        )
-        self.assertEqual(version, "v20260818")
+        assert base == "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124"
+        assert version == "v20260818"
 
 
-class TestMassErrorExitCode(unittest.TestCase):
+class TestMassErrorExitCode:
     def _make_error(self, failure):
         return MassError(failure, ["moo", "ls"])
 
-    def test_user_error_returns_2(self):
-        self.assertEqual(mass_error_exit_code(self._make_error(MassFailure.USER_ERROR)), 2)
+    @pytest.mark.parametrize(
+        "failure,expected_exit_code",
+        [
+            (MassFailure.USER_ERROR, 2),
+            (MassFailure.ACCESS_ERROR, 2),
+            (MassFailure.SYSTEM_ERROR, 3),
+            (MassFailure.CLIENT_ERROR, 3),
+        ],
+    )
+    def test_exit_code_for_failure(self, failure, expected_exit_code):
+        assert mass_error_exit_code(self._make_error(failure)) == expected_exit_code
 
-    def test_access_error_returns_2(self):
-        self.assertEqual(mass_error_exit_code(self._make_error(MassFailure.ACCESS_ERROR)), 2)
 
-    def test_system_error_returns_3(self):
-        self.assertEqual(mass_error_exit_code(self._make_error(MassFailure.SYSTEM_ERROR)), 3)
-
-    def test_client_error_returns_3(self):
-        self.assertEqual(mass_error_exit_code(self._make_error(MassFailure.CLIENT_ERROR)), 3)
-
-
-class TestFetchVersionedFiles(unittest.TestCase):
+class TestFetchVersionedFiles:
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP6_FILE_LIST)
     def test_success_returns_files_and_mass_path(self, _mock):
         result = fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT)
-        self.assertIsInstance(result, tuple)
+        assert isinstance(result, tuple)
         files, mass_path = result
-        self.assertEqual(len(files), 1)
-        self.assertIn(_CMIP6_BASE_ID.replace(".", "/"), mass_path)
+        assert len(files) == 1
+        assert _CMIP6_BASE_ID.replace(".", "/") in mass_path
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", side_effect=FileNotExistMassError(["moo", "ls"]))
     def test_file_not_exist_error_returns_1(self, _mock):
-        self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={})
     def test_dataset_absent_from_listing_returns_1(self, _mock):
-        self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={
         _CMIP6_BASE_ID: {
@@ -342,45 +333,45 @@ class TestFetchVersionedFiles(unittest.TestCase):
         }
     })
     def test_wrong_version_returns_1(self, _mock):
-        self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.USER_ERROR, ["moo", "ls"]))
     def test_user_error_returns_2(self, _mock):
-        self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 2)
+        assert fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT) == 2
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.SYSTEM_ERROR, ["moo", "ls"]))
     def test_system_error_returns_3(self, _mock):
-        self.assertEqual(fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT), 3)
+        assert fetch_versioned_files(_CMIP6_FULL_ID, _MASS_ROOT) == 3
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP7_FILE_LIST)
     def test_cmip7_dataset_id_returns_files_and_mass_path(self, _mock):
         result = fetch_versioned_files(_CMIP7_FULL_ID, _MASS_ROOT)
-        self.assertIsInstance(result, tuple)
+        assert isinstance(result, tuple)
         files, mass_path = result
-        self.assertEqual(len(files), 1)
-        self.assertIn(_CMIP7_BASE_ID.replace(".", "/"), mass_path)
+        assert len(files) == 1
+        assert _CMIP7_BASE_ID.replace(".", "/") in mass_path
 
 
-class TestRunLsAction(unittest.TestCase):
+class TestRunLsAction:
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP6_FILE_LIST)
     def test_success_returns_0_and_prints_json(self, _mock):
         buf = io.StringIO()
         with redirect_stdout(buf):
             result = run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT)
-        self.assertEqual(result, 0)
+        assert result == 0
         payload = json.loads(buf.getvalue())
-        self.assertEqual(payload["dataset_id"], _CMIP6_FULL_ID)
-        self.assertEqual(len(payload["files"]), 1)
+        assert payload["dataset_id"] == _CMIP6_FULL_ID
+        assert len(payload["files"]) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", side_effect=FileNotExistMassError(["moo", "ls"]))
     def test_file_not_exist_error_returns_1(self, _mock):
-        self.assertEqual(run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={})
     def test_dataset_absent_from_listing_returns_1(self, _mock):
-        self.assertEqual(run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={
         _CMIP6_BASE_ID: {
@@ -390,64 +381,54 @@ class TestRunLsAction(unittest.TestCase):
         }
     })
     def test_wrong_version_in_listing_returns_1(self, _mock):
-        self.assertEqual(run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT), 1)
+        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.USER_ERROR, ["moo", "ls"]))
     def test_user_error_returns_2(self, _mock):
-        self.assertEqual(run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT), 2)
+        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 2
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.SYSTEM_ERROR, ["moo", "ls"]))
     def test_system_error_returns_3(self, _mock):
-        self.assertEqual(run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT), 3)
+        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 3
 
 
-class TestRunGetAction(unittest.TestCase):
-    def setUp(self):
-        self.destination = mkdtemp()
-
-    def tearDown(self):
-        shutil.rmtree(self.destination)
-
+class TestRunGetAction:
     @patch(f"{_MODULE}.transfer_files")
     @patch(f"{_MODULE}.create_output_dir")
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP6_FILE_LIST)
-    def test_success_returns_0(self, _mock_list, mock_create_dir, _mock_transfer):
-        mock_create_dir.return_value = Path(self.destination)
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 0)
+    def test_success_returns_0(self, _mock_list, mock_create_dir, _mock_transfer, tmp_path: Path):
+        mock_create_dir.return_value = tmp_path
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 0
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", side_effect=FileNotExistMassError(["moo", "ls"]))
-    def test_file_not_exist_error_returns_1(self, _mock):
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 1)
+    def test_file_not_exist_error_returns_1(self, _mock, tmp_path: Path):
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value={})
-    def test_dataset_absent_from_listing_returns_1(self, _mock):
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 1)
+    def test_dataset_absent_from_listing_returns_1(self, _mock, tmp_path: Path):
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.USER_ERROR, ["moo", "ls"]))
-    def test_user_error_returns_2(self, _mock):
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 2)
+    def test_user_error_returns_2(self, _mock, tmp_path: Path):
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 2
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums",
            side_effect=MassError(MassFailure.SYSTEM_ERROR, ["moo", "ls"]))
-    def test_system_error_returns_3(self, _mock):
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 3)
+    def test_system_error_returns_3(self, _mock, tmp_path: Path):
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 3
 
     @patch(f"{_MODULE}.transfer_files", side_effect=RuntimeError("unexpected"))
     @patch(f"{_MODULE}.create_output_dir")
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP6_FILE_LIST)
-    def test_generic_exception_returns_3(self, _mock_list, mock_create_dir, _mock_transfer):
-        mock_create_dir.return_value = Path(self.destination)
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, self.destination, True, 100, False)
-        self.assertEqual(result, 3)
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def test_generic_exception_returns_3(self, _mock_list, mock_create_dir, _mock_transfer, tmp_path: Path):
+        mock_create_dir.return_value = tmp_path
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 3
