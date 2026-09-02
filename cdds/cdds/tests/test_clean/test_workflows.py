@@ -6,7 +6,7 @@ import os
 from unittest import TestCase, mock
 
 from cdds.tests.factories.request_factory import simple_request
-from cdds.clean.workflows import clean_workflows
+from cdds.clean.workflows import run_teardown
 
 
 class TestCleanWorkflows(TestCase):
@@ -24,7 +24,7 @@ class TestCleanWorkflows(TestCase):
         request.data.streams = ['ap6']
         request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
 
-        clean_workflows(request)
+        run_teardown(request)
 
         calls = [mock.call(['cylc', '--version']),
                  mock.call(['cylc', 'clean', ap6_workflow])]
@@ -43,7 +43,7 @@ class TestCleanWorkflows(TestCase):
         request.data.streams = ['ap6', 'ap5', 'ap4']
         request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
 
-        clean_workflows(request)
+        run_teardown(request)
 
         calls = [mock.call(['cylc', '--version']),
                  mock.call(['cylc', 'clean', ap6_workflow]),
@@ -60,10 +60,9 @@ class TestCleanWorkflows(TestCase):
         request.data.streams = ['ap6']
         request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow_{stream}']
 
-        clean_workflows(request)
+        run_teardown(request)
 
         calls = [mock.call(['cylc', '--version']),
                  mock.call(['cylc', 'clean', 'cdds_my_workflow_ap6'])]
 
         mock_run_command.assert_has_calls(calls)
-

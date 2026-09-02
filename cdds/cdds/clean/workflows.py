@@ -7,27 +7,26 @@ from cdds.common import run_command
 from cdds.common.request.request import Request
 
 
-def clean_workflows(request: Request) -> None:
-    """Clean CDDS streams workflows with the workflow base name containing the request
+def run_teardown(request: Request) -> None:
+    """Remove data directory and clean the CDDS workflow associated with the given request.
 
     Parameters
     ----------
     request : Request
-        Request containing information about the workflows
+        Request containing information about the workflow
     """
 
-    workflow_name = 'cdds_{request_id}_{stream}'
+    workflow_name = 'cdds_{request_id}'
     for argument in request.conversion.cylc_args:
-        if argument.startswith("--workflow-name"):
-            # When loading the conversion section the `_{stream}` will already be added if
-            # the `--workflow-name` is already be set. So, no need here to add `_{stream}`.
-            workflow_name = argument.split("=")[1]
+        if argument == '--workflow-name' or argument.startswith('--workflow-name'):
+            raise ValueError(
+                "'--workflow-name' detected in the request file's cylc_args, "
+                "please contact the CDDS team for more information."
+            )
 
     request_id = request.common.workflow_basename
 
-    for stream in request.data.streams:
-        stream_workflow = workflow_name.format(request_id=request_id, stream=stream)
-        clean_workflow(stream_workflow)
+    clean_workflow(workflow_name.format(request_id=request_id))
 
 
 def clean_workflow(workflow_name: str) -> None:
