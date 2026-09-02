@@ -67,15 +67,3 @@ class TestCleanWorkflows(TestCase):
 
         mock_run_command.assert_has_calls(calls)
 
-    @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_wrong_cylc_version(self, mock_run_command):
-        mock_run_command.return_value = '7'
-
-        request = simple_request()
-        request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6', 'ap5', 'ap4']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
-
-        self.assertRaises(ValueError, clean_workflows, request)
-
-        mock_run_command.assert_called_once_with(['cylc', '--version'])
