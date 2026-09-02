@@ -14,7 +14,6 @@ import json
 import logging
 import os
 import shutil
-import subprocess
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path, PurePosixPath
@@ -32,43 +31,7 @@ except KeyError:
     raise RuntimeError("Environment variable TMPDIR must be set.")
 
 
-def parse_mass_file_path(mass_file_path: str, mass_root: str) -> tuple[str, str, str, str]:
-    """Extract dataset metadata from a MASS file path.
-
-    MASS paths follow the structure::
-
-        <mass_root>/<facets...>/<status>/<version>/<filename>
-
-    where ``<facets...>`` yields the dot-separated dataset_id,
-    ``<status>`` is ``available`` or ``embargoed``, and ``<version>``
-    is the datestamp (e.g. ``v20200828``).
-
-    Parameters
-    ----------
-    mass_file_path : str
-        A single MASS file URL.
-    mass_root : str
-        The root path used for the listing (e.g.
-        ``moose:/adhoc/projects/cdds/production/``).
-
-    Returns
-    -------
-    tuple of (str, str, str, str)
-        ``(dataset_id, status, version, filename)``, e.g.
-        ``('CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn',
-        'available', 'v20200828', 'tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_185001-194912.nc')``.
-    """
-    prefix = mass_root.rstrip('/')
-    relative = mass_file_path[len(prefix):].lstrip('/')
-    parts = relative.split('/')
-    dataset_id = '.'.join(parts[:-3])
-    status = parts[-3]
-    version = parts[-2]
-    filename = parts[-1]
-    return dataset_id, status, version, filename
-
-
-def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool) -> dict:
+def list_mass_files_with_checksums(mass_path: str, mass_root: str) -> List[Dict[str, Any]]:
     """List files in a MASS dataset directory, including sizes and checksums.
 
     Uses ``moo ls -Rlxm`` (XML output) to capture each file's MD5 checksum
@@ -81,34 +44,27 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
     mass_root : str
         The root path under which datasets are stored (e.g.
         ``moose:/adhoc/projects/cdds/production/``).
-    dry_run : bool
-        If True, log the command that would be run without executing it.
 
     Returns
     -------
-    dict
-        Dictionary of datasets keyed by dataset_id, each containing the
-        status, version and a list of files with filesize, filename,
-        mass_path and checksum.
+    list of dict
+        List of files with filesize, filename, mass_path and checksum.
     """
-    logger = logging.getLogger(__name__)
     moo_cmd = ['moo', 'ls', '-Rlxm', mass_path]
-    if dry_run:
-        logger.info('simulating mass command: {cmd}'.format(cmd=' '.join(moo_cmd)))
-        return {}
     stdout_str = run_mass_command(moo_cmd)
 
-    datasets: dict = {}
+    files: List[Dict[str, Any]] = []
+    # Avoid attempting to XML-parse empty output (e.g. no files found under mass_path).
     if not stdout_str:
-        return datasets
+        return files
 
     root = ET.fromstring(stdout_str)
     for item in root.findall('node'):
         # Skip directories and other non-file entries
         if item.get('kind') != 'F':
             continue
-        mass_file_path = item.get('url')
         # Three following asserts largely exist to satisfy type checker as MASS should always provide them.
+        mass_file_path = item.get('url')
         assert mass_file_path is not None
         size_elem = item.find('size')
         assert size_elem is not None
@@ -118,21 +74,13 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str, dry_run: bool
         checksum_value = checksum_elem.text
         checksum = f"md5:{checksum_value}"
 
-        dataset_id, status, version, filename = parse_mass_file_path(mass_file_path, mass_root)
-
-        if dataset_id not in datasets:
-            datasets[dataset_id] = {
-                'status': status,
-                'version': version,
-                'files': []
-            }
-        datasets[dataset_id]['files'].append({
+        files.append({
             'filesize': filesize,
-            'filename': filename,
+            'filename': PurePosixPath(mass_file_path).name,
             'mass_path': mass_file_path,
             'checksum': checksum
         })
-    return datasets
+    return files
 
 
 def parse_args() -> argparse.Namespace:
@@ -180,43 +128,6 @@ def parse_args() -> argparse.Namespace:
             help="Chunk size in GB for file retrieval. Default size is 100.",
         )
     return parser.parse_args()
-
-
-def group_files_by_folder(files: List[Dict[str, Any]]) -> Dict[str, List[Dict[str, Any]]]:
-    """Group a dataset's files by their parent MASS folder.
-
-    Parameters
-    ----------
-    files : list of dict
-        List of file info dicts for a single dataset.
-
-    Returns
-    -------
-    dict
-        Dictionary with folder paths as keys and lists of file info dicts as values.
-        For example::
-
-            {
-                "moose:/adhoc/.../piControl/r1i1p1f2/Amon/tas/gn/available/v20200828": [
-                    {"filename": "tas_Amon_...", "mass_path": "...", ...},
-                    ...
-                ]
-            }
-
-    Raises
-    ------
-    ValueError
-        If 'available' or 'embargoed' is not found in a file's folder path.
-    """
-    dir_path_key_dict: Dict[str, List[Dict[str, Any]]] = {}
-    for file in files:
-        folder_path = str(PurePosixPath(file["mass_path"]).parent)
-        dir_path_key_dict.setdefault(folder_path, []).append(file)
-        if "available" not in folder_path and "embargoed" not in folder_path:
-            raise ValueError(
-                f"'available' or 'embargoed' not found in source filepath: {folder_path}"
-            )
-    return dir_path_key_dict
 
 
 def chunk_files(
@@ -299,19 +210,16 @@ def transfer_files(
     for chunk in list_of_chunks:
         mass_paths = [file_info["mass_path"] for file_info in chunk]
         formatted_file_list = "\n".join(mass_paths)
+        tense = "would be" if dry_run else "will be"
+        logger.info(
+            f"Files that {tense} transferred in this chunk:\n{formatted_file_list}\n"
+            f"Files in this chunk {tense} transferred to:\n{output_dir}\n"
+        )
         if dry_run:
-            logger.info(
-                f"Files that would be transferred in this chunk:\n{formatted_file_list}\n"
-                f"Files in this chunk would be transferred to:\n{output_dir}\n"
-            )
             command = ["moo", "get", "-I", "-n"] + mass_paths + [str(TMPDIR)]
         else:
             # Move files to TMPDIR
             command = ["moo", "get", "-I"] + mass_paths + [str(TMPDIR)]
-        logger.info(
-            f"Files to be transferred in this chunk:\n{formatted_file_list}\n"
-            f"Files in this chunk will be transferred to:\n{output_dir}\n"
-        )
         stdout_str = run_mass_command(command)
         logger.info(stdout_str)
         # Move files from TMPDIR to output_dir after each chunk
@@ -347,9 +255,10 @@ def transfer_files_to_final_dir(
 def parse_dataset_id(dataset_id: str) -> tuple[str, str]:
     """Split a dataset_id into its base facets and version string.
 
-    MASS listings (see :func:`list_mass_files_with_checksums`) are keyed by the base
-    dataset_id, without the version facet, so callers need the base and version
-    separately in order to look up a dataset and then filter it to a specific version.
+    The version facet must be separated from the base dataset_id because MASS
+    directories are structured as ``<base_dataset_id>/<status>/<version>``, so the
+    base is needed to build the MASS lookup path (see :func:`query_files_by_version`)
+    and the version is needed to filter the resulting files to the requested version.
 
     Parameters
     ----------
@@ -384,7 +293,7 @@ def mass_error_exit_code(error: MassError) -> int:
     return 3
 
 
-def fetch_versioned_files(
+def query_files_by_version(
     dataset_id: str, mass_root: str
 ) -> tuple[list, str] | int:
     """Look up a dataset in MASS and return its versioned files and MASS path.
@@ -412,7 +321,7 @@ def fetch_versioned_files(
     mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
         mass_file_list = list_mass_files_with_checksums(
-            mass_path=mass_path, mass_root=mass_root, dry_run=False
+            mass_path=mass_path, mass_root=mass_root
         )
     except FileNotExistMassError:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
@@ -421,12 +330,13 @@ def fetch_versioned_files(
         logger.critical(str(e))
         return mass_error_exit_code(e)
 
-    dataset = mass_file_list.get(base_dataset_id)
-    if not dataset:
+    if not mass_file_list:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
 
-    files = [f for f in dataset["files"] if f"/{version}/" in f["mass_path"]]
+    # Version numbers are unique across 'available' and 'embargoed', so filtering by
+    # version alone is sufficient to also pick out the correct status folder.
+    files = [f for f in mass_file_list if f"/{version}/" in f["mass_path"]]
     if not files:
         logger.critical(f"No versioned files found in MASS for dataset: {dataset_id}")
         return 1
@@ -449,7 +359,7 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
     int
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
-    result = fetch_versioned_files(dataset_id, mass_root)
+    result = query_files_by_version(dataset_id, mass_root)
     if isinstance(result, int):
         return result
     files, mass_path = result
@@ -494,26 +404,30 @@ def run_get_action(
         Exit code: 0 success, 1 not found, 2 credentials/permissions error, 3 other error.
     """
     logger = logging.getLogger(__name__)
-    result = fetch_versioned_files(dataset_id, mass_root)
+    result = query_files_by_version(dataset_id, mass_root)
     if isinstance(result, int):
         return result
     files, mass_path = result
 
     try:
-        chunk_size_as_bytes = gb_to_bytes(chunk_size)
-        dir_path_key_dict = group_files_by_folder(files)
+        folder_path = str(PurePosixPath(files[0]["mass_path"]).parent)
+        if "available" not in folder_path and "embargoed" not in folder_path:
+            raise ValueError(
+                f"'available' or 'embargoed' not found in source filepath: {folder_path}"
+            )
 
-        for folder_path, file_data in dir_path_key_dict.items():
-            if create_directories:
-                output_dir = create_output_dir(
-                    folder_path.replace(mass_root, ""), Path(destination), dry_run=dry_run
-                )
-            else:
-                output_dir = Path(destination)
-                if not dry_run:
-                    output_dir.mkdir(parents=True, exist_ok=True)
-            list_of_chunks = chunk_files(file_data, chunk_size_as_bytes)
-            transfer_files(list_of_chunks, output_dir, dry_run=dry_run)
+        if create_directories:
+            output_dir = create_output_dir(
+                folder_path.replace(mass_root, ""), Path(destination), dry_run=dry_run
+            )
+        else:
+            output_dir = Path(destination)
+            if not dry_run:
+                output_dir.mkdir(parents=True, exist_ok=True)
+
+        chunk_size_as_bytes = gb_to_bytes(chunk_size)
+        list_of_chunks = chunk_files(files, chunk_size_as_bytes)
+        transfer_files(list_of_chunks, output_dir, dry_run=dry_run)
     except FileNotExistMassError:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
