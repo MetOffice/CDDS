@@ -1,7 +1,6 @@
 # (C) British Crown Copyright 2024-2025, Met Office.
 # Please see LICENSE.md for license details.
 import logging
-import os
 
 from unittest import TestCase, mock
 
@@ -15,54 +14,26 @@ class TestCleanWorkflows(TestCase):
         logging.disable(logging.CRITICAL)
 
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_for_one_stream(self, mock_run_command):
-        mock_run_command.return_value = '8'
-        ap6_workflow = 'cdds_workflow_ap6'
+    def test_run_teardown_uses_request_basename(self, mock_run_command):
+        workflow = 'cdds_workflow'
 
         request = simple_request()
         request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
+        request.conversion.cylc_args = []
 
         run_teardown(request)
 
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', ap6_workflow])]
+        calls = [mock.call(['cylc', 'clean', workflow])]
 
         mock_run_command.assert_has_calls(calls)
 
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_for_multiple_streams(self, mock_run_command):
-        mock_run_command.return_value = '8.2'
-        ap6_workflow = 'cdds_workflow_ap6'
-        ap5_workflow = 'cdds_workflow_ap5'
-        ap4_workflow = 'cdds_workflow_ap4'
-
+    def test_run_teardown_rejects_workflow_name_in_cylc_args(self, mock_run_command):
         request = simple_request()
         request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6', 'ap5', 'ap4']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
+        request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow']
 
-        run_teardown(request)
+        with self.assertRaisesRegex(ValueError, "--workflow-name.*request file.*CDDS team"):
+            run_teardown(request)
 
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', ap6_workflow]),
-                 mock.call(['cylc', 'clean', ap5_workflow]),
-                 mock.call(['cylc', 'clean', ap4_workflow])]
-        mock_run_command.assert_has_calls(calls)
-
-    @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_customised_workflow_name(self, mock_run_command):
-        mock_run_command.return_value = '8'
-
-        request = simple_request()
-        request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6']
-        request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow_{stream}']
-
-        run_teardown(request)
-
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', 'cdds_my_workflow_ap6'])]
-
-        mock_run_command.assert_has_calls(calls)
+        mock_run_command.assert_not_called()
