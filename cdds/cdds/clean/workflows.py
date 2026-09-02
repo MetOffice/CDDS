@@ -15,7 +15,6 @@ def clean_workflows(request: Request) -> None:
     request : Request
         Request containing information about the workflows
     """
-    check_if_cylc_version()
 
     workflow_name = 'cdds_{request_id}_{stream}'
     for argument in request.conversion.cylc_args:
@@ -45,16 +44,3 @@ def clean_workflow(workflow_name: str) -> None:
     clean_command = ['cylc', 'clean', workflow_name]
     stdout = run_command(clean_command)
     logger.info(stdout)
-
-
-def check_if_cylc_version() -> None:
-    """Check that cylc >= 8 is active and raise an exception if not"""
-    logger = logging.getLogger(__name__)
-
-    cylc_version_command = ['cylc', '--version']
-    cylc_version = run_command(cylc_version_command)
-
-    if not cylc_version or not cylc_version.startswith('8'):
-        message = 'Cylc version >=8 must be active.'
-        logger.critical(message)
-        raise ValueError(message)
