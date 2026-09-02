@@ -1,3 +1,7 @@
-# Data retrieval for external users
+#  Archived data retrieval tools
 
-Data can be retrieved from MASS using our `cdds_retrieve_archived_dataset` tool via JASMIN.
+We provide two tools for retrieving archived data from MASS:
+
+1. `cdds_retrieve_archived_data`-
+
+2. `cdds_retrieve_archived_dataset` tool via JASMIN.
