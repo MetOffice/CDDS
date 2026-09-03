@@ -86,4 +86,3 @@ def clean_workflow(workflow_name: str) -> None:
     clean_command = ['cylc', 'clean', workflow_name]
     stdout = run_command(clean_command)
     logger.info(stdout)
-
