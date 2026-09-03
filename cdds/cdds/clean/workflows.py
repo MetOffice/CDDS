@@ -16,17 +16,16 @@ def run_teardown(request: Request) -> None:
     request : Request
         Request containing information about the workflow
     """
-    logger = logging.getLogger(__name__)
     # First check workflow name wasn't used in cylc_args field.
     # Possibly a hangover from an older version of cdds.
     # Have switched to an error just in case someone tries to use it.
-    if request is not None:
-        for argument in request.conversion.cylc_args or []:
-            if argument == '--workflow-name' or argument.startswith('--workflow-name'):
-                raise ValueError(
-                    "'--workflow-name' detected in the request file's cylc_args, "
-                    "please contact the CDDS team for more information."
-                )
+    for argument in request.conversion.cylc_args or []:
+        # Catch both '--workflow-name' and '--workflow-name=<value>' forms.
+        if argument == '--workflow-name' or argument.startswith('--workflow-name'):
+            raise ValueError(
+                "'--workflow-name' detected in the request file's cylc_args, "
+                "please contact the CDDS team for more information."
+            )
 
     remove_data_dir(request)
 

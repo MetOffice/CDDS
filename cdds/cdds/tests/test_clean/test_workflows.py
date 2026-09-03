@@ -2,7 +2,6 @@
 # Please see LICENSE.md for license details.
 import logging
 import os
-import shutil
 
 from tempfile import TemporaryDirectory
 from unittest import TestCase, mock
