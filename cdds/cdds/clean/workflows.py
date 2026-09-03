@@ -8,6 +8,16 @@ from cdds.common import run_command
 from cdds.common.request.request import Request
 
 
+def _confirm_teardown(data_dir: str) -> bool:
+    """Require explicit user confirmation before deleting data."""
+    response = input(
+        "This will permanently delete input and output data from '{}'. \n"
+        "Type 'yes' to continue: ".format(data_dir)
+    ).strip().lower()
+
+    return response == 'yes'
+
+
 def run_teardown(request: Request) -> None:
     """Remove data directory and clean the CDDS workflow associated with the given request.
 
@@ -16,6 +26,7 @@ def run_teardown(request: Request) -> None:
     request : Request
         Request containing information about the workflow
     """
+    logger = logging.getLogger(__name__)
     # First check workflow name wasn't used in cylc_args field.
     # Possibly a hangover from an older version of cdds.
     # Have switched to an error just in case someone tries to use it.
@@ -24,10 +35,14 @@ def run_teardown(request: Request) -> None:
         if argument == '--workflow-name' or argument.startswith('--workflow-name'):
             raise ValueError(
                 "'--workflow-name' detected in the request file's cylc_args, "
-                "please contact the CDDS team for guidance or remove associated workflows by hand"
+                "please contact the CDDS team for guidance, or remove associated workflows by hand."
             )
+    data_dir = request.common.root_data_dir
+    if not _confirm_teardown(data_dir):
 
-    remove_data_dir(request)
+        logger.info("Teardown cancelled; no data was removed.")
+        return
+    remove_data_dir(data_dir)
 
     request_id = request.common.workflow_basename
     workflow_name = f'cdds_{request_id}'
@@ -35,16 +50,15 @@ def run_teardown(request: Request) -> None:
     clean_workflow(workflow_name)
 
 
-def remove_data_dir(request: Request) -> None:
-    """Remove the data directory associated with the given request.
+def remove_data_dir(data_dir: str) -> None:
+    """Remove the specified data directory.
 
     Parameters
     ----------
-    request : Request
-        Request containing information about the workflow
+    data_dir : str
+        Path to the data directory to be removed.
     """
     logger = logging.getLogger(__name__)
-    data_dir = request.common.root_data_dir
     logger.info('Removing data directory: {}'.format(data_dir))
 
     try:
