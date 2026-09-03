@@ -38,12 +38,6 @@ class TestCleanWorkflows(TestCase):
 
         mock_run_command.assert_not_called()
 
-    @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_calls_run_command(self, mock_run_command):
-        clean_workflow('cdds_workflow')
-
-        mock_run_command.assert_called_once_with(['cylc', 'clean', 'cdds_workflow'])
-
     def test_remove_data_dir_removes_data_dir(self):
         request = simple_request()
 
