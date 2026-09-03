@@ -15,9 +15,11 @@ class TestCleanWorkflows(TestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
 
+    @mock.patch('cdds.clean.workflows._confirm_teardown')
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_run_teardown_uses_request_basename(self, mock_run_command):
+    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown):
         expected_workflow_name = 'cdds_workflow'
+        mock_confirm_teardown.return_value = True
 
         request = simple_request()
         request.common.workflow_basename = 'workflow'
@@ -38,20 +40,13 @@ class TestCleanWorkflows(TestCase):
         mock_run_command.assert_not_called()
 
     def test_remove_data_dir_removes_data_dir(self):
-        request = simple_request()
-
         with TemporaryDirectory() as data_dir:
-            request.common.root_data_dir = data_dir
-
             self.assertTrue(os.path.exists(data_dir))
 
-            remove_data_dir(request)
+            remove_data_dir(data_dir)
 
             self.assertFalse(os.path.exists(data_dir))
 
     def test_remove_data_dir_raises_os_error_on_non_existent_dir(self):
-        request = simple_request()
-        request.common.root_data_dir = 'does/not/exist'
-
         with self.assertRaises(OSError):
-            remove_data_dir(request)
+            remove_data_dir('does/not/exist')
