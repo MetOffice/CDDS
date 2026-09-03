@@ -35,7 +35,7 @@ def run_teardown(request: Request) -> None:
         if argument == '--workflow-name' or argument.startswith('--workflow-name'):
             raise ValueError(
                 "'--workflow-name' detected in the request file's cylc_args, "
-                "please contact the CDDS team for guidance, or remove associated workflows by hand."
+                "please contact the CDDS team for guidance, or remove associated workflows and data by hand."
             )
     data_dir = request.common.root_data_dir
     request_id = request.common.workflow_basename
