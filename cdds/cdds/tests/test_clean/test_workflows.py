@@ -2,12 +2,13 @@
 # Please see LICENSE.md for license details.
 import logging
 import os
+import shutil
 
 from tempfile import TemporaryDirectory
 from unittest import TestCase, mock
 
 from cdds.tests.factories.request_factory import simple_request
-from cdds.clean.workflows import remove_data_dir, run_teardown
+from cdds.clean.workflows import clean_workflow, remove_data_dir, run_teardown
 
 
 class TestCleanWorkflows(TestCase):
@@ -17,17 +18,14 @@ class TestCleanWorkflows(TestCase):
 
     @mock.patch('cdds.clean.workflows.run_command')
     def test_run_teardown_uses_request_basename(self, mock_run_command):
-        workflow = 'cdds_workflow'
+        expected_workflow_name = 'cdds_workflow'
 
         request = simple_request()
         request.common.workflow_basename = 'workflow'
-        request.conversion.cylc_args = []
 
         run_teardown(request)
 
-        calls = [mock.call(['cylc', 'clean', workflow])]
-
-        mock_run_command.assert_has_calls(calls)
+        mock_run_command.assert_called_once_with(['cylc', 'clean', expected_workflow_name])
 
     @mock.patch('cdds.clean.workflows.run_command')
     def test_run_teardown_rejects_workflow_name_in_cylc_args(self, mock_run_command):
@@ -39,6 +37,12 @@ class TestCleanWorkflows(TestCase):
             run_teardown(request)
 
         mock_run_command.assert_not_called()
+
+    @mock.patch('cdds.clean.workflows.run_command')
+    def test_clean_workflow_calls_run_command(self, mock_run_command):
+        clean_workflow('cdds_workflow')
+
+        mock_run_command.assert_called_once_with(['cylc', 'clean', 'cdds_workflow'])
 
     def test_remove_data_dir_removes_data_dir(self):
         request = simple_request()
