@@ -8,11 +8,11 @@ from cdds.common import run_command
 from cdds.common.request.request import Request
 
 
-def _confirm_teardown(data_dir: str) -> bool:
+def _confirm_teardown(data_dir: str, workflow_name: str) -> bool:
     """Require explicit user confirmation before deleting data."""
     response = input(
-        "This will permanently delete input and output data from '{}'. \n"
-        "Type 'yes' to continue: ".format(data_dir)
+        "This will permanently delete input and output data from '{}', and clean it's associated workflow '{}'. \n"
+        "Type 'yes' to continue: ".format(data_dir, workflow_name)
     ).strip().lower()
 
     return response == 'yes'
@@ -38,16 +38,17 @@ def run_teardown(request: Request) -> None:
                 "please contact the CDDS team for guidance, or remove associated workflows by hand."
             )
     data_dir = request.common.root_data_dir
-    if not _confirm_teardown(data_dir):
-
-        logger.info("Teardown cancelled; no data was removed.")
-        return
-    remove_data_dir(data_dir)
-
     request_id = request.common.workflow_basename
     workflow_name = f'cdds_{request_id}'
 
+    if not _confirm_teardown(data_dir, workflow_name):
+
+        logger.info("Teardown cancelled; no data was removed.")
+        return
+
     clean_workflow(workflow_name)
+    remove_data_dir(data_dir)
+    logger.info('cdds_clean complete.')
 
 
 def remove_data_dir(data_dir: str) -> None:
@@ -86,4 +87,3 @@ def clean_workflow(workflow_name: str) -> None:
     stdout = run_command(clean_command)
     logger.info(stdout)
 
-    logger.info('cdds_clean complete.')
