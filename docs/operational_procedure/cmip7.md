@@ -543,7 +543,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 
 ## 9. Run CDDS Teardown
 
-1. Once the approved issue has been returned to you following submission, please run `cdds_clean`. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your request file, for the purpose of reducing unnecessary data storage:
+1. Once the approved issue has been returned to you following submission, please run `cdds_clean`. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your request file, for the purpose of reducing unnecessary data storage (type "yes" when prompted to confirm deletion):
     
        ```
        cdds_clean <path_to_your_request_file>
