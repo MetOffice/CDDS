@@ -8,7 +8,7 @@ import os
 import shutil
 import tempfile
 
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 from pathlib import Path
 
 from cdds.common import construct_string_from_facet_string
@@ -487,20 +487,26 @@ def run_archiving_commands(var_dict: Dict[str, str], simulation: bool) -> None:
         logger.debug('No Mass Preprocessing command required for variable '
                      '{mip_table_id}/{variable_id}'.format(**var_dict))
 
-    msg = ('Running archive command for variable {mip_table_id}/{variable_id}'
-           ''.format(**var_dict))
-    logger.info(msg)
     mass_dest = get_mass_path(var_dict)
-    mass_mkdir(mass_dest, simulation=simulation, create_parents=True, exist_ok=True)
     if var_dict['mip_output_files']:
+        source_dir = os.path.dirname(var_dict['mip_output_files'][0])
+        msg = ('Running archive command for variable {mip_table_id}/{variable_id}\n'
+               'Transferring data from "{source_dir}"\nto "{mass_dest}"'
+               ''.format(source_dir=source_dir, mass_dest=mass_dest, **var_dict))
+        logger.info(msg)
+        mass_mkdir(mass_dest, simulation=simulation, create_parents=True, exist_ok=True)
         mass_put(var_dict['mip_output_files'], mass_dest,
                  simulation=simulation,
                  check_mass_location=False)
     else:
-        logger.info('All files already found in MASS.')
+        msg = ('No files to transfer for variable {mip_table_id}/{variable_id}: all files already found in '
+               'MASS at "{mass_dest}"'.format(mass_dest=mass_dest, **var_dict))
+        logger.info(msg)
+        mass_mkdir(mass_dest, simulation=simulation, create_parents=True, exist_ok=True)
 
 
-def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
+def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool,
+                  archive_dir: Optional[str] = None) -> None:
     """Archive the files specified by ``mip_approved_variables`` in MASS.
 
     Parameters
@@ -510,6 +516,9 @@ def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool
         required to archive the relevant |output netCDF files|.
     simulation : bool
         If true, do not execute MASS commands, but output the command that would be run to the log.
+    archive_dir : str
+        The path to the main destination directory in MASS for this package, reported in the summary once
+        archiving is complete.
     """
     logger = logging.getLogger(__name__)
     for var_dict in mip_approved_variables:
@@ -520,14 +529,15 @@ def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool
         var_dict = filter_data_files(var_dict)
         run_archiving_commands(var_dict, simulation)
     num_vars_archived = len(mip_approved_variables)
+    destination_msg = ' Destination: "{}".'.format(archive_dir) if archive_dir else ''
     if simulation:
         logger.info('Dataset archiving simulated for {num_vars} variables.'
                     ''.format(num_vars=num_vars_archived))
-        logger.info('Archiving simulation complete.')
+        logger.info('Archiving simulation complete.{destination_msg}'.format(destination_msg=destination_msg))
     else:
-        logger.info('Datasets archived for {num_vars} variables.'
+        logger.info('\nDatasets archived for {num_vars} variables.'
                     ''.format(num_vars=num_vars_archived))
-        logger.info('Archiving complete.')
+        logger.info('Archiving complete.{destination_msg}'.format(destination_msg=destination_msg))
 
 
 def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
