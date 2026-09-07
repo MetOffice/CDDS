@@ -4,6 +4,7 @@
 """The :mod:`command_line` module contains the main functions for the command line scripts in the ``bin`` directory."""
 import argparse
 import logging
+import os
 
 from argparse import Namespace
 from cdds.common import configure_logger
@@ -53,6 +54,9 @@ def main_store(arguments: List[str] = None) -> int:
     except BaseException as exc:
         logger.critical(exc, exc_info=PRINT_STACK_TRACE)
         exit_code = 2
+
+    if log_name:
+        logger.info('Archive logs directory "{}"'.format(os.path.dirname(log_name)))
 
     return exit_code
 

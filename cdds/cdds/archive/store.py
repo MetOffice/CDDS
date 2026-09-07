@@ -81,7 +81,7 @@ def store_mip_output_data(request: Request, stream: str, mip_approved_variables_
     logger.info('Comparing datasets to data in MASS found {} critical issues'.format(num_critical_issues_in_checks))
 
     # Archive the 'output netCDF files' in MASS.
-    archive_files(mip_approved_variables, request.common.simulation)
+    archive_files(mip_approved_variables, request.common.simulation, archive_dir)
 
     return num_critical_issues_in_checks
 
