@@ -240,7 +240,7 @@ class TestFetchVersionedFiles:
 class TestRunLsAction:
     @patch(f"{_MODULE}.query_files_by_version", return_value=(_CMIP6_FILES, _MASS_ROOT))
     def test_success_returns_0_and_prints_json(self, _mock):
-        buf = io.StringIO()
+        buf = io.StringIO()  # Captures stdout so the printed JSON can be inspected.
         with redirect_stdout(buf):
             result = run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT)
         assert result == 0

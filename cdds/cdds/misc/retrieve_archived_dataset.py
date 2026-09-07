@@ -25,10 +25,14 @@ from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFai
 from cdds.misc.retrieve_archived_data import create_output_dir, gb_to_bytes
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
-try:
-    TMPDIR = os.environ["TMPDIR"]
-except KeyError:
-    raise RuntimeError("Environment variable TMPDIR must be set.")
+logger = logging.getLogger(__name__)
+tmpdir = os.environ.get("TMPDIR")
+if tmpdir is None:
+    tmpdir = os.getcwd()
+    os.environ["TMPDIR"] = tmpdir
+    logger.warning("TMPDIR (used for staging of files during transfer) "
+                   "is unset; defaulting to use the current working directory.")
+TMPDIR: str = tmpdir
 
 
 def list_mass_files_with_checksums(mass_path: str, mass_root: str) -> List[Dict[str, Any]]:
