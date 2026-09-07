@@ -490,7 +490,7 @@ def run_archiving_commands(var_dict: Dict[str, str], simulation: bool) -> None:
     mass_dest = get_mass_path(var_dict)
     if var_dict['mip_output_files']:
         source_dir = os.path.dirname(var_dict['mip_output_files'][0])
-        msg = ('Running archive command for variable {mip_table_id}/{variable_id}\n'
+        msg = ('Running archive command for variable {mip_table_id}/{variable_id} (Frequency:{frequency})\n'
                'Transferring data from "{source_dir}"\nto "{mass_dest}"'
                ''.format(source_dir=source_dir, mass_dest=mass_dest, **var_dict))
         logger.info(msg)
