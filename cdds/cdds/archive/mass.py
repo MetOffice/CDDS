@@ -490,7 +490,7 @@ def run_archiving_commands(var_dict: Dict[str, str], simulation: bool) -> None:
     mass_dest = get_mass_path(var_dict)
     if var_dict['mip_output_files']:
         source_dir = os.path.dirname(var_dict['mip_output_files'][0])
-        msg = ('Running archive command for variable {mip_table_id}/{variable_id} (Frequency:{frequency})\n'
+        msg = ('Running archive command for variable {mip_table_id}/{variable_id} (Frequency: {frequency})\n'
                'Transferring data from "{source_dir}"\nto "{mass_dest}"'
                ''.format(source_dir=source_dir, mass_dest=mass_dest, **var_dict))
         logger.info(msg)
@@ -529,15 +529,17 @@ def archive_files(mip_approved_variables: List[Dict[str, str]], simulation: bool
         var_dict = filter_data_files(var_dict)
         run_archiving_commands(var_dict, simulation)
     num_vars_archived = len(mip_approved_variables)
-    destination_msg = ' Destination: "{}".'.format(archive_dir) if archive_dir else ''
+    destination_msg = ' Destination: "{}".'.format(archive_dir) if archive_dir and num_vars_archived else ''
     if simulation:
         logger.info('Dataset archiving simulated for {num_vars} variables.'
                     ''.format(num_vars=num_vars_archived))
-        logger.info('Archiving simulation complete.{destination_msg}'.format(destination_msg=destination_msg))
+        if num_vars_archived:
+            logger.info('Archiving simulation complete.{destination_msg}'.format(destination_msg=destination_msg))
     else:
-        logger.info('\nDatasets archived for {num_vars} variables.'
+        logger.info('\n{num_vars} variable datasets archived.'
                     ''.format(num_vars=num_vars_archived))
-        logger.info('Archiving complete.{destination_msg}'.format(destination_msg=destination_msg))
+        if num_vars_archived:
+            logger.info('Archiving complete.{destination_msg}'.format(destination_msg=destination_msg))
 
 
 def cleanup_archive_dir(archive_root_dir: str, mip_approved_variables: List[Dict[str, str]], simulation: bool) -> None:
