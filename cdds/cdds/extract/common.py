@@ -706,8 +706,15 @@ class StreamValidationResult(object):
                             var_list = ", ".join(sorted(affected_variables[table]))
                             msg += "\t{}: {}\n".format(table, var_list)
 
-                fn.write(msg)
-                logger.critical(msg)
+                # If there are missing stash codes but no affected variables and no other issues the task should succeed
+                if not (missing_files or additional_files or affected_variables) and problematic_stash_codes:
+                    msg += ("\nThere are no active variables associated with these stash codes. "
+                            "Processing can continue. Please set this task as succeeded. \n")
+                    fn.write(msg)
+                    logger.warning(msg)
+                else:
+                    fn.write(msg)
+                    logger.critical(msg)
 
     def _get_affected_variables(self, problematic_stash_codes):
         """Determines which variables cannot be produced due to file errors by cross-referencing
