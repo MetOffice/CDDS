@@ -357,8 +357,8 @@ def check_consistent_stash(stash_in_file: dict[str, dict[str, int]], validation_
     reference_file, reference_stash = next(iter(stash_in_file.items()))
 
     for file, stash in stash_in_file.items():
-        error = StashError(None, None)
-        warning = StashWarning(None, None)
+        error = None
+        warning = None
         if reference_stash != stash:
             for key, value in reference_stash.items():
                 if key not in stash or stash[key] != value:
