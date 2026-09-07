@@ -3,10 +3,10 @@
 # Please see LICENSE.md for license details.
 """Retrieve or list a single dataset from MASS.
 
-This is a standalone tool intended for use by external publication pipelines
-that need to retrieve or inspect a single dataset without depending on the
+This is a standalone tool (originally developed for CREPP users)
+for retrieving or listing a single dataset without depending on the
 rest of CDDS (e.g. variables files, bulk retrieval). For Met Office bulk
-retrieval, use ``cdds_retrieve_archived_data`` instead.
+retrieval of variables, use ``cdds_retrieve_archived_variables`` instead.
 """
 
 import argparse
@@ -22,7 +22,7 @@ from typing import Any, Dict, List
 from cdds.common import configure_logger
 from cdds.common.mass import run_mass_command
 from cdds.common.mass_exception import FileNotExistMassError, MassError, MassFailure
-from cdds.misc.retrieve_archived_data import create_output_dir, gb_to_bytes
+from cdds.misc.retrieve_archived_variables import create_output_dir, gb_to_bytes
 
 DEFAULT_MOOSE_BASE_PATH = "moose:/adhoc/projects/cdds/production/"
 logger = logging.getLogger(__name__)

@@ -304,7 +304,7 @@ def transfer_files_to_final_dir(
             shutil.move(str(temporary_filepath), str(destination_filepath))
 
 
-def main_cdds_retrieve_archived_data() -> None:
+def main_cdds_retrieve_archived_variables() -> None:
     """Main function to retrieve data from MOOSE using CDDS.
 
     Returns
