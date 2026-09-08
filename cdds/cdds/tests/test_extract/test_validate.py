@@ -6,12 +6,14 @@
 import unittest
 
 from pathlib import Path
+from metomi.isodatetime.data import Calendar
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
-from cdds.extract.common import configure_variables
+from cdds.extract.common import configure_variables, StreamValidationResult
 from cdds.extract.filters import Filters
-from cdds.extract.validate import configure_mapping_for_each_variable, calculate_file_frequency, process_pp_streamtype
+from cdds.extract.validate import (configure_mapping_for_each_variable, calculate_file_frequency, process_pp_streamtype,
+                                   check_expected_stash, check_consistent_stash)
 
 
 class TestValidate(unittest.TestCase):
@@ -46,6 +48,45 @@ class TestValidate(unittest.TestCase):
         msg = f"Incorrect filename list produced for pp files, expected: '{expected}', got: '{output}'"
 
         self.assertEqual(output, expected, msg)
+
+    def test_check_expected_stash(self):
+        stash_in_file = {"dummy_file.pp": {"1235": 40}}
+        validation_result = StreamValidationResult(stream="ap7")
+        path = "cdds/dummy_path/"
+        expected_stash = {"33", "1235", "2024"}
+
+        check_expected_stash(stash_in_file, validation_result, path, expected_stash)
+
+        # Check warning is flagged when missing STASH 33 (orog).
+        msg = "Failed to identify missing STASH code 33 as a STASH warning."
+        self.assertEqual(validation_result.file_warnings['cdds/dummy_path/dummy_file.pp'].stash_warnings, ["33"], msg)
+        # Check error is flagged when missing any other STASH.
+        msg = "Failed to identify missing STASH code as a STASH error."
+        self.assertEqual(validation_result.file_errors['cdds/dummy_path/dummy_file.pp'].stash_errors, ["2024"], msg)
+
+    def test_check_consistent_stash_gregorian(self):
+        Calendar.default().mode = "gregorian"
+        for freq in ["monthly", "seasonal"]:
+            output = check_consistent_stash({}, StreamValidationResult(stream="ap4"), "cdds/dummy_path/", freq)
+            msg = "Failed to skip checks when using gregorian calendar with monthly/seasonal frequency"
+            self.assertEqual(output, None, msg)
+
+    def test_check_consistent_stash(self):
+        stash_in_file = {
+            "dummy_file.pp": {"1235": 40},
+            "dummy_file2.pp": {"1235": 40, "2024": 40},
+            "dummy_file3.pp": {"1235": 40, "33": 1}
+        }
+        validation_result = StreamValidationResult(stream="ap7")
+        path = "cdds/dummy_path/"
+        check_consistent_stash(stash_in_file, validation_result, path, "hourly")
+
+        # Check warning is flagged when STASH 33 is inconsistent(orog).
+        msg = "Failed to identify inconsistent STASH code 33 as a STASH warning."
+        self.assertEqual(validation_result.file_warnings['cdds/dummy_path/dummy_file3.pp'].stash_warnings, ["33"], msg)
+        # Check error is flagged when missing any other STASH.
+        msg = "Failed to identify inconsistent STASH as a STASH error."
+        self.assertEqual(validation_result.file_errors['cdds/dummy_path/dummy_file2.pp'].stash_errors, ["2024"], msg)
 
 
 if __name__ == "__main__":
