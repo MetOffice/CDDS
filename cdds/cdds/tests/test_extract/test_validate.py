@@ -88,6 +88,19 @@ class TestValidate(unittest.TestCase):
         msg = "Failed to identify inconsistent STASH as a STASH error."
         self.assertEqual(validation_result.file_errors['cdds/dummy_path/dummy_file2.pp'].stash_errors, ["2024"], msg)
 
+    def test_check_consistent_stash_success_on_warning(self):
+        stash_in_file = {
+            "dummy_file.pp": {"1235": 40},
+            "dummy_file2.pp": {"1235": 40},
+            "dummy_file3.pp": {"1235": 40, "33": 1}
+        }
+        validation_result = StreamValidationResult(stream="ap7")
+        path = "cdds/dummy_path/"
+        check_consistent_stash(stash_in_file, validation_result, path, "hourly")
+
+        msg = "Failed on a STASH warning. We would expect this to succeed."
+        self.assertEqual(validation_result.valid, True, msg)
+
 
 if __name__ == "__main__":
     unittest.main()
