@@ -319,12 +319,12 @@ def check_expected_stash(stash_in_file: dict[str, dict], validation_result: Stre
         if expected_stash.difference(set(stash.keys())):
             stash_diff = expected_stash.difference(set(stash.keys()))
             if stash_diff:
-                if set(["33"]) == stash_diff:
+                if "33" in stash_diff:
                     warning = StashWarning(os.path.join(path, file), "STASH warnings")
-                    for diff in stash_diff:
-                        warning.add_stash_warning(diff)
+                    warning.add_stash_warning("33")
                     validation_result.add_file_content_warning(warning)
-                else:
+                    stash_diff.remove("33")
+                if stash_diff:
                     error = StashError(os.path.join(path, file), "STASH errors")
                     for diff in stash_diff:
                         error.add_stash_error(diff)
