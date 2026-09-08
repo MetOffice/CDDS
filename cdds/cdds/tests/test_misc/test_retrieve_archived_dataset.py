@@ -1,8 +1,6 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
-import io
 import json
-from contextlib import redirect_stdout
 from pathlib import Path
 from unittest.mock import patch
 
@@ -39,13 +37,13 @@ _CMIP6_FILES = [
     }
 ]
 
-_SAMPLE_XML = """\
+_SAMPLE_XML = f"""\
 <nodes>
-  <node kind="F" url="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828/tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_185001-194912.nc">
+  <node kind="F" url="{_CMIP6_FILE_PATH}">
     <size>123456</size>
     <checksum><value>abc123</value></checksum>
   </node>
-  <node kind="D" url="moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828">
+  <node kind="D" url="{_MASS_ROOT}CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn/available/v20200828">
   </node>
 </nodes>"""
 
@@ -81,12 +79,11 @@ class TestRunGetAction:
 
 class TestRunLsAction:
     @patch(f"{_MODULE}.query_files_by_version", return_value=(_CMIP6_FILES, _MASS_ROOT))
-    def test_success_returns_0_and_prints_json(self, _mock):
-        buf = io.StringIO()  # Captures stdout so the printed JSON can be inspected.
-        with redirect_stdout(buf):
-            result = run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT)
+    def test_success_returns_0_and_prints_json(self, _mock, capsys):
+        result = run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT)
         assert result == 0
-        payload = json.loads(buf.getvalue())
+        captured = capsys.readouterr()
+        payload = json.loads(captured.out)
         assert payload["dataset_id"] == _CMIP6_FULL_ID
         assert len(payload["files"]) == 1
 
