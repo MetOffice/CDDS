@@ -60,7 +60,30 @@ To deactivate these variables
 
 The cdds_convert workflow should then proceed.
 
-## 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
+
+Alternatively you may see the following:
+
+    .......
+    Missing required STASH codes: 2530, 2540
+
+    There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
+
+This means that CDDS has identified inconsisties in the STASH between files but it does not expect this to affect any of the variables that you are currently processing.
+To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
+
+
+## 4. Extract validation "potential missing STASH code 33" warning
+
+e.g.
+
+    Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
+    ...../ap7/file.pp: STASH warnings relative to reference file file.pp
+		Potential missing STASH codes: 33
+
+This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is set to be a warning only since orography is sometimes sourced from an ancil file. This is only an issue if you are expecting your input files to include orography.
+
+
+## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
 
 e.g.
 
