@@ -174,7 +174,7 @@ class TestParseDatasetId:
         assert base == _CMIP6_BASE_ID
         assert version == _CMIP6_VERSION
 
-    def test_cmip7_dataset_id_has_different_facet_count(self):
+    def test_cmip7_dataset_id(self):
         cmip7_id = (
             "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl"
             ".r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124.v20260818"
@@ -199,7 +199,7 @@ class TestMassErrorExitCode:
         assert mass_error_exit_code(self._make_error(failure)) == expected_exit_code
 
 
-class TestFetchVersionedFiles:
+class TestQueryFilesByVersion:
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=_CMIP6_FILES)
     def test_success_returns_files_and_mass_path(self, _mock):
         result = query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT)
@@ -213,28 +213,20 @@ class TestFetchVersionedFiles:
         assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=[])
-    def test_dataset_absent_from_listing_returns_1(self, _mock):
+    def test_dataset_absent_from_listing_returns_1(self, _mock, caplog):
         assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
+        assert "Dataset not found in MASS" in caplog.text
 
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=[
         {"mass_path": "moose:/path/available/v20190101/tas.nc", "filesize": "1"}
     ])
-    def test_wrong_version_returns_1(self, _mock):
+    def test_wrong_version_returns_1(self, _mock, caplog):
         assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
+        assert "No versioned files found in MASS" in caplog.text
 
-    @pytest.mark.parametrize(
-        "failure,expected_code",
-        [
-            (MassFailure.USER_ERROR, 2),
-            (MassFailure.SYSTEM_ERROR, 3),
-        ],
-    )
-    def test_mass_error_returns_mapped_exit_code(self, failure, expected_code):
-        with patch(
-            f"{_MODULE}.list_mass_files_with_checksums",
-            side_effect=MassError(failure, ["moo", "ls"]),
-        ):
-            assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == expected_code
+    @patch(f"{_MODULE}.list_mass_files_with_checksums", side_effect=MassError(MassFailure.USER_ERROR, ["moo", "ls"]))
+    def test_mass_error_returns_mapped_exit_code(self, _mock):
+        assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 2
 
 
 class TestRunLsAction:
@@ -267,6 +259,14 @@ class TestRunGetAction:
     def test_error_code_passthrough(self, _mock, tmp_path: Path):
         result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
         assert result == 2
+
+    @patch(f"{_MODULE}.query_files_by_version")
+    def test_invalid_source_filepath_missing_status_returns_3(self, mock_fetch, tmp_path: Path, caplog):
+        invalid_files = [{"mass_path": "moose:/adhoc/projects/cdds/production/bad/path/file.nc"}]
+        mock_fetch.return_value = (invalid_files, _MASS_ROOT)
+        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
+        assert result == 3
+        assert "'available' or 'embargoed' not found in source filepath" in caplog.text
 
     @patch(f"{_MODULE}.transfer_files", side_effect=RuntimeError("unexpected"))
     @patch(f"{_MODULE}.create_output_dir")
