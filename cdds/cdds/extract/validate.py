@@ -301,7 +301,7 @@ def get_stash_fields(path: str, validation_result: StreamValidationResult) -> di
 
 
 def check_expected_stash(stash_in_file: dict[str, dict], validation_result: StreamValidationResult, path: str,
-                         expected_stash: set[int]) -> None:
+                         expected_stash: set[str]) -> None:
     """Checks that all the expected stash codes are found in each file.
 
     Parameters
