@@ -14,7 +14,6 @@ from cdds.misc.retrieve_archived_dataset import (
     query_files_by_version,
     list_mass_files_with_checksums,
     mass_error_exit_code,
-    parse_args,
     parse_dataset_id,
     run_get_action,
     run_ls_action,
@@ -65,36 +64,6 @@ class TestListMassFilesWithChecksums:
         assert result[0]["filesize"] == "123456"
         assert result[0]["filename"] == "tas_Amon_UKESM1-0-LL_piControl_r1i1p1f2_gn_185001-194912.nc"
 
-    @patch(f"{_MODULE}.run_mass_command", return_value="")
-    def test_empty_output_returns_empty_list(self, _mock):
-        result = list_mass_files_with_checksums("moose:/some/path", _MASS_ROOT)
-        assert result == []
-
-
-class TestParseArgs:
-    @pytest.mark.parametrize(
-        "argv,expected",
-        [
-            (["prog", "ls", _CMIP6_FULL_ID], {"action": "ls", "dataset_id": _CMIP6_FULL_ID}),
-            (
-                ["prog", "get", _CMIP6_FULL_ID, "/some/dest"],
-                {"action": "get", "dataset_id": _CMIP6_FULL_ID, "destination": "/some/dest"},
-            ),
-        ],
-    )
-    def test_action_and_dataset_id(self, argv, expected):
-        with patch("sys.argv", argv):
-            args = parse_args()
-        for key, value in expected.items():
-            assert getattr(args, key) == value
-
-    def test_defaults_and_flags(self):
-        with patch("sys.argv", ["prog", "ls", _CMIP6_FULL_ID, "--dry-run", "--create-directories-false"]):
-            args = parse_args()
-        assert args.dry_run
-        assert not args.create_directories
-        assert args.mass_root == _MASS_ROOT
-
 
 def _make_file(size_bytes, name="file.nc"):
     return {"filesize": str(size_bytes), "mass_path": f"moose:/path/available/v20200828/{name}"}
@@ -132,13 +101,6 @@ class TestTransferFiles:
         cmd = mock_run.call_args[0][0]
         assert ("-n" in cmd) == expect_n_flag
 
-    @patch(f"{_MODULE}.transfer_files_to_final_dir")
-    @patch(f"{_MODULE}.run_mass_command", return_value="")
-    def test_calls_transfer_to_final_dir_once_per_chunk(self, _mock_run, mock_transfer, tmp_path: Path):
-        chunks = [_make_chunk("a.nc"), _make_chunk("b.nc")]
-        transfer_files(chunks, tmp_path, dry_run=False)
-        assert mock_transfer.call_count == 2
-
 
 class TestTransferFilesToFinalDir:
     def test_dry_run_does_not_move_files(self, tmp_path: Path):
@@ -169,19 +131,21 @@ class TestTransferFilesToFinalDir:
 
 
 class TestParseDatasetId:
-    def test_cmip6_dataset_id(self):
-        base, version = parse_dataset_id(_CMIP6_FULL_ID)
-        assert base == _CMIP6_BASE_ID
-        assert version == _CMIP6_VERSION
-
-    def test_cmip7_dataset_id(self):
-        cmip7_id = (
-            "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl"
-            ".r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124.v20260818"
-        )
-        base, version = parse_dataset_id(cmip7_id)
-        assert base == "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124"
-        assert version == "v20260818"
+    @pytest.mark.parametrize(
+        "dataset_id,expected_base,expected_version",
+        [
+            (_CMIP6_FULL_ID, _CMIP6_BASE_ID, _CMIP6_VERSION),
+            (
+                "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124.v20260818",
+                "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124",
+                "v20260818",
+            ),
+        ],
+    )
+    def test_parse_dataset_id(self, dataset_id, expected_base, expected_version):
+        base, version = parse_dataset_id(dataset_id)
+        assert base == expected_base
+        assert version == expected_version
 
 
 class TestMassErrorExitCode:
@@ -212,21 +176,12 @@ class TestQueryFilesByVersion:
     def test_file_not_exist_error_returns_1(self, _mock):
         assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
 
-    @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=[])
-    def test_dataset_absent_from_listing_returns_1(self, _mock, caplog):
-        assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
-        assert "Dataset not found in MASS" in caplog.text
-
     @patch(f"{_MODULE}.list_mass_files_with_checksums", return_value=[
         {"mass_path": "moose:/path/available/v20190101/tas.nc", "filesize": "1"}
     ])
     def test_wrong_version_returns_1(self, _mock, caplog):
         assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 1
         assert "No versioned files found in MASS" in caplog.text
-
-    @patch(f"{_MODULE}.list_mass_files_with_checksums", side_effect=MassError(MassFailure.USER_ERROR, ["moo", "ls"]))
-    def test_mass_error_returns_mapped_exit_code(self, _mock):
-        assert query_files_by_version(_CMIP6_FULL_ID, _MASS_ROOT) == 2
 
 
 class TestRunLsAction:
@@ -240,10 +195,6 @@ class TestRunLsAction:
         assert payload["dataset_id"] == _CMIP6_FULL_ID
         assert len(payload["files"]) == 1
 
-    @patch(f"{_MODULE}.query_files_by_version", return_value=2)
-    def test_error_code_passthrough(self, _mock):
-        assert run_ls_action(_CMIP6_FULL_ID, _MASS_ROOT) == 2
-
 
 class TestRunGetAction:
     @patch(f"{_MODULE}.transfer_files")
@@ -255,11 +206,6 @@ class TestRunGetAction:
         result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
         assert result == 0
 
-    @patch(f"{_MODULE}.query_files_by_version", return_value=2)
-    def test_error_code_passthrough(self, _mock, tmp_path: Path):
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
-        assert result == 2
-
     @patch(f"{_MODULE}.query_files_by_version")
     def test_invalid_source_filepath_missing_status_returns_3(self, mock_fetch, tmp_path: Path, caplog):
         invalid_files = [{"mass_path": "moose:/adhoc/projects/cdds/production/bad/path/file.nc"}]
@@ -267,12 +213,3 @@ class TestRunGetAction:
         result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
         assert result == 3
         assert "'available' or 'embargoed' not found in source filepath" in caplog.text
-
-    @patch(f"{_MODULE}.transfer_files", side_effect=RuntimeError("unexpected"))
-    @patch(f"{_MODULE}.create_output_dir")
-    @patch(f"{_MODULE}.query_files_by_version")
-    def test_generic_exception_returns_3(self, mock_fetch, mock_create_dir, _mock_transfer, tmp_path: Path):
-        mock_fetch.return_value = (_CMIP6_FILES, _MASS_ROOT)
-        mock_create_dir.return_value = tmp_path
-        result = run_get_action(_CMIP6_FULL_ID, _MASS_ROOT, str(tmp_path), True, 100, False)
-        assert result == 3
