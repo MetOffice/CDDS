@@ -909,7 +909,7 @@ class Filters(object):
         """
         with open(file_name, "w") as file_h:
             # add variable filters to file
-            file_h.write("-a\n-v {}".format(variables))
+            file_h.write("-no-abc\n-v {}".format(variables))
 
     def _update_mass_cmd(
         self,
