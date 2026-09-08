@@ -117,15 +117,9 @@
           
           
           
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
-        
-          
-          
-          
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
-          
-            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
             </label>
           
@@ -133,9 +127,9 @@
           
           
           
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_3">
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
-            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
             </label>
           
@@ -2477,14 +2471,8 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 <h2 id="9-run-cdds-teardown">9. Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Teardown</h2>
 <ol>
 <li>
-<p>Once the approved issue has been returned to you following submission, delete the contents of the data directory:</p>
-<div class="highlight"><pre><span></span><code>cd &lt;path to the data directory&gt;;   
-rm -rf input output
-</code></pre></div>
-</li>
-<li>
-<p>Delete all workflows used:</p>
-<div class="highlight"><pre><span></span><code>cdds_clean &lt;path to the request configuration&gt;
+<p>Once the approved issue has been returned to you following submission, please run <code>cdds_clean</code>. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your <abbr title="Information about a simulation used by all CDDS components.">request file</abbr>, for the purpose of reducing unnecessary data storage. Type "yes" when prompted to confirm deletion:</p>
+<div class="highlight"><pre><span></span><code>cdds_clean &lt;path_to_your_request_file&gt;
 </code></pre></div>
 </li>
 <li>
