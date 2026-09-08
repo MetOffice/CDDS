@@ -6,6 +6,7 @@
 import unittest
 
 from pathlib import Path
+from metomi.isodatetime.data import Calendar
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
@@ -62,6 +63,13 @@ class TestValidate(unittest.TestCase):
         # Check error is flagged when missing any other STASH.
         msg = "Failed to identify missing STASH code as a STASH error."
         self.assertEqual(validation_result.file_errors['cdds/dummy_path/dummy_file.pp'].stash_errors, ["2024"], msg)
+
+    def test_check_consistent_stash_gregorian(self):
+        Calendar.default().mode = "gregorian"
+        for freq in ["monthly", "seasonal"]:
+            output = check_consistent_stash({}, StreamValidationResult(stream="ap4"), "cdds/dummy_path/", freq)
+            msg = "Failed to skip checks when using gregorian calendar with monthly/seasonal frequency"
+            self.assertEqual(output, None, msg)
 
     def test_check_consistent_stash(self):
         stash_in_file = {
