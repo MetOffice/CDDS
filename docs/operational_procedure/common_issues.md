@@ -80,7 +80,7 @@ e.g.
     ...../ap7/file.pp: STASH warnings relative to reference file file.pp
 		Potential missing STASH codes: 33
 
-This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is set to be a warning only since orography is sometimes sourced from an ancil file. This is only an issue if you are expecting your input files to include orography.
+This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
 
 
 ## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
