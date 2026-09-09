@@ -637,8 +637,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
-    4. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  <a href="#4-extract-validation-potential-missing-stash-code-33-warning" class="md-nav__link">
+    4. Extract validation "potential missing STASH code 33" warning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
+    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
   </a>
   
 </li>
@@ -1617,8 +1624,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
-    4. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  <a href="#4-extract-validation-potential-missing-stash-code-33-warning" class="md-nav__link">
+    4. Extract validation "potential missing STASH code 33" warning
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
+    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
   </a>
   
 </li>
@@ -1677,7 +1691,22 @@ landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
 <li>Retrigger the corresponding <code>validate_extract_&lt;stream&gt;</code> task </li>
 </ol>
 <p>The cdds_convert workflow should then proceed.</p>
-<h2 id="4-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing">4. QC task failure: <code>Cannot retrieve further_info_url</code> (exclusive to <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus processing)</h2>
+<p>Alternatively, you may see the following:</p>
+<pre><code>.......
+Missing required STASH codes: 2530, 2540
+
+There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
+</code></pre>
+<p>This means that <abbr title="Climate Data Dissemination System">CDDS</abbr> has identified inconsistencies in the <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> between files, but it does not expect this to affect any of the variables that you are currently processing.
+To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting <code>set</code>. The workflow should automatically continue. </p>
+<h2 id="4-extract-validation-potential-missing-stash-code-33-warning">4. Extract validation "potential missing <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> code 33" warning</h2>
+<p>e.g.</p>
+<pre><code>Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
+...../ap7/file.pp: STASH warnings relative to reference file file.pp
+    Potential missing STASH codes: 33
+</code></pre>
+<p>This means that <abbr title="Climate Data Dissemination System">CDDS</abbr> has identified an inconsistency surrounding <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.</p>
+<h2 id="5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing">5. QC task failure: <code>Cannot retrieve further_info_url</code> (exclusive to <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus processing)</h2>
 <p>e.g.</p>
 <pre><code>    "mip_table": "APmon",
     "checker": "cmip6",
