@@ -153,8 +153,7 @@ class TestListMassFilesWithChecksums:
     def test_parses_file_nodes(self):
         with patch(f"{_MODULE}.run_mass_command", return_value=_SAMPLE_XML):
             result = list_mass_files_with_checksums(
-                "moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn",
-                _MASS_ROOT,
+                "moose:/adhoc/projects/cdds/production/CMIP6/CMIP/MOHC/UKESM1-0-LL/piControl/r1i1p1f2/Amon/tas/gn"
             )
         assert len(result) == 1
         assert result[0]["checksum"] == "md5:abc123"

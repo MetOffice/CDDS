@@ -35,7 +35,7 @@ if tmpdir is None:
 TMPDIR: str = tmpdir
 
 
-def list_mass_files_with_checksums(mass_path: str, mass_root: str) -> List[Dict[str, Any]]:
+def list_mass_files_with_checksums(mass_path: str) -> List[Dict[str, Any]]:
     """List files in a MASS dataset directory, including sizes and checksums.
 
     Uses ``moo ls -Rlxm`` (XML output) to capture each file's MD5 checksum
@@ -45,9 +45,6 @@ def list_mass_files_with_checksums(mass_path: str, mass_root: str) -> List[Dict[
     ----------
     mass_path : str
         The dataset directory in MASS to list.
-    mass_root : str
-        The root path under which datasets are stored (e.g.
-        ``moose:/adhoc/projects/cdds/production/``).
 
     Returns
     -------
@@ -103,7 +100,10 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "dataset_id",
-        help="Full dataset_id, e.g. CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn",
+        help=(
+            "Full dataset_id including version, e.g. "
+            "CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn.v20200828"
+        ),
     )
     if len(sys.argv) > 1 and sys.argv[1] == "get":
         parser.add_argument("destination", help="Destination directory")
@@ -222,7 +222,7 @@ def transfer_files(
         if dry_run:
             command = ["moo", "get", "-I", "-n"] + mass_paths + [str(TMPDIR)]
         else:
-            # Move files to TMPDIR
+            # Stage files in TMPDIR
             command = ["moo", "get", "-I"] + mass_paths + [str(TMPDIR)]
         stdout_str = run_mass_command(command)
         logger.info(stdout_str)
@@ -325,9 +325,7 @@ def query_files_by_version(
     base_dataset_id, version = parse_dataset_id(dataset_id)
     mass_path = str(PurePosixPath(mass_root) / base_dataset_id.replace(".", "/"))
     try:
-        mass_file_list = list_mass_files_with_checksums(
-            mass_path=mass_path, mass_root=mass_root
-        )
+        mass_file_list = list_mass_files_with_checksums(mass_path=mass_path)
     except FileNotExistMassError:
         logger.critical(f"Dataset not found in MASS: {dataset_id}")
         return 1
@@ -355,7 +353,7 @@ def run_ls_action(dataset_id: str, mass_root: str) -> int:
     Parameters
     ----------
     dataset_id : str
-        Full dataset identifier.
+        Full dataset identifier including version facet.
     mass_root : str
         Root location in MASS.
 
@@ -391,7 +389,7 @@ def run_get_action(
     Parameters
     ----------
     dataset_id : str
-        Full dataset identifier.
+        Full dataset identifier including version facet.
     mass_root : str
         Root location in MASS.
     destination : str
