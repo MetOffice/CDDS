@@ -300,10 +300,11 @@ def mass_error_exit_code(error: MassError) -> int:
 def query_files_by_version(
     dataset_id: str, mass_root: str
 ) -> tuple[list, str] | int:
-    """Look up a dataset in MASS and return its versioned files and MASS path.
+    """Query MASS for files belonging to a dataset and filter by version.
 
-    Combines the MASS listing, dataset lookup, and version filtering steps
-    shared by :func:`run_ls_action` and :func:`run_get_action`.
+    Looks up files under the dataset directory in MASS, extracts checksums
+    and sizes, and filters the results to match the version facet of the
+    dataset identifier.
 
     Parameters
     ----------
@@ -316,7 +317,7 @@ def query_files_by_version(
     -------
     tuple of (list, str)
         ``(files, mass_path)`` on success, where ``files`` is the filtered
-        list of file info dicts and ``mass_path`` is the MASS directory path.
+        list of file info dicts and ``mass_path`` is the base MASS directory path.
     int
         An exit code (1, 2, or 3) if the lookup fails.
     """
