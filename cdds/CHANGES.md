@@ -1,3 +1,9 @@
+## Release 4.0.3, September 9, 2026
+
+-   Extract validation tasks will now correctly handle irregular patterns for orography data (#1079)
+-   cdds_clean can now be used (#1086)
+-   Enhancements to logging in transfer tasks (#1064)
+
 ## Release 4.0.2, August 28, 2026
 
 -   Addition of package to workflow_id if default is used (#1074)
