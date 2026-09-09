@@ -61,14 +61,14 @@ To deactivate these variables
 The cdds_convert workflow should then proceed.
 
 
-Alternatively you may see the following:
+Alternatively, you may see the following:
 
     .......
     Missing required STASH codes: 2530, 2540
 
     There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
 
-This means that CDDS has identified inconsisties in the STASH between files but it does not expect this to affect any of the variables that you are currently processing.
+This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
 To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
 
 
