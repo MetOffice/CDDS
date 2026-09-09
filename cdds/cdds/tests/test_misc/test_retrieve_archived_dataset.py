@@ -186,10 +186,15 @@ class TestChunkFiles:
 
 
 class TestParseDatasetId:
+    # Tests both CMIP6 and CMIP7 format
     @pytest.mark.parametrize(
         "dataset_id,expected_base,expected_version",
         [
-            (_CMIP6_FULL_DATASET_ID, _CMIP6_BASE_ID, _CMIP6_VERSION),
+            (
+                "CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn.v20200828",
+                "CMIP6.CMIP.MOHC.UKESM1-0-LL.piControl.r1i1p1f2.Amon.tas.gn",
+                "v20200828",
+            ),
             (
                 "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124.v20260818",
                 "MIP-DRS7.CMIP7.CMIP.UKNCSP.UKESM1-3-LL.esm-piControl.r1i1p1f1.glb.mon.vo.tavg-ol-hxy-sea.g124",
@@ -206,6 +211,7 @@ class TestParseDatasetId:
 class TestMassErrorExitCode:
     def _make_error(self, failure):
         return MassError(failure, ["moo", "ls"])
+
     # Note: Testing of exit code "1" is in TestQueryFilesByVersion
     @pytest.mark.parametrize(
         "failure,expected_exit_code",
