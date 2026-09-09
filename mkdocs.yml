@@ -6,14 +6,15 @@ theme:
     - navigation.expand
     - content.tabs.link
   palette: 
-    - primary: teal
     # Palette toggle for light mode
     - scheme: default
+      primary: teal
       toggle:
         icon: material/brightness-7 
         name: Switch to dark mode
     # Palette toggle for dark mode
     - scheme: slate
+      primary: teal
       toggle:
         icon: material/brightness-4
         name: Switch to light mode

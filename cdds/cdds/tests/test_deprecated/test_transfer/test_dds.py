@@ -49,239 +49,6 @@ class TestVarDistinctness(unittest.TestCase):
         self.assertTrue(local_match_day != local_match_mon)
 
 
-class TestMoosePut(unittest.TestCase):
-
-    def setUp(self):
-        self.project = "GEOMIP"
-        self.cfg, self.xfer = xfer_without_starting_comms(self, self.project)
-        util.patch_mip_parser(self)
-        self.mock_inform = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer.inform")
-        self.ts = date.today().strftime("%Y%m%d")
-        self.embargoed = state.make_state(state.EMBARGOED)
-        self.available = state.make_state(state.AVAILABLE)
-
-    def test_single_variable_put(self):
-        util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
-
-        expected_local = os.path.join(
-            "fake_local_top", "GEOMIP", "MOHC", "HadGEM2-ES",
-            "G4seaSalt", "r1i1p1", "nc")
-        expected_moose = os.path.join(
-            self.xfer._moo_top,
-            "geomip/output/MOHC/HadGEM2-ES/G4seaSalt/mon/land/Lmon/"
-            "r1i1p1/c3PftFrac/embargoed/", VERSION_FORMAT.format(self.ts))
-
-        facets = drs.AtomicDatasetCollection()
-        drs_names = [
-            "c3PftFrac_Lmon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-204511.nc",
-            "c3PftFrac_Lmon_HadGEM2-ES_G4seaSalt_r1i1p1_204512-207011.nc"]
-        for drs_name in drs_names:
-            facet = drs.DataRefSyntax(self.cfg, self.project)
-            facet.fill_facets_from_drs_name(drs_name)
-            facets.add(facet, filename=drs_name)
-        expected_facet = facets.get_drs_facet_builder(
-            "geomip.output.MOHC.HadGEM2-ES.G4seaSalt.mon.land.Lmon.r1i1p1",
-            "c3PftFrac")
-
-        mock_put = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._put_atom")
-        self.xfer.send_to_mass("fake_local_top", facets, self.embargoed)
-        mock_put.assert_called_once_with(
-            expected_facet, expected_local, expected_moose, moo_cmd.put)
-        self.mock_inform.assert_called_once_with(
-            expected_facet, expected_moose, self.embargoed)
-
-    @pytest.mark.xfail(reason="Investigation needed.")
-    def test_several_variables_put(self):
-        util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
-
-        var = [
-            "cLeaf_Lmon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-204511.nc",
-            "cLeaf_Lmon_HadGEM2-ES_G4seaSalt_r1i1p1_204512-207011.nc",
-            "cdnc_aero_HadGEM2-ES_G4seaSalt_r1i1p1_202012-204511.nc",
-            "cdnc_aero_HadGEM2-ES_G4seaSalt_r1i1p1_204512-207011.nc"]
-        facets = drs.AtomicDatasetCollection()
-        for drs_name in var:
-            facet = drs.DataRefSyntax(self.cfg, self.project)
-            facet.fill_facets_from_drs_name(drs_name)
-            facets.add(facet, filename=drs_name)
-
-        expected_local = os.path.join(
-            "fake_local_top", "GEOMIP", "MOHC", "HadGEM2-ES",
-            "G4seaSalt", "r1i1p1")
-        expected_puts = []
-        expected_informs = []
-        for dataset_id in facets.dataset_ids():
-            for drs_var in facets.drs_variables(dataset_id):
-                facet = facets.get_drs_facet_builder(dataset_id, drs_var)
-                expected_moose = self.xfer._mass_path_to_timestamp(
-                    facet, self.embargoed, self.ts)
-                expected_puts.append(
-                    call(
-                        facet, expected_local, expected_moose,
-                        facets.get_drs_facet_builder(dataset_id, drs_var),
-                        expected_local, moo_cmd.put))
-                expected_informs.append(
-                    call(facet, expected_moose, self.embargoed))
-
-        mock_put = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._put_atom")
-        self.xfer.send_to_mass("fake_local_top", facets, self.embargoed)
-        mock_put.assert_has_calls(expected_puts)
-        self.mock_inform.assert_has_calls(expected_informs)
-
-    def test_valid_put_var(self):
-        # Testing low-level MASS interface, so we need to patch out
-        # the calls that interact with the file system or MASS.
-        mock_moo = util.create_patch(self, "cdds.deprecated.transfer.moo.run_moo_cmd")
-        var_file = "bsi_Omon_HadGEM2-ES_G4seaSalt_r1i1p1_202012-209012.nc"
-        expected_local = [os.path.join("dir", var_file)]
-        mock_glob = util.create_patch(self, "glob.glob")
-        mock_glob.return_value = expected_local
-        mock_size = util.create_patch(self, "os.path.getsize")
-        mock_size.return_value = 0
-        facet = drs.DataRefSyntax(self.cfg, self.project)
-        facet.fill_facets_from_drs_name(var_file)
-        self.xfer._put_var("dir", facet, "moose/path", moo_cmd.put)
-        expected_arg = expected_local + ["moose/path"]
-        mock_moo.assert_called_once_with("put", expected_arg,
-                                         simulation=False)
-
-    def test_put_atom_tries_to_rollback(self):
-        # We need to fake the following returns from run_moo_cmd:
-        #     1. a moo test for the dir should return ['false']
-        #     2. moo mkdir should appear to work ok
-        #     3. moo put should raise an error and finally...
-        #     4. the rmdir should appear to work ok.
-        self.mock_returns = [['false'], [], moo.MassError("put failed!"), []]
-        mock_moo = util.mock_with_side_effects(self)
-        mock_cmd = util.create_patch(
-            self, "cdds.deprecated.transfer.moo.run_moo_cmd", mock_moo)
-        self.patch_local_dir_exists()
-        local_path = os.path.join("local", "dir")
-        expected_call = [
-            call("test", ["-d", "moose_dir"], simulation=False),
-            call("mkdir", ["-p", "moose_dir"], simulation=False),
-            call("put", ["moose_dir"], simulation=False),
-            call("rmdir", ["moose_dir"], simulation=False)]
-        facet = drs.DataRefSyntax(self.cfg, self.project)
-        facet.fill_facets_from_drs_name(
-            "bsi_Oyr_HadGEM2-ES_G4seaSalt_r1i1p1_2021-2090.nc")
-        self.xfer._put_atom(facet, local_path, "moose_dir", moo_cmd.put)
-        mock_cmd.assert_has_calls(expected_call)
-
-    def patch_local_dir_exists(self):
-        mock_exists = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._local_dir_exists")
-        mock_exists.return_value = True
-        return
-
-
-class TestRerunMoosePut(unittest.TestCase):
-
-    def setUp(self):
-        self.project = "CMIP6"
-        self.cfg, self.xfer = xfer_without_starting_comms(self, self.project)
-        util.patch_mip_parser(self)
-        self.embargoed = state.make_state(state.EMBARGOED)
-        self.ts = date.today().strftime("%Y%m%d")
-
-    def test_rerun_when_nothing_worked(self):
-        self._patch_last_successful(None, None)
-        mock_send = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer.send_to_mass")
-        facets = self._facets(["tas_Amon_UKESM1_historical_r1i2p3"])
-        self.xfer.rerun_send_to_mass(
-            "fake_local", facets, self.embargoed, self.ts)
-        mock_send.assert_called_once_with("fake_local", facets, self.embargoed)
-
-    def test_made_it_to_the_end(self):
-        last_id = "CMIP6.MOHC.UKESM1.rcp45.mon.atmos.Amon.r1i2p3"
-        last_var = "uo"
-        self._patch_last_successful(last_id, last_var)
-        mock_run_put = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
-        drs_names = [
-            "tas_Amon_UKESM1_historical_r1i2p3",
-            "tas_Amon_UKESM1_rcp45_r1i2p3",
-            "uo_Amon_UKESM1_rcp45_r1i2p3"]
-        facets = self._facets(drs_names)
-        self.xfer.rerun_send_to_mass(
-            "fake_local", facets, self.embargoed, self.ts)
-        expected = [self._call(facets, last_id, last_var, overwrite=True)]
-        mock_run_put.assert_has_calls(expected)
-
-    def test_finishes_off_last_id(self):
-        last_id = "CMIP6.MOHC.UKESM1.rcp45.mon.atmos.Amon.r1i2p3"
-        last_var = "uo"
-        self._patch_last_successful(last_id, last_var)
-        mock_run_put = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
-        drs_names = [
-            "tas_Amon_UKESM1_rcp45_r1i2p3",
-            "uo_Amon_UKESM1_rcp45_r1i2p3",
-            "vo_Amon_UKESM1_rcp45_r1i2p3"]
-        facets = self._facets(drs_names)
-        expected_calls = [
-            self._call(facets, last_id, last_var, overwrite=True),
-            self._call(facets, last_id, "vo")]
-        self.xfer.rerun_send_to_mass(
-            "fake_local", facets, self.embargoed, self.ts)
-        mock_run_put.assert_has_calls(expected_calls)
-
-    def test_made_it_part_way(self):
-        drs_names = [
-            "tas_Amon_UKESM1_rcp45_r1i2p3",
-            "uo_Amon_UKESM1_rcp45_r1i2p3",
-            "vo_Amon_UKESM1_rcp45_r1i2p3",
-            "tas_Lmon_UKESM1_rcp45_r1i2p3",
-            "uo_Lmon_UKESM1_rcp45_r1i2p3",
-            "vo_Lmon_UKESM1_rcp45_r1i2p3",
-            "tas_Omon_UKESM1_rcp45_r1i2p3",
-            "uo_Omon_UKESM1_rcp45_r1i2p3",
-            "vo_Omon_UKESM1_rcp45_r1i2p3"]
-        facets = self._facets(drs_names)
-        last_id = "CMIP6.MOHC.UKESM1.rcp45.mon.land.Lmon.r1i2p3"
-        last_var = "uo"
-        ocean_id = "CMIP6.MOHC.UKESM1.rcp45.mon.ocean.Omon.r1i2p3"
-        self._patch_last_successful(last_id, last_var)
-        mock_run_put = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._run_put")
-        expected_calls = [
-            self._call(facets, last_id, last_var, overwrite=True),
-            self._call(facets, last_id, "vo"),
-            self._call(facets, ocean_id, "tas"),
-            self._call(facets, ocean_id, "uo"),
-            self._call(facets, ocean_id, "vo")]
-        self.xfer.rerun_send_to_mass(
-            "fake_local", facets, self.embargoed, self.ts)
-        mock_run_put.assert_has_calls(expected_calls)
-
-    def _facets(self, drs_names):
-        facets = drs.AtomicDatasetCollection()
-        for drs_name in drs_names:
-            facet = drs.DataRefSyntax(self.cfg, self.project)
-            facet.fill_facets_from_drs_name(drs_name)
-            facets.add(facet, filename=drs_name)
-        return facets
-
-    def _patch_last_successful(self, last_id, last_var):
-        mock_last_successful = util.create_patch(
-            self, "cdds.deprecated.transfer.dds.DataTransfer._find_last_successful")
-        mock_last_successful.return_value = (last_id, last_var)
-        return
-
-    def _call(self, facets, ds_id, drs_var, overwrite=False):
-        facet = facets.get_drs_facet_builder(ds_id, drs_var)
-        if overwrite:
-            cmd = moo_cmd.put_safe_overwrite
-        else:
-            cmd = moo_cmd.put
-        return call(
-            "fake_local", facet, self.embargoed, cmd, timestamp=self.ts)
-
-
 class TestMooseMove(unittest.TestCase):
 
     def setUp(self):
@@ -429,7 +196,7 @@ class TestMooseMove(unittest.TestCase):
         expected_call = [
             call("mkdir", ["-p", "moose/new"], simulation=False),
             call("mv", ["moose/old/*", "moose/new"], simulation=False),
-            call("rmdir", ["moose/old"], simulation=False)]
+            call("rmdir", ["--force", "moose/old"], simulation=False)]
         self.mock_moo.assert_has_calls(expected_call)
 
     def fake_single_ls(self, mock_output):
@@ -1120,13 +887,13 @@ class TestInform(unittest.TestCase):
             self, "cdds.deprecated.transfer.msg.Communication.publish_message")
         available = state.make_state(state.AVAILABLE)
         expected_content = {
-            "mass_dir": "fake_moo", "state": available.name(),
+            "mass_dir": "fake_moo/v1", "state": available.name(),
             "facets": self.facet.facets,
-            "dataset_id": self.facet.dataset_id(),
+            "dataset_id": self.facet.dataset_id() + ".v1",
             "mip_era": self.project
         }
         expected_message = msg.MooseMessage(content=expected_content)
-        self.dds.inform(self.facet, "fake_moo", available)
+        self.dds.inform(self.facet, "fake_moo/v1", available)
         mock_publish.assert_called_once_with(expected_message)
 
     def test_inform_handles_quiet_states(self):

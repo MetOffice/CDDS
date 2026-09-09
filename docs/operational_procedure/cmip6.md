@@ -200,6 +200,16 @@ You need to adjust your `request.cfg`:
 | `output_mass_root`    | Path to the moose loction where the data should be archived starts with `moose:`  |
 | `output_mass_suffix`  | Sub-directory in MASS to used when moving data.                                   |
 
+<a id="further_info_url_required"></a>
+
+!!! important
+    `further_info_url` must be set to `None` within the `[netcdf_global_attributes]` section (add it if it doesn't already exist). Failing to do this will currently lead to an error during the QC step ("Cannot retrieve global attribute further_info_url").
+    Note: This is only necessary when producing CMIP6/CMIP6Plus data.
+    e.g.
+    ```
+    [netcdf_global_attributes]
+    further_info_url = None
+    ```
 
 !!! note
     Please check the other values as well and do adjustments as needed. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
@@ -487,16 +497,12 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 
 ## Run CDDS Teardown
 
-1. Once the approved ticket has been returned to you following submission, delete the contents of the data directory:
-    ```bash
-    cd <path to the data directory>
-    rm -rf input output
-    ```
-2. Delete all workflows used:
-    ```bash
-    cdds_clean <path to the request configuration>
-    ```
+1. Once the approved issue has been returned to you following submission, please run `cdds_clean`. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your request file, for the purpose of reducing unnecessary data storage. Type "yes" when prompted to confirm deletion:
+    
+       ```
+       cdds_clean <path_to_your_request_file>
+       ```
 
-3. Update and close the *CDDS operational simulation ticket*
+2. Update and close the *CDDS operational simulation issue*.
   
 

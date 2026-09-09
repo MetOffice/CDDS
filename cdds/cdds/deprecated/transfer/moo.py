@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 import logging
 import re
@@ -112,7 +112,7 @@ def run_moo_cmd(sub_cmd, args, simulation=False, logger=None):
         process = subprocess.Popen(cmd_to_run, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE)
         (cmd_out, cmd_err) = process.communicate()
-        command_id_search = re.search(rb"(command-id=\d+)", cmd_out)
+        command_id_search = re.search(rb"(command-id=[0-9a-fA-F-]+)", cmd_out)
         if command_id_search:
             command_id = command_id_search.group(0)
         else:

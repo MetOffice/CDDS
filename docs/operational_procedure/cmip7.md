@@ -527,13 +527,13 @@ A page describing [common issues](common_issues.md) will be extended as new issu
 Once the workflows for a particular package have completed update your *CDDS operational simulation issue* confirming that 
 the Extract, Convert, QC and Transfer tasks have been completed.
 
-- [x] Copy the request JSON file and any logs to `$CDDS_PROC_DIR`.
+- [x] Copy the request config file and any logs to the proc directory, e.g.
       ```
-      cp request.json *.log $CDDS_PROC_DIR/
+      cp mo_request_<runid>.cfg *.log $CDDS_PROC_DIR/
       ```
 
 - [x] Add a comment to the *CDDS operational simulation issue* specifying the archived data is ready for submission, 
-      and include the full path to your request configuration location.
+      and include the full path to your request configuration location or attach the request file to the issue.
 
 - [x] Add the label `ready for submission` to the *CDDS operational simulation issue* and 
       assign it to Matthew Mizielinski by selecting this name from the list.
@@ -543,19 +543,12 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 
 ## 9. Run CDDS Teardown
 
-1. Once the approved issue has been returned to you following submission, delete the contents of the data directory:
+1. Once the approved issue has been returned to you following submission, please run `cdds_clean`. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your request file, for the purpose of reducing unnecessary data storage. Type "yes" when prompted to confirm deletion:
     
        ```
-       cd <path to the data directory>;   
-       rm -rf input output
+       cdds_clean <path_to_your_request_file>
        ```
 
-2. Delete all workflows used:
-
-       ```    
-       cdds_clean <path to the request configuration>
-       ```
-
-3. Update and close the *CDDS operational simulation issue*.
+2. Update and close the *CDDS operational simulation issue*.
   
 

@@ -59,3 +59,43 @@ To deactivate these variables
 3. Retrigger the corresponding `validate_extract_<stream>` task 
 
 The cdds_convert workflow should then proceed.
+
+
+Alternatively, you may see the following:
+
+    .......
+    Missing required STASH codes: 2530, 2540
+
+    There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
+
+This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
+To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
+
+
+## 4. Extract validation "potential missing STASH code 33" warning
+
+e.g.
+
+    Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
+    ...../ap7/file.pp: STASH warnings relative to reference file file.pp
+		Potential missing STASH codes: 33
+
+This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
+
+
+## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
+
+e.g.
+
+        "mip_table": "APmon",
+        "checker": "cmip6",
+        "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
+        "affected_files": 2,
+        "affected_vars": "ps"
+
+It's likely that `further_info_url` was not set as described [here](cmip6.md#further_info_url_required).
+
+You have two options:
+
+1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
+2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.

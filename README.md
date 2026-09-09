@@ -5,3 +5,19 @@ The Climate Data Dissemination System (CDDS) is a Python-based system that manag
 CDDS has recently been adapted to allow for the easy addition of both models and projects, provided that they follow the structure for CMIP6, i.e. via predefined activities (MIPS), source ids (models) and experiments. As of version 2.2.4 CDDS supports production of data for CMIP6 and for a Met Office internal project [GCModelDev](https://github.com/MetOffice/gcmodeldev-cmor-tables) where Met Office scientists are encouraged to request additional activities and experiments that can be used to support their science. Note that the GCModelDev project is not intended to prepare data for publication -- anyone wanting to publish data or prepare it for an external project is encouraged to contact the [CDDS team](mailto:cdds@metoffice.gov.uk) or start a discussion here.
 
 [The wiki](../../wiki) has further details and links
+
+## Use Of Generative AI
+
+This repository may contain code that has been written by or with the
+assistance of Generative AI.
+Only GenAI tools that have been approved for use by the Met Office may be used.
+These currently include the Met Office's enterprise licensed Github Copilot
+and Met Office Enterprise M365 Copilot. Personal or individually licensed
+Copilot accounts are not approved for use on this repository. The Met Office
+reserves the right to revoke the approval of any GenAI tool at any time for
+any reason.
+
+Note: You must verify and amend as necessary all GenAI output that you intend
+to incorporate into CDDS as you would any non-AI assisted content you produce.
+For example: editing, proof reading, sense checking, code review, testing,
+vulnerability scanning etc.

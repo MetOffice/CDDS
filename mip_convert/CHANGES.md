@@ -1,3 +1,11 @@
+## Release 4.0.2, August 28, 2026
+
+-   Update pp field filtering to ignore any orography fields that fall outside of run bounds (#1022)
+
+## Release 4.0.1, August 24, 2026
+
+-   Update to a few mappings (#1058)
+
 ## Release 4.0.0, July 28th, 2026
 
 -   Adaptations for CMIP7 (#662, #601, #920, #950, #915)

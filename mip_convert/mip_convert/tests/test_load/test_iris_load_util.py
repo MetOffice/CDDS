@@ -375,6 +375,13 @@ class TestPPFilter(unittest.TestCase):
         pp_info = [('lbtim', None)]
         self.assertTrue(pp_filter(field, pp_info, self.run_bounds, ANCIL_VARIABLES))
 
+    def test_orog_out_of_runbounds(self):
+        lbuser = (1, 897024, 0, 33, 0, 0, 1)
+        field = DummyField(lbyr="1850", lbmon="12", lbdat="1", lbyrd="1850", lbmond="12", lbdatd="1", lbuser=lbuser)
+        pp_info = [('lbtim', 0)]
+        run_bounds = ['1851-01-01T00:00:00', '1851-04-01T00:00:00']
+        self.assertFalse(pp_filter(field, pp_info, run_bounds, ANCIL_VARIABLES))
+
 
 class TestCompareValues(unittest.TestCase):
     """Tests for ``compare_values`` in iris_load_util.py."""

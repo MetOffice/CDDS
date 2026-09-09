@@ -1,7 +1,7 @@
-# (C) British Crown Copyright 2022-2025, Met Office.
+# (C) British Crown Copyright 2022-2026, Met Office.
 # Please see LICENSE.md for license details.
 from cdds.versions import get_version
 
 _DEV = True
-_NUMERICAL_VERSION = '4.0.1'
+_NUMERICAL_VERSION = '4.0.3'
 __version__ = get_version('cdds')

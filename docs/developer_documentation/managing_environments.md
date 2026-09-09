@@ -28,8 +28,8 @@ In the majority of cases, a change will normally be driven by a change to the cd
 
 1. Create a new conda environment for development work on this particular change.
     1. This could be done on the cdds account, although modifying environments can sometimes be tricky.  Initially it would be better to do this on a user account first as this minimises the chance of accidentally modifying any existing cdds development environments. There are two approaches adding a package.
-        1. Update environment_dev.yaml specifying a particular version if this needed otherwise this can be left out and let the solver figure out the best version to use.
-        1. Create an environment using environment_dev.yaml and then install the package afterwards using conda install
+        1. Update environment.yaml specifying a particular version if this needed otherwise this can be left out and let the solver figure out the best version to use.
+        1. Create an environment using environment.yaml and then install the package afterwards using conda install
 1. Make the required code changes using this new environment e.g. add the new functionality that makes use of the new package.
 1. When ready to create a pull request with these changes, create the next development environment on the cdds account using the correct naming convention `cdds-X.X_dev-X`
     1. Update setup_dev_env_for_development to point to the new environment on the cdds account.

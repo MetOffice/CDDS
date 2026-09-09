@@ -6,7 +6,7 @@ import logging
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request
 from cdds.common.constants import PRINT_STACK_TRACE
-from cdds.clean.workflows import clean_workflows
+from cdds.clean.workflows import run_teardown
 
 from argparse import Namespace, ArgumentParser, ArgumentDefaultsHelpFormatter
 from typing import List
@@ -35,7 +35,7 @@ def run_cdds_clean(arguments: List[str] = None) -> int:
     logger = logging.getLogger(__name__)
 
     try:
-        clean_workflows(request)
+        run_teardown(request)
         return 0
     except BaseException as exc:
         logger.exception(exc, exc_info=PRINT_STACK_TRACE)

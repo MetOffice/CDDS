@@ -16,7 +16,9 @@ class TestCommonDefaults(TestCase):
         self.model_id = 'UKESM1-0-LL'
         self.experiment_id = 'piControl'
         self.variant_label = 'r1i1p1f1'
-        self.workflow_basename = '{}_{}_{}'.format(self.model_id, self.experiment_id, self.variant_label)
+        self.package = 'round-1'
+        self.workflow_basename = '{}_{}_{}_{}'.format(
+            self.model_id, self.experiment_id, self.variant_label, self.package)
 
     def tearDown(self) -> None:
         PluginStore.clean_instance()
@@ -39,7 +41,7 @@ class TestCommonDefaults(TestCase):
             'workflow_basename': self.workflow_basename
         }
 
-        defaults = common_defaults(self.model_id, self.experiment_id, self.variant_label)
+        defaults = common_defaults(self.model_id, self.experiment_id, self.variant_label, self.package)
         self.assertDictEqual(defaults, expected_defaults)
 
 

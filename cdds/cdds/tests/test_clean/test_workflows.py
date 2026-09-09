@@ -3,10 +3,11 @@
 import logging
 import os
 
+from tempfile import TemporaryDirectory
 from unittest import TestCase, mock
 
 from cdds.tests.factories.request_factory import simple_request
-from cdds.clean.workflows import clean_workflows
+from cdds.clean.workflows import clean_workflow, remove_data_dir, run_teardown
 
 
 class TestCleanWorkflows(TestCase):
@@ -14,68 +15,38 @@ class TestCleanWorkflows(TestCase):
     def setUp(self):
         logging.disable(logging.CRITICAL)
 
+    @mock.patch('cdds.clean.workflows._confirm_teardown')
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_for_one_stream(self, mock_run_command):
-        mock_run_command.return_value = '8'
-        ap6_workflow = 'cdds_workflow_ap6'
+    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown):
+        expected_workflow_name = 'cdds_workflow'
+        mock_confirm_teardown.return_value = True
 
         request = simple_request()
         request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
 
-        clean_workflows(request)
+        run_teardown(request)
 
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', ap6_workflow])]
-
-        mock_run_command.assert_has_calls(calls)
+        mock_run_command.assert_called_once_with(['cylc', 'clean', expected_workflow_name])
 
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_for_multiple_streams(self, mock_run_command):
-        mock_run_command.return_value = '8.2'
-        ap6_workflow = 'cdds_workflow_ap6'
-        ap5_workflow = 'cdds_workflow_ap5'
-        ap4_workflow = 'cdds_workflow_ap4'
-
+    def test_run_teardown_rejects_workflow_name_in_cylc_args(self, mock_run_command):
         request = simple_request()
         request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6', 'ap5', 'ap4']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
+        request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow']
 
-        clean_workflows(request)
+        with self.assertRaisesRegex(ValueError, "--workflow-name.*request file.*CDDS team"):
+            run_teardown(request)
 
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', ap6_workflow]),
-                 mock.call(['cylc', 'clean', ap5_workflow]),
-                 mock.call(['cylc', 'clean', ap4_workflow])]
-        mock_run_command.assert_has_calls(calls)
+        mock_run_command.assert_not_called()
 
-    @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_customised_workflow_name(self, mock_run_command):
-        mock_run_command.return_value = '8'
+    def test_remove_data_dir_removes_data_dir(self):
+        with TemporaryDirectory() as data_dir:
+            self.assertTrue(os.path.exists(data_dir))
 
-        request = simple_request()
-        request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6']
-        request.conversion.cylc_args = ['--workflow-name=cdds_my_workflow_{stream}']
+            remove_data_dir(data_dir)
 
-        clean_workflows(request)
+            self.assertFalse(os.path.exists(data_dir))
 
-        calls = [mock.call(['cylc', '--version']),
-                 mock.call(['cylc', 'clean', 'cdds_my_workflow_ap6'])]
-
-        mock_run_command.assert_has_calls(calls)
-
-    @mock.patch('cdds.clean.workflows.run_command')
-    def test_clean_workflow_wrong_cylc_version(self, mock_run_command):
-        mock_run_command.return_value = '7'
-
-        request = simple_request()
-        request.common.workflow_basename = 'workflow'
-        request.data.streams = ['ap6', 'ap5', 'ap4']
-        request.conversion.cylc_args = ['--workflow-name=cdds_{request_id}_{stream}']
-
-        self.assertRaises(ValueError, clean_workflows, request)
-
-        mock_run_command.assert_called_once_with(['cylc', '--version'])
+    def test_remove_data_dir_raises_os_error_on_non_existent_dir(self):
+        with self.assertRaises(OSError):
+            remove_data_dir('does/not/exist')
