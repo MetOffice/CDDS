@@ -61,7 +61,7 @@
           | `$TZ`               | `UTC` |
           | `$CDDS_PLATFORM`    | `AZURE` |
           | `$CDDS_ETC`         | `$HOME/etc` |
-          | `$DATA_DIR`         | `$DATADIR/cmip7_processing` |
+          | `$CDDS_DATA`         | `$DATADIR/cmip7_processing` |
           | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-X.Y.Z` (X.Y.Z should be set to the environment you've created e.g.3.3.1) |
 
 
