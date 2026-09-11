@@ -224,6 +224,27 @@ class CFMixin:
         ]
 
         for var in ds.get_variables_by_attributes(standard_name='region'):
+            # If variable has flag_meanings, it is a numeric flag variable (§3.5 / §6.1.1).
+            # Validate the standardized region names defined in flag_meanings.
+            if hasattr(var, 'flag_meanings'):
+                flag_meanings = getattr(var, 'flag_meanings', '')
+                if isinstance(flag_meanings, (bytes, bytearray)):
+                    flag_meanings = flag_meanings.decode('utf8')
+                meanings = flag_meanings.split()
+                for meaning in meanings:
+                    valid_region = TestCtx(BaseCheck.MEDIUM,
+                                           "§6.1.1 Geographic region specified by {} is valid"
+                                           "".format(var.name))
+                    valid_region.assert_true(meaning.lower() in region_list,
+                                             "{} is not a valid region"
+                                             "".format(meaning))
+                    ret_val.append(valid_region.to_result())
+                continue
+
+            # Skip numeric grid/variable arrays that do not contain character/string data
+            if np.issubdtype(var.dtype, np.number):
+                continue
+
             regions = var[:]
             # if `regions` is a masked array, convert it to a list
             if np.ma.isMA(regions):
@@ -237,7 +258,10 @@ class CFMixin:
             # now `regions` contains a list of strings
             for region in regions:
                 # convert from a byte list to a string list
-                region = [character.decode('utf8') for character in region]
+                region = [
+                    character.decode('utf8') if isinstance(character, (bytes, bytearray)) else str(character)
+                    for character in region
+                ]
                 # validate each region
                 valid_region = TestCtx(BaseCheck.MEDIUM,
                                        "§6.1.1 Geographic region specified by {} is valid"
