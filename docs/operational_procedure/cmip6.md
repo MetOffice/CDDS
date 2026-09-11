@@ -204,8 +204,7 @@ You need to adjust your `request.cfg`:
 
 !!! important
     `further_info_url` must be set to `None` within the `[netcdf_global_attributes]` section (add it if it doesn't already exist). Failing to do this will currently lead to an error during the QC step ("Cannot retrieve global attribute further_info_url").
-    Note: This is only necessary when producing CMIP6/CMIP6Plus data.
-    e.g.
+    Note: This is only necessary when producing CMIP6/CMIP6Plus/GCModelDev data.
     ```
     [netcdf_global_attributes]
     further_info_url = None

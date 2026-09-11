@@ -52,6 +52,17 @@ e.g. the following appears in the extract_validate log for the ap5 stream
 
 This means that CDDS didn't find STASH codes it was expecting in the stream being extracted and therefore cannot produce the listed variables.
 
+!!! warning
+
+    There is currently a bug in this tool in CDDS version <=4.0.3.
+    When run, ensure that there is only one `validate` log for the stream of which you want to fix in your `extract/log`
+    directory - and that it is the latest log.
+
+    If there is more than one log for the same stream with an older timestamp, the tool may use the older one by mistake.
+    This could lead to your variables file being adjusted incorrectly.
+
+    To avoid this bug, move any older logs for the streams that need to be fixed out of that directory before you run the tool.
+
 To deactivate these variables
 
 1. Run `update_variables_from_validate <request file>` to automatically comment the variables from the variable list
@@ -83,7 +94,7 @@ e.g.
 This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
 
 
-## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus processing)
+## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
 
 e.g.
 
