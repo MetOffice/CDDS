@@ -644,8 +644,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
-    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plusgcmodeldev-processing" class="md-nav__link">
+    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
   </a>
   
 </li>
@@ -1631,8 +1631,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing" class="md-nav__link">
-    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus processing)
+  <a href="#5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plusgcmodeldev-processing" class="md-nav__link">
+    5. QC task failure: Cannot retrieve further_info_url (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
   </a>
   
 </li>
@@ -1684,6 +1684,15 @@ Traceback (most recent call last):
 landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
 </code></pre>
 <p>This means that <abbr title="Climate Data Dissemination System">CDDS</abbr> didn't find <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> codes it was expecting in the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> being extracted and therefore cannot produce the listed variables.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is currently a bug in this tool in <abbr title="Climate Data Dissemination System">CDDS</abbr> version &lt;=4.0.3.
+When run, ensure that there is only one <code>validate</code> log for the <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> of which you want to fix in your <code>extract/log</code>
+directory - and that it is the latest log.</p>
+<p>If there is more than one log for the same <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr> with an older timestamp, the tool may use the older one by mistake.
+This could lead to your variables file being adjusted incorrectly.</p>
+<p>To avoid this bug, move any older logs for the <abbr title="Each stream is a group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">streams</abbr> that need to be fixed out of that directory before you run the tool.</p>
+</div>
 <p>To deactivate these variables</p>
 <ol>
 <li>Run <code>update_variables_from_validate &lt;request file&gt;</code> to automatically comment the variables from the variable list</li>
@@ -1706,7 +1715,7 @@ To continue, please set the task as succeeded either by hitting left click on th
     Potential missing STASH codes: 33
 </code></pre>
 <p>This means that <abbr title="Climate Data Dissemination System">CDDS</abbr> has identified an inconsistency surrounding <abbr title="Spatial and Temporal Averaging and Storage Handling.">STASH</abbr> code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.</p>
-<h2 id="5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plus-processing">5. QC task failure: <code>Cannot retrieve further_info_url</code> (exclusive to <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus processing)</h2>
+<h2 id="5-qc-task-failure-cannot-retrieve-further_info_url-exclusive-to-cmip6cmip6plusgcmodeldev-processing">5. QC task failure: <code>Cannot retrieve further_info_url</code> (exclusive to <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus/GCModelDev processing)</h2>
 <p>e.g.</p>
 <pre><code>    "mip_table": "APmon",
     "checker": "cmip6",

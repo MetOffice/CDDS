@@ -1742,6 +1742,14 @@ the experiment_id and/or variant_label fields, possibly the mip, and the workflo
 </tr>
 </tbody>
 </table>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><code>further_info_url</code> must be set to <code>None</code> within the <code>[netcdf_global_attributes]</code> section (add it if it doesn't already exist). Failing to do this will currently lead to an error during the QC step ("Cannot retrieve global attribute further_info_url").
+Note: This is only necessary when producing <abbr title="Coupled Model Intercomparison Project">CMIP6</abbr>/CMIP6Plus/GCModelDev data.
+<div class="highlight"><pre><span></span><code>[netcdf_global_attributes]
+further_info_url = None
+</code></pre></div></p>
+</div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The <abbr title="Climate Data Dissemination System">CDDS</abbr> data directory is the directory where the <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> are written to. The <abbr title="Climate Data Dissemination System">CDDS</abbr> proc directory is the 

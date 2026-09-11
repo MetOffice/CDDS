@@ -1007,6 +1007,26 @@
     Ensure all the tests pass in the 'real live environment'
   </a>
   
+    <nav class="md-nav" aria-label="Ensure all the tests pass in the 'real live environment'">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manually-add-nccmp-to-the-new-environment_1" class="md-nav__link">
+    Manually add nccmp to the new environment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-installation-is-now-considered-complete" class="md-nav__link">
+    The installation is now considered complete
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1576,6 +1596,26 @@
     Ensure all the tests pass in the 'real live environment'
   </a>
   
+    <nav class="md-nav" aria-label="Ensure all the tests pass in the 'real live environment'">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manually-add-nccmp-to-the-new-environment_1" class="md-nav__link">
+    Manually add nccmp to the new environment
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-installation-is-now-considered-complete" class="md-nav__link">
+    The installation is now considered complete
+  </a>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1635,9 +1675,10 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code> and <code>CDDS_ETC</code> variables.
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the <code>CDDS_PLATFORM</code>, <code>CDDS_ETC</code> and <code>CDDS_DATA</code> variables.
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_PLATFORM</span><span class="o">=</span>AZURE
 conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_ETC</span><span class="o">=</span><span class="nv">$HOME</span>/etc
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">CDDS_DATA</span><span class="o">=</span><span class="nv">$DATADIR</span>/cmip7_processing
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
@@ -1678,12 +1719,71 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 <td><code>$HOME/etc</code></td>
 </tr>
 <tr>
+<td><code>$CDDS_DATA</code></td>
+<td><code>$DATADIR/cmip7_processing</code></td>
+</tr>
+<tr>
 <td><code>$CDDS_ENV_COMMAND</code></td>
 <td><code>$conda activate $HOME/conda_environments/cdds-X.Y.Z</code> (X.Y.Z should be set to the environment you've created e.g.3.3.1)</td>
 </tr>
 </tbody>
 </table>
 </li>
+</ul>
+<h3 id="manually-add-nccmp-to-the-new-environment">Manually add <code>nccmp</code> to the new environment</h3>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>nccmp</code> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> currently causes the environment to fail solving due to a dependency conflict involving 
+<code>libnetcdf</code>. Until this is fixed, we have to manually add the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> to new environments after they're created
+with the following steps.</p>
+</div>
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> cd into the <code>bin</code> directory of the environment you've created within <code>$HOME/conda_environments/</code></p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run this command to manually add nccmp to the environment:
+      <div class="highlight"><pre><span></span><code>ln<span class="w"> </span>-s<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-3.3.3/bin/nccmp<span class="w"> </span>nccmp
+</code></pre></div></p>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
+    of symlinking, there would be test failures.</p>
+</div>
+<h2 id="ensure-all-the-tests-pass-in-the-real-live-environment">Ensure all the tests pass in the 'real live environment'</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Tests can only be run on Azure (Met Office).</p>
+</div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The tests must be executed as the <code>cdds</code> user</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the following environment variable, making sure to replace <code>X.Y.Z</code> with the relevant version.
+      <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SRCDIR</span><span class="o">=</span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
+</code></pre></div></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run the following tests.
+      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for cdds:&quot;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not integration and not rabbitMQ and not data_request&#39;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>slow
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>integration
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>data_request
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for mip_convert:&quot;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not mappings and not superslow&#39;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>mappings
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>slow
+</code></pre></div></li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Slow unit tests for <code>transfer</code> and <code>cdds_configure</code> will display error messages to standard output. This is intentional, 
+and does not indicate the tests fail (see <code>transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()</code> 
+for details).</p>
+</div>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The folder you created at the start to undertake the installation process can now be deleted.
+      <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-r<span class="w"> </span>temporary_installation_folder
+</code></pre></div></li>
 </ul>
 </div>
 <div class="tabbed-block">
@@ -1773,15 +1873,12 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </table>
 </li>
 </ul>
-</div>
-</div>
-</div>
-<h2 id="manually-add-nccmp-to-the-new-environment">Manually add <code>nccmp</code> to the new environment</h2>
+<h3 id="manually-add-nccmp-to-the-new-environment_1">Manually add <code>nccmp</code> to the new environment</h3>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>The <code>nccmp</code> <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> currently causes the environment to fail solving due to a dependency conflict involving 
-  <code>libnetcdf</code>. Until this is fixed, we have to manually add the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> to new environments after they're created
-  with the following steps.</p>
+<code>libnetcdf</code>. Until this is fixed, we have to manually add the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> to new environments after they're created
+with the following steps.</p>
 </div>
 <ul class="task-list">
 <li class="task-list-item">
@@ -1796,41 +1893,14 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
- of symlinking, there would be test failures.</p>
+of symlinking, there would be test failures.</p>
 </div>
-<h2 id="ensure-all-the-tests-pass-in-the-real-live-environment">Ensure all the tests pass in the 'real live environment'</h2>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Tests can only be run on Azure (Met Office).</p>
+<h2 id="the-installation-is-now-considered-complete">The installation is now considered complete</h2>
+<p>There is no need to run the unit tests when installing on JASMIN, as the infrastructure is different
+to Azure (running tests would break expectedly).</p>
 </div>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The tests must be executed as the <code>cdds</code> user</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Set the following environment variable, making sure to replace <code>X.Y.Z</code> with the relevant version.
-      <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">SRCDIR</span><span class="o">=</span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
-</code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run the following tests.
-      <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for cdds:&quot;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not integration and not rabbitMQ and not data_request&#39;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>slow
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>integration
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>data_request
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for mip_convert:&quot;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not mappings and not superslow&#39;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>mappings
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>slow
-</code></pre></div></li>
-</ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Slow unit tests for <code>transfer</code> and <code>cdds_configure</code> will display error messages to standard output. This is intentional, 
-and does not indicate the tests fail (see <code>transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()</code> 
-for details).</p>
 </div>
-<ul class="task-list">
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The folder you created at the start to undertake the installation process can now be deleted.
-      <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-r<span class="w"> </span>temporary_installation_folder
-</code></pre></div></li>
-</ul>
+</div>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
