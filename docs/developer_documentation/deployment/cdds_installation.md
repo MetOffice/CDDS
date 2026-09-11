@@ -37,10 +37,11 @@
           conda env config vars set CDDS_ENV_COMMAND="conda activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
 
-    - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables.
+    - [x] Set the `CDDS_PLATFORM`, `CDDS_ETC` and `CDDS_DATA` variables.
           ```bash
           conda env config vars set CDDS_PLATFORM=AZURE
           conda env config vars set CDDS_ETC=$HOME/etc
+          conda env config vars set CDDS_DATA=$DATADIR/cmip7_processing
           ```
 
     - [x] Confirm environment variables:
@@ -60,6 +61,7 @@
           | `$TZ`               | `UTC` |
           | `$CDDS_PLATFORM`    | `AZURE` |
           | `$CDDS_ETC`         | `$HOME/etc` |
+          | `$CDDS_DATA`        | `$DATADIR/cmip7_processing` |
           | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-X.Y.Z` (X.Y.Z should be set to the environment you've created e.g.3.3.1) |
 
     ### Manually add `nccmp` to the new environment
