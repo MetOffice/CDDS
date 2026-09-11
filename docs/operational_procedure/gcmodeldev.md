@@ -120,6 +120,13 @@ You also need to set following values manually:
 | `output_mass_root`   | Path to the moose location where the data should be archived starts with `moose:` |
 | `output_mass_suffix` | Sub-directory in MASS to used when moving data.                                   |
 
+!!! important
+    `further_info_url` must be set to `None` within the `[netcdf_global_attributes]` section (add it if it doesn't already exist). Failing to do this will currently lead to an error during the QC step ("Cannot retrieve global attribute further_info_url").
+    Note: This is only necessary when producing CMIP6/CMIP6Plus/GCModelDev data.
+    ```
+    [netcdf_global_attributes]
+    further_info_url = None
+    ```
 
 !!! info
     The CDDS data directory is the directory where the model output files are written to. The CDDS proc directory is the 

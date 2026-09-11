@@ -62,6 +62,56 @@
           | `$CDDS_ETC`         | `$HOME/etc` |
           | `$CDDS_ENV_COMMAND` | `$conda activate $HOME/conda_environments/cdds-X.Y.Z` (X.Y.Z should be set to the environment you've created e.g.3.3.1) |
 
+    ### Manually add `nccmp` to the new environment
+
+    !!! info
+        The `nccmp` package currently causes the environment to fail solving due to a dependency conflict involving 
+        `libnetcdf`. Until this is fixed, we have to manually add the package to new environments after they're created
+        with the following steps.
+
+    - [x] cd into the `bin` directory of the environment you've created within `$HOME/conda_environments/`
+
+    - [x] Run this command to manually add nccmp to the environment:
+          ```bash
+          ln -s $HOME/conda_environments/cdds-3.3.3/bin/nccmp nccmp
+          ```
+
+    !!! warning
+        This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
+            of symlinking, there would be test failures.
+    
+    ## Ensure all the tests pass in the 'real live environment'
+    
+    !!! warning
+        Tests can only be run on Azure (Met Office).
+    
+    - [x] The tests must be executed as the `cdds` user
+    - [x] Set the following environment variable, making sure to replace `X.Y.Z` with the relevant version.
+          ```bash
+          export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
+          ```
+    - [x] Run the following tests.
+          ```bash
+          echo "# Executing tests for cdds:"
+          pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
+          pytest -s $SRCDIR/cdds -m slow
+          pytest -s $SRCDIR/cdds -m integration
+          pytest -s $SRCDIR/cdds -m data_request
+          echo "# Executing tests for mip_convert:"
+          pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not mappings and not superslow'
+          pytest -s $SRCDIR/mip_convert -m mappings
+          pytest -s $SRCDIR/mip_convert -m slow
+          ```
+    
+    !!! info
+        Slow unit tests for `transfer` and `cdds_configure` will display error messages to standard output. This is intentional, 
+        and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
+        for details).
+    
+    - [x] The folder you created at the start to undertake the installation process can now be deleted.
+          ```bash
+          rm -r temporary_installation_folder
+          ```
 
 
 === "On Jasmin"
@@ -123,56 +173,28 @@
           | `$CDDS_ETC`         | `$HOME/etc` |
           | `$CDDS_ENV_COMMAND` | `$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z` |
 
-## Manually add `nccmp` to the new environment
+    ### Manually add `nccmp` to the new environment
 
-!!! info
-      The `nccmp` package currently causes the environment to fail solving due to a dependency conflict involving 
-      `libnetcdf`. Until this is fixed, we have to manually add the package to new environments after they're created
-      with the following steps.
+    !!! info
+        The `nccmp` package currently causes the environment to fail solving due to a dependency conflict involving 
+        `libnetcdf`. Until this is fixed, we have to manually add the package to new environments after they're created
+        with the following steps.
 
-- [x] cd into the `bin` directory of the environment you've created within `$HOME/conda_environments/`
+    - [x] cd into the `bin` directory of the environment you've created within `$HOME/conda_environments/`
 
-- [x] Run this command to manually add nccmp to the environment:
-      ```bash
-      ln -s $HOME/conda_environments/cdds-3.3.3/bin/nccmp nccmp
-      ```
+    - [x] Run this command to manually add nccmp to the environment:
+          ```bash
+          ln -s $HOME/conda_environments/cdds-3.3.3/bin/nccmp nccmp
+          ```
 
-!!! warning
-    This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
-     of symlinking, there would be test failures.
+    !!! warning
+        This should be done by creation of a symlink (as demonstrated above). If you were to copy the nccmp folder instead
+        of symlinking, there would be test failures.
 
-## Ensure all the tests pass in the 'real live environment'
+    ## The installation is now considered complete
 
-!!! warning
-    Tests can only be run on Azure (Met Office).
-
-- [x] The tests must be executed as the `cdds` user
-- [x] Set the following environment variable, making sure to replace `X.Y.Z` with the relevant version.
-      ```bash
-      export SRCDIR=$HOME/conda_environments/cdds-X.Y.Z/lib/python3.12/site-packages
-      ```
-- [x] Run the following tests.
-      ```bash
-      echo "# Executing tests for cdds:"
-      pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
-      pytest -s $SRCDIR/cdds -m slow
-      pytest -s $SRCDIR/cdds -m integration
-      pytest -s $SRCDIR/cdds -m data_request
-      echo "# Executing tests for mip_convert:"
-      pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not mappings and not superslow'
-      pytest -s $SRCDIR/mip_convert -m mappings
-      pytest -s $SRCDIR/mip_convert -m slow
-      ```
-
-!!! info
-    Slow unit tests for `transfer` and `cdds_configure` will display error messages to standard output. This is intentional, 
-    and does not indicate the tests fail (see `transfer.tests.test_command_line.TestMainStore.test_transfer_functional_failing_moo()` 
-    for details).
-
-- [x] The folder you created at the start to undertake the installation process can now be deleted.
-      ```bash
-      rm -r temporary_installation_folder
-      ```
+    There is no need to run the unit tests when installing on JASMIN, as the infrastructure is different
+    to Azure (running tests would break expectedly).
 
 ## Troubleshooting
 
