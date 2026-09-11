@@ -240,6 +240,10 @@
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
+        "onm-diaptr":[
+          "depthw_bounds",
+          "time_centered_bounds"
+        ],
         "onm-ptrc-T": [
           "bounds_nav_lon",
           "bounds_nav_lat",
