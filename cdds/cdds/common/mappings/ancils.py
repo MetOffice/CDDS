@@ -35,7 +35,7 @@ def remove_ancils_from_mapping(mapping, model_id):
     for loadable in mapping.loadables:
         # Strip bracket constraints to isolate the bare identifier (e.g. 'mask_3D_U' from
         # 'mask_3D_U[depth<1]' or 'm01s00i505' from 'm01s00i505[lbproc=128]'), allowing for
-        # direct matching against NetCDF and PP ancil_variables.
+        # direct matching against NetCDF and PP ancil variables.
         base_loadable_name = loadable.name.split('[')[0]
         if base_loadable_name not in ancil_variables:
             filtered_loadables.append(loadable)
