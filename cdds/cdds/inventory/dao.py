@@ -101,7 +101,7 @@ class DBVariableData(object):
             rows in the database containing the variable data
         """
         self._row = {row[5]: DBVariable(row) for row in db_data}
-        self._variables_data = {(row[11], row[12]): DBVariable(row) for row in db_data}
+        self._variables_data = {(row[12], row[13]): DBVariable(row) for row in db_data}
 
     def get_variable(self, mip_table, variable_name):
         """Returns the data of the variable having given mip table and name
@@ -164,16 +164,20 @@ class DBVariable(object):
         return self._data[4]
 
     @property
-    def mip_table(self):
+    def region(self):
         return self._data[11]
 
     @property
-    def name(self):
+    def frequency(self):
         return self._data[12]
 
     @property
-    def status(self):
+    def name(self):
         return self._data[13]
+
+    @property
+    def status(self):
+        return self._data[14]
 
     @property
     def institute(self):
@@ -185,7 +189,7 @@ class DBVariable(object):
 
     @property
     def grid(self):
-        return self._data[14]
+        return self._data[15]
 
 
 class DBVariableStatus(enum.Enum):
