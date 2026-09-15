@@ -32,6 +32,10 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
         self.mapping_nc_ancil_sliced = DummyMapping(
             expression='mask_copy(tauuo, mask_3D_U[depth<1])',
             model_id='HadGEM3-GC31-LL')
+        self.mapping_pp_ancil_with_constraint = DummyMapping(
+            expression=('multiply_cubes(m01s03i495[lbproc=128] '
+                        '+ m01s03i496[lbproc=128], m01s00i505[lbproc=128])'),
+            model_id='HadGEM3-GC31-LL')
 
     def test_pp_no_ancil(self):
         expected = deepcopy(self.mapping_pp_no_ancil)
@@ -44,6 +48,15 @@ class TestRemoveAncilVariableMapping(unittest.TestCase):
             if loadable.name == 'm01s00i505':
                 expected.loadables.remove(loadable)
         result = remove_ancils_from_mapping(self.mapping_pp_ancil, self.mapping_pp_ancil.model_id)
+        self.assertListEqual(expected.loadables, result.loadables)
+
+    def test_pp_ancil_with_constraint(self):
+        expected = deepcopy(self.mapping_pp_ancil_with_constraint)
+        for loadable in expected.loadables:
+            if loadable.name == 'm01s00i505[lbproc=128]':
+                expected.loadables.remove(loadable)
+        result = remove_ancils_from_mapping(
+            self.mapping_pp_ancil_with_constraint, self.mapping_pp_ancil_with_constraint.model_id)
         self.assertListEqual(expected.loadables, result.loadables)
 
     def test_nc_no_ancil(self):
