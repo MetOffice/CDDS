@@ -26,7 +26,7 @@ def remove_ancils_from_mapping(mapping, model_id):
     """
     logger = logging.getLogger(__name__)
     filtered_loadables = []
-    removed_loadable_names = []
+    removed_ancil_names = []
 
     plugin = PluginStore.instance().get_plugin()
     ancil_variables = plugin.models_parameters(model_id).all_ancil_variables()
@@ -37,15 +37,15 @@ def remove_ancils_from_mapping(mapping, model_id):
         if base_name not in ancil_variables and loadable.stash not in ancil_variables:
             filtered_loadables.append(loadable)
         else:
-            removed_loadable_names.append(loadable.name)
+            removed_ancil_names.append(loadable.name)
 
     variable_key = ('{0.mip_table_id}/{0.mip_requested_variable_name}'
                     '').format(mapping)
-    if removed_loadable_names:
+    if removed_ancil_names:
         logger.debug(
             'Removed the following ancillaries from the model to MIP mapping '
             'for "{}": "{}"'
-            ''.format(variable_key, '", "'.join(removed_loadable_names)))
+            ''.format(variable_key, '", "'.join(removed_ancil_names)))
         mapping.loadables = filtered_loadables
 
     return mapping
