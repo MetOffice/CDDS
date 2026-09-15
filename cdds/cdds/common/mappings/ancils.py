@@ -33,7 +33,8 @@ def remove_ancils_from_mapping(mapping, model_id):
     ancil_variables.extend(ANCIL_VARIABLES)
 
     for loadable in mapping.loadables:
-        if loadable.name not in ancil_variables and loadable.stash not in ancil_variables:
+        base_name = loadable.name.split('[')[0]
+        if base_name not in ancil_variables and loadable.stash not in ancil_variables:
             filtered_loadables.append(loadable)
         else:
             removed_loadable_names.append(loadable.name)
