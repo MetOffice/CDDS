@@ -40,27 +40,6 @@ def get_logger(request: Request, plugin):
     return logging.getLogger(__name__)
 
 
-def get_input_data_dir(request: Request) -> str:
-    """Gets the input data directory root.
-
-    Parameters
-    ----------
-    request: Request
-        The request file content.
-
-    Returns
-    -------
-    str:
-        The path to the input data directory as a string
-    """
-    return (f"{request.common.root_data_dir}/"
-            f"{request.metadata.mip_era}/"
-            f"{request.metadata.mip}/"
-            f"{"_".join(request.common.workflow_basename.split("_")[:-1])}/"
-            f"{request.common.package}/input/"
-            f"{request.data.model_workflow_id}/")
-
-
 def calc_median_filesize(data_dir: str, all_files: list) -> float:
     """Calculates the median file size for all files in the input directory for a single stream.
 
@@ -142,6 +121,7 @@ def check_duplicates(files_to_check: list) -> list:
 
 
 def main_check_duplicate_pp_fields():
+    """Checks input pp files for duplicated fields for requested streams"""
     parser = argparse.ArgumentParser()
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to check. No specification will "
@@ -152,7 +132,7 @@ def main_check_duplicate_pp_fields():
     plugin = PluginStore.instance().get_plugin()
     logger = get_logger(request, plugin)
 
-    root_data_dir = get_input_data_dir(request)
+    root_data_dir = plugin.data_directory(request) + f"/input/{request.data.model_workflow_id}/"
     streams = list(args.streams) if args.streams else request.data.streams
     for stream in streams:
         # Skip any ancil streams or streams that do not use pp data.
@@ -176,7 +156,3 @@ def main_check_duplicate_pp_fields():
                 duplicates = list(duplicates)
                 logger.critical(f"{len(duplicates)} Files with duplicate fields found:"
                                 f"\n  {'\n  '.join(sorted(duplicates))}")
-
-
-if __name__ == "__main__":
-    main_check_duplicate_pp_fields()
