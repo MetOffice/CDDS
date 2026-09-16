@@ -1111,6 +1111,7 @@ def MIP_to_model_axis_name_mapping():
         'sza5': 'solar_zenith_angle',
         'landUse': 'landUse',
         'landuse': 'landUse',
+        'vegtype': 'vegtype',
         'tau': 'atmosphere_optical_thickness_due_to_cloud',
         'spectband': 'pseudo_level',
         'basin': 'region',
