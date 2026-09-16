@@ -141,7 +141,7 @@ def check_duplicates(files_to_check: list) -> list:
     return duplicates
 
 
-def main():
+def main_check_duplicate_pp_fields():
     parser = argparse.ArgumentParser()
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to check. No specification will "
@@ -179,4 +179,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main_check_duplicate_pp_fields()
