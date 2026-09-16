@@ -150,31 +150,32 @@ def main():
 
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
-    #logger = get_logger(request, plugin)
+    logger = get_logger(request, plugin)
 
     root_data_dir = get_input_data_dir(request)
     streams = list(args.streams) if args.streams else request.data.streams
     for stream in streams:
         # Skip any ancil streams or streams that do not use pp data.
         if stream in ["ofx", "afx", "onm", "ond", "inm", "ind"]:
-            print(f"Skipping non pp type stream {stream}")
+            logger.info(f"Skipping non pp type stream {stream}")
             continue
 
         data_dir = root_data_dir + stream
         if not os.path.exists(data_dir):
-            print(f"{data_dir} does not exist, skipping stream {stream}")
+            logger.warning(f"{data_dir} does not exist, skipping stream {stream}")
             continue
-        print(f"Checking data in {data_dir}")
+        logger.info(f"Checking data in {data_dir}")
 
         files_to_check = get_files_to_check(data_dir, os.listdir(data_dir))
         if not files_to_check:
-            print(f"No excessively large files found...Skipping stream {stream}")
+            logger.info(f"No excessively large files found...Skipping stream {stream}")
         else:
-            print(f"Found {len(files_to_check)} files to check")
+            logger.info(f"Found {len(files_to_check)} files to check")
             duplicates = check_duplicates(files_to_check)
             if duplicates:
                 duplicates = list(duplicates)
-                print(f"{len(duplicates)} Files with duplicate fields found:\n  {'\n  '.join(sorted(duplicates))}")
+                logger.critical(f"{len(duplicates)} Files with duplicate fields found:"
+                                f"\n  {'\n  '.join(sorted(duplicates))}")
 
 
 if __name__ == "__main__":
