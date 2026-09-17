@@ -496,6 +496,22 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 
 ## Run CDDS Teardown
 
+!!!warning
+    The teardown tool is currently unavailable due to a bug in CDDS versions <=4.0.3
+    Until it is fixed, the teardown process can be undertaken manually by.
+
+    1. Entering the `data` directory for your specific workflow run (Ensure that the filepath
+     ends in the correct round associated with the workflow, e.g. "round-1").
+
+    2. Run this command:
+    ```
+        rm -rf input output
+    ```
+
+    3. Run `cylc clean (workflow name)` using the name of the workflow from this round of processing.
+
+    The teardown process is now complete.
+
 1. Once the approved issue has been returned to you following submission, please run `cdds_clean`. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your request file, for the purpose of reducing unnecessary data storage. Type "yes" when prompted to confirm deletion:
     
        ```
