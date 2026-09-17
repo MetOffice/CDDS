@@ -2,9 +2,11 @@
 # Please see LICENSE.md for license details.
 """Module to provide functionality for tearing down CDDS workflows"""
 import logging
+import os
 import shutil
 
 from cdds.common import run_command
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request
 
 
@@ -37,38 +39,43 @@ def run_teardown(request: Request) -> None:
                 "'--workflow-name' detected in the request file's cylc_args, "
                 "please contact the CDDS team for guidance, or remove associated workflows and data by hand."
             )
-    data_dir = request.common.root_data_dir
-    request_id = request.common.workflow_basename
-    workflow_name = f'cdds_{request_id}'
 
-    if not _confirm_teardown(data_dir, workflow_name):
+    plugin = PluginStore.instance().get_plugin()
+    workflow_data_dir = plugin.data_directory(request)
+    cdds_workflow_name = f'cdds_{request.common.workflow_basename}'
+
+    if not _confirm_teardown(workflow_data_dir, cdds_workflow_name):
 
         logger.info("Teardown cancelled; no data was removed.")
         return
 
-    clean_workflow(workflow_name)
-    remove_data_dir(data_dir)
+    clean_workflow(cdds_workflow_name)
+    remove_data_dir(workflow_data_dir)
     logger.info('cdds_clean complete.')
 
 
 def remove_data_dir(data_dir: str) -> None:
-    """Remove the specified data directory.
+    """Remove input and output directories within the specified data directory.
 
     Parameters
     ----------
     data_dir : str
-        Path to the data directory to be removed.
+        Path to the data directory containing input and output folders.
     """
     logger = logging.getLogger(__name__)
-    logger.info('Removing data directory: {}'.format(data_dir))
+    logger.info('Removing input and output directories in: {}'.format(data_dir))
 
-    try:
-        shutil.rmtree(data_dir)
-    except OSError:
-        logger.exception('Failed to remove data directory: %s', data_dir)
-        raise
+    for folder_name in ('input', 'output'):
+        target_dir = os.path.join(data_dir, folder_name)
+        if os.path.exists(target_dir):
+            try:
+                shutil.rmtree(target_dir)
+                logger.info('Removed directory: %s', target_dir)
+            except OSError:
+                logger.exception('Failed to remove directory: %s', target_dir)
+                raise
 
-    logger.info('Data directory removal complete.')
+    logger.info('Data directories removal complete.')
 
 
 def clean_workflow(workflow_name: str) -> None:
