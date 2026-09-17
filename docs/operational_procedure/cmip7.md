@@ -556,7 +556,7 @@ the Extract, Convert, QC and Transfer tasks have been completed.
         rm -rf input output
     ```
 
-    3. Run `cylc clean (workflow name)` using the name of the workflow you want to tear down.
+    3. Run `cylc clean (workflow name)` using the name of the workflow from this round of processing.
 
     The teardown process is now complete.
 
