@@ -65,6 +65,9 @@ Each option belongs to a particular section and is documented in [Request Config
     standard_names_dir = $CDDS_ETC/standard_names/
     simulation = False
     log_level = INFO
+
+    [netcdf_global_attributes]
+    further_info_url = None
     
     [data]
     data_version =  
