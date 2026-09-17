@@ -5,8 +5,8 @@ methods to access the inventory database
 """
 import enum
 
-import cdds.inventory.db_models as inventory
 import cdds.common as common
+import cdds.inventory.db_models as inventory
 
 
 class InventoryDAO(object):
@@ -103,22 +103,22 @@ class DBVariableData(object):
         self._row = {row[5]: DBVariable(row) for row in db_data}
         self._variables_data = {(row[12], row[13]): DBVariable(row) for row in db_data}
 
-    def get_variable(self, mip_table, variable_name):
-        """Returns the data of the variable having given mip table and name
+    def get_variable(self, frequency, variable_name):
+        """Returns the data of the variable having given frequency and name
 
         Parameters
         ----------
-        mip_table: str
-            MIP table of the requested variable
+        frequency: str
+            frequency of the requested variable
         variable_name: str
             name of the requested variable
 
         Return
         ------
         `cdds.inventory.dao.DBVariable`
-            data of the variable in the database
+            data of the variable in the database, identified by its frequency and name
         """
-        identifier = (mip_table, variable_name)
+        identifier = (frequency, variable_name)
         return self._variables_data[identifier]
 
 
@@ -137,7 +137,7 @@ class DBVariable(object):
         self._data = db_data
 
     def has_not_status(self, status):
-        return self._data[13] != status.value
+        return self._data[14] != status.value
 
     @property
     def id(self):
