@@ -24,7 +24,7 @@ class TestCleanWorkflows(TestCase):
     @mock.patch('cdds.clean.workflows.remove_data_dir')
     @mock.patch('cdds.clean.workflows._confirm_teardown', return_value=True)
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_run_teardown_uses_cdds_request_basename(
+    def test_run_teardown_uses_cdds_workflow_basename(
         self, mock_run_command, mock_confirm_teardown, mock_remove_data_dir
     ):
         expected_workflow_name = 'cdds_workflow'
