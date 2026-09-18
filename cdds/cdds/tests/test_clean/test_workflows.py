@@ -21,9 +21,10 @@ class TestCleanWorkflows(TestCase):
     def tearDown(self):
         PluginStore.clean_instance()
 
+    @mock.patch('cdds.clean.workflows.remove_data_dir')
     @mock.patch('cdds.clean.workflows._confirm_teardown', return_value=True)
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown):
+    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown, mock_remove_data_dir):
         expected_workflow_name = 'cdds_workflow'
 
         request = simple_request()
@@ -32,7 +33,9 @@ class TestCleanWorkflows(TestCase):
         run_teardown(request)
 
         mock_run_command.assert_called_once_with(['cylc', 'clean', expected_workflow_name])
+        mock_remove_data_dir.assert_called_once()
 
+    # Test covers legacy case where user specifies workflow name in cylc_args.
     @mock.patch('cdds.clean.workflows.run_command')
     def test_run_teardown_rejects_workflow_name_in_cylc_args(self, mock_run_command):
         request = simple_request()
@@ -57,15 +60,13 @@ class TestCleanWorkflows(TestCase):
             self.assertFalse(os.path.exists(output_dir))
             self.assertTrue(os.path.exists(data_dir))
 
-    @mock.patch('cdds.clean.workflows.shutil.rmtree')
-    def test_remove_data_dir_noop_when_dirs_missing(self, mock_rmtree):
+    def test_remove_data_dir_raises_file_not_found_when_dirs_missing(self):
         with TemporaryDirectory() as data_dir:
-            remove_data_dir(data_dir)
-            mock_rmtree.assert_not_called()
+            with self.assertRaises(FileNotFoundError):
+                remove_data_dir(data_dir)
 
-    @mock.patch('cdds.clean.workflows.os.path.exists', return_value=True)
     @mock.patch('cdds.clean.workflows.shutil.rmtree')
-    def test_remove_data_dir_raises_os_error(self, mock_rmtree, mock_exists):
+    def test_remove_data_dir_raises_os_error(self, mock_rmtree):
         mock_rmtree.side_effect = OSError('Permission denied')
         with self.assertRaises(OSError):
             remove_data_dir('/dummy/data/dir')

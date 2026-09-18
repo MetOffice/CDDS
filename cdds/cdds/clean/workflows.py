@@ -65,22 +65,14 @@ def remove_data_dir(data_dir: str) -> None:
     logger = logging.getLogger(__name__)
     logger.info('Removing input and output directories in: {}'.format(data_dir))
 
-    removed_any = False
-    for folder_name in ('input', 'output'):
-        target_dir = os.path.join(data_dir, folder_name)
-        if os.path.exists(target_dir):
-            try:
-                shutil.rmtree(target_dir)
-                removed_any = True
-                logger.info(f'Removed "{target_dir}" directory')
-            except OSError:
-                logger.exception(f'Failed to remove "{target_dir}" directory')
-                raise
-        else:
-            logger.info(f'\n{target_dir} directory does not exist, skipping')
+    try:
+        shutil.rmtree(os.path.join(data_dir, 'input'))
+        shutil.rmtree(os.path.join(data_dir, 'output'))
+    except OSError:
+        logger.exception('Failed to remove input and output directories in: %s', data_dir)
+        raise
 
-    if removed_any:
-        logger.info('Data directory removal step complete')
+    logger.info('Data directory removal step complete')
 
 
 def clean_workflow(workflow_name: str) -> None:
