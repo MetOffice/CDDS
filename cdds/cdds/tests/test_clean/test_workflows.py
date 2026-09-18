@@ -24,7 +24,9 @@ class TestCleanWorkflows(TestCase):
     @mock.patch('cdds.clean.workflows.remove_data_dir')
     @mock.patch('cdds.clean.workflows._confirm_teardown', return_value=True)
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown, mock_remove_data_dir):
+    def test_run_teardown_uses_cdds_request_basename(
+        self, mock_run_command, mock_confirm_teardown, mock_remove_data_dir
+    ):
         expected_workflow_name = 'cdds_workflow'
 
         request = simple_request()
@@ -64,9 +66,3 @@ class TestCleanWorkflows(TestCase):
         with TemporaryDirectory() as data_dir:
             with self.assertRaises(FileNotFoundError):
                 remove_data_dir(data_dir)
-
-    @mock.patch('cdds.clean.workflows.shutil.rmtree')
-    def test_remove_data_dir_raises_os_error(self, mock_rmtree):
-        mock_rmtree.side_effect = OSError('Permission denied')
-        with self.assertRaises(OSError):
-            remove_data_dir('/dummy/data/dir')

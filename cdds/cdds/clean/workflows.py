@@ -21,7 +21,7 @@ def _confirm_teardown(data_dir: str, workflow_name: str) -> bool:
 
 
 def run_teardown(request: Request) -> None:
-    """Remove data directory and clean the CDDS workflow associated with the given request.
+    """Remove input and output data directories and clean the CDDS workflow associated with the given request.
 
     Parameters
     ----------
