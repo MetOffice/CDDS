@@ -2469,6 +2469,26 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 </li>
 </ul>
 <h2 id="9-run-cdds-teardown">9. Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Teardown</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The teardown tool is currently unavailable due to a bug in <abbr title="Climate Data Dissemination System">CDDS</abbr> versions &lt;=4.0.3
+Until it is fixed, the teardown process can be undertaken manually by.</p>
+<ol>
+<li>
+<p>Entering the <code>data</code> directory for the specific "round" associated with your workflow.</p>
+<p>e.g. (cdds cmip7_processing dir)/(your username)/data/CMIP7/CMIP/UKESM1-3-LL_esm-piControl_r1i1p1f1/round-1</p>
+</li>
+<li>
+<p>Run this command:
+<div class="highlight"><pre><span></span><code>    rm -rf input output
+</code></pre></div></p>
+</li>
+<li>
+<p>Run <code>cylc clean (workflow name)</code> using the name of the workflow from this round of processing.</p>
+</li>
+</ol>
+<p>The teardown process is now complete.</p>
+</div>
 <ol>
 <li>
 <p>Once the approved issue has been returned to you following submission, please run <code>cdds_clean</code>. This deletes the contents of the data directory and runs a cylc clean on the workflow named in your <abbr title="Information about a simulation used by all CDDS components.">request file</abbr>, for the purpose of reducing unnecessary data storage. Type "yes" when prompted to confirm deletion:</p>
