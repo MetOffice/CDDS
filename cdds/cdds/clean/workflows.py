@@ -51,7 +51,7 @@ def run_teardown(request: Request) -> None:
 
     clean_workflow(cdds_workflow_name)
     remove_data_dir(workflow_data_dir)
-    logger.info('cdds_clean complete.')
+    logger.info('cdds_clean complete')
 
 
 def remove_data_dir(data_dir: str) -> None:
@@ -65,17 +65,22 @@ def remove_data_dir(data_dir: str) -> None:
     logger = logging.getLogger(__name__)
     logger.info('Removing input and output directories in: {}'.format(data_dir))
 
+    removed_any = False
     for folder_name in ('input', 'output'):
         target_dir = os.path.join(data_dir, folder_name)
         if os.path.exists(target_dir):
             try:
                 shutil.rmtree(target_dir)
-                logger.info('Removed directory: %s', target_dir)
+                removed_any = True
+                logger.info(f'Removed "{target_dir}" directory')
             except OSError:
-                logger.exception('Failed to remove directory: %s', target_dir)
+                logger.exception(f'Failed to remove "{target_dir}" directory')
                 raise
+        else:
+            logger.info(f'\n{target_dir} directory does not exist, skipping')
 
-    logger.info('Data directories removal complete.')
+    if removed_any:
+        logger.info('Data directory removal step complete')
 
 
 def clean_workflow(workflow_name: str) -> None:
@@ -88,7 +93,7 @@ def clean_workflow(workflow_name: str) -> None:
     """
 
     logger = logging.getLogger(__name__)
-    logger.info('Clean workflow {}'.format(workflow_name))
+    logger.info('Running cylc clean on workflow {}'.format(workflow_name))
 
     clean_command = ['cylc', 'clean', workflow_name]
     stdout = run_command(clean_command)
