@@ -1,0 +1,152 @@
+# (C) British Crown Copyright 2026, Met Office.
+# Please see LICENSE.md for license details.
+"""Checks input pp files for duplicated fields."""
+import logging
+import argparse
+import os
+import subprocess
+import numpy as np
+
+from pathlib import Path
+from collections import Counter
+
+from cdds.common import configure_logger, run_command
+from cdds.common.request.request import read_request, Request
+from cdds.common.plugins.plugins import PluginStore
+
+
+def get_logger(request: Request, plugin):
+    """Configures and set up the log name ready for use.
+
+    Parameters
+    ----------
+    request: Request
+        The request configuration file.
+    plugin:
+        The plugin.
+
+    Returns
+    -------
+    logging.Logger
+        The logger.
+    """
+    # Create the full log path and filename
+    extract_dir = Path(plugin.proc_directory(request)) / "extract" / "log"
+    if not Path.exists(extract_dir):
+        raise FileNotFoundError(f"Extract directory: '{extract_dir}' does not exist.")
+    log_name = extract_dir / f"check_duplicate_pp_fields"
+
+    configure_logger(str(log_name), "DEBUG", append_log=True)
+
+    return logging.getLogger(__name__)
+
+
+def calc_median_filesize(data_dir: str, all_files: list) -> float:
+    """Calculates the median file size for all files in the input directory for a single stream.
+
+    Parameters
+    ----------
+    data_dir: str
+        The input data directory for a single stream.
+    all_files: list
+        A list of all pp files in `data_dir`.
+
+    Returns
+    -------
+    float
+        The median filesize.
+    """
+    sizes = [os.path.getsize(f"{data_dir}/{file}") for file in all_files]
+
+    return np.median(sizes)
+
+
+def get_files_to_check(data_dir: str, all_files: list) -> list:
+    """Collects the full path for all files that require checking for duplicate fields for a single stream. Any files
+    with a size greater than 20% above the median are checked.
+
+    Parameters
+    ----------
+    data_dir: str
+        The input data directory for a single stream.
+    all_files: list
+        A list of all pp files in `data_dir`.
+
+    Returns
+    -------
+    list
+        A list of file with size larger than median * 1.2 that require checking for duplicates.
+    """
+    files_to_check = []
+    median = calc_median_filesize(data_dir, all_files)
+    for file in all_files:
+        if os.path.getsize(f"{data_dir}/{file}") > (median * 1.2):
+            files_to_check.append(f"{data_dir}/{file}")
+
+    return files_to_check
+
+
+def check_duplicates(files_to_check: list) -> list:
+    """ Checks each file in `files_to_check` for duplicate fields for a single stream.
+
+    Parameters
+    ----------
+    files_to_check: list
+        A list of file with size larger than median * 1.2 that require checking for duplicates.
+
+    Returns
+    -------
+    list
+        A list of any files found that contain duplicate fields.
+    """
+    duplicates = set()
+    for file in files_to_check:
+        # Run a ppfp command on each file and pipe the output into uniq -count to flag duplicate lines
+        ppfp = run_command(f"ppfp -start -end -tim -stash -lev -proc -pseudolevel {file}".split()).split("\n")
+        counts = Counter(line for line in ppfp)
+        # Only check the counts of the first and last entry of each file for speed.
+        first_entry = ppfp[5]
+        last_entry = ppfp[-3]
+        if counts[first_entry] != 1 or counts[last_entry] != 1:
+            duplicates.add(file)
+            break
+
+    return duplicates
+
+
+def main_check_duplicate_pp_fields():
+    """Checks input pp files for duplicated fields for requested streams"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("request", help="The path to the request file.")
+    parser.add_argument("-s", "--streams", nargs='*', help="The streams to check. No specification will "
+                        "check all streams listed in the request.")
+    args = parser.parse_args()
+
+    request = read_request(args.request)
+    plugin = PluginStore.instance().get_plugin()
+    logger = get_logger(request, plugin)
+
+    root_data_dir = plugin.data_directory(request) + f"/input/{request.data.model_workflow_id}/"
+    streams = list(args.streams) if args.streams else request.data.streams
+    for stream in streams:
+        # Skip any ancil streams or streams that do not use pp data.
+        if stream in ["ofx", "afx", "onm", "ond", "inm", "ind"]:
+            logger.info(f"Skipping non pp type stream {stream}")
+            continue
+
+        data_dir = root_data_dir + stream
+        if not os.path.exists(data_dir):
+            logger.warning(f"{data_dir} does not exist, skipping stream {stream}")
+            continue
+        logger.info(f"Checking data in {data_dir}")
+
+        files_to_check = get_files_to_check(data_dir, os.listdir(data_dir))
+        if not files_to_check:
+            logger.info(f"No excessively large files found...Skipping stream {stream}")
+        else:
+            logger.info(f"Found {len(files_to_check)} files to check")
+            duplicates = check_duplicates(files_to_check)
+            if duplicates:
+                duplicates = list(duplicates)
+                logger.critical(f"{len(duplicates)} Files with duplicate fields found:"
+                                f"\n  {'\n  '.join(sorted(duplicates))}")
