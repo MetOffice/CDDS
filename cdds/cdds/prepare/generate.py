@@ -117,7 +117,14 @@ def generate_variable_list(arguments: Namespace) -> int:
 
     logger.info('Bypassing the Data Request and using Mip Tables.')
     # Bypass data request and build variables directly from tables.
-    requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings)
+    if request.inventory.inventory_database_location:
+        db = request.inventory.inventory_database_location
+    else:
+        db = os.path.join(os.environ['CDDS_ETC'], 'inventory', 'inventory.db')
+
+    inventory = InventoryVariablesConstructor(db, request)
+    requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings, inventory,
+                                                      request.inventory.inventory_check)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
 
@@ -126,8 +133,6 @@ def generate_variable_list(arguments: Namespace) -> int:
     if check_variables_result or check_streams_match != 0:
         logger.warning("Issues found but continuing, a non zero exit code will be returned")
 
-    # TODO: take inventory check into account!
-    # Write the 'requested variables list'.
     logger.info('Writing the Requested variables list to "{}".'.format(output_file))
     write_json(f"{output_file}", var_list)
 
@@ -329,24 +334,42 @@ def check_mappings(variable: UserDefinedVariable, model_to_mip_mappings):
     return variable_in_mappings, comments
 
 
-def resolve_requested_variables(request_variables: list[UserDefinedVariable], model_to_mip_mappings):
+def resolve_requested_variables(
+    request_variables: list[UserDefinedVariable],
+    model_to_mip_mappings,
+    inventory,
+    inventory_check: bool,
+) -> list[dict[str, Any]]:
     """Return the resolved |MIP requested variables|.
 
+    Parameters
+    ----------
+    request_variables: list of :class:`UserDefinedVariable`
+        The |MIP requested variables| from the |data request|.
+    model_to_mip_mappings: dict of :class:`VariableModelToMIPMapping`
+        The |model to MIP mappings| for the |MIP requested variables|.
+    inventory: :class:`InventoryVariablesConstructor`
+        The inventory database constructor for checking variable status.
     Returns
     -------
-    list
+    list[dict]
         The resolved |MIP requested variables|.
     """
     mapping_data = MappingStatus.get_instance()
 
     requested_variables = []
+
     for variable in request_variables:
         # Mappings check (returns mapping object for use in subsequent checks.
         variable_in_model = True
         variable_in_mappings, comments = check_mappings(variable, model_to_mip_mappings)
+        if inventory_check:
+            variable_in_inventory = inventory.additional_active_checks(variable, comments)
+        else:
+            variable_in_inventory = True
 
         # Combine all above flags to determine whether this variable should be active.
-        active = all([variable_in_model, variable_in_mappings])
+        active = all([variable_in_model, variable_in_mappings, variable_in_inventory])
 
         requested_variable = {
             "active": active,
@@ -400,22 +423,25 @@ class VariablesConstructor:
         return requested_variables_list
 
 
-class InventoryVariablesConstructor(VariablesConstructor):
+class InventoryVariablesConstructor:
     """Class that provides function for listing variables with
     additional in the inventory database
     """
 
-    def __init__(self, db_file, config):
+    def __init__(self, db_file, request: Request):
         """Parameters
         ----------
         db_file: str
-            path to the inventory database configuration file
-        config: `cdds.prepare.parameters.VariableParameters` object
+            path to a inventory database configuration file
+        request: Request
             all input parameters for constructing the list of approved variables
         """
-        super(InventoryVariablesConstructor, self).__init__(config)
         self._dao = InventoryDAO(db_file)
-        self._db_data = self._dao.get_variables_data(config.model_id, config.experiment_id, config.variant_label)
+        self._db_data = self._dao.get_variables_data(
+            request.metadata.model_id,
+            request.metadata.experiment_id,
+            request.metadata.variant_label,
+        )
 
     def additional_active_checks(self, variable, comments):
         """Returns if the requested variable is according the inventory database active or not.
@@ -443,17 +469,16 @@ class InventoryVariablesConstructor(VariablesConstructor):
         logger.debug(message)
         return is_active
 
-    def _check_inventory_status(self, variable, comments):
-        db_variable = self._db_data.get_variable(variable.mip_table, variable.variable_name)
+    def _check_inventory_status(self, variable, comments) -> bool:
+        db_variable = self._db_data.get_variable(variable.frequency, variable.variable_name)
         active_state = DBVariableStatus.AVAILABLE
         in_progess_state = DBVariableStatus.IN_PROGRESS
         is_active = db_variable.has_not_status(active_state) and db_variable.has_not_status(in_progess_state)
-
         if not is_active:
             comments.append(VARIABLE_IN_INVENTORY_COMMENT.format(
                 db_variable.id, db_variable.version, db_variable.status
             ))
-        return is_active
+        return not is_active
 
     def clean_up(self):
         self._dao.close()
