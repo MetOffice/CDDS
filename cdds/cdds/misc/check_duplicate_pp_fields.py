@@ -8,8 +8,9 @@ import subprocess
 import numpy as np
 
 from pathlib import Path
+from collections import Counter
 
-from cdds.common import configure_logger
+from cdds.common import configure_logger, run_command
 from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore
 
@@ -101,21 +102,14 @@ def check_duplicates(files_to_check: list) -> list:
     duplicates = set()
     for file in files_to_check:
         # Run a ppfp command on each file and pipe the output into uniq -count to flag duplicate lines
-        command = f"ppfp -start -end -tim -stash -lev -proc -pseudolevel {file}"
-        ppfp = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
-        output = subprocess.run(["uniq", "-c"], stdin=ppfp.stdout, capture_output=True, text=True)
-        # Close the output of the ppfp command since we no longer need this
-        if ppfp.stdout:
-            ppfp.stdout.close()
-
-        # Only check the first and last entry of each uniq dump for speed.
-        first_entry = output.stdout.split("\n")[5]
-        last_entry = output.stdout.split("\n")[-3]
-        # Take the first 'column' of each entry (the number of occurances) and check that it is 1.
-        for entry in [first_entry, last_entry]:
-            if entry.split()[0] != "1":
-                duplicates.add(file)
-                break
+        ppfp = run_command(f"ppfp -start -end -tim -stash -lev -proc -pseudolevel {file}".split()).split("\n")
+        counts = Counter(line for line in ppfp)
+        # Only check the counts of the first and last entry of each file for speed.
+        first_entry = ppfp[5]
+        last_entry = ppfp[-3]
+        if counts[first_entry] != 1 or counts[last_entry] != 1:
+            duplicates.add(file)
+            break
 
     return duplicates
 
