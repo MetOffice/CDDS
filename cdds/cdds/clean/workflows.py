@@ -69,7 +69,7 @@ def remove_data_dir(data_dir: str) -> None:
         shutil.rmtree(os.path.join(data_dir, 'input'))
         shutil.rmtree(os.path.join(data_dir, 'output'))
     except OSError:
-        logger.exception('Failed to remove input and output directories in: %s', data_dir)
+        logger.error('Failed to remove contents of data directory: %s', data_dir)
         raise
 
     logger.info('Data directory removal step complete')
