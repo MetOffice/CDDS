@@ -13,6 +13,8 @@ from cdds import __version__
 from cdds.archive.store import store_mip_output_data
 from cdds.archive.spice import run_store_spice_job
 from cdds.common.constants import PRINT_STACK_TRACE
+from cdds.common.mass import check_moo_login
+from cdds.common.mass_exception import MooseNotLoggedInError
 
 from cdds.common.cdds_files.cdds_directories import update_log_dir
 from cdds.common.request.request import read_request
@@ -45,6 +47,12 @@ def main_store(arguments: List[str] = None) -> int:
     configure_logger(log_name, request.common.log_level, False, stream=args.stream)
     logger = logging.getLogger(__name__)
     logger.info('Using CDDS Transfer version {}'.format(__version__))
+
+    try:
+        check_moo_login()
+    except MooseNotLoggedInError as exc:
+        logger.critical(exc)
+        return 1
 
     exit_code = 0
     try:

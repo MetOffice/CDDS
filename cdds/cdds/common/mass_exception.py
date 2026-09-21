@@ -80,3 +80,12 @@ class DirAlreadyExistMassError(MassError):
 
 class VariableArchivingError(Exception):
     pass
+
+
+class MooseNotLoggedInError(Exception):
+    """Raised if the user is not logged in to MOOSE."""
+
+    def __init__(self):
+        super(MooseNotLoggedInError, self).__init__(
+            'Not logged in to MOOSE. Please run "moo login" and try again.'
+        )

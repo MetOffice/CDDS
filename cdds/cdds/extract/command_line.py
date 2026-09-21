@@ -8,6 +8,8 @@ import re
 
 from cdds import __version__
 from cdds.common.cdds_files.cdds_directories import update_log_dir
+from cdds.common.mass import check_moo_login
+from cdds.common.mass_exception import MooseNotLoggedInError
 from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.common.request.request import read_request
 from cdds.extract.lang import set_language
@@ -81,6 +83,12 @@ def main_cdds_extract(arguments=None):
     configure_logger(log_name, request.common.log_level, False)
     # Retrieve the logger.
     logger = logging.getLogger(__name__)
+
+    try:
+        check_moo_login()
+    except MooseNotLoggedInError as exc:
+        logger.critical(exc)
+        return 1
 
     try:
         runner = ExtractRunner(args, lang)
