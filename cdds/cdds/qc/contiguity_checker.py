@@ -176,11 +176,13 @@ class CollectionsCheck(object):
         if offset_adjustment:
             # remove the first midnight from reference time axis of instantenous variable
             point_sequence.pop(0)
-        # check tpt variables for a 30 minute offset from midnight seen in some subdaily atmos variables
+        # Check tpt variables for a 30 minute offset between expected and actual first timepoint. This is seen in some
+        # subdaily atmos variables.
         if "_tpt-" in var_key:
             first_file = list(time_axis.keys())[0]
             offset = self._check_instantaneous_offset(point_sequence[0], time_axis[first_file][0])
             if offset:
+                # Shift the expected time points to match the offset and remove any values out of run bounds.
                 point_sequence = [(point + Duration(minutes=30)) for point in point_sequence if
                                   (point + Duration(minutes=30)) < run_end and
                                   (point + Duration(minutes=30)) > run_start]
@@ -228,9 +230,12 @@ class CollectionsCheck(object):
 
     def _check_instantaneous_offset(self, reference_datetime, tested_value, tolerance=TIME_TOLERANCE):
         half_hour_value = 0.02083
+        lower_bound = half_hour_value - tolerance
+        upper_bound = half_hour_value + tolerance
         reference_time_point = self.calendar_calculator.days_since_base_date(
             reference_datetime.strftime('%Y-%m-%dT%H:%MZ'))
-        if (half_hour_value - tolerance) <= abs(reference_time_point - tested_value) <= (half_hour_value + tolerance):
+        # Check whether there is a 30 minute offset between the expected and actual first timepoint.
+        if lower_bound <= abs(reference_time_point - tested_value) <= upper_bound:
             return True
         return False
 
