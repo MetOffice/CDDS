@@ -44,29 +44,41 @@ def extract_stash_codes(expression):
     return re.findall(regex, expression)
 
 
-def parse_stashmaster(stashmaster: str) -> list[str]:
-    """
+def parse_stashmaster(stashmaster: str) -> list[list[str]]:
+    """ Parse a STASHmaster_A file returning a list of lists, where each inner list represents a STASH record.
+
+    STASH entries are stored as blocks of five lines.
+
     #|Model |Sectn | Item |Name                                |
     #|Space |Point | Time | Grid |LevelT|LevelF|LevelL|PseudT|PseudF|PseudL|LevCom|
     #| Option Codes                   | Version Mask         | Halo |
     #|DataT |DumpP | PC1  PC2  PC3  PC4  PC5  PC6  PC7  PC8  PC9  PCA |
     #|Rotate| PPF  | USER | LBVC | BLEV | TLEV |RBLEVV| CFLL | CFFF |
+
+    Parameters
+    ----------
+    stashmaster : str
+        Path to a STASHmaster_A file.
+    Returns
+    -------
+    list[list[str]]
+        A list of lists, where each inner list represents a STASH record.
     """
-
-    regex = r"^1\|(.*)\n^2\|(.*)\n^3\|(.*)\n^4\|(.*)\n^5\|(.*)"
-
     with open(stashmaster, "r") as fh:
         data = fh.read()
 
-    result = re.findall(regex, data, re.MULTILINE)
-    processed_result = []
+    regex = r"^1\|(.*)\n^2\|(.*)\n^3\|(.*)\n^4\|(.*)\n^5\|(.*)"
 
-    for x in result:
-        x = "".join(x).split("|")
-        x = [x.strip() for x in x]
-        processed_result.append(x)
+    matches = re.findall(regex, data, re.MULTILINE)
 
-    return processed_result
+    stash_records = []
+
+    for match in matches:
+        match = "".join(match).split("|")
+        match = [x.strip() for x in match]
+        stash_records.append(match)
+
+    return stash_records
 
 
 def parse_stashmaster_meta(section):
@@ -105,13 +117,13 @@ def to_formatted_stash_code(record: StashMasterRecord) -> str:
     return stash
 
 
-def stash_records(stashmaster_file) -> dict[str, StashMasterRecord]:
+def stash_records(stashmaster_file: str) -> dict[str, StashMasterRecord]:
     stash_records = {}
-    for x in parse_stashmaster(stashmaster_file):
-        if len(x) == 31:
-            stash_record = StashMasterRecord(*x[:-1])
+    for raw_record in parse_stashmaster(stashmaster_file):
+        if len(raw_record) == 31:
+            stash_record = StashMasterRecord(*raw_record[:-1])
             stash_code = to_formatted_stash_code(stash_record)
             stash_records[stash_code] = stash_record
         else:
-            print(f"Unexpected number of fields: {len(x)} in record: {x[3]}")
+            print(f"Unexpected number of fields: {len(raw_record)} in stash record: {raw_record[3]}")
     return stash_records

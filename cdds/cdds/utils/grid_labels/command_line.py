@@ -34,6 +34,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Update grid names based on model parameters.")
 
     parser.add_argument('stashmaster', type=str, help='Path to a copy of STASHmaster',)
-    parser.add_argument('mappings', type=str, help='Path to the mappings.json from the CDDS-CMIP7-mappings repo')
+    parser.add_argument('mappings', type=str, help='Path to the mappings.json from the CDDS-CMIP7-mappings repository')
 
     return parser.parse_args()

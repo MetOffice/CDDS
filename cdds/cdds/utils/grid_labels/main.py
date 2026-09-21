@@ -3,8 +3,6 @@
 from collections import defaultdict
 
 from cdds.utils.grid_labels.mappings import Mapping
-from cdds.utils.grid_labels.parsers import parse_icemod_grids, parse_ocean_grids
-from cdds.utils.grid_labels.stashmaster import stash_records
 
 grid_name_to_grid_id = {
     "latlon-native": {1, 2, 3, 4, 5, 26, 21, 17, 22},
@@ -34,7 +32,7 @@ grid_type = {
     "tripolar-ugrid": "ocean",
     "tripolar-vgrid": "ocean",
     "tripolar-native": "ocean",
-    "seaice-native": "ocean",
+    "tripolar-uvgrid": "ocean",
 }
 
 
@@ -53,22 +51,49 @@ ancils = {
     "hfsnthermds_tavg-ol-hxy-sea": "tripolar-native",
     "rsdo_tavg-ol-hxy-sea": "tripolar-native",
 }
+ancils_ukesm = {
+    "agessc_tavg-ol-hxy-sea": "tripolar-native",
+    "sf6_tavg-ol-hxy-sea": "tripolar-native",
+    "sfdsi_tavg-u-hxy-sea": "tripolar-native",
+    "prra_tavg-u-hxy-si": "tripolar-native",
+    "sbl_tavg-u-hxy-si": "tripolar-native",
+}
 
-seaice = {
-    # all seaice variables are assumed to be tripolar-native unless specified here
-    "sidmasstranx_tavg-u-hxy-u": "tripolar-ugrid",
-    "sidmasstrany_tavg-u-hxy-u": "tripolar-vgrid",
-    # these are seaice variable that will have their coordinates replaced by processor
-    "sistrxdtop_tavg-u-hxy-si": "tripolar-ugrid",
-    "sistrydtop_tavg-u-hxy-si": "tripolar-vgrid",
-    "sistrxubot_tavg-u-hxy-si": "tripolar-ugrid",
-    "sistryubot_tavg-u-hxy-si": "tripolar-vgrid",
-    "siu_tavg-u-hxy-si": "tripolar-ugrid",
-    "siv_tavg-u-hxy-si": "tripolar-vgrid",
-    "siforceintstrx_tavg-u-hxy-si": "tripolar-ugrid",
-    "siforceintstry_tavg-u-hxy-si": "tripolar-vgrid",
-    "siforcetiltx_tavg-u-hxy-si": "tripolar-ugrid",
-    "siforcetilty_tavg-u-hxy-si": "tripolar-vgrid",
+seaice_overrides = {
+    "ukcm": {
+        # all seaice variables are assumed to be tripolar-native unless specified here
+        "sidmasstranx_tavg-u-hxy-u": "tripolar-ugrid",
+        "sidmasstrany_tavg-u-hxy-u": "tripolar-vgrid",
+        # these are seaice variable that will have their coordinates replaced by processor
+        "sistrxdtop_tavg-u-hxy-si": "tripolar-ugrid",
+        "sistrydtop_tavg-u-hxy-si": "tripolar-vgrid",
+        "sistrxubot_tavg-u-hxy-si": "tripolar-ugrid",
+        "sistryubot_tavg-u-hxy-si": "tripolar-vgrid",
+        "siu_tavg-u-hxy-si": "tripolar-ugrid",
+        "siv_tavg-u-hxy-si": "tripolar-vgrid",
+        "siforceintstrx_tavg-u-hxy-si": "tripolar-ugrid",
+        "siforceintstry_tavg-u-hxy-si": "tripolar-vgrid",
+        "siforcetiltx_tavg-u-hxy-si": "tripolar-ugrid",
+        "siforcetilty_tavg-u-hxy-si": "tripolar-vgrid",
+        "siforcecoriolx_tavg-u-hxy-si": "tripolar-ugrid",
+        "siforcecorioly_tavg-u-hxy-si": "tripolar-vgrid",
+    },
+    "ukesm1p3": {
+        "sidmasstranx_tavg-u-hxy-u": "tripolar-uvgrid",
+        "sidmasstrany_tavg-u-hxy-u": "tripolar-uvgrid",
+        "sistrxdtop_tavg-u-hxy-si": "tripolar-uvgrid",
+        "sistrydtop_tavg-u-hxy-si": "tripolar-uvgrid",
+        "sistrxubot_tavg-u-hxy-si": "tripolar-uvgrid",
+        "sistryubot_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siu_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siv_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforceintstrx_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforceintstry_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforcetiltx_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforcetilty_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforcecoriolx_tavg-u-hxy-si": "tripolar-uvgrid",
+        "siforcecorioly_tavg-u-hxy-si": "tripolar-uvgrid",
+    },
 }
 
 
@@ -101,16 +126,10 @@ def map_variables_to_grid_names(mappings: dict[str, Mapping], ocean_grids, seaic
             grid_name = substream_to_grid_name[ocean_grids[variable]]
         elif variable in ancils:
             grid_name = ancils[variable]
-        # ukcm2 seaice
-        elif plugin == "ukcm2":
-            if variable in seaice_grids and variable not in seaice:
-                grid_name = "tripolar-native"
-            if variable in seaice:
-                grid_name = seaice[variable]
-        # ukesm1p3 seaice
-        elif plugin == "ukesm1p3":
-            if variable in seaice_grids:
-                grid_name = "seaice-native"
+        elif variable in seaice_grids and variable not in seaice_overrides[plugin]:
+            grid_name = "tripolar-native"
+        elif variable in seaice_overrides[plugin]:
+            grid_name = seaice_overrides[plugin][variable]
 
         if not grid_name:
             print(f"{plugin} Failed to identify a grid name for variable: {variable}, MIP Table: {mapping.mip_table}")
