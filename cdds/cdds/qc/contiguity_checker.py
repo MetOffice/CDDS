@@ -181,8 +181,9 @@ class CollectionsCheck(object):
             first_file = list(time_axis.keys())[0]
             offset = self._check_instantaneous_offset(point_sequence[0], time_axis[first_file][0])
             if offset:
-                point_sequence = [(point + Duration(minutes=30)) for point in point_sequence]
-                point_sequence.pop(-1)
+                point_sequence = [(point + Duration(minutes=30)) for point in point_sequence if
+                                  (point + Duration(minutes=30)) < run_end and
+                                  (point + Duration(minutes=30)) > run_start]
         # testing total length of the sequence
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
