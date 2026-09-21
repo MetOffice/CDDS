@@ -176,15 +176,14 @@ class CollectionsCheck(object):
         if offset_adjustment:
             # remove the first midnight from reference time axis of instantenous variable
             point_sequence.pop(0)
-        # testing total length of the sequence
         # check tpt variables for a 30 minute offset from midnight seen in some subdaily atmos variables
         if "_tpt-" in var_key:
             first_file = list(time_axis.keys())[0]
-            msg_prefix = "30 minute offset for instantaneous variable"
-            msg = self._check_instantaneous_offset(msg_prefix, point_sequence[0], time_axis[first_file][0])
-            if msg:
+            offset = self._check_instantaneous_offset(point_sequence[0], time_axis[first_file][0])
+            if offset:
                 point_sequence = [(point + Duration(minutes=30)) for point in point_sequence]
                 point_sequence.pop(-1)
+        # testing total length of the sequence
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
             for key in time_axis.keys():
@@ -226,16 +225,13 @@ class CollectionsCheck(object):
                 msg_prefix, tested_value, reference_datetime, reference_time_point - tested_value)
         return msg
 
-    def _check_instantaneous_offset(self, msg_prefix, reference_datetime, tested_value, tolerance=TIME_TOLERANCE):
+    def _check_instantaneous_offset(self, reference_datetime, tested_value, tolerance=TIME_TOLERANCE):
         half_hour_value = 0.02083
-        msg = None
         reference_time_point = self.calendar_calculator.days_since_base_date(
             reference_datetime.strftime('%Y-%m-%dT%H:%MZ'))
         if (half_hour_value - tolerance) <= abs(reference_time_point - tested_value) <= (half_hour_value + tolerance):
-            msg = ('{}: {} has an offset of 30 minutes compared to reference point {}'
-                   ''.format(msg_prefix, tested_value, reference_datetime))
-
-        return msg
+            return True
+        return False
 
     def _test_time_bounds(self, var_key, time_axis, time_bounds, point_sequence, bound_sequence):
         tolerance = TIME_TOLERANCE
