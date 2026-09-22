@@ -161,7 +161,7 @@
         [[[directives]]]
             --mem = {{ MEMORY_DEFAULT }}
             --partition = standard
-            --qos = short
+            --qos = standard
             --account = {{ JASMIN_ACCOUNT }}
 #### INITIALISER FINALISER ################################################################
 {% for STREAM in STREAMS.keys() %} # STREAM LOOP
