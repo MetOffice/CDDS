@@ -4,36 +4,22 @@ import json
 import re
 
 
-def parse_ocean_grids(ocean_grids_file: str) -> dict[str, str]:
-    with open(ocean_grids_file, "r") as fh:
-        data = fh.readlines()
-
-    ocean_grids = {}
-    for line in data:
-        variable, grid = line.strip().split(":")
-        ocean_grids[variable] = grid
-
-    return ocean_grids
-
-
-def parse_icemod_grids(icemod_grids_file: str) -> dict[str, str]:
-    with open(icemod_grids_file, "r") as fh:
-        data = fh.readlines()
-
-    icemod_grids = {}
-
-    regex = r"float (.*)\(.*(grid_\w)"
-
-    for line in data:
-        match = re.search(regex, line)
-        if match:
-            variable = match.group(1)
-            grid = match.group(2)
-            icemod_grids[variable] = grid.replace("_", "-")
-    return icemod_grids
-
-
 def parse_mappings_json(mappings_file: str, plugin: str, realm: str) -> dict[str, str]:
+    """Parse the mappings JSON file to extract grid names for a given plugin and realm.
+
+    Parameters
+    ----------
+    mappings_file : str
+        The path to the mappings JSON file.
+    plugin : str
+        The name of the plugin to filter the mappings for.
+    realm : str
+        The realm to filter the mappings for (e.g., "ocean" or "seaice").
+    Returns
+    -------
+    dict[str, str]
+        A dictionary mapping variable names to their corresponding grid names.
+    """
     with open(mappings_file, "r") as fh:
         mappings = json.load(fh)
 

@@ -2,7 +2,6 @@
 # Please see LICENSE.md for license details.
 import glob
 import os
-from typing import Any
 from configparser import ConfigParser, ExtendedInterpolation
 from dataclasses import dataclass
 
@@ -13,6 +12,7 @@ from mip_convert import plugins
 
 @dataclass
 class Mapping:
+    """Simple class for representing a Mapping"""
     name: str
     expression: str
     stash: list[str]
@@ -20,6 +20,17 @@ class Mapping:
 
 
 def get_mip_convert_mappings(plugin: str) -> dict[str, Mapping]:
+    """Get the mappings from the mip_convert plugin for a given plugin.
+
+    Parameters
+    ----------
+    plugin : str
+        The name of the plugin to get the mappings for.
+    Returns
+    -------
+    dict[str, Mapping]
+        A dictionary mapping mapping names to their corresponding Mapping objects.
+    """
     base_plugin_path = plugins.__file__
     glob_string = os.path.join(os.path.dirname(base_plugin_path), plugin, "data", '*mappings.cfg')
     cfg_files = glob.glob(glob_string)

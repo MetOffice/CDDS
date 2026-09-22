@@ -3,6 +3,7 @@
 from collections import defaultdict
 
 from cdds.utils.grid_labels.mappings import Mapping
+from cdds.utils.grid_labels.stashmaster import StashMasterRecord
 
 GRID_NAME_TO_GRID_ID = {
     "latlon-native": {1, 2, 3, 4, 5, 26, 21, 17, 22},
@@ -98,23 +99,82 @@ SEAICE_OVERRIDES = {
 
 
 def grid_ids_to_grid_name(ids: set[int]) -> str | None:
+    """Convert a set of grid IDs to a grid name.
+
+    Parameters
+    ----------
+    ids : set[int]
+        A set of grid IDs to be converted.
+
+    Returns
+    -------
+    str | None
+        The corresponding grid name if found, otherwise None.
+    """
     for label, label_ids in GRID_NAME_TO_GRID_ID.items():
         if ids.issubset(label_ids):
             return label
     return None
 
 
-def stash_to_grid_name(mapping, records):
+def stash_to_grid_name(mapping: Mapping, records: dict) -> str:
+    """
+    Convert a mapping's stash codes to a grid name using the provided STASH records.
+
+    Parameters
+    ----------
+    mapping : Mapping
+        The mapping object containing stash codes.
+    records : dict
+        A dictionary of STASH records.
+    Raises
+    ------
+    ValueError
+        If no corresponding grid name can be found for the given mapping and stash codes.
+
+    Returns
+    -------
+    str
+        The corresponding grid name.
+    """
     grid_ids = {int(records[code].Grid) for code in mapping.stash}
     if grid_name := grid_ids_to_grid_name(grid_ids):
         return grid_name
     else:
         raise ValueError(
-            f"Failed to find grid name for mapping: {mapping.name}, MIP Table: {mapping.mip_table}, Stash codes: {mapping.stash}, Grid ids: {grid_ids}"
+            f"Failed to find grid name for mapping: {mapping.name}, MIP Table: {mapping.mip_table}, "
+            f"Stash codes: {mapping.stash}, Grid ids: {grid_ids}"
         )
 
 
-def map_variables_to_grid_names(mappings: dict[str, Mapping], ocean_grids, seaice_grids, records, plugin):
+def map_variables_to_grid_names(
+    mappings: dict[str, Mapping],
+    ocean_grids: dict[str, str],
+    seaice_grids: dict[str, str],
+    records: dict[str, StashMasterRecord],
+    plugin: str,
+) -> dict[str, dict[str, tuple[str, str]]]:
+    """Map variables to their corresponding grid names.
+
+    Parameters
+    ----------
+    mappings : dict[str, Mapping]
+        A dictionary mapping variable names to their corresponding Mapping objects.
+    ocean_grids : dict[str, str]
+        A dictionary mapping ocean variable names to their corresponding substream names.
+    seaice_grids : dict[str, str]
+        A dictionary mapping sea ice variable names to their corresponding substream names.
+    records : dict
+        A dictionary of STASH records.
+    plugin : str
+        The name of the plugin.
+
+    Returns
+    -------
+    dict[str, dict[str, tuple[str, str]]]
+        A dictionary mapping MIP table names to dictionaries, which map variable names to tuples containing the grid
+        type and grid name.
+    """
     grid_names = defaultdict(dict)
 
     for variable, mapping in mappings.items():
@@ -140,6 +200,16 @@ def map_variables_to_grid_names(mappings: dict[str, Mapping], ocean_grids, seaic
 
 
 def write_grid_names_config(grid_names: dict[str, dict[str, tuple[str, str]]], output_file: str) -> None:
+    """Write the grid names to a file.
+
+    Parameters
+    ----------
+    grid_names : dict[str, dict[str, tuple[str, str]]]
+        A dictionary mapping MIP table names to dictionaries, which map variable names to tuples containing the grid
+        type and grid name.
+    output_file : str
+        The path to the output configuration file.
+    """
     with open(output_file, "w") as fh:
         for mip_table, variables in grid_names.items():
             fh.write(f"[{mip_table}]\n")
