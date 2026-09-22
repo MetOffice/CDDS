@@ -178,14 +178,8 @@ class CollectionsCheck(object):
             point_sequence.pop(0)
         # Check tpt variables for a 30 minute offset between expected and actual first timepoint. This is seen in some
         # subdaily atmos variables.
-        if "_tpt-" in var_key:
-            first_file = list(time_axis.keys())[0]
-            offset = self._check_instantaneous_offset(point_sequence[0], time_axis[first_file][0])
-            if offset:
-                # Shift the expected time points to match the offset and remove any values out of run bounds.
-                point_sequence = [(point + Duration(minutes=30)) for point in point_sequence if
-                                  (point + Duration(minutes=30)) < run_end and
-                                  (point + Duration(minutes=30)) > run_start]
+        first_file = list(time_axis.keys())[0]
+        point_sequence = self._check_instantaneous_offset(point_sequence, time_axis[first_file][0], run_start, run_end)
         # testing total length of the sequence
         total_length = sum([len(vals) for vals in time_axis.values()])
         if total_length != len(point_sequence):
@@ -224,20 +218,26 @@ class CollectionsCheck(object):
                 tested_value,
                 reference_time_point,
                 tolerance):
-            msg = '{} {} does not correspond to reference value {} (difference {} days)'.format(
+            msg = '{}{} does not correspond to reference value {} (difference {} days)'.format(
                 msg_prefix, tested_value, reference_datetime, reference_time_point - tested_value)
         return msg
 
-    def _check_instantaneous_offset(self, reference_datetime, tested_value, tolerance=TIME_TOLERANCE):
+    def _check_instantaneous_offset(self, point_sequence, tested_value, run_start, run_end, tolerance=TIME_TOLERANCE):
         half_hour_value = 0.02083
+        reference_time_point = self.calendar_calculator.days_since_base_date(
+            point_sequence[0].strftime('%Y-%m-%dT%H:%MZ'))
+        # Check whether there is a 30 minute offset between the expected and actual first timepoint.
         lower_bound = half_hour_value - tolerance
         upper_bound = half_hour_value + tolerance
-        reference_time_point = self.calendar_calculator.days_since_base_date(
-            reference_datetime.strftime('%Y-%m-%dT%H:%MZ'))
-        # Check whether there is a 30 minute offset between the expected and actual first timepoint.
-        if lower_bound <= abs(reference_time_point - tested_value) <= upper_bound:
-            return True
-        return False
+        offset = reference_time_point - tested_value
+        if lower_bound <= abs(offset) <= upper_bound:
+            offset = DatetimeCalculator._days_to_nearest_minute(offset, self.calendar_calculator.seconds_in_day)
+            # Adjust point sequence to account for offset
+            point_sequence = [(point - Duration(minutes=offset)) for point in point_sequence if
+                              (point - Duration(minutes=offset)) > run_start and
+                              (point - Duration(minutes=offset)) < run_end]
+
+        return point_sequence
 
     def _test_time_bounds(self, var_key, time_axis, time_bounds, point_sequence, bound_sequence):
         tolerance = TIME_TOLERANCE
