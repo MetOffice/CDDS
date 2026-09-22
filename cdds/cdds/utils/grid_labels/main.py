@@ -4,14 +4,14 @@ from collections import defaultdict
 
 from cdds.utils.grid_labels.mappings import Mapping
 
-grid_name_to_grid_id = {
+GRID_NAME_TO_GRID_ID = {
     "latlon-native": {1, 2, 3, 4, 5, 26, 21, 17, 22},
     "latlon-uvgrid": {11, 12, 13, 14, 15},
     "latlon-ugrid": {18, 27},
     "latlon-vgrid": {19},
 }
 
-substream_to_grid_name = {
+SUBSTREAM_TO_GRID_NAME = {
     "grid-T": "tripolar-native",
     "grid-U": "tripolar-ugrid",
     "grid-V": "tripolar-vgrid",
@@ -24,7 +24,7 @@ substream_to_grid_name = {
 }
 
 
-grid_type = {
+GRID_TYPE = {
     "latlon-native": "atmos",
     "latlon-uvgrid": "atmos",
     "latlon-ugrid": "atmos",
@@ -36,7 +36,7 @@ grid_type = {
 }
 
 
-ancils = {
+ANCILS = {
     "areacello_ti-u-hxy-u": "tripolar-native",
     "basin_ti-u-hxy-u": "tripolar-native",
     "deptho_ti-u-hxy-sea": "tripolar-native",
@@ -51,7 +51,7 @@ ancils = {
     "hfsnthermds_tavg-ol-hxy-sea": "tripolar-native",
     "rsdo_tavg-ol-hxy-sea": "tripolar-native",
 }
-ancils_ukesm = {
+ANCILS_UKESM = {
     "agessc_tavg-ol-hxy-sea": "tripolar-native",
     "sf6_tavg-ol-hxy-sea": "tripolar-native",
     "sfdsi_tavg-u-hxy-sea": "tripolar-native",
@@ -59,7 +59,7 @@ ancils_ukesm = {
     "sbl_tavg-u-hxy-si": "tripolar-native",
 }
 
-seaice_overrides = {
+SEAICE_OVERRIDES = {
     "ukcm": {
         # all seaice variables are assumed to be tripolar-native unless specified here
         "sidmasstranx_tavg-u-hxy-u": "tripolar-ugrid",
@@ -98,7 +98,7 @@ seaice_overrides = {
 
 
 def grid_ids_to_grid_name(ids: set[int]) -> str | None:
-    for label, label_ids in grid_name_to_grid_id.items():
+    for label, label_ids in GRID_NAME_TO_GRID_ID.items():
         if ids.issubset(label_ids):
             return label
     return None
@@ -123,18 +123,18 @@ def map_variables_to_grid_names(mappings: dict[str, Mapping], ocean_grids, seaic
         if mapping.stash:
             grid_name = stash_to_grid_name(mapping, records)
         elif variable in ocean_grids:
-            grid_name = substream_to_grid_name[ocean_grids[variable]]
-        elif variable in ancils:
-            grid_name = ancils[variable]
-        elif variable in seaice_grids and variable not in seaice_overrides[plugin]:
+            grid_name = SUBSTREAM_TO_GRID_NAME[ocean_grids[variable]]
+        elif variable in ANCILS:
+            grid_name = ANCILS[variable]
+        elif variable in seaice_grids and variable not in SEAICE_OVERRIDES[plugin]:
             grid_name = "tripolar-native"
-        elif variable in seaice_overrides[plugin]:
-            grid_name = seaice_overrides[plugin][variable]
+        elif variable in SEAICE_OVERRIDES[plugin]:
+            grid_name = SEAICE_OVERRIDES[plugin][variable]
 
         if not grid_name:
             print(f"{plugin} Failed to identify a grid name for variable: {variable}, MIP Table: {mapping.mip_table}")
         else:
-            grid_names[mapping.mip_table][variable] = (grid_type[grid_name], grid_name)
+            grid_names[mapping.mip_table][variable] = (GRID_TYPE[grid_name], grid_name)
 
     return grid_names
 
