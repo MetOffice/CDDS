@@ -6,6 +6,8 @@ import os
 from tempfile import TemporaryDirectory
 from unittest import TestCase, mock
 
+from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 from cdds.tests.factories.request_factory import simple_request
 from cdds.clean.workflows import clean_workflow, remove_data_dir, run_teardown
 
@@ -14,12 +16,18 @@ class TestCleanWorkflows(TestCase):
 
     def setUp(self):
         logging.disable(logging.CRITICAL)
+        load_plugin()
 
-    @mock.patch('cdds.clean.workflows._confirm_teardown')
+    def tearDown(self):
+        PluginStore.clean_instance()
+
+    @mock.patch('cdds.clean.workflows.remove_data_dir')
+    @mock.patch('cdds.clean.workflows._confirm_teardown', return_value=True)
     @mock.patch('cdds.clean.workflows.run_command')
-    def test_run_teardown_uses_request_basename(self, mock_run_command, mock_confirm_teardown):
+    def test_run_teardown_uses_cdds_workflow_basename(
+        self, mock_run_command, mock_confirm_teardown, mock_remove_data_dir
+    ):
         expected_workflow_name = 'cdds_workflow'
-        mock_confirm_teardown.return_value = True
 
         request = simple_request()
         request.common.workflow_basename = 'workflow'
@@ -27,7 +35,9 @@ class TestCleanWorkflows(TestCase):
         run_teardown(request)
 
         mock_run_command.assert_called_once_with(['cylc', 'clean', expected_workflow_name])
+        mock_remove_data_dir.assert_called_once()
 
+    # Test covers legacy case where user specifies workflow name in cylc_args.
     @mock.patch('cdds.clean.workflows.run_command')
     def test_run_teardown_rejects_workflow_name_in_cylc_args(self, mock_run_command):
         request = simple_request()
@@ -39,14 +49,20 @@ class TestCleanWorkflows(TestCase):
 
         mock_run_command.assert_not_called()
 
-    def test_remove_data_dir_removes_data_dir(self):
+    def test_remove_data_dir_removes_input_and_output_dirs(self):
         with TemporaryDirectory() as data_dir:
-            self.assertTrue(os.path.exists(data_dir))
+            input_dir = os.path.join(data_dir, 'input')
+            output_dir = os.path.join(data_dir, 'output')
+            os.makedirs(input_dir)
+            os.makedirs(output_dir)
 
             remove_data_dir(data_dir)
 
-            self.assertFalse(os.path.exists(data_dir))
+            self.assertFalse(os.path.exists(input_dir))
+            self.assertFalse(os.path.exists(output_dir))
+            self.assertTrue(os.path.exists(data_dir))
 
-    def test_remove_data_dir_raises_os_error_on_non_existent_dir(self):
-        with self.assertRaises(OSError):
-            remove_data_dir('does/not/exist')
+    def test_remove_data_dir_raises_file_not_found_when_dirs_missing(self):
+        with TemporaryDirectory() as data_dir:
+            with self.assertRaises(FileNotFoundError):
+                remove_data_dir(data_dir)
