@@ -210,5 +210,6 @@ class DatetimeCalculator():
             mid_time_point = None
         return current_time_point, mid_time_point, next_time_point
 
-    def _days_to_nearest_minute(days: float, seconds_in_day: int):
+    @staticmethod
+    def _days_to_nearest_minute(days: float, seconds_in_day: int) -> int:
         return round(days * seconds_in_day / 60)
