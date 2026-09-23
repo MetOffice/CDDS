@@ -19,8 +19,11 @@ from pathlib import Path
 from datetime import datetime
 
 from cdds.common.request.request import read_request, Request
-from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common import configure_logger, run_command
+from cdds.common.request.validations.cv_validators import CVValidatorFactory
+
+from mip_convert.configuration.cv_config import CVConfig
 
 
 def arg_parser() -> argparse.Namespace:
@@ -68,31 +71,51 @@ def get_logger(request: Request, plugin) -> logging.Logger:
     return logging.getLogger(__name__)
 
 
-def create_esgf_root_dir(output_root: str, request: Request) -> str:
+def create_esgf_root_dir(plugin: CddsPlugin, request: Request, output_root: str) -> str:
     """Creates an empty, new esgf compliant root path structure.
 
     Parameters
     ----------
-    output_root: str
-        The base directory that the esgf compliant directory structure will be created within.
+    plugin: CddsPlugin
+        The CDDS plugin.
     request: Request
-        The cdds request.
+        The CDDS request.
+    output_root: str
+            The base directory that the esgf compliant directory structure will be created within.
 
     Returns
     -------
     str
         The esgf compliant root directory structure.
     """
-    return "{}/{}/{}/{}/{}/{}/{}/{}".format(
-        output_root,
-        request.netcdf_global_attributes.attributes.get("drs_specs"),
-        request.metadata.mip_era,
-        request.metadata.mip,
-        request.metadata.institution_id,
-        request.metadata.model_id,
-        request.metadata.experiment_id,
-        request.metadata.variant_label
-    )
+    cv_to_request_attr_mapping = {
+        "drs_specs": request.netcdf_global_attributes.attributes.get("drs_specs"),
+        "mip_era": request.metadata.mip_era,
+        "activity_id": request.metadata.mip,
+        "institution_id": request.metadata.institution_id,
+        "source_id": request.metadata.model_id,
+        "experiment_id": request.metadata.experiment_id,
+        "variant_label": request.metadata.variant_label,
+    }
+    cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(request.metadata.mip_era))
+    CVValidatorFactory.path_validator()(cv_path)
+    cv_config = CVConfig(cv_path)
+
+    esgf_root_dir_attrs = [output_root]
+    for attr in cv_config.drs_directory_template.split("/"):
+        attr = attr.lstrip("<").rstrip(">")
+        # Stop forming the root dir if the loop encounters any variable specific attributes
+        if attr in ("region", "frequency", "variable_id", "branding_suffix", "grid_label", "version"):
+            break
+        try:
+            esgf_root_dir_attrs.append(cv_to_request_attr_mapping.get(attr).strip())
+        except AttributeError as err:
+            if "'NoneType' object has no attribute 'strip'" in str(err):
+                raise RuntimeError(f"Key path attribute `{attr}` missing from request file.")
+            else:
+                raise AttributeError(err)
+
+    return "/".join(esgf_root_dir_attrs)
 
 
 def rearrange_files(files: list, esgf_path_root: str, command: str) -> None:
@@ -142,7 +165,7 @@ def main_arrange_to_esgf():
     files = [f for f in files if f.strip()]  # Remove any blank items
     logger.info(f"Found {len(files)} files in {cdds_output_data_path}...")
 
-    esgf_path_root = create_esgf_root_dir(args.output_root_dir, request)
+    esgf_path_root = create_esgf_root_dir(plugin, request, args.output_root_dir)
 
     if args.move:
         logger.info(f"Moving {len(files)} to root path {esgf_path_root}")
