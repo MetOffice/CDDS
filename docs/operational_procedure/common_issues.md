@@ -21,7 +21,7 @@ and then retrigger the failed task
 Note that if this leaves some of the MIP Convert tasks with no work to do, they will fail and modifications to the `rose-suite.conf` file will be needed.
 In this case contact the CDDS team (@UKNCSP/cdds)
 
-## 2. Insufficient matching coordinate metadata
+## 2. Error time_bnds have gaps between them
 
 e.g.
 
@@ -40,6 +40,8 @@ CDDS cannot handle this at all, so the only option is to deactivate the correspo
 
 
 before retriggering the failed task.
+
+If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
 
 ## 3. Extract validation failure
 
