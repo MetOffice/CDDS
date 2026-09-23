@@ -4,7 +4,6 @@
 import logging
 import argparse
 import os
-import subprocess
 import numpy as np
 
 from pathlib import Path
@@ -86,7 +85,7 @@ def get_files_to_check(data_dir: str, all_files: list) -> list:
     return files_to_check
 
 
-def check_duplicates(files_to_check: list) -> list:
+def check_duplicates(files_to_check: list) -> set:
     """ Checks each file in `files_to_check` for duplicate fields for a single stream.
 
     Parameters
@@ -96,8 +95,8 @@ def check_duplicates(files_to_check: list) -> list:
 
     Returns
     -------
-    list
-        A list of any files found that contain duplicate fields.
+    set
+        A set of any files found that contain duplicate fields.
     """
     duplicates = set()
     for file in files_to_check:
