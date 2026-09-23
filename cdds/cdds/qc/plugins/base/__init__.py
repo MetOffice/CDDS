@@ -251,7 +251,7 @@ class CFMixin:
                     # Validate the region.
                     valid_region.assert_true(''.join(region).lower() in region_list,
                                              "{} is not a valid region".format(''.join(region)))
-                # If the regions are given as floats they must be mapped to a region string and validated
+                # If the regions are given as integers they must be mapped to a region string and validated
                 elif isinstance(region[0], int):
                     # Map regions flag values to their meaning
                     region_value_to_meaning = {}
