@@ -541,11 +541,11 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 - [x] The issue will then be reviewed according to the [CDDS simulation review procedure](sim_review.md) by members of the CDDS team.
 
 
-## 9. Run CDDS Teardown
+## 9. Run cdds_clean
 
 !!!warning
-    The teardown tool is currently unavailable due to a bug in CDDS versions <=4.0.3
-    Until it is fixed, the teardown process can be undertaken manually by.
+    The `cdds_clean` tool is currently unavailable due to a bug in CDDS versions <=4.0.3 (fixed in CDDS v4.0.4).
+    The process can be undertaken manually by.
 
     1. Entering the `data` directory for the specific "round" associated with your workflow.
 
