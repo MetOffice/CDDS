@@ -623,8 +623,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-insufficient-matching-coordinate-metadata" class="md-nav__link">
-    2. Insufficient matching coordinate metadata
+  <a href="#2-error-time_bnds-have-gaps-between-them" class="md-nav__link">
+    2. Error time_bnds have gaps between them
   </a>
   
 </li>
@@ -1610,8 +1610,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-insufficient-matching-coordinate-metadata" class="md-nav__link">
-    2. Insufficient matching coordinate metadata
+  <a href="#2-error-time_bnds-have-gaps-between-them" class="md-nav__link">
+    2. Error time_bnds have gaps between them
   </a>
   
 </li>
@@ -1665,7 +1665,7 @@ then run the command</p>
 <p>and then retrigger the failed task</p>
 <p>Note that if this leaves some of the <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks with no work to do, they will fail and modifications to the <code>rose-suite.conf</code> file will be needed.
 In this case contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team (@UKNCSP/cdds)</p>
-<h2 id="2-insufficient-matching-coordinate-metadata">2. Insufficient matching coordinate metadata</h2>
+<h2 id="2-error-time_bnds-have-gaps-between-them">2. Error time_bnds have gaps between them</h2>
 <p>e.g.</p>
 <pre><code>Loading data for "CMIP7_seaIce.json: siconca_tavg-u-hxy-u"
 Unable to produce MIP requested variable "siconca_tavg-u-hxy-u" for "CMIP7_seaIce": error time_bnds have gaps between them
@@ -1678,6 +1678,7 @@ Traceback (most recent call last):
 <pre><code>prepare_generate_variable_list &lt;request config file&gt; -r
 </code></pre>
 <p>before retriggering the failed task.</p>
+<p>If this error occurs for a large number of variables within any given <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>, please contact a member of the <abbr title="Climate Data Dissemination System">CDDS</abbr> team for suppport.</p>
 <h2 id="3-extract-validation-failure">3. Extract validation failure</h2>
 <p>e.g. the following appears in the extract_validate log for the ap5 <abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr></p>
 <pre><code>As a result, these variables cannot be produced:
