@@ -166,7 +166,9 @@ class WorkflowManager:
         |user configuration file| are no longer generated.
 
         Raises
-        ------ e.g. because it has not
+        ------
+        WorkflowRefreshError
+            If reinstalling or reloading the workflow fails, e.g. because it has not
             been installed or is not running.
         """
         reinstall_command = ['cylc', 'reinstall', self.workflow_name, '--yes']

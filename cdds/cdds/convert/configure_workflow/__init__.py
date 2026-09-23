@@ -145,8 +145,8 @@ def refresh_conversion_workflow(request: "Request", request_path: str) -> None:
     currently on disk, then reinstall and reload it.
 
     This removes orphaned tasks from an already installed conversion workflow, i.e. tasks
-    for components whose |user configuration file| has been removed by
-    ``prepare_generate_variable_list --remove-orphaned-tasks``.
+    for components that no longer have a |user configuration file| because all of their
+    variables have been deactivated.
 
     Parameters
     ----------
