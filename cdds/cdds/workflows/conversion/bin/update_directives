@@ -62,6 +62,23 @@ class MipConvertTask:
             self.job_err = fh.read()
 
     @property
+    def is_complete(self) -> bool:
+        """Whether the job log records the task running to completion.
+
+        "INFO - succeeded" is the last line the Cylc job wrapper writes, after the
+        resource usage information. It is absent if the task was orphaned, i.e. removed
+        from the workflow graph while still active and force-completed by Cylc without
+        running its normal completion path, in which case its resource usage cannot be
+        determined.
+
+        Returns
+        -------
+        bool
+            True if the job log is complete, False otherwise.
+        """
+        return "INFO - succeeded" in self.job_err
+
+    @property
     def used_memory(self):
         regex_mem = "Maximum resident set size \(kbytes\): (.*)"
         memory = int(re.search(regex_mem, self.job_err).groups()[0]) // 1000
@@ -383,10 +400,17 @@ def main():
     """Main function that iterates over the mip_convert tasks
     updating both the resource usage metrics .csv file and broadcast
     directives.
+
+    Tasks with an incomplete job log are skipped with a warning, so that an orphaned
+    task does not prevent the remaining tasks from being processed.
     """
     mip_convert_tasks = get_mip_convert_tasks()
 
     for mip_convert_task in mip_convert_tasks:
+        if not mip_convert_task.is_complete:
+            print('WARNING: Skipping "{}", job log is incomplete'.format(mip_convert_task))
+            continue
+
         write_resource_usage_csv(mip_convert_task)
         broadcast_directives(mip_convert_task)
 
