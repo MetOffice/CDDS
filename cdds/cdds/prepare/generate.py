@@ -23,6 +23,7 @@ from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.configure.user_config import create_user_config_files
+from cdds.convert.configure_workflow import refresh_conversion_workflow
 from cdds.inventory.dao import DBVariableStatus, InventoryDAO
 from cdds.prepare.constants import (
     VARIABLE_IN_INVENTORY_COMMENT,
@@ -133,6 +134,10 @@ def generate_variable_list(arguments: Namespace) -> int:
 
     if (arguments.reconfigure):
         reconfigure_mip_cfg_file(request, output_file)
+
+    if arguments.remove_orphaned_tasks:
+        logger.info('Refreshing the conversion workflow to remove any orphaned tasks')
+        refresh_conversion_workflow(request, arguments.request)
 
     logger.info('*** Complete ***')
 

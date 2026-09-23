@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2024-2026, Met Office.
 # Please see LICENSE.md for license details.
 import logging
 import os
@@ -10,7 +10,7 @@ from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.constants import CONVERSION_WORKFLOW, WORKFLOWS_DIRECTORY
 from cdds.common.request.request import Request
 from cdds.convert.configure_workflow import ConfigureTemplateVariables
-from cdds.convert.exceptions import WorkflowSubmissionError
+from cdds.convert.exceptions import WorkflowRefreshError, WorkflowSubmissionError
 from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
@@ -154,4 +154,29 @@ class WorkflowManager:
         self.logger.info('Using cylc command {}'.format(self.cylc_command))
         result = run_command(self.cylc_command, "Running workflow failed", WorkflowSubmissionError)
         self.logger.info('Workflow submitted successfully')
+        self.logger.info('Workflow standard output:\n {}'.format(result))
+
+    def refresh_workflow(self) -> None:
+        """Reinstall and reload the conversion workflow.
+
+        The reinstall synchronises the updated workflow source, in particular the
+        ``STREAM_COMPONENTS`` template variable in ``rose-suite.conf``, into the run
+        directory. The reload then makes the running scheduler pick up the new
+        configuration, so that tasks for components that no longer have a
+        |user configuration file| are no longer generated.
+
+        Raises
+        ------ e.g. because it has not
+            been installed or is not running.
+        """
+        reinstall_command = ['cylc', 'reinstall', self.workflow_name, '--yes']
+        self.logger.info('Reinstalling workflow. {}'.format(reinstall_command))
+        result = run_command(reinstall_command, 'Reinstalling workflow failed', WorkflowRefreshError)
+        self.logger.info('Workflow reinstalled successfully')
+        self.logger.info('Workflow standard output:\n {}'.format(result))
+
+        reload_command = ['cylc', 'reload', self.workflow_name]
+        self.logger.info('Reloading workflow. {}'.format(reload_command))
+        result = run_command(reload_command, 'Reloading workflow failed', WorkflowRefreshError)
+        self.logger.info('Workflow reloaded successfully')
         self.logger.info('Workflow standard output:\n {}'.format(result))

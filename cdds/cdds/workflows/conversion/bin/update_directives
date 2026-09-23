@@ -408,7 +408,7 @@ def main():
 
     for mip_convert_task in mip_convert_tasks:
         if not mip_convert_task.is_complete:
-            print('WARNING: Skipping "{}", job log is incomplete'.format(mip_convert_task))
+            print('Skipping "{}", job log is incomplete - likely due to an orphaned task.'.format(mip_convert_task))
             continue
 
         write_resource_usage_csv(mip_convert_task)
