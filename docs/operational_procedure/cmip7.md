@@ -201,7 +201,7 @@ Before proceeding with the CDDS Operational Procedure, please ensure that:
     - [x] You belong to the `cdds-data` group.
 
         !!! tip 
-            Type `groups` on the command line to print the groups a user is in.
+            Type `groups` on the command line to print the groups you're in.
 
     - [x] You have write permissions to `moose:/adhoc/projects/cdds/` on MASS.
 
