@@ -14,7 +14,7 @@ from cdds.qc.dataset.cmip6 import Cmip6Dataset
 from cdds.qc.dataset.cmip7 import Cmip7Dataset
 from cdds.qc.dataset.cordex import CordexDataset
 from cdds.qc.common import equal_with_tolerance, DatetimeCalculator
-from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE
+from cdds.qc.constants import DIURNAL_CLIMATOLOGY, HOURLY_OFFSET, DIURNAL_OFFSETS, TIME_TOLERANCE, HALF_HOUR_IN_DAYS
 
 
 class CollectionsCheck(object):
@@ -223,12 +223,11 @@ class CollectionsCheck(object):
         return msg
 
     def _check_instantaneous_offset(self, point_sequence, tested_value, run_start, run_end, tolerance=TIME_TOLERANCE):
-        half_hour_value = 0.02083
         reference_time_point = self.calendar_calculator.days_since_base_date(
             point_sequence[0].strftime('%Y-%m-%dT%H:%MZ'))
         # Check whether there is a 30 minute offset between the expected and actual first timepoint.
-        lower_bound = half_hour_value - tolerance
-        upper_bound = half_hour_value + tolerance
+        lower_bound = HALF_HOUR_IN_DAYS - tolerance
+        upper_bound = HALF_HOUR_IN_DAYS + tolerance
         offset = reference_time_point - tested_value
         if lower_bound <= abs(offset) <= upper_bound:
             offset = DatetimeCalculator._days_to_nearest_minute(offset, self.calendar_calculator.seconds_in_day)
