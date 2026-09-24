@@ -74,31 +74,16 @@ and if support is needed contact the [CDDS Team](mailto:cdds@metoffice.gov.uk).
 
 ## Activate the CDDS install
 
-=== "MOHC"
+1. Setup the environment to use the central installation of CDDS and its dependencies:
+   ```bash
+   source ~cdds/bin/setup_env_for_cdds <cdds_version>
+   ```
+   where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.0`. Unless instructed otherwise 
+   you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
+   this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
+   for advice.
 
-    1. Setup the environment to use the central installation of CDDS and its dependencies:
-       ```bash
-       source ~cdds/bin/setup_env_for_cdds <cdds_version>
-       ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.0.0`. Unless instructed otherwise 
-       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-       for advice.
-
-    2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
-
-=== "JASMIN"
-
-    1. Setup the environment to use the central installation of CDDS and its dependencies:
-       ```bash
-       source ~cdds/bin/setup_env_for_cdds <cdds_version>
-       ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `3.3.0`. Unless instructed otherwise 
-       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-       for advice.
-
-    2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
+2. **Ticket**: Record the version of CDDS being used on the *CDDS operational simulation ticket*.
 
 !!! note
     * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags)
