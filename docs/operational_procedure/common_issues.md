@@ -2,113 +2,253 @@
 
 This page attempts to describe ways in which we've seen things go wrong and their work around, and we'll attempt to update it as new problems are observed.
 
-## 1. MASS error OPERATION_FAILED
+=== "MOHC"
 
-We think this means that MASS is struggling to handle the complexity of a select command. 
-Until further notice use the following process to work around this.
+    ### 1. MASS error OPERATION_FAILED
 
-### Deactivate a set of variables in the correponding stream.
+    We think this means that MASS is struggling to handle the complexity of a select command. 
+    Until further notice use the following process to work around this.
 
-Edit the variables file indicated in the request file and prefix a number of lines (e.g. 10) with `#` and
-then run the command
+    #### Deactivate a set of variables in the correponding stream.
 
-```
-prepare_generate_variable_list <request config file> -r
-```
+    Edit the variables file indicated in the request file and prefix a number of lines (e.g. 10) with `#` and
+    then run the command
 
-and then retrigger the failed task
-
-Note that if this leaves some of the MIP Convert tasks with no work to do, they will fail and modifications to the `rose-suite.conf` file will be needed.
-In this case contact the CDDS team (@UKNCSP/cdds)
-
-## 2. Error time_bnds have gaps between them
-
-e.g.
-
-    Loading data for "CMIP7_seaIce.json: siconca_tavg-u-hxy-u"
-    Unable to produce MIP requested variable "siconca_tavg-u-hxy-u" for "CMIP7_seaIce": error time_bnds have gaps between them
-    error time_bnds have gaps between them
-    Traceback (most recent call last):
-    ...
-
-
-We've seen this when the STASH configuration been set up incorrectly with the same STASH variables at multiple frequencies included in the same stream.
-CDDS cannot handle this at all, so the only option is to deactivate the corresponding variables, i.e. comment them out of the variables list and run
-
-
+    ```
     prepare_generate_variable_list <request config file> -r
+    ```
+
+    and then retrigger the failed task
+
+    Note that if this leaves some of the MIP Convert tasks with no work to do, they will fail and modifications to the `rose-suite.conf` file will be needed.
+    In this case contact the CDDS team (@UKNCSP/cdds)
+
+    ### 2. Error time_bnds have gaps between them
+
+    e.g.
+
+        Loading data for "CMIP7_seaIce.json: siconca_tavg-u-hxy-u"
+        Unable to produce MIP requested variable "siconca_tavg-u-hxy-u" for "CMIP7_seaIce": error time_bnds have gaps between them
+        error time_bnds have gaps between them
+        Traceback (most recent call last):
+        ...
 
 
-before retriggering the failed task.
-
-If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
-
-## 3. Extract validation failure
-
-e.g. the following appears in the extract_validate log for the ap5 stream
+    We've seen this when the STASH configuration been set up incorrectly with the same STASH variables at multiple frequencies included in the same stream.
+    CDDS cannot handle this at all, so the only option is to deactivate the corresponding variables, i.e. comment them out of the variables list and run
 
 
-    As a result, these variables cannot be produced:
-	landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
+        prepare_generate_variable_list <request config file> -r
 
 
-This means that CDDS didn't find STASH codes it was expecting in the stream being extracted and therefore cannot produce the listed variables.
+    before retriggering the failed task.
 
-!!! warning
+    If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
 
-    There is currently a bug in this tool in CDDS version <=4.0.3.
-    When run, ensure that there is only one `validate` log for the stream of which you want to fix in your `extract/log`
-    directory - and that it is the latest log.
+    ### 3. Extract validation failure
 
-    If there is more than one log for the same stream with an older timestamp, the tool may use the older one by mistake.
-    This could lead to your variables file being adjusted incorrectly.
-
-    To avoid this bug, move any older logs for the streams that need to be fixed out of that directory before you run the tool.
-
-To deactivate these variables
-
-1. Run `update_variables_from_validate <request file>` to automatically comment the variables from the variable list
-2. Run `prepare_generate_variable_list <request file> -r` to update the config files within CDDS
-3. Retrigger the corresponding `validate_extract_<stream>` task 
-
-The cdds_convert workflow should then proceed.
+    e.g. the following appears in the extract_validate log for the ap5 stream
 
 
-Alternatively, you may see the following:
-
-    .......
-    Missing required STASH codes: 2530, 2540
-
-    There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
-
-This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
-To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
+        As a result, these variables cannot be produced:
+        landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
 
 
-## 4. Extract validation "potential missing STASH code 33" warning
+    This means that CDDS didn't find STASH codes it was expecting in the stream being extracted and therefore cannot produce the listed variables.
 
-e.g.
+    !!! warning
 
-    Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
-    ...../ap7/file.pp: STASH warnings relative to reference file file.pp
-		Potential missing STASH codes: 33
+        There is currently a bug in this tool in CDDS version <=4.0.3.
+        When run, ensure that there is only one `validate` log for the stream of which you want to fix in your `extract/log`
+        directory - and that it is the latest log.
 
-This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
+        If there is more than one log for the same stream with an older timestamp, the tool may use the older one by mistake.
+        This could lead to your variables file being adjusted incorrectly.
+
+        To avoid this bug, move any older logs for the streams that need to be fixed out of that directory before you run the tool.
+
+    To deactivate these variables
+
+    1. Run `update_variables_from_validate <request file>` to automatically comment the variables from the variable list
+    2. Run `prepare_generate_variable_list <request file> -r` to update the config files within CDDS
+    3. Retrigger the corresponding `validate_extract_<stream>` task 
+
+    The cdds_convert workflow should then proceed.
 
 
-## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
+    Alternatively, you may see the following:
 
-e.g.
+        .......
+        Missing required STASH codes: 2530, 2540
 
-        "mip_table": "APmon",
-        "checker": "cmip6",
-        "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
-        "affected_files": 2,
-        "affected_vars": "ps"
+        There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
 
-It's likely that `further_info_url` was not set as described [here](cmip6.md#further_info_url_required).
+    This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
+    To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
 
-You have two options:
 
-1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
-2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
+    ### 4. Extract validation "potential missing STASH code 33" warning
+
+    e.g.
+
+        Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
+        ...../ap7/file.pp: STASH warnings relative to reference file file.pp
+            Potential missing STASH codes: 33
+
+    This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
+
+
+    ### 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
+
+    e.g.
+
+            "mip_table": "APmon",
+            "checker": "cmip6",
+            "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
+            "affected_files": 2,
+            "affected_vars": "ps"
+
+    It's likely that `further_info_url` was not set as described [here](cmip6.md#further_info_url_required).
+
+    You have two options:
+
+    1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
+    2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
+
+=== "JASMIN"
+
+    ### 1. Error time_bnds have gaps between them
+
+    e.g.
+
+        Loading data for "CMIP7_seaIce.json: siconca_tavg-u-hxy-u"
+        Unable to produce MIP requested variable "siconca_tavg-u-hxy-u" for "CMIP7_seaIce": error time_bnds have gaps between them
+        error time_bnds have gaps between them
+        Traceback (most recent call last):
+        ...
+
+
+    We've seen this when the STASH configuration been set up incorrectly with the same STASH variables at multiple frequencies included in the same stream.
+    CDDS cannot handle this at all, so the only option is to deactivate the corresponding variables, i.e. comment them out of the variables list and run
+
+
+        prepare_generate_variable_list <request config file> -r
+
+
+    before retriggering the failed task.
+
+    If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
+
+    ### 2. Extract validation failure
+
+    e.g. the following appears in the extract_validate log for the ap5 stream
+
+
+        As a result, these variables cannot be produced:
+        landIce: sbl_tavg-u-hxy-lnd, snm_tavg-u-hxy-lnd
+
+
+    This means that CDDS didn't find STASH codes it was expecting in the stream being extracted and therefore cannot produce the listed variables.
+
+    !!! warning
+
+        There is currently a bug in this tool in CDDS version <=4.0.3.
+        When run, ensure that there is only one `validate` log for the stream of which you want to fix in your `extract/log`
+        directory - and that it is the latest log.
+
+        If there is more than one log for the same stream with an older timestamp, the tool may use the older one by mistake.
+        This could lead to your variables file being adjusted incorrectly.
+
+        To avoid this bug, move any older logs for the streams that need to be fixed out of that directory before you run the tool.
+
+    To deactivate these variables
+
+    1. Run `update_variables_from_validate <request file>` to automatically comment the variables from the variable list
+    2. Run `prepare_generate_variable_list <request file> -r` to update the config files within CDDS
+    3. Retrigger the corresponding `validate_extract_<stream>` task 
+
+    The cdds_convert workflow should then proceed.
+
+
+    Alternatively, you may see the following:
+
+        .......
+        Missing required STASH codes: 2530, 2540
+
+        There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
+
+    This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
+    To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
+
+
+    ### 3. Extract validation "potential missing STASH code 33" warning
+
+    e.g.
+
+        Validation for stream ap7 has warnings, copy of the log saved in ....../extract/log/ap7_validation.txt
+        ...../ap7/file.pp: STASH warnings relative to reference file file.pp
+            Potential missing STASH codes: 33
+
+    This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
+
+
+    ### 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
+
+    e.g.
+
+            "mip_table": "APmon",
+            "checker": "cmip6",
+            "error_message": "Global attributes check: Cannot retrieve global attribute further_info_url",
+            "affected_files": 2,
+            "affected_vars": "ps"
+
+    It's likely that `further_info_url` was not set as described [here](cmip6.md#further_info_url_required).
+
+    You have two options:
+
+    1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
+    2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
+
+    ### 5. `mip_convert` tasks failing or timing out on JASMIN
+
+    For heavy streams (e.g. `ap4`), tasks submitted under `--qos = short` may exceed queue walltime or memory limits:
+
+    1. Open `flow.cylc` in your workflow directory (e.g. `~/cylc-run/<workflow_name>/runN/flow.cylc`).
+    2. Locate the following section and change `--qos = short` to `--qos = standard`.
+       ```
+        [[AZURE]]
+            platform = spice
+            submission retry delays = PT1M, PT1M, PT1M
+            execution time limit = PT6H0M
+            [[[directives]]]
+                --mem = {{ MEMORY_DEFAULT }}
+                --partition = cpu
+                --qos = normal
+                --wckey = CDDS
+        [[JASMIN]]
+            platform = lotus
+            submission retry delays = PT1M, PT1M, PT1M
+            execution time limit = PT4H0M
+            [[[directives]]]
+                --mem = {{ MEMORY_DEFAULT }}
+                --partition = standard
+                --qos = short
+                --account = {{ JASMIN_ACCOUNT }}
+       ```
+    
+    3. Reload the workflow:
+       ```bash
+       cylc reload <workflow_name>
+       ```
+    4. Retrigger the failed task.
+
+    ### 6. Tasks fail with `command not found` or environment conflicts on `localhost` (e.g. `finaliser`)
+
+    If tasks running on `localhost` (such as `finaliser_<stream>`) fail with errors like `metomi: command not found` or library clashes, check your `~/.bashrc`.
+
+    Automated `module load` commands in `~/.bashrc` execute during subshell startup and can override the PATH or Python environment required by Cylc and CDDS.
+
+    To resolve:
+
+    1. Inspect `~/.bashrc` and temporarily comment out any automated `module load` lines.
+    2. Retrigger the failed tasks.
