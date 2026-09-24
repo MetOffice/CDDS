@@ -23,7 +23,7 @@ from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.configure.user_config import create_user_config_files
-from cdds.inventory.dao import DBVariableStatus, InventoryDAO
+from cdds.inventory.dao import DBVariable, DBVariableStatus, InventoryDAO
 from cdds.prepare.constants import (
     VARIABLE_IN_INVENTORY_COMMENT,
     VARIABLE_IN_INVENTORY_LOG,
@@ -120,7 +120,7 @@ def generate_variable_list(arguments: Namespace) -> int:
     if request.inventory.inventory_database_location:
         db = request.inventory.inventory_database_location
     else:
-        db = os.path.join(os.environ['CDDS_ETC'], 'inventory', 'inventory.db')
+        db = os.path.join(os.environ['CDDS_ETC'], 'inventory', 'inventory_cmip7.db')
 
     inventory = InventoryVariablesConstructor(db, request)
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings, inventory,
@@ -364,12 +364,14 @@ def resolve_requested_variables(
         variable_in_model = True
         variable_in_mappings, comments = check_mappings(variable, model_to_mip_mappings)
         if inventory_check:
-            variable_in_inventory = inventory.additional_active_checks(variable, comments)
+            variable_in_inventory = inventory.check_variable_in_inventory(variable, comments)
         else:
-            variable_in_inventory = True
+            # if we are skipping the inventory check, we will assume the variable is not in the database
+            variable_in_inventory = False
 
         # Combine all above flags to determine whether this variable should be active.
-        active = all([variable_in_model, variable_in_mappings, variable_in_inventory])
+        # Note the negation of variable_in_inventory
+        active = all([variable_in_model, variable_in_mappings, not variable_in_inventory])
 
         requested_variable = {
             "active": active,
@@ -443,8 +445,9 @@ class InventoryVariablesConstructor:
             request.metadata.variant_label,
         )
 
-    def additional_active_checks(self, variable, comments):
+    def check_variable_in_inventory(self, variable, comments):
         """Returns if the requested variable is according the inventory database active or not.
+
         A variable is active if the status in the inventory database is not 'available' or 'in progress'. If the
         variable is not found in the inventory database, it is active by default.
         A comment will be added if a variable is inactive.
@@ -461,24 +464,24 @@ class InventoryVariablesConstructor:
         """
         logger = logging.getLogger(__name__)
         try:
-            is_active = self._check_inventory_status(variable, comments)
-            message = VARIABLE_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name, is_active)
+            in_inventory = self._check_in_inventory(variable, comments)
+            message = VARIABLE_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name, in_inventory)
         except KeyError:
             message = VARIABLE_NOT_IN_INVENTORY_LOG.format(variable.mip_table, variable.variable_name)
-            is_active = True
+            in_inventory = False
         logger.debug(message)
-        return is_active
+        return in_inventory
 
-    def _check_inventory_status(self, variable, comments) -> bool:
+    def _check_in_inventory(self, variable, comments) -> bool:
         db_variable = self._db_data.get_variable(variable.frequency, variable.variable_name)
         active_state = DBVariableStatus.AVAILABLE
         in_progess_state = DBVariableStatus.IN_PROGRESS
-        is_active = db_variable.has_not_status(active_state) and db_variable.has_not_status(in_progess_state)
-        if not is_active:
+        in_inventory = db_variable.has_not_status(active_state) or db_variable.has_not_status(in_progess_state)
+        if not in_inventory:
             comments.append(VARIABLE_IN_INVENTORY_COMMENT.format(
                 db_variable.id, db_variable.version, db_variable.status
             ))
-        return not is_active
+        return in_inventory
 
     def clean_up(self):
         self._dao.close()
