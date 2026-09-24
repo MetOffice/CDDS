@@ -198,6 +198,18 @@ Before proceeding with the CDDS Operational Procedure, please ensure that:
 
 === "MOHC"
 
+    - [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
+
+        !!! tip 
+            You can check which shell you use by following command:
+            ```
+            echo $SHELL
+            ```
+            If the result is not `/bin/bash`, you can switch to a bash shell by running:
+            ```
+            /bin/bash
+            ```
+
     - [x] You belong to the `cdds-data` group.
 
         !!! tip 
@@ -212,18 +224,6 @@ Before proceeding with the CDDS Operational Procedure, please ensure that:
             moo getacl moose:/adhoc/projects/cdds
             ```
             If your user id is not included with the `readwrite-delete` permissions listed please contact the CDDS team so that you can be given the required permissions to archive data.
-
-    - [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
-
-        !!! tip 
-            You can check which shell you use by following command:
-            ```
-            echo $SHELL
-            ```
-            If the result is not `/bin/bash`, you can switch to a bash shell by running:
-            ```
-            /bin/bash
-            ```
 
 === "JASMIN"
 
