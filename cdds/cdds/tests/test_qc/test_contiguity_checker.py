@@ -2,7 +2,9 @@
 # Please see LICENSE.md for license details.
 
 import unittest
-from metomi.isodatetime.parsers import TimePointParser
+from metomi.isodatetime.parsers import TimePointParser, DurationParser
+from metomi.isodatetime.data import Duration
+
 
 from cdds.qc.contiguity_checker import CollectionsCheck
 from cdds.tests.factories.request_factory import simple_request
@@ -432,6 +434,32 @@ class CollectionsCheckTestCase(unittest.TestCase):
                             'value 1850-12-16T00:00:00Z (difference 180.0 days)')
             },
         ]})
+
+    def test_check_instantaneous_offset(self):
+        cc = CollectionsCheck(self.request)
+        run_start = TimePointParser().parse('1900-01-01T00:00:00')
+        run_end = TimePointParser().parse('1900-01-02T00:00:00')
+        step = DurationParser().parse("PT3H")
+        point_sequence = [run_start + (step * i) for i in range(9)]
+
+        # Check that a normal sequence with no time offset compared to the test value remains unchanged.
+        test_value_no_offset = cc.calendar_calculator.days_since_base_date(
+            point_sequence[0].strftime('%Y-%m-%dT%H:%MZ'))
+        msg = "30 minute offset incorrectly applied to point sequence"
+        self.assertEqual(
+            CollectionsCheck._check_instantaneous_offset(cc, point_sequence, test_value_no_offset, run_start, run_end),
+            point_sequence, msg
+        )
+
+        # Check that a sequence with a 30 minute time offset compared to the test value is updated to match the offset.
+        test_value_offset = cc.calendar_calculator.days_since_base_date(
+            (point_sequence[0] + Duration(minutes=30)).strftime('%Y-%m-%dT%H:%MZ'))
+        msg = "Failed to apply 30 minute offset to point sequence"
+        offset_point_sequence = [(run_start + Duration(minutes=30)) + (step * i) for i in range(8)]
+        self.assertEqual(
+            CollectionsCheck._check_instantaneous_offset(cc, point_sequence, test_value_offset, run_start, run_end),
+            offset_point_sequence, msg
+        )
 
 
 if __name__ == '__main__':

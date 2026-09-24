@@ -29,6 +29,7 @@ FREQ_DICT = {
     '1hrPt': 'PT1H'
 }
 HOURLY_OFFSET = 1.0 / 24.0  # 00:30, 01:30, 02:30, .., 22:30, 23:30
+HALF_HOUR_IN_DAYS = 0.5 / 24.0
 DIURNAL_OFFSETS = [
     30,
     29,
