@@ -170,11 +170,11 @@ You will need to adjust your `request.cfg`:
 
 ### Changes when working with local data
 
-If you are working with data on disk, e.g. retrieved manually, through MOOMIN at the Met Office, or stored locally on a Group Workspace on JASMIN (where `skip_extract = True` is default), ensure `skip_extract` is set appropriately in the request file:
+If you are working with data on disk, e.g. retrieved manually, through MOOMIN at the Met Office, or stored locally on a Group Workspace on JASMIN, ensure `skip_extract` is set to True in the request file:
 
-| Section | Key | Value | Description |
-|:----|:---|:---|:---|
-| `[conversion]` | `skip_extract` | True | Set to `True` to skip extract tasks from MASS |
+| Section | Key | Description |
+|:---|:---|:---|
+| `[conversion]` | `skip_extract` | Set to `True` to skip extract tasks from MASS |
 
 To link your local data to the CDDS data input directory, activate the CDDS installation (see [below](#6-activate-the-cdds-install)) and run:
 
