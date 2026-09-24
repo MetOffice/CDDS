@@ -4,11 +4,24 @@
 import argparse
 import os
 
-from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_FACET_LIST, INVENTORY_ROOT_DIR
+from cdds.common.constants import INVENTORY_DB_FILENAME, INVENTORY_ROOT_DIR
 from cdds.inventory.inventory_search.search import perform_user_query
 
 
 MASS_PRODUCTION_LOCATION = 'moose:/adhoc/projects/cdds/production/'
+
+# Search patterns use dataset IDs without inventory status/timestamp facets.
+SEARCH_FACET_LIST = [
+    'mip_era',
+    'mip',
+    'institution',
+    'model',
+    'experiment',
+    'variant',
+    'mip_table',
+    'variable',
+    'grid',
+]
 
 
 def main_user_search():
@@ -72,9 +85,9 @@ def check_user_input(input_string):
 
     input_list = input_string.split('.')
 
-    if len(input_list) != 9:
+    if len(input_list) != len(SEARCH_FACET_LIST):
         raise RuntimeError('Incorrect number of arguments. '
-                           + '{} given 9 required.'.format(len(input_list)))
+                           + '{} given {} required.'.format(len(input_list), len(SEARCH_FACET_LIST)))
 
     if '' in input_list:
         empty_arguments = [str(i + 1)
@@ -100,6 +113,6 @@ def populate_facets_dict(values):
         Key value pair dictionary of the facet type and the facet search term
     """
 
-    facets = {k: v for k, v in zip(INVENTORY_FACET_LIST, values) if v != '*'}
+    facets = {k: v for k, v in zip(SEARCH_FACET_LIST, values) if v != '*'}
 
     return facets
