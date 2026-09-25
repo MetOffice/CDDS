@@ -291,19 +291,18 @@ If running a single request configuration, please follow the standard process as
        ```bash
        create_cdds_directory_structure <path to your request.cfg>
        ```
-       The output of this script suggests two symbolic links are created or the environment variables
-       `$CDDS_DATA_DIR` and `$CDDS_PROC_DIR` are set. These variables will be used in examples below.
 
-       *(Optional)* If working with local data already on disk (e.g. retrieved via MOOMIN), link your data before proceeding:
+    3. If working with local data (e.g. retrieved via MOOMIN), run `cdds_arrange_input_data`
+        before proceeding:
        ```bash
        cdds_arrange_input_data <path to your request.cfg> <directory to search for data>
        ```
 
-    3. Create the internal variable lists used by CDDS:
+    4. Create the internal variable lists used by CDDS:
        ```bash
        prepare_generate_variable_list <path to your request.cfg>
        ```
-    4. Launch the cylc conversion workflow:
+    5. Launch the cylc conversion workflow:
        ```bash
        cdds_convert <path to your request.cfg>
        ```
@@ -321,7 +320,8 @@ If running a single request configuration, please follow the standard process as
        The output of this script suggests two symbolic links are created or the environment variables
        `$CDDS_DATA_DIR` and `$CDDS_PROC_DIR` are set. These variables will be used in examples below.
 
-    3. *(When using local data)* Arrange your model input data on the Group Workspace:
+    3. **If working with local data (rather than retrieving input data from MASS), run `cdds_arrange_input_data`
+        before proceeding:
        ```bash
        cdds_arrange_input_data <path to your request.cfg> <directory to search for data>
        ```
