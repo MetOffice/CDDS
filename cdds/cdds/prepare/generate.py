@@ -23,7 +23,7 @@ from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import Request, read_request
 from cdds.configure.user_config import create_user_config_files
-from cdds.convert.configure_workflow import refresh_conversion_workflow
+from cdds.convert.configure_workflow import remove_orphaned_tasks
 from cdds.inventory.dao import DBVariableStatus, InventoryDAO
 from cdds.prepare.constants import (
     VARIABLE_IN_INVENTORY_COMMENT,
@@ -123,9 +123,10 @@ def generate_variable_list(arguments: Namespace) -> int:
     var_list = variable_constructor.construct_requested_variables_list()
 
     check_variables_result = check_variables_recognised(var_list)
-    check_streams_match = check_streams_match_variables(var_list, request)
-    if check_variables_result or check_streams_match != 0:
-        logger.warning("Issues found but continuing, a non zero exit code will be returned")
+    # Any mismatch between the streams is advisory only and does not affect the exit code.
+    check_streams_match_variables(var_list, request)
+    if check_variables_result:
+        logger.warning("Unrecognised variables found but continuing, a non zero exit code will be returned")
 
     # TODO: take inventory check into account!
     # Write the 'requested variables list'.
@@ -138,11 +139,11 @@ def generate_variable_list(arguments: Namespace) -> int:
     if arguments.remove_orphaned_tasks:
         logger.info('Refreshing the conversion workflow from the regenerated MIP Convert configuration files '
                     'to remove any orphaned tasks')
-        refresh_conversion_workflow(request, arguments.request)
+        remove_orphaned_tasks(request, arguments.request)
 
     logger.info('*** Complete ***')
 
-    return 1 if check_variables_result or check_streams_match else 0
+    return 1 if check_variables_result else 0
 
 
 def check_variables_recognised(var_list: dict[str, Any]) -> int:
@@ -179,8 +180,9 @@ def check_variables_recognised(var_list: dict[str, Any]) -> int:
 
 def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int:
     """Compares the set of streams present in the variables list file with those from the request file.
-    Logs critical errors for any streams found in one but not the other, and returns a status code of 1 if
-    mismatches are found.
+    Logs a warning for any streams found in one but not the other, and returns a status code of 1 if
+    mismatches are found. A mismatch is advisory only, e.g. it is expected when all of the variables
+    of a stream have been deactivated, so it is not treated as an error.
 
     Note: Variables in the list can include substreams in format 'stream/substream' (e.g., 'onm/grid-W'),
     so the base stream ID (before '/') is used for comparison with request streams.
@@ -197,8 +199,8 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
         Returns 1 if there are mismatched streams between variables list and the request streams, otherwise returns 0.
     Logs
     ----
-    Critical
-        Logs critical messages for each mismatched stream found.
+    Warning
+        Logs a warning message for each mismatched stream found.
     """
 
     logger = logging.getLogger(__name__)
@@ -218,13 +220,13 @@ def check_streams_match_variables(var_list: dict[str, Any], request: Any) -> int
 
     if streams_in_variables_list_but_not_in_request:
         for stream in streams_in_variables_list_but_not_in_request:
-            logger.critical(
+            logger.warning(
                 f'Stream "{stream}" found in variables list but not in request file streams: {request_streams}'
             )
 
     if streams_in_request_but_not_in_variables_list:
         for stream in streams_in_request_but_not_in_variables_list:
-            logger.critical(
+            logger.warning(
                 f'Stream "{stream}" found in request streams but not in variables list file: {variables_list_streams}'
             )
 
