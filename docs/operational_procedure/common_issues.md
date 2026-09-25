@@ -37,9 +37,9 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     We've seen this when the STASH configuration been set up incorrectly with the same STASH variables at multiple frequencies included in the same stream.
     CDDS cannot handle this at all, so the only option is to deactivate the corresponding variables, i.e. comment them out of the variables list and run
 
-
-        prepare_generate_variable_list <request config file> -r
-
+    ```bash
+    prepare_generate_variable_list <request config file> -r
+    ```
 
     before retriggering the failed task.
 
@@ -131,9 +131,9 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     We've seen this when the STASH configuration been set up incorrectly with the same STASH variables at multiple frequencies included in the same stream.
     CDDS cannot handle this at all, so the only option is to deactivate the corresponding variables, i.e. comment them out of the variables list and run
 
-
-        prepare_generate_variable_list <request config file> -r
-
+    ```bash
+    prepare_generate_variable_list <request config file> -r
+    ```
 
     before retriggering the failed task.
 
