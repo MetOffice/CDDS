@@ -245,6 +245,8 @@ def parse_generate_args(arguments: List[str]) -> Namespace:
         ))
 
     args = parser.parse_args(user_arguments)
+    # For removing orphaned tasks, the workflow is refreshed from the MIP Convert config files,
+    # so they must be regenerated first.
     if args.remove_orphaned_tasks:
         args.reconfigure = True
     if args.output_dir is not None:

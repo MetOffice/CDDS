@@ -136,7 +136,8 @@ def generate_variable_list(arguments: Namespace) -> int:
         reconfigure_mip_cfg_file(request, output_file)
 
     if arguments.remove_orphaned_tasks:
-        logger.info('Refreshing the conversion workflow to remove any orphaned tasks')
+        logger.info('Refreshing the conversion workflow from the regenerated MIP Convert configuration files '
+                    'to remove any orphaned tasks')
         refresh_conversion_workflow(request, arguments.request)
 
     logger.info('*** Complete ***')
