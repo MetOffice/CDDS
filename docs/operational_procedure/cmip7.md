@@ -318,8 +318,6 @@ If running a single request configuration, please follow the standard process as
        ```bash
        create_cdds_directory_structure <path to your request.cfg>
        ```
-       The output of this script suggests two symbolic links are created or the environment variables
-       `$CDDS_DATA_DIR` and `$CDDS_PROC_DIR` are set. These variables will be used in examples below.
 
     3. **If working with local data (rather than retrieving input data from MASS), run `cdds_arrange_input_data`
         before proceeding:
