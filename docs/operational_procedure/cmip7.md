@@ -143,9 +143,24 @@ You will need to adjust your `request.cfg`:
 
 2. The following values need to be set manually:
 
-| Section | Value                 | Description                             |
-|:--------|:----------------------|:----------------------------------------|
-| `[data]`  | `variable_list_file`  | Full Path to your variable list file    |
+=== "MOHC"
+
+    | Section | Key | Description |
+    |:---|:---|:---|
+    | <span style="white-space: nowrap">`[data]`</span> | <span style="white-space: nowrap">`variable_list_file`</span> | Full path to your variable list file |
+    | <span style="white-space: nowrap">`[common]`</span> | <span style="white-space: nowrap">`root_proc_dir`</span> | Path to your processing directory (e.g. `$SCRATCH/cdds_proc`) |
+    | <span style="white-space: nowrap">`[common]`</span> | <span style="white-space: nowrap">`root_data_dir`</span> | Path to your data directory (e.g. `$SCRATCH/cdds_data`) |
+
+=== "JASMIN"
+
+    | Section | Key | Description |
+    |:---|:---|:---|
+    | <span style="white-space: nowrap">`[data]`</span> | <span style="white-space: nowrap">`variable_list_file`</span> | Full path to your variable list file |
+    | <span style="white-space: nowrap">`[common]`</span> | <span style="white-space: nowrap">`root_proc_dir`</span> | Path to your processing directory on your Group Workspace |
+    | <span style="white-space: nowrap">`[common]`</span> | <span style="white-space: nowrap">`root_data_dir`</span> | Path to your data directory on your Group Workspace |
+    | <span style="white-space: nowrap">`[conversion]`</span> | <span style="white-space: nowrap">`skip_extract`</span> | Defaults to `True` on JASMIN to process local data from disk. Set to `False` only if extracting from MASS |
+    | <span style="white-space: nowrap">`[conversion]`</span> | <span style="white-space: nowrap">`skip_archive`</span> | Set to `True` to skip MASS archive tasks |
+    | <span style="white-space: nowrap">`[conversion]`</span> | <span style="white-space: nowrap">`jasmin_account`</span> | **(Optional)** Appropriate account name used for SLURM job submission on LOTUS (see [JASMIN documentation](https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy)). Can be left blank if you have a default SLURM account configured. |
 
 !!! note
     Please check the other values as well and make adjustments as needed. Ensure any adjustments are recorded on the *CDDS operational simulation issue*. For any help, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) or tag `@UKNCSP/cdds` on your issue.
@@ -155,15 +170,15 @@ You will need to adjust your `request.cfg`:
 
 ### Changes when working with local data
 
-If you are working with data on disk, e.g. retrieved manually or through MOOMIN, the following changes will need to be made to the request file;
+If you are working with data on disk, e.g. retrieved manually, through MOOMIN at the Met Office, or stored locally on a Group Workspace on JASMIN, ensure `skip_extract` is set to True in the request file:
 
-| Section | Key | Value | Description |
-|:----|:---|:---|:---|
-| `[conversion]` | `skip_extract` | True | skip the extract tasks |
+| Section | Key | Description |
+|:---|:---|:---|
+| `[conversion]` | `skip_extract` | Set to `True` to skip extract tasks from MASS |
 
-To link your local data to the CDDS data input directory, activate the cdds installation (see [below](#6-activate-cdds-install)) and run
+To link your local data to the CDDS data input directory, activate the CDDS installation (see [below](#6-activate-the-cdds-install)) and run:
 
-```
+```bash
 cdds_arrange_input_data <request file> <directory to search for data>
 ```
 
@@ -181,62 +196,81 @@ This will search the directory you specify for model output to be used and creat
 
 Before proceeding with the CDDS Operational Procedure, please ensure that:
 
-- [x] You belong to the `cdds-data` group.
+=== "MOHC"
 
-    !!! tip 
-        Type `groups` on the command line to print the groups a user is in.
+    - [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
 
-- [x] You have write permissions to `moose:/adhoc/projects/cdds/` on MASS.
+        !!! tip 
+            You can check which shell you use by following command:
+            ```
+            echo $SHELL
+            ```
+            If the result is not `/bin/bash`, you can switch to a bash shell by running:
+            ```
+            /bin/bash
+            ```
 
-    !!! tip
-        You can check if you have correct permissions by running following command and check if your moose username is included 
-        in the access control list output:
-        ```
-        moo getacl moose:/adhoc/projects/cdds
-        ```
-        If your user id is not included with the `readwrite-delete` permissions listed please contact the CDDS team so that you can be given the required permissions to archive data.
+    - [x] You belong to the `cdds-data` group.
 
-- [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
+        !!! tip 
+            Type `groups` on the command line to print the groups you're in.
 
-    !!! tip 
-        You can check which shell you use by following command:
+    - [x] You have write permissions to `moose:/adhoc/projects/cdds/` on MASS.
+
+        !!! tip
+            You can check if you have correct permissions by running following command and check if your moose username is included 
+            in the access control list output:
+            ```
+            moo getacl moose:/adhoc/projects/cdds
+            ```
+            If your user id is not included with the `readwrite-delete` permissions listed please contact the CDDS team so that you can be given the required permissions to archive data.
+
+=== "JASMIN"
+
+    - [x] You use a bash shell. CDDS uses Conda which can experience problems running in a shell other than bash.
+
+        !!! tip 
+            You can check which shell you use by following command:
+            ```
+            echo $SHELL
+            ```
+            If the result is not `/bin/bash`, you can switch to a bash shell by running:
+            ```
+            /bin/bash
+            ```
+
+    - [x] You are logged in to `cylc2.jasmin.ac.uk`:
         ```
-        echo $SHELL
+        ssh <username>@cylc2.jasmin.ac.uk -XYA
         ```
-        If the result is not `/bin/bash`, you can switch to a bash shell by running:
+        Workflows must be launched and monitored from this host.
+
+    - [x] You have the Metomi path added to your `~/.bashrc`:
+        ```bash
+        export PATH=/apps/jasmin/metomi/bin:$PATH
         ```
-        /bin/bash
+        Without this, Cylc tasks will fail with errors such as `cylc: command not found` or `metomi` not found.
+
+    - [x] Your home and `cylc-run` directories grant read and execute access so CDDS support can inspect Cylc Review to diagnose workflow failures:
+        ```bash
+        chmod a+rx ~
+        chmod -R a+rx ~/cylc-run
         ```
 
 If any of the above are not true please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk) for guidance.
 
 ## 6. Activate the CDDS install
 
-=== "MOHC"
+1. Setup the environment to use the central installation of CDDS and its dependencies:
+   ```
+   source ~cdds/bin/setup_env_for_cdds <cdds_version>
+   ```
+   where `<cdds_version>` is the version of CDDS you wish to use, e.g. `4.0.0`. Unless instructed otherwise 
+   you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
+   this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
+   for advice.
 
-    1. Setup the environment to use the central installation of CDDS and its dependencies:
-       ```
-       source ~cdds/bin/setup_env_for_cdds <cdds_version>
-       ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `4.0.0`. Unless instructed otherwise 
-       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-       for advice.
-
-    2. **Issue**: Record the version of CDDS being used on the *CDDS operational simulation issue*.
-
-=== "JASMIN"
-
-    1. Setup the environment to use the central installation of CDDS and its dependencies:
-       ```
-       source ~cdds/bin/setup_env_for_cdds <cdds_version>
-       ```
-       where `<cdds_version>` is the version of CDDS you wish to use, e.g. `4.0.0`. Unless instructed otherwise 
-       you should use the most recent version of CDDS available (to ensure that all bugfixes are picked up), and 
-       this version should be used in all stages of the package being processed. If in doubt contact the CDDS team 
-       for advice.
-
-    2. **Issue**: Record the version of CDDS being used on the *CDDS operational simulation issue*.
+2. **Issue**: Record the version of CDDS being used on the *CDDS operational simulation issue*.
 
 !!! note
     * The available version numbers for this script can be found [here](https://github.com/MetOffice/CDDS/tags).
@@ -245,106 +279,63 @@ If any of the above are not true please contact the [CDDS Team](mailto:cdds@meto
 
 ## 7. Run the CDDS workflow 
 
-If running a single request configuration, please follow the standard process as described in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). Assuming you have your request file and variable list set up, this simply involves running the following 4 commands:
+If running a single request configuration, please follow the standard process as described in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). Assuming you have your request file and variable list set up, this simply involves running the following commands:
 
-1. Activate the environment:
-   ```
-   source ~cdds/bin/setup_env_for_cdds <the version of CDDS you are using, e.g. 4.0.0>
-   ```
-2. Create the directory structure:
-   ```
-   create_cdds_directory_structure <path to your request.cfg>
-   ```
-   . The output of this script suggests two symbolic links are created or the environment variables
-   `$CDDS_DATA_DIR` and `$CDDS_PROC_DIR` are set. These variables will be used in examples below.
+=== "MOHC"
 
-3. Create the internal variable lists used by CDDS:
-   ```
-   prepare_generate_variable_list <path to your request.cfg>
-   ```
-4. Launch the cylc conversion workflow:
-   ```
-   cdds_convert <path to your request.cfg>
-   ```
+    1. Activate the environment:
+       ```bash
+       source ~cdds/bin/setup_env_for_cdds <cdds_version>
+       ```
+    2. Create the directory structure:
+       ```bash
+       create_cdds_directory_structure <path to your request.cfg>
+       ```
 
-This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/). 
+    3. If working with local data (e.g. retrieved via MOOMIN), run `cdds_arrange_input_data`
+        before proceeding:
+       ```bash
+       cdds_arrange_input_data <path to your request.cfg> <directory to search for data>
+       ```
+        This searches the specified directory for model output files and creates symbolic links in the CDDS input directory. Skip this step if extracting data from MASS.
 
-<!--
-## Checkout and configure the CDDS workflow for a batch of requests
+    4. Create the internal variable lists used by CDDS:
+       ```bash
+       prepare_generate_variable_list <path to your request.cfg>
+       ```
+    5. Launch the cylc conversion workflow:
+       ```bash
+       cdds_convert <path to your request.cfg>
+       ```
 
-Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
+=== "JASMIN"
 
-1. Set up a working directory
-    ```
-    mkdir cdds-example-1
-    cd cdds-example-1
-    export WORKING_DIR=`pwd`
-    ```
-    Add the location of your working directory to the *CDDS operational simulation issue*.
+    1. Activate the environment:
+       ```bash
+       source ~cdds/bin/setup_env_for_cdds <cdds_version>
+       ```
+    2. Create the directory structure:
+       ```bash
+       create_cdds_directory_structure <path to your request.cfg>
+       ```
 
-2. Run the following command after replacing values within `<>`:
-   ```
-   checkout_processing_workflow <name for processing workflow> \
-   <path to request configuration> \
-   --workflow_destination .
-   ```
+    3. **If working with local data (rather than retrieving input data from MASS), run `cdds_arrange_input_data`
+        before proceeding:
+       ```bash
+       cdds_arrange_input_data <path to your request.cfg> <directory to search for data>
+       ```
+       If working with data already on disk (the default workflow on JASMIN), this searches the specified directory for model output files and creates symbolic links in the CDDS input directory. Skip this step if extracting data from MASS.
 
-    ??? example
-        Checkout the CDDS processing workflow with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
-        ```
-        checkout_processing_workflow my-cdds-test \
-        /home/foo/cdds-example-1/request.cfg \
-        --workflow_destination .
-        ```
+    4. Create the internal variable lists used by CDDS:
+       ```bash
+       prepare_generate_variable_list <path to your request.cfg>
+       ```
+    5. Launch the cylc conversion workflow:
+       ```bash
+       cdds_convert <path to your request.cfg>
+       ```
 
-    !!! info
-        A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
-        If this is not specified it will be checked out under `~/roses/`
-
-3. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
-   ```
-   export CDDS_PROC_DIR=/<root_proc_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   export CDDS_DATA_DIR=/<root_data_dir>/<mip_era>/<mip>/<model_id>_<experiment_id>_<variant_label>/<package>/
-   ls $CDDS_PROC_DIR
-   ls $CDDS_DATA_DIR
-   ```
-   where you must replace all values within `<>`. The `root_proc_dir` and `root_data_dir` are the values that has been 
-   specified in the request configuration.
-   
-    ??? example
-        Assume:
-
-        * Path to the root proc directory is `/home/foo/cdds-example-1/proc`.
-        * Path to the root data directory is `/home/foo/cdds-example-1/data`.
-        * MIP era is `CMIP7` and MIP `CMIP`.
-        * Model ID is `UKESM1-0-LL` for experiment `piControl` with variant label `r1i1p1f2` and package `round-1`
-
-        Then the command to set the environmental variables is:
-        ```
-        export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-        ```
-
-4. Run the workflow:
-   ```
-   cd <name for processing workflow>
-   cylc vip .
-   ```
-   
-    ??? example
-        If the name of the processing workflow is `my-cdds-test`, then run:
-        ```
-        cd my-cdds-test
-        cylc vip .
-        ```
-
-!!! info
-    Cylc 8 is used for running the processing workflow. You can do this by running following command before 
-    running the workflow:
-    ```
-    export CYLC_VERSION=8
-    ```
--->
+This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the [Quickstart tutorial](https://metoffice.github.io/CDDS/latest/tutorials/quickstart/).
 
 ### Monitor conversion workflow
 
@@ -541,11 +532,11 @@ the Extract, Convert, QC and Transfer tasks have been completed.
 - [x] The issue will then be reviewed according to the [CDDS simulation review procedure](sim_review.md) by members of the CDDS team.
 
 
-## 9. Run CDDS Teardown
+## 9. Run cdds_clean
 
 !!!warning
-    The teardown tool is currently unavailable due to a bug in CDDS versions <=4.0.3
-    Until it is fixed, the teardown process can be undertaken manually by.
+    The `cdds_clean` tool is currently unavailable due to a bug in CDDS versions <=4.0.3 (fixed in CDDS v4.0.4).
+    The process can be undertaken manually by.
 
     1. Entering the `data` directory for the specific "round" associated with your workflow.
 
