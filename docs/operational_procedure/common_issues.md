@@ -84,7 +84,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
         There are no active variables associated with these stash codes. Processing can continue. Please set this task as succeeded.
 
     This means that CDDS has identified inconsistencies in the STASH between files, but it does not expect this to affect any of the variables that you are currently processing.
-    To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
+    To continue, please set the task as succeeded by hitting left click on the task in the cylc UI and selecting `set`. The workflow should automatically continue. 
 
 
     ### 4. Extract validation "potential missing STASH code 33" warning
