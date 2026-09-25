@@ -297,6 +297,7 @@ If running a single request configuration, please follow the standard process as
        ```bash
        cdds_arrange_input_data <path to your request.cfg> <directory to search for data>
        ```
+        This searches the specified directory for model output files and creates symbolic links in the CDDS input directory. Skip this step if extracting data from MASS.
 
     4. Create the internal variable lists used by CDDS:
        ```bash
