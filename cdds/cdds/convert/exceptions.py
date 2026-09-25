@@ -30,6 +30,11 @@ class WorkflowSubmissionError(Exception):
     pass
 
 
+class WorkflowRefreshError(Exception):
+    """Raised if there is an issue refreshing the conversion workflow."""
+    pass
+
+
 class ConcatenationDBError(Exception):
     """Raised if the concatenation database cannot be written."""
     pass

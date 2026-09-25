@@ -1,16 +1,19 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2024-2026, Met Office.
 # Please see LICENSE.md for license details.
+import json
 import logging
 import os
 import shutil
+from configparser import ConfigParser
 from pathlib import Path
+from typing import List
 
 from cdds.common import run_command
 from cdds.common.cdds_files.cdds_directories import component_directory
 from cdds.common.constants import CONVERSION_WORKFLOW, WORKFLOWS_DIRECTORY
 from cdds.common.request.request import Request
 from cdds.convert.configure_workflow import ConfigureTemplateVariables
-from cdds.convert.exceptions import WorkflowSubmissionError
+from cdds.convert.exceptions import WorkflowRefreshError, WorkflowSubmissionError
 from cdds.convert.process.workflow_interface import update_suite_conf_file
 
 
@@ -154,4 +157,71 @@ class WorkflowManager:
         self.logger.info('Using cylc command {}'.format(self.cylc_command))
         result = run_command(self.cylc_command, "Running workflow failed", WorkflowSubmissionError)
         self.logger.info('Workflow submitted successfully')
+        self.logger.info('Workflow standard output:\n {}'.format(result))
+
+    def orphaned_tasks(self) -> List[str]:
+        """Determine the tasks that :meth:`refresh_workflow` will remove from the workflow.
+
+        This compares the ``STREAM_COMPONENTS`` template variable in the templated
+        workflow, i.e. the components that still have a |user configuration file|,
+        against the one that the workflow was last installed with. It must therefore be
+        called before :meth:`checkout_convert_workflow`, which recreates the templated
+        workflow from the original source.
+
+        Returns
+        -------
+        list of str
+            The names of the orphaned tasks, or an empty list if no workflow has been
+            templated yet.
+        """
+        parser = ConfigParser(delimiters=['='], interpolation=None)
+        parser.optionxform = str  # type: ignore[method-assign]
+        parser.read(self.rose_suite_conf)
+
+        if "template variables" not in parser:
+            self.logger.info('No workflow found at {}'.format(self.rose_suite_conf))
+            return []
+
+        installed_components = json.loads(parser["template variables"]['STREAM_COMPONENTS'])
+        current_components = self.template_variables['STREAM_COMPONENTS']
+
+        orphaned_tasks = []
+        for stream, components in installed_components.items():
+            for component in components:
+                if component not in current_components.get(stream, []):
+                    orphaned_tasks.append('mip_convert_{}_{}'.format(stream, component))
+
+        return orphaned_tasks
+
+    def refresh_workflow(self) -> None:
+        """Reinstall and reload the conversion workflow.
+
+        The reinstall synchronises the updated workflow source, in particular the
+        ``STREAM_COMPONENTS`` template variable in ``rose-suite.conf``, into the run
+        directory. The reload then makes the running scheduler pick up the new
+        configuration, so that tasks for components that no longer have a
+        |user configuration file| are no longer generated.
+
+        Note that :meth:`update` rewrites every template variable in ``rose-suite.conf``
+        from the request configuration file, not just ``STREAM_COMPONENTS``. Any change
+        made to the request since the workflow was submitted, e.g. to the run bounds,
+        cycling frequency or concatenation window, is therefore also applied by this
+        refresh.
+
+        Raises
+        ------
+        WorkflowRefreshError
+            If reinstalling or reloading the workflow fails, e.g. because it has not
+            been installed or is not running.
+        """
+        reinstall_command = ['cylc', 'reinstall', self.workflow_name, '--yes']
+        self.logger.info('Reinstalling workflow. {}'.format(reinstall_command))
+        result = run_command(reinstall_command, 'Reinstalling workflow failed', WorkflowRefreshError)
+        self.logger.info('Workflow reinstalled successfully')
+        self.logger.info('Workflow standard output:\n {}'.format(result))
+
+        reload_command = ['cylc', 'reload', self.workflow_name]
+        self.logger.info('Reloading workflow. {}'.format(reload_command))
+        result = run_command(reload_command, 'Reloading workflow failed', WorkflowRefreshError)
+        self.logger.info('Workflow reloaded successfully')
         self.logger.info('Workflow standard output:\n {}'.format(result))
