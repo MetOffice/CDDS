@@ -217,13 +217,17 @@ Before proceeding with the CDDS Operational Procedure, please ensure that:
 
     - [x] You have write permissions to `moose:/adhoc/projects/cdds/` on MASS.
 
+        If your user id does not have `readwrite-delete` permissions please contact the CDDS team so that you can be given the required permissions to archive data.
+
         !!! tip
             You can check if you have correct permissions by running following command and check if your moose username is included 
             in the access control list output:
             ```
             moo getacl moose:/adhoc/projects/cdds
             ```
-            If your user id is not included with the `readwrite-delete` permissions listed please contact the CDDS team so that you can be given the required permissions to archive data.
+
+        !!! note
+            If you are planning to extend a dataset temporally rather than to add variables missed from a previous round, please contact the [CDDS Team](mailto:cdds@metoffice.gov.uk), as we will need to elevate your permissions to `readwrite`.
 
 === "JASMIN"
 
