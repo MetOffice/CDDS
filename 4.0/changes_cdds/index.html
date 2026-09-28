@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-403-september-9-2026" class="md-skip">
+        <a href="#release-404-september-28-2026" class="md-skip">
           Skip to content
         </a>
       
@@ -378,6 +378,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#release-404-september-28-2026" class="md-nav__link">
+    Release 4.0.4, September 28, 2026
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#release-403-september-9-2026" class="md-nav__link">
@@ -2236,6 +2243,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#release-404-september-28-2026" class="md-nav__link">
+    Release 4.0.4, September 28, 2026
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-403-september-9-2026" class="md-nav__link">
     Release 4.0.3, September 9, 2026
   </a>
@@ -2952,6 +2966,36 @@
 
   <h1>Changelog (CDDS)</h1>
 
+<h2 id="release-404-september-28-2026">Release 4.0.4, September 28, 2026</h2>
+<ul>
+<li>
+<p><code>cdds_clean</code> no longer cleans all workflows (#1116)</p>
+</li>
+<li>
+<p>Add utility <code>check_duplicate_pp_fields</code> to identify duplicated PP fields in extracted output (#1109)</p>
+</li>
+<li>
+<p>Ancillary variables used in <code>tauuo</code> and <code>tauvo</code> expressions are now correctly identified (#1082,)</p>
+</li>
+<li>
+<p>Variables for the ocean diaptr "sub-<abbr title="A group of data from a modelling system typically organised by time (e.g. daily, monthly, etc.).">stream</abbr>" can now be correctly extracted from MASS (#1104)</p>
+</li>
+<li>
+<p>The fixed "basin" variable can now be produced and passes quality control checks (#924)</p>
+</li>
+<li>
+<p>The latest log is now correctly identified in <code>update_variables_from_validate</code> (#1100)</p>
+</li>
+<li>
+<p>High frequency radiation variables no longer fail a time contiguity error in QC (#1062)</p>
+</li>
+<li>
+<p>Repacking and <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> Convert tasks on JASMIN have been moved to an appropriate queue (#1121)</p>
+</li>
+<li>
+<p>Errors in <code>moo</code> filter commands should no longer complain about alphabetisation arguments (#1089)</p>
+</li>
+</ul>
 <h2 id="release-403-september-9-2026">Release 4.0.3, September 9, 2026</h2>
 <ul>
 <li>
