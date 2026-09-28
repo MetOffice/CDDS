@@ -7,7 +7,7 @@ from cdds.misc.update_variables_from_validate import get_newest_validate_log
 
 class TestGetNewestLog(unittest.TestCase):
 
-    def test_read_variables_file(self):
+    def test_get_newest_validate_log(self):
         logs = ['validate_ap6_2026-09-07T0951Z.log', 'validate_ap6_2026-09-09T1220Z.log',
                 'validate_ap6_2026-09-09T0619Z.log', 'validate_ap6_2026-09-09T0620Z.log']
         result = get_newest_validate_log(logs)
