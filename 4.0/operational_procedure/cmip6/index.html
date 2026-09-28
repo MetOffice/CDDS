@@ -577,8 +577,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-cdds-teardown" class="md-nav__link">
-    Run CDDS Teardown
+  <a href="#run-cdds_clean" class="md-nav__link">
+    Run cdds_clean
   </a>
   
 </li>
@@ -1743,8 +1743,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#run-cdds-teardown" class="md-nav__link">
-    Run CDDS Teardown
+  <a href="#run-cdds_clean" class="md-nav__link">
+    Run cdds_clean
   </a>
   
 </li>
@@ -1837,25 +1837,6 @@ and if support is needed contact the <a href="mailto:cdds@metoffice.gov.uk"><abb
       indicate that work is starting. </li>
 </ul>
 <h2 id="activate-the-cdds-install">Activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> install</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MOHC</label><label for="__tabbed_1_2">JASMIN</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<ol>
-<li>
-<p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
-   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
-</code></pre></div>
-   where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>3.0.0</code>. Unless instructed otherwise 
-   you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
-   this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
-   for advice.</p>
-</li>
-<li>
-<p><strong>Ticket</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em>.</p>
-</li>
-</ol>
-</div>
-<div class="tabbed-block">
 <ol>
 <li>
 <p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
@@ -1870,9 +1851,6 @@ and if support is needed contact the <a href="mailto:cdds@metoffice.gov.uk"><abb
 <p><strong>Ticket</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> ticket</em>.</p>
 </li>
 </ol>
-</div>
-</div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
@@ -2320,11 +2298,11 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 </code></pre></div>
 checking any CRITICAL issues and following up any other anomalies.</p>
 </div>
-<h2 id="run-cdds-teardown">Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Teardown</h2>
+<h2 id="run-cdds_clean">Run cdds_clean</h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The teardown tool is currently unavailable due to a bug in <abbr title="Climate Data Dissemination System">CDDS</abbr> versions &lt;=4.0.3
-Until it is fixed, the teardown process can be undertaken manually by.</p>
+<p>The <code>cdds_clean</code> tool is currently unavailable due to a bug in <abbr title="Climate Data Dissemination System">CDDS</abbr> versions &lt;=4.0.3 (fixed in <abbr title="Climate Data Dissemination System">CDDS</abbr> v4.0.4).
+The process can be undertaken manually by.</p>
 <ol>
 <li>
 <p>Entering the <code>data</code> directory for your specific workflow run (Ensure that the filepath

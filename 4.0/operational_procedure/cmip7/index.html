@@ -589,8 +589,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-run-cdds-teardown" class="md-nav__link">
-    9. Run CDDS Teardown
+  <a href="#9-run-cdds_clean" class="md-nav__link">
+    9. Run cdds_clean
   </a>
   
 </li>
@@ -1795,8 +1795,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#9-run-cdds-teardown" class="md-nav__link">
-    9. Run CDDS Teardown
+  <a href="#9-run-cdds_clean" class="md-nav__link">
+    9. Run cdds_clean
   </a>
   
 </li>
@@ -2020,22 +2020,81 @@ not set all values, it must be adjusted manually.</p>
 <p>The following values need to be set manually:</p>
 </li>
 </ol>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MOHC</label><label for="__tabbed_1_2">JASMIN</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Section</th>
-<th style="text-align: left;">Value</th>
+<th style="text-align: left;">Key</th>
 <th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;"><code>[data]</code></td>
-<td style="text-align: left;"><code>variable_list_file</code></td>
-<td style="text-align: left;">Full Path to your variable list file</td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[data]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>variable_list_file</code></span></td>
+<td style="text-align: left;">Full path to your variable list file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[common]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>root_proc_dir</code></span></td>
+<td style="text-align: left;">Path to your processing directory (e.g. <code>$SCRATCH/cdds_proc</code>)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[common]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>root_data_dir</code></span></td>
+<td style="text-align: left;">Path to your data directory (e.g. <code>$SCRATCH/cdds_data</code>)</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Section</th>
+<th style="text-align: left;">Key</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[data]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>variable_list_file</code></span></td>
+<td style="text-align: left;">Full path to your variable list file</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[common]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>root_proc_dir</code></span></td>
+<td style="text-align: left;">Path to your processing directory on your Group Workspace</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[common]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>root_data_dir</code></span></td>
+<td style="text-align: left;">Path to your data directory on your Group Workspace</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[conversion]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>skip_extract</code></span></td>
+<td style="text-align: left;">Defaults to <code>True</code> on JASMIN to process local data from disk. Set to <code>False</code> only if extracting from MASS</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[conversion]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>skip_archive</code></span></td>
+<td style="text-align: left;">Set to <code>True</code> to skip MASS archive tasks</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>[conversion]</code></span></td>
+<td style="text-align: left;"><span style="white-space: nowrap"><code>jasmin_account</code></span></td>
+<td style="text-align: left;"><strong>(Optional)</strong> Appropriate account name used for SLURM job submission on LOTUS (see <a href="https://help.jasmin.ac.uk/docs/batch-computing/how-to-submit-a-job/#new-slurm-job-accounting-hierarchy">JASMIN documentation</a>). Can be left blank if you have a default SLURM account configured.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Please check the other values as well and make adjustments as needed. Ensure any adjustments are recorded on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em>. For any help, please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> or tag <code>@UKNCSP/cdds</code> on your issue.</p>
@@ -2045,13 +2104,12 @@ not set all values, it must be adjusted manually.</p>
 <p>The <abbr title="Model Intercomparison Project, e.g. ScenarioMIP.">MIP</abbr> era (<code>CMIP7</code>) you are using is defined in the value <code>mip_era</code> of the <code>metadata</code> section.</p>
 </div>
 <h3 id="changes-when-working-with-local-data">Changes when working with local data</h3>
-<p>If you are working with data on disk, e.g. retrieved manually or through MOOMIN, the following changes will need to be made to the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr>;</p>
+<p>If you are working with data on disk, e.g. retrieved manually, through MOOMIN at the Met Office, or stored locally on a Group Workspace on JASMIN, ensure <code>skip_extract</code> is set to True in the <abbr title="Information about a simulation used by all CDDS components.">request file</abbr>:</p>
 <table>
 <thead>
 <tr>
 <th style="text-align: left;">Section</th>
 <th style="text-align: left;">Key</th>
-<th style="text-align: left;">Value</th>
 <th style="text-align: left;">Description</th>
 </tr>
 </thead>
@@ -2059,13 +2117,12 @@ not set all values, it must be adjusted manually.</p>
 <tr>
 <td style="text-align: left;"><code>[conversion]</code></td>
 <td style="text-align: left;"><code>skip_extract</code></td>
-<td style="text-align: left;">True</td>
-<td style="text-align: left;">skip the extract tasks</td>
+<td style="text-align: left;">Set to <code>True</code> to skip extract tasks from MASS</td>
 </tr>
 </tbody>
 </table>
-<p>To link your local data to the <abbr title="Climate Data Dissemination System">CDDS</abbr> data input directory, activate the cdds installation (see <a href="#6-activate-cdds-install">below</a>) and run</p>
-<div class="highlight"><pre><span></span><code>cdds_arrange_input_data &lt;request file&gt; &lt;directory to search for data&gt;
+<p>To link your local data to the <abbr title="Climate Data Dissemination System">CDDS</abbr> data input directory, activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> installation (see <a href="#6-activate-the-cdds-install">below</a>) and run:</p>
+<div class="highlight"><pre><span></span><code>cdds_arrange_input_data<span class="w"> </span>&lt;request<span class="w"> </span>file&gt;<span class="w"> </span>&lt;directory<span class="w"> </span>to<span class="w"> </span>search<span class="w"> </span><span class="k">for</span><span class="w"> </span>data&gt;
 </code></pre></div>
 <p>This will search the directory you specify for model output to be used and create <strong>symbolic links</strong> to each file.</p>
 <div class="admonition important">
@@ -2077,25 +2134,10 @@ identified by the validation tasks are dealt with. Failing to do this may be dif
 </div>
 <h2 id="5-prerequisites-for-running">5. Prerequisites for running</h2>
 <p>Before proceeding with the <abbr title="Climate Data Dissemination System">CDDS</abbr> Operational Procedure, please ensure that:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">MOHC</label><label for="__tabbed_2_2">JASMIN</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <ul class="task-list">
-<li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You belong to the <code>cdds-data</code> group.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>Type <code>groups</code> on the command line to print the groups a user is in.</p>
-</div>
-</li>
-<li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You have write permissions to <code>moose:/adhoc/projects/cdds/</code> on MASS.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>You can check if you have correct permissions by running following command and check if your moose username is included 
-in the access control list output:
-<div class="highlight"><pre><span></span><code>moo getacl moose:/adhoc/projects/cdds
-</code></pre></div>
-If your user id is not included with the <code>readwrite-delete</code> permissions listed please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team so that you can be given the required permissions to archive data.</p>
-</div>
-</li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You use a bash shell. <abbr title="Climate Data Dissemination System">CDDS</abbr> uses Conda which can experience problems running in a shell other than bash.</p>
 <div class="admonition tip">
@@ -2108,12 +2150,68 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 </code></pre></div></p>
 </div>
 </li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You belong to the <code>cdds-data</code> group.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Type <code>groups</code> on the command line to print the groups you're in.</p>
+</div>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You have write permissions to <code>moose:/adhoc/projects/cdds/</code> on MASS.</p>
+<p>If your user id does not have <code>readwrite-delete</code> permissions please contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team so that you can be given the required permissions to archive data.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can check if you have correct permissions by running following command and check if your moose username is included 
+in the access control list output:
+<div class="highlight"><pre><span></span><code>moo getacl moose:/adhoc/projects/cdds
+</code></pre></div></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are planning to extend a dataset temporally rather than to add variables missed from a previous round, please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a>, as we will need to elevate your permissions to <code>readwrite</code>.</p>
+</div>
+</li>
 </ul>
+</div>
+<div class="tabbed-block">
+<ul class="task-list">
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You use a bash shell. <abbr title="Climate Data Dissemination System">CDDS</abbr> uses Conda which can experience problems running in a shell other than bash.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can check which shell you use by following command:
+<div class="highlight"><pre><span></span><code>echo $SHELL
+</code></pre></div>
+If the result is not <code>/bin/bash</code>, you can switch to a bash shell by running:
+<div class="highlight"><pre><span></span><code>/bin/bash
+</code></pre></div></p>
+</div>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You are logged in to <code>cylc2.jasmin.ac.uk</code>:
+    <div class="highlight"><pre><span></span><code>ssh &lt;username&gt;@cylc2.jasmin.ac.uk -XYA
+</code></pre></div>
+    Workflows must be launched and monitored from this host.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> You have the Metomi path added to your <code>~/.bashrc</code>:
+    <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/apps/jasmin/metomi/bin:<span class="nv">$PATH</span>
+</code></pre></div>
+    Without this, Cylc tasks will fail with errors such as <code>cylc: command not found</code> or <code>metomi</code> not found.</p>
+</li>
+<li class="task-list-item">
+<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Your home and <code>cylc-run</code> directories grant read and execute access so <abbr title="Climate Data Dissemination System">CDDS</abbr> support can inspect Cylc Review to diagnose workflow failures:
+    <div class="highlight"><pre><span></span><code>chmod<span class="w"> </span>a+rx<span class="w"> </span>~
+chmod<span class="w"> </span>-R<span class="w"> </span>a+rx<span class="w"> </span>~/cylc-run
+</code></pre></div></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
 <p>If any of the above are not true please contact the <a href="mailto:cdds@metoffice.gov.uk"><abbr title="Climate Data Dissemination System">CDDS</abbr> Team</a> for guidance.</p>
 <h2 id="6-activate-the-cdds-install">6. Activate the <abbr title="Climate Data Dissemination System">CDDS</abbr> install</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">MOHC</label><label for="__tabbed_1_2">JASMIN</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
 <ol>
 <li>
 <p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
@@ -2128,25 +2226,6 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 <p><strong>Issue</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em>.</p>
 </li>
 </ol>
-</div>
-<div class="tabbed-block">
-<ol>
-<li>
-<p>Setup the environment to use the central installation of <abbr title="Climate Data Dissemination System">CDDS</abbr> and its dependencies:
-   <div class="highlight"><pre><span></span><code>source ~cdds/bin/setup_env_for_cdds &lt;cdds_version&gt;
-</code></pre></div>
-   where <code>&lt;cdds_version&gt;</code> is the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> you wish to use, e.g. <code>4.0.0</code>. Unless instructed otherwise 
-   you should use the most recent version of <abbr title="Climate Data Dissemination System">CDDS</abbr> available (to ensure that all bugfixes are picked up), and 
-   this version should be used in all stages of the <abbr title="An identifier indicating the phase of CDDS processing.">package</abbr> being processed. If in doubt contact the <abbr title="Climate Data Dissemination System">CDDS</abbr> team 
-   for advice.</p>
-</li>
-<li>
-<p><strong>Issue</strong>: Record the version of <abbr title="Climate Data Dissemination System">CDDS</abbr> being used on the <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em>.</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <ul>
@@ -2155,97 +2234,66 @@ If the result is not <code>/bin/bash</code>, you can switch to a bash shell by r
 </ul>
 </div>
 <h2 id="7-run-the-cdds-workflow">7. Run the <abbr title="Climate Data Dissemination System">CDDS</abbr> workflow</h2>
-<p>If running a single <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr>, please follow the standard process as described in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>. Assuming you have your <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> and variable list set up, this simply involves running the following 4 commands:</p>
+<p>If running a single <abbr title="Information about a simulation used by all CDDS components.">request configuration</abbr>, please follow the standard process as described in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>. Assuming you have your <abbr title="Information about a simulation used by all CDDS components.">request file</abbr> and variable list set up, this simply involves running the following commands:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">MOHC</label><label for="__tabbed_3_2">JASMIN</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <ol>
 <li>Activate the environment:
-   <div class="highlight"><pre><span></span><code>source ~cdds/bin/setup_env_for_cdds &lt;the version of CDDS you are using, e.g. 4.0.0&gt;
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
 </code></pre></div></li>
 <li>
 <p>Create the directory structure:
-   <div class="highlight"><pre><span></span><code>create_cdds_directory_structure &lt;path to your request.cfg&gt;
+   <div class="highlight"><pre><span></span><code>create_cdds_directory_structure<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>If working with local data (e.g. retrieved via MOOMIN), run <code>cdds_arrange_input_data</code>
+    before proceeding:
+   <div class="highlight"><pre><span></span><code>cdds_arrange_input_data<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;<span class="w"> </span>&lt;directory<span class="w"> </span>to<span class="w"> </span>search<span class="w"> </span><span class="k">for</span><span class="w"> </span>data&gt;
 </code></pre></div>
-   . The output of this script suggests two symbolic links are created or the environment variables
-   <code>$CDDS_DATA_DIR</code> and <code>$CDDS_PROC_DIR</code> are set. These variables will be used in examples below.</p>
+    This searches the specified directory for <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> and creates symbolic links in the <abbr title="Climate Data Dissemination System">CDDS</abbr> input directory. Skip this step if extracting data from MASS.</p>
 </li>
 <li>
 <p>Create the internal variable lists used by <abbr title="Climate Data Dissemination System">CDDS</abbr>:
-   <div class="highlight"><pre><span></span><code>prepare_generate_variable_list &lt;path to your request.cfg&gt;
+   <div class="highlight"><pre><span></span><code>prepare_generate_variable_list<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
 </code></pre></div></p>
 </li>
 <li>Launch the cylc conversion workflow:
-   <div class="highlight"><pre><span></span><code>cdds_convert &lt;path to your request.cfg&gt;
+   <div class="highlight"><pre><span></span><code>cdds_convert<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
 </code></pre></div></li>
 </ol>
-<p>This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>. </p>
-<!--
-## Checkout and configure the CDDS workflow for a batch of requests
-
-Alternatively, if you will be running a large batch of request files, it may be more valuable to use the processing workflow tool.
-
-1. Set up a working directory
-    <div class="highlight"><pre><span></span><code>mkdir cdds-example-1
-cd cdds-example-1
-export WORKING_DIR=`pwd`
+</div>
+<div class="tabbed-block">
+<ol>
+<li>Activate the environment:
+   <div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~cdds/bin/setup_env_for_cdds<span class="w"> </span>&lt;cdds_version&gt;
+</code></pre></div></li>
+<li>
+<p>Create the directory structure:
+   <div class="highlight"><pre><span></span><code>create_cdds_directory_structure<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>**If working with local data (rather than retrieving input data from MASS), run <code>cdds_arrange_input_data</code>
+    before proceeding:
+   <div class="highlight"><pre><span></span><code>cdds_arrange_input_data<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;<span class="w"> </span>&lt;directory<span class="w"> </span>to<span class="w"> </span>search<span class="w"> </span><span class="k">for</span><span class="w"> </span>data&gt;
 </code></pre></div>
-    Add the location of your working directory to the *CDDS operational simulation issue*.
-
-2. Run the following command after replacing values within `<>`:
-   <div class="highlight"><pre><span></span><code>checkout_processing_workflow &lt;name for processing workflow&gt; \
-&lt;path to request configuration&gt; \
---workflow_destination .
-</code></pre></div>
-
-    ??? example
-        Checkout the CDDS processing workflow with the name `my-cdds-test` and the request file location `/home/foo/cdds-example-1/request.cfg`:
-        <div class="highlight"><pre><span></span><code>checkout_processing_workflow my-cdds-test \
-/home/foo/cdds-example-1/request.cfg \
---workflow_destination .
-</code></pre></div>
-
-    !!! info
-        A directory containing a rose workflow will be placed in a subdirectory under the location specified in `--workflow_destination`.  
-        If this is not specified it will be checked out under `~/roses/`
-
-3. **This step is optional:** Set some useful environmental variables to access the CDDS directories:
-   <div class="highlight"><pre><span></span><code>export CDDS_PROC_DIR=/&lt;root_proc_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
-export CDDS_DATA_DIR=/&lt;root_data_dir&gt;/&lt;mip_era&gt;/&lt;mip&gt;/&lt;model_id&gt;_&lt;experiment_id&gt;_&lt;variant_label&gt;/&lt;package&gt;/
-ls $CDDS_PROC_DIR
-ls $CDDS_DATA_DIR
-</code></pre></div>
-   where you must replace all values within `<>`. The `root_proc_dir` and `root_data_dir` are the values that has been 
-   specified in the request configuration.
-
-    ??? example
-        Assume:
-
-        * Path to the root proc directory is `/home/foo/cdds-example-1/proc`.
-        * Path to the root data directory is `/home/foo/cdds-example-1/data`.
-        * MIP era is `CMIP7` and MIP `CMIP`.
-        * Model ID is `UKESM1-0-LL` for experiment `piControl` with variant label `r1i1p1f2` and package `round-1`
-
-        Then the command to set the environmental variables is:
-        <div class="highlight"><pre><span></span><code>export CDDS_PROC_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-export CDDS_DATA_DIR=/home/foo/cdds-example-1/data/CMIP7/CMIP/UKESM1-0-LL_piControl_r1i1p1f2/round-1/
-</code></pre></div>
-
-4. Run the workflow:
-   <div class="highlight"><pre><span></span><code>cd &lt;name for processing workflow&gt;
-cylc vip .
-</code></pre></div>
-
-    ??? example
-        If the name of the processing workflow is `my-cdds-test`, then run:
-        <div class="highlight"><pre><span></span><code>cd my-cdds-test
-cylc vip .
-</code></pre></div>
-
-!!! info
-    Cylc 8 is used for running the processing workflow. You can do this by running following command before 
-    running the workflow:
-    <div class="highlight"><pre><span></span><code>export CYLC_VERSION=8
-</code></pre></div>
--->
-
+   If working with data already on disk (the default workflow on JASMIN), this searches the specified directory for <abbr title="Output files produced from a modelling system, e.g. NEMO, CICE, that conform to a naming convention.">model output files</abbr> and creates symbolic links in the <abbr title="Climate Data Dissemination System">CDDS</abbr> input directory. Skip this step if extracting data from MASS.</p>
+</li>
+<li>
+<p>Create the internal variable lists used by <abbr title="Climate Data Dissemination System">CDDS</abbr>:
+   <div class="highlight"><pre><span></span><code>prepare_generate_variable_list<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
+</code></pre></div></p>
+</li>
+<li>Launch the cylc conversion workflow:
+   <div class="highlight"><pre><span></span><code>cdds_convert<span class="w"> </span>&lt;path<span class="w"> </span>to<span class="w"> </span>your<span class="w"> </span>request.cfg&gt;
+</code></pre></div></li>
+</ol>
+</div>
+</div>
+</div>
+<p>This process can be monitored via the cylc gui or cylc review. If a workflow has issues, due to task failure, it will stall, and you will receive an e-mail.Further guidence on this process can be found in the <a href="https://metoffice.github.io/CDDS/latest/tutorials/quickstart/">Quickstart tutorial</a>.</p>
 <h3 id="monitor-conversion-workflow">Monitor conversion workflow</h3>
 <p>A single cylc workflow will be launched by the <code>cdds_convert</code> command which requires monitoring by the user to handle any issues encountered. 
 This can be done using cylchub, the cylc tui command or the cylc review service.</p>
@@ -2468,11 +2516,11 @@ the Extract, Convert, QC and Transfer tasks have been completed.</p>
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> The issue will then be reviewed according to the <a href="../sim_review/"><abbr title="Climate Data Dissemination System">CDDS</abbr> <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> review procedure</a> by members of the <abbr title="Climate Data Dissemination System">CDDS</abbr> team.</p>
 </li>
 </ul>
-<h2 id="9-run-cdds-teardown">9. Run <abbr title="Climate Data Dissemination System">CDDS</abbr> Teardown</h2>
+<h2 id="9-run-cdds_clean">9. Run cdds_clean</h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The teardown tool is currently unavailable due to a bug in <abbr title="Climate Data Dissemination System">CDDS</abbr> versions &lt;=4.0.3
-Until it is fixed, the teardown process can be undertaken manually by.</p>
+<p>The <code>cdds_clean</code> tool is currently unavailable due to a bug in <abbr title="Climate Data Dissemination System">CDDS</abbr> versions &lt;=4.0.3 (fixed in <abbr title="Climate Data Dissemination System">CDDS</abbr> v4.0.4).
+The process can be undertaken manually by.</p>
 <ol>
 <li>
 <p>Entering the <code>data</code> directory for the specific "round" associated with your workflow.</p>
