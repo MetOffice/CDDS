@@ -9,7 +9,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     We think this means that MASS is struggling to handle the complexity of a select command. 
     Until further notice use the following process to work around this.
 
-    #### Deactivate a set of variables in the correponding stream.
+    #### Deactivate a set of variables in the corresponding stream.
 
     Edit the variables file indicated in the request file and prefix a number of lines (e.g. 10) with `#` and
     then run the command
@@ -18,10 +18,14 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     prepare_generate_variable_list <request config file> -r
     ```
 
-    and then retrigger the failed task
+    and then retrigger the failed task.
 
-    Note that if this leaves some of the MIP Convert tasks with no work to do, they will fail and modifications to the `rose-suite.conf` file will be needed.
-    In this case contact the CDDS team (@UKNCSP/cdds)
+    !!! note
+        If this leaves some of the MIP Convert tasks with no work to do they will fail. 
+        This can be worked around either by stopping the workflow and re-running the cdds_convert 
+        command or through modifications to the `rose-suite.conf` file and reloading the workflow. 
+        We are working on updates to ensure that workflows are updated when variables are removed 
+        and this should appear in CDDS in the near future.
 
     ### 2. Error time_bnds have gaps between them
 
