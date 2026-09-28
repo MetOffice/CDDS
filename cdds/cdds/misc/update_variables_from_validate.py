@@ -90,14 +90,14 @@ def get_newest_validate_log(logs_for_stream: list):
         latest = max(datetimes)
         for log in logs_for_stream:
             if latest in log:
-                log = log
+                latest_log = log
     # If there is only one extract validate log file for the given stream, use that one.
     else:
-        log = logs_for_stream[0]
+        latest_log = logs_for_stream[0]
 
-    logger.info(f"Using most recent log file {log}")
+    logger.info(f"Using most recent log file {latest_log}")
 
-    return log
+    return latest_log
 
 
 def get_validate_log(log_dir: Path, stream: str):
