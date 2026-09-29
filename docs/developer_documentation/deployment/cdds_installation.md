@@ -150,8 +150,6 @@
           conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
 
-    - [x] Deactivate and reactivate the environment.
-
     - [x] Confirm that the environment variables were set correctly.
           ```bash
           echo $CYLC_VERSION
