@@ -42,6 +42,7 @@ Once the release branch has been created, or if it already exists, create the de
 ```bash
 git checkout v<X.Y>_release
 git checkout -b <gh-issue>_v<X.Y.Z>_release
+git push -u origin <gh-issue>_v<X.Y.Z>_release
 ```
 
 ??? example
@@ -54,7 +55,8 @@ git checkout -b <gh-issue>_v<X.Y.Z>_release
 
 ## Prepare the Deployment Branch
 
-Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` on to `main`.
+Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` from
+the release branch to `main`.
 
 1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` to `False`
     ```bash
@@ -62,11 +64,12 @@ Each of these steps should be made as separate commits to allow for cherry picki
     ```
 
 2. Check that `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` matches the release `X.Y.Z` you are preparing.
-      It should be set to the current release version e.g. `3.1.0` (This must include any suffixes e.g. for
-      release candidates)
+      It should have been set to the version you're releasing as part of the previous release. If it doesn't match the version you're releasing, then amend it.
 
 3. Update the `CHANGES.md` files with all the relevant changes from the last release.
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
+    - The milestone issues filter can be useful to quickly view all the issues completed in the milestone you're releasing see [here](https://github.com/MetOffice/CDDS/issues?q=is%3Aclosed%20milestone%3A%22CDDS%20v4.0.4%22) for an example.
+    - Double check with the rest of the team as to anything important that needs including.
 
 
 ## Merge Deployment Branch into Release Branch
