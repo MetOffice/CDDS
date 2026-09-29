@@ -119,6 +119,7 @@ Only those that have admin permissions on the CDDS repository can create tags.
         git tag <tagname> -a
         ```
         The `<tagname>` normally is the release version, e.g. `v3.1.0`.
+        `vim` will require a commit message once you run that. Enter something like `v<X.Y.Z> release`, esc and :wq.
 1. Push the tag to the branch:
         ```bash
         git push origin <tagname>
@@ -159,7 +160,11 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
     git pull checkout vX.Y_release
     ```
 
-    1. On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.md` updates with release notes and commit them.
+    1. On the main branch use
+    ```bash
+    git cherry-pick -n <hash_of_the_commit_of_the_release_notes_from_the_release_branch>
+    ```
+    to pull in just the `CHANGES.md` updates with release notes. Commit them.
 
 === "Using merge"
     
@@ -180,10 +185,12 @@ Create a discussion announcement from the release.
 !!! info
     Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
+!!! note
+    There will be a box asking you to "attach binaries by dropping them here". This can be ignored. The binaries/assets will be generated automatically.
 
 ## Close Issue
 
-1. Finally, close the release gh-issue.
+1. Finally, close the release gh-issue once the installation has also been completed on JASMIN.
 
 !!!important
-    **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
+    **Do not delete the release branch! (unless Matthew Mizielinski told you to)**
