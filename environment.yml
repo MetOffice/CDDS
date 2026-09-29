@@ -1,4 +1,3 @@
-name: $CDDS_HOME/conda_environments/cdds-4.0_dev-1
 channels:
   - conda-forge
   - nodefaults
@@ -253,5 +252,5 @@ variables:
   CYLC_VERSION: 8
   LC_ALL: en_GB.UTF-8
   TZ: UTC
-  prefix: $CDDS_HOME/conda_environments/cdds-4.0_dev-1
+prefix: $CDDS_HOME/conda_environments/cdds-4.0_dev-1
   
