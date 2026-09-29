@@ -1,3 +1,7 @@
+## Release 4.0.4, September 28, 2026
+
+-   No changes
+
 ## Release 4.0.3, September 9, 2026
 
 -   No changes.

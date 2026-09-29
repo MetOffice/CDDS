@@ -1,3 +1,15 @@
+## Release 4.0.4, September 28, 2026
+
+-   `cdds_clean` no longer cleans all workflows (#1116)
+-   Add utility `check_duplicate_pp_fields` to identify duplicated PP fields in extracted output (#1109)
+-   Ancillary variables used in `tauuo` and `tauvo` expressions are now correctly identified (#1082,)
+-   Variables for the ocean diaptr "sub-stream" can now be correctly extracted from MASS (#1104)
+-   The fixed "basin" variable can now be produced and passes quality control checks (#924)
+-   The latest log is now correctly identified in `update_variables_from_validate` (#1100)
+-   High frequency radiation variables no longer fail a time contiguity error in QC (#1062)
+-   Repacking and MIP Convert tasks on JASMIN have been moved to an appropriate queue (#1121)
+-   Errors in `moo` filter commands should no longer complain about alphabetisation arguments (#1089)
+
 ## Release 4.0.3, September 9, 2026
 
 -   Extract validation tasks will now correctly handle irregular patterns for orography data (#1079)
