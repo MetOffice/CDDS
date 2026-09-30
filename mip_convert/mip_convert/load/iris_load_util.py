@@ -26,7 +26,7 @@ from iris.cube import CubeList
 from iris.warnings import IrisCfMissingVarWarning, IrisLoadWarning
 import numpy as np
 
-from cdds.common import netCDF_regexp
+from cdds.common import jules_netCDF_regexp, netCDF_regexp
 from cdds.common.constants import ANCIL_VARIABLES
 from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
@@ -745,7 +745,7 @@ def add_depth_coord(cube):
 
 def split_netCDF_filename(filename):
     """Extracts model component and substream from the netCDF
-    (NEMO, MEDUSA, CICE, SI3) filename.
+    (NEMO, MEDUSA, CICE, SI3, JULES) filename.
 
     Parameters
     ----------
@@ -757,13 +757,14 @@ def split_netCDF_filename(filename):
     tuple
         model component, substream
     """
-    match = re.search(netCDF_regexp(), filename)
-    if match:
-        model_component = match.groupdict()["model"]
-        substream = match.groupdict()["substream"]
-    else:
-        model_component = None
-        substream = None
+    model_component = None
+    substream = None
+    for regexp in [netCDF_regexp(), jules_netCDF_regexp()]:
+        match = re.search(regexp, filename)
+        if match:
+            model_component = match.groupdict()["model"]
+            substream = match.groupdict()["substream"]
+            break
     return model_component, substream
 
 

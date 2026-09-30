@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2025, Met Office.
+# (C) British Crown Copyright 2017-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Routines for generating links to data files in order to restrict the
 volume of data that MIP Convert can see and attempt to read
@@ -154,3 +154,34 @@ def parse_ocean_seaice_filename(fname, pattern):
     file_dict['end'] = TimePointParser().parse(file_dict['end_str'], dump_format='%Y%m%d')
     file_dict['filename'] = fname
     return file_dict
+
+
+def parse_jules_filename(fname, pattern):
+    """Parse filenames of files in a JULES stream.
+
+    The start and end dates in JULES filenames have the form ``YYYYMM`` and
+    are inclusive, so the end date is taken as the start of the month
+    following the end date in the filename.
+
+    Parameters
+    ----------
+    fname: str
+        The filename to parse.
+    pattern: _sre.SRE_Pattern
+        A compiled regular expression object, for parsing the filename.
+
+    Returns
+    -------
+    file_dict : dict
+        A dictionary with the attributes of the filename, such as start and
+        end dates.
+    """
+    file_dict = pattern.search(fname).groupdict()
+    file_dict['start'] = _parse_year_month(file_dict['start_str'])
+    file_dict['end'] = _parse_year_month(file_dict['end_str']) + Duration(months=1)
+    file_dict['filename'] = fname
+    return file_dict
+
+
+def _parse_year_month(year_month):
+    return TimePoint(year=int(year_month[:4]), month_of_year=int(year_month[4:]), day_of_month=1)

@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2017-2025, Met Office.
+# (C) British Crown Copyright 2017-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Routines for generating links to data files in order to restrict the
 volume of data that MIP Convert can see and attempt to read
@@ -19,7 +19,7 @@ from cdds.convert.constants import (FILEPATH_JASMIN, FILEPATH_METOFFICE,
 from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_daily_filename, parse_atmos_monthly_filename,
     parse_atmos_submonthly_filename, parse_ocean_seaice_filename,
-    parse_atmos_hourly_filename)
+    parse_atmos_hourly_filename, parse_jules_filename)
 
 
 def filter_streams(file_list, stream):
@@ -44,6 +44,8 @@ def filter_streams(file_list, stream):
         pattern = r'cice_[a-z0-9]{5}(\-[ripf0-9]+)?i_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
     elif stream in ['onm', 'ond']:
         pattern = r'(nemo|medusa)_[a-z0-9]{5}(\-[ripf0-9]+)?o_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
+    elif stream.startswith('ln'):
+        pattern = r'jules_[a-zA-Z0-9.]+_1' + stream[-1] + r'_[a-zA-Z0-9\-_]+\.nc$'
     p = re.compile(pattern)
     return [file_name for file_name in file_list if p.search(file_name)]
 
@@ -57,6 +59,7 @@ def construct_processors_dict():
         'ap_hourly': parse_atmos_hourly_filename,
         'in': parse_ocean_seaice_filename,
         'on': parse_ocean_seaice_filename,
+        'ln': parse_jules_filename,
     }
     return filename_processors
 
@@ -139,7 +142,8 @@ def get_paths(suite_name, model_id, stream, substream, start_date: TimePoint, en
 
 
 def find_stream_prefix(model_id: str, stream: str) -> str:
-    """Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ap_submonthly, ap_daily, ap_hourly)
+    """Finds the stream prefix for a particular stream ('ap', 'in', 'on', 'ln', 'ap_submonthly,
+    ap_daily, ap_hourly)
 
     Parameters
     ----------
@@ -153,8 +157,8 @@ def find_stream_prefix(model_id: str, stream: str) -> str:
     str
         Prefix of the given stream
     """
-    stream_prefix = stream[:2]  # `ap`, `in` or `on`
-    if stream_prefix not in ['ap', 'in', 'on']:
+    stream_prefix = stream[:2]  # `ap`, `in`, `on` or `ln`
+    if stream_prefix not in ['ap', 'in', 'on', 'ln']:
         raise RuntimeError('Stream "{}" not recognised'.format(stream))
 
     if stream_prefix == 'ap':
