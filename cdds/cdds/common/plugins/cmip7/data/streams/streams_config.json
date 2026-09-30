@@ -571,6 +571,7 @@
             "evspsblveg_tavg-u-hxy-lnd@mon": "ap5",
             "evspsblveg_tavg-u-hxy-u@3hr": "ap8",
             "evspsblveg_tavg-u-hxy-u@day": "ap6",
+            "gpp_tavg-u-hxy-lnd@mon": "lnm",
             "hfdsl_tavg-u-hxy-lnd@3hr": "ap8",
             "mrro_tavg-u-hxy-lnd@3hr": "ap8",
             "mrro_tavg-u-hxy-lnd@day": "ap6",
