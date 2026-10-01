@@ -1657,11 +1657,11 @@
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create a folder to work from and enter it.
       <div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>temporary_installation_folder<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w">  </span><span class="nb">cd</span><span class="w"> </span>temporary_installation_folder
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file (replace <code>&lt;tagname&gt;</code> with the version you're installing e.g. "v3.3.1").
       <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
 </code></pre></div></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (replace "X.Y.Z" with the version you're installing e.g. "3.3.1"):
-      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run this sed command, replacing "X.Y.Z" with the version you're installing e.g. "3.3.1". It will uncomment the <code>pip</code> section of the <code>environment.yml</code> and set the location of the version you're releasing.
+      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/# - /- /; s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
 </code></pre></div></li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
@@ -1688,6 +1688,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_PLATFORM</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ETC</span>
+<span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_DATA</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$CDDS_ENV_COMMAND</span>
 </code></pre></div></p>
 <table>
@@ -1796,14 +1797,13 @@ for details).</p>
       <div class="highlight"><pre><span></span><code>source $HOME/software/miniforge3/bin/activate
 </code></pre></div></p>
 </li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file for the release.
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Obtain the conda environment file for the release (replace <code>&lt;tagname&gt;</code> with the version you're installing e.g. "v3.3.1").
       <div class="highlight"><pre><span></span><code>wget<span class="w"> </span>https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/&lt;tagname&gt;/environment.yml
 </code></pre></div></li>
-<li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Update locations pointed to within the environment file (omitting the leading <code>v</code>)
-      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
-</code></pre></div></p>
-</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run this sed command, replacing "X.Y.Z" with the version you're installing e.g. "3.3.1". 
+      It will uncomment the <code>pip</code> section of the <code>environment.yml</code> and set the location of the version you're releasing.
+      <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/# - /- /; s/&lt;location&gt;/X.Y.Z/&quot;</span><span class="w"> </span>environment.yml
+</code></pre></div></li>
 <li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Create environment, where <code>X.Y.Z</code> is the new version number of <abbr title="Climate Data Dissemination System">CDDS</abbr> (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
       <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
@@ -1822,14 +1822,7 @@ conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> <
 </code></pre></div></p>
 </li>
 <li class="task-list-item">
-<p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Deactivate the environment
-      <div class="highlight"><pre><span></span><code>conda<span class="w"> </span>deactivate
-</code></pre></div></p>
-</li>
-<li class="task-list-item">
 <p><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Confirm that the environment variables were set correctly.
-      <div class="highlight"><pre><span></span><code><span class="nv">$HOME</span>/software/miniforge3/bin/activate<span class="w"> </span><span class="nv">$HOME</span>/conda_environments/cdds-X.Y.Z
-</code></pre></div>
       <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$CYLC_VERSION</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$LC_ALL</span>
 <span class="nb">echo</span><span class="w"> </span><span class="nv">$TZ</span>

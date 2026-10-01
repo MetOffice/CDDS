@@ -1730,6 +1730,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <p>Once the release branch has been created, or if it already exists, create the deployment branch for this release.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>v&lt;X.Y&gt;_release
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>&lt;gh-issue&gt;_v&lt;X.Y.Z&gt;_release
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>&lt;gh-issue&gt;_v&lt;X.Y.Z&gt;_release
 </code></pre></div>
 <details class="example">
 <summary>Example</summary>
@@ -1738,22 +1739,28 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 </code></pre></div>
 </details>
 <h2 id="prepare-the-deployment-branch">Prepare the Deployment Branch</h2>
-<p>Each of these steps should be made as separate commits to allow for cherry picking the <code>CHANGES.md</code> on to <code>main</code>.</p>
+<p>Each of these steps should be made as separate commits to allow for cherry picking the <code>CHANGES.md</code> from
+the release branch to <code>main</code>.</p>
 <ol>
 <li>
-<p>Update the <code>_DEV</code> flag in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> to <code>False</code>
+<p>Update the <code>_DEV</code> flag in <code>cdds/cdds/__init__.py</code> and <code>mip_convert/mip_convert/__init__.py</code> to <code>False</code>
     <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/_DEV = True/_DEV = False/&quot;</span><span class="w"> </span>*/*/__init__.py
 </code></pre></div></p>
 </li>
 <li>
-<p>Check that <code>_NUMERICAL_VERSION</code> in <code>cdds/cdds/__init__.py</code> and <code>mip_covert/mip_convert/__init__.py</code> matches the release <code>X.Y.Z</code> you are preparing.
-      It should be set to the current release version e.g. <code>3.1.0</code> (This must include any suffixes e.g. for
-      release candidates)</p>
+<p>Set <code>_NUMERICAL_VERSION</code> in <code>cdds/cdds/__init__.py</code> and <code>mip_convert/mip_convert/__init__.py</code> to match 
+    the release <code>X.Y.Z</code> you are preparing.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This will likely have already been set correctly to the version you're preparing - in which case you can skip this step.</p>
+</div>
 </li>
 <li>
 <p>Update the <code>CHANGES.md</code> files with all the relevant changes from the last release.</p>
 <ul>
 <li>Any new files added since the last release that do not have a <code>.py</code> extension are included in <code>MANIFEST.in</code> and <code>setup.py</code>.</li>
+<li>The milestone issues filter can be useful to quickly view all the issues completed in the milestone you're releasing see <a href="https://github.com/MetOffice/CDDS/issues?q=is%3Aclosed%20milestone%3A%22CDDS%20v4.0.4%22">here</a> for an example.</li>
+<li>Double check with the rest of the team as to anything important that needs including.</li>
 </ul>
 </li>
 </ol>
@@ -1793,7 +1800,8 @@ This will allow you cherry-pick release notes from the release branch into main.
 <li>Create the tag:
         <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>&lt;tagname&gt;<span class="w"> </span>-a
 </code></pre></div>
-        The <code>&lt;tagname&gt;</code> normally is the release version, e.g. <code>v3.1.0</code>.</li>
+        The <code>&lt;tagname&gt;</code> normally is the release version, e.g. <code>v3.1.0</code>.
+        <code>vim</code> will require a commit message once you run that. Enter something like <code>v&lt;X.Y.Z&gt; release</code>, esc and :wq.</li>
 <li>Push the tag to the branch:
         <div class="highlight"><pre><span></span><code>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>&lt;tagname&gt;
 </code></pre></div></li>
@@ -1828,7 +1836,10 @@ git<span class="w"> </span>pull<span class="w"> </span>checkout<span class="w"> 
 </code></pre></div></p>
 </li>
 <li>
-<p>On the main branch use the <code>git cherry-pick</code> command to pull in just the <code>CHANGES.md</code> updates with release notes and commit them.</p>
+<p>On the main branch use
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>cherry-pick<span class="w"> </span>-n<span class="w"> </span>&lt;hash_of_the_commit_of_the_release_notes_from_the_release_branch&gt;
+</code></pre></div>
+to pull in just the <code>CHANGES.md</code> updates with release notes. Commit them.</p>
 </li>
 </ol>
 </div>
@@ -1850,13 +1861,17 @@ git<span class="w"> </span>pull<span class="w"> </span>checkout<span class="w"> 
 <p class="admonition-title">Info</p>
 <p>Github has a good documentation about release processes, see: <a href="https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository">Managing releases - GitHub Docs</a></p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There will be a box asking you to "attach binaries by dropping them here". This can be ignored. The binaries/assets will be generated automatically.</p>
+</div>
 <h2 id="close-issue">Close Issue</h2>
 <ol>
-<li>Finally, close the release gh-issue.</li>
+<li>Finally, close the release gh-issue once the installation has also been completed on JASMIN.</li>
 </ol>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p><strong>Do not delete the release branch! (expect Matthew Mizielinski told you so)</strong></p>
+<p><strong>Do not delete the release branch! (unless Matthew Mizielinski told you to)</strong></p>
 </div>
 
 
