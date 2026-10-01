@@ -62,7 +62,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     !!! warning
 
-        There is currently a bug in this tool in CDDS version <=4.0.3.
+        There is currently a bug in this tool in CDDS version <=4.0.3 (fixed in 4.0.4).
         When run, ensure that there is only one `validate` log for the stream of which you want to fix in your `extract/log`
         directory - and that it is the latest log.
 
