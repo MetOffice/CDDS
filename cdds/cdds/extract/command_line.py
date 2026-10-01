@@ -245,6 +245,10 @@ def identify_files(search_dir: str, jobid: str) -> list[tuple[str, str, str, str
             '1m': 'inm',
             '1d': 'ind'
         },
+        'jules': {
+            '1m': 'lnm',
+            '1d': 'lnd'
+        },
     }
 
     links: list = []
@@ -261,6 +265,15 @@ def identify_files(search_dir: str, jobid: str) -> list[tuple[str, str, str, str
                             links.append((result['suite_id'], stream, root, file))
                             # no need to check other atmosphere patterns if we've already matched
                             break
+                elif stream == 'ln':
+                    match = re.match(regex, file)
+                    if match:
+                        result = match.groupdict()
+                        # JULES filenames carry a run configuration label rather than the workflow
+                        # id, so there is nothing to compare against the jobid.
+                        stream = destination['jules'][result['period']]
+                        links.append((jobid, stream, root, file))
+                        break
                 else:
                     match = re.match(regex, file)
                     if match:

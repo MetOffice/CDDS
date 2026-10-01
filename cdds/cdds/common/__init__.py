@@ -707,6 +707,27 @@ def netCDF_regexp() -> str:
     return (f"{model}_{suite}{ensemble}{domain}_{frequency}_{start}-{end}_?{substream}\\.nc$")
 
 
+def jules_netCDF_regexp() -> str:
+    """Return a regular expression matching JULES netCDF filenames.
+
+    The JULES filename convention is still being agreed with the JULES team, so the run
+    configuration and substream portions of the name are matched permissively and the
+    start and end dates have the form ``YYYYMM``.
+
+    Returns
+    -------
+    str
+        Regular expression.
+    """
+    model = r"(?P<model>jules)"
+    suite = r"(?P<suite>[a-zA-Z0-9.]+)"
+    frequency = r"(?P<frequency>.{2})"
+    start = r"(?P<start>\d{6})"
+    end = r"(?P<end>\d{6})"
+    substream = r"(?P<substream>[a-zA-Z0-9\-]+)"
+    return (f"{model}_{suite}_{frequency}_{start}-{end}_{substream}\\.nc$")
+
+
 def set_checksum(dictionary, overwrite=True):
     """Calculate the checksum for the ``dictionary``, then add the
     value to ``dictionary`` under the ``checksum`` key. ``dictionary``

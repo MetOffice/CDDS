@@ -16,6 +16,7 @@ from mip_convert.plugins.hadrem3.hadrem3_plugin import HadREM3MappingPlugin
 from mip_convert.plugins.hadgem3_gc5.hadgem3_gc5_plugin import HadGEM3GC5MappingPlugin
 from mip_convert.plugins.ukesm1p3.ukesm1p3_plugin import UKESM1p3MappingPlugin
 from mip_convert.plugins.ukcm2.ukcm2_plugin import UKCM2MappingPlugin
+from mip_convert.plugins.jules.jules_plugin import JULESMappingPlugin
 from mip_convert.plugins.exceptions import PluginLoadError
 
 
@@ -26,6 +27,7 @@ INTERNAL_PLUGINS: List[MappingPlugin] = [HadGEM3MappingPlugin(),
                                          HadGEM3GC5MappingPlugin(),
                                          UKESM1p3MappingPlugin(),
                                          UKCM2MappingPlugin(),
+                                         JULESMappingPlugin(),
                                          ]
 
 
