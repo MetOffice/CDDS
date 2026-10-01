@@ -58,13 +58,16 @@ git push -u origin <gh-issue>_v<X.Y.Z>_release
 Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` from
 the release branch to `main`.
 
-1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` to `False`
+1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_convert/mip_convert/__init__.py` to `False`
     ```bash
     sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py
     ```
 
-2. Check that `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` matches the release `X.Y.Z` you are preparing.
-      It should have been set to the version you're releasing as part of the previous release. If it doesn't match the version you're releasing, then amend it.
+2. Set `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_convert/mip_convert/__init__.py` to match 
+    the release `X.Y.Z` you are preparing.
+
+    !!! note
+        This will likely have already been set correctly to the version you're preparing - in which case you can skip this step.
 
 3. Update the `CHANGES.md` files with all the relevant changes from the last release.
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
