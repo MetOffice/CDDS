@@ -1,6 +1,7 @@
 # (C) British Crown Copyright 2017-2026, Met Office.
 # Please see LICENSE.md for license details.
 
+import logging
 import os
 import re
 
@@ -145,6 +146,7 @@ class CFMixin:
         list
             List of results
         """
+        logger = logging.getLogger(__name__)
         ret_val = []
         region_list = [
             'africa',
@@ -222,7 +224,8 @@ class CFMixin:
             'windward_passage',
             'yellow_sea'
         ]
-
+        # Add log messages to a set to avoid hundreds of duplicates
+        log_set = set()
         for var in ds.get_variables_by_attributes(standard_name='region'):
             regions = var[:]
             # if `regions` is a masked array, convert it to a list
@@ -234,16 +237,39 @@ class CFMixin:
             # (which means that `regions` is a string), put the variable into a list
             if type(regions[0]) is not list:
                 regions = [regions]
+
+            # Define a valid region
+            valid_region = TestCtx(BaseCheck.MEDIUM, "§6.1.1 Geographic region specified by {} is valid"
+                                   "".format(var.name))
+
             # now `regions` contains a list of strings
             for region in regions:
-                # convert from a byte list to a string list
-                region = [character.decode('utf8') for character in region]
-                # validate each region
-                valid_region = TestCtx(BaseCheck.MEDIUM,
-                                       "§6.1.1 Geographic region specified by {} is valid"
-                                       "".format(var.name))
-                valid_region.assert_true(''.join(region).lower() in region_list,
-                                         "{} is not a valid region"
-                                         "".format(''.join(region)))
+
+                if isinstance(region[0], bytes):
+                    # Convert from a byte list to a string list
+                    region = [character.decode('utf8') for character in region]
+                    # Validate the region.
+                    valid_region.assert_true(''.join(region).lower() in region_list,
+                                             "{} is not a valid region".format(''.join(region)))
+                # If the regions are given as integers they must be mapped to a region string and validated
+                elif isinstance(region[0], int):
+                    # Map regions flag values to their meaning
+                    region_value_to_meaning = {}
+                    for value, meaning in zip(var.flag_values, var.flag_meanings.split()):
+                        # add logger message, but we want to avoid many duplicates
+                        log_set.add(f"Mapping flag_value `{value}` to region `{meaning}` for `{var.name}`")
+                        region_value_to_meaning[value] = meaning
+
+                    mapped_region = []
+                    for value in set(region):
+                        mapped_region.append(region_value_to_meaning[value])
+
+                    # Validate each region
+                    for region in mapped_region:
+                        valid_region.assert_true(region.lower() in region_list,
+                                                 "{} is not a valid region".format(''.join(region)))
                 ret_val.append(valid_region.to_result())
+        # actually log messages
+        for i in sorted(log_set):
+            logger.debug(i)
         return ret_val

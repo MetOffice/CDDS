@@ -42,6 +42,7 @@ Once the release branch has been created, or if it already exists, create the de
 ```bash
 git checkout v<X.Y>_release
 git checkout -b <gh-issue>_v<X.Y.Z>_release
+git push -u origin <gh-issue>_v<X.Y.Z>_release
 ```
 
 ??? example
@@ -54,19 +55,24 @@ git checkout -b <gh-issue>_v<X.Y.Z>_release
 
 ## Prepare the Deployment Branch
 
-Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` on to `main`.
+Each of these steps should be made as separate commits to allow for cherry picking the `CHANGES.md` from
+the release branch to `main`.
 
-1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` to `False`
+1. Update the `_DEV` flag in `cdds/cdds/__init__.py` and `mip_convert/mip_convert/__init__.py` to `False`
     ```bash
     sed -i "s/_DEV = True/_DEV = False/" */*/__init__.py
     ```
 
-2. Check that `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_covert/mip_convert/__init__.py` matches the release `X.Y.Z` you are preparing.
-      It should be set to the current release version e.g. `3.1.0` (This must include any suffixes e.g. for
-      release candidates)
+2. Set `_NUMERICAL_VERSION` in `cdds/cdds/__init__.py` and `mip_convert/mip_convert/__init__.py` to match 
+    the release `X.Y.Z` you are preparing.
+
+    !!! note
+        This will likely have already been set correctly to the version you're preparing - in which case you can skip this step.
 
 3. Update the `CHANGES.md` files with all the relevant changes from the last release.
     - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
+    - The milestone issues filter can be useful to quickly view all the issues completed in the milestone you're releasing see [here](https://github.com/MetOffice/CDDS/issues?q=is%3Aclosed%20milestone%3A%22CDDS%20v4.0.4%22) for an example.
+    - Double check with the rest of the team as to anything important that needs including.
 
 
 ## Merge Deployment Branch into Release Branch
@@ -116,6 +122,7 @@ Only those that have admin permissions on the CDDS repository can create tags.
         git tag <tagname> -a
         ```
         The `<tagname>` normally is the release version, e.g. `v3.1.0`.
+        `vim` will require a commit message once you run that. Enter something like `v<X.Y.Z> release`, esc and :wq.
 1. Push the tag to the branch:
         ```bash
         git push origin <tagname>
@@ -156,7 +163,11 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
     git pull checkout vX.Y_release
     ```
 
-    1. On the main branch use the `git cherry-pick` command to pull in just the `CHANGES.md` updates with release notes and commit them.
+    1. On the main branch use
+    ```bash
+    git cherry-pick -n <hash_of_the_commit_of_the_release_notes_from_the_release_branch>
+    ```
+    to pull in just the `CHANGES.md` updates with release notes. Commit them.
 
 === "Using merge"
     
@@ -177,10 +188,12 @@ Create a discussion announcement from the release.
 !!! info
     Github has a good documentation about release processes, see: [Managing releases - GitHub Docs](https://docs.github.com/en/repositories/releasing-projects-on-github/managing-releases-in-a-repository)
 
+!!! note
+    There will be a box asking you to "attach binaries by dropping them here". This can be ignored. The binaries/assets will be generated automatically.
 
 ## Close Issue
 
-1. Finally, close the release gh-issue.
+1. Finally, close the release gh-issue once the installation has also been completed on JASMIN.
 
 !!!important
-    **Do not delete the release branch! (expect Matthew Mizielinski told you so)**
+    **Do not delete the release branch! (unless Matthew Mizielinski told you to)**

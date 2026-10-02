@@ -18,13 +18,13 @@
           ```bash
           mkdir temporary_installation_folder &&  cd temporary_installation_folder
           ```
-    - [x] Obtain the conda environment file (replace "<tagname>" with the version you're installing e.g. "v3.3.1").
+    - [x] Obtain the conda environment file (replace `<tagname>` with the version you're installing e.g. "v3.3.1").
           ```bash
           wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/<tagname>/environment.yml
           ```
-    - [x] Update locations pointed to within the environment file (replace "X.Y.Z" with the version you're installing e.g. "3.3.1"):
+    - [x] Run this sed command, replacing "X.Y.Z" with the version you're installing e.g. "3.3.1". It will uncomment the `pip` section of the `environment.yml` and set the location of the version you're releasing.
           ```bash
-          sed -i "s/<location>/X.Y.Z/" environment.yml
+          sed -i "s/# - /- /; s/<location>/X.Y.Z/" environment.yml
           ```
     - [x] Create environment (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
           ```bash
@@ -51,6 +51,7 @@
           echo $TZ
           echo $CDDS_PLATFORM
           echo $CDDS_ETC
+          echo $CDDS_DATA
           echo $CDDS_ENV_COMMAND
           ```
 
@@ -123,15 +124,15 @@
           ```
           source $HOME/software/miniforge3/bin/activate
           ```
-    - [x] Obtain the conda environment file for the release.
+    - [x] Obtain the conda environment file for the release (replace `<tagname>` with the version you're installing e.g. "v3.3.1").
           ```bash
           wget https://raw.githubusercontent.com/MetOffice/CDDS/refs/tags/<tagname>/environment.yml
           ```
-    - [x] Update locations pointed to within the environment file (omitting the leading `v`)
+    - [x] Run this sed command, replacing "X.Y.Z" with the version you're installing e.g. "3.3.1". 
+          It will uncomment the `pip` section of the `environment.yml` and set the location of the version you're releasing.
           ```bash
-          sed -i "s/<location>/X.Y.Z/" environment.yml
+          sed -i "s/# - /- /; s/<location>/X.Y.Z/" environment.yml
           ```
-
     - [x] Create environment, where `X.Y.Z` is the new version number of CDDS (replace "X.Y.Z" with the version you're installing e.g. "3.3.1").
           ```bash
           conda env create -f environment.yml -p $HOME/conda_environments/cdds-X.Y.Z
@@ -149,14 +150,7 @@
           conda env config vars set CDDS_ENV_COMMAND="$HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z"
           ```
 
-    - [x] Deactivate the environment
-          ```bash
-          conda deactivate
-          ```
     - [x] Confirm that the environment variables were set correctly.
-          ```bash
-          $HOME/software/miniforge3/bin/activate $HOME/conda_environments/cdds-X.Y.Z
-          ```
           ```bash
           echo $CYLC_VERSION
           echo $LC_ALL
