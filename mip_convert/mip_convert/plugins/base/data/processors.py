@@ -467,7 +467,7 @@ def land_class_area(tile_cube, land_frac_cube, land_class=None):
     return result
 
 
-def snc_calc(variable_cube, tile_fraction_cube, land_fraction_cube):
+def snc_calc(variable_cube, tile_fraction_cube, land_fraction_cube, land_class=None):
     """Sum of land frac over tiles with snow for the land portion of the grid cell
     It is assumed if there is less than 0.1 kg/m2 (0.1 mm SWE) of snow on the
     ground there is no snow otherwise we have snow in the Sahara. This threshold
@@ -484,12 +484,19 @@ def snc_calc(variable_cube, tile_fraction_cube, land_fraction_cube):
     land_fraction_cube: :class:`iris.cube.Cube`
         the proportion of land in the grid cell
 
+    land_class: str
+        the land class to apply as a pseudo constraint.
+
     Returns
     -------
     : :class:`iris.cube.Cube`
         A cube containing the snow fraction of each grid cell as a percentage
         of the land area in the grid cell.
     """
+    pseudo_constraint = _pseudo_constraint(land_class)
+    variable_cube = variable_cube.extract(pseudo_constraint)
+    tile_fraction_cube = tile_fraction_cube.extract(pseudo_constraint)
+
     SWE_MIN = 0.1
     variable_cube.data[variable_cube.data <= SWE_MIN] = 0.0
     variable_cube.data[variable_cube.data > SWE_MIN] = 1.0
