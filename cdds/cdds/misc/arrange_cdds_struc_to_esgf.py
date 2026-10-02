@@ -159,14 +159,16 @@ def main_arrange_to_esgf():
     plugin = PluginStore.instance().get_plugin()
     logger = get_logger(request, plugin)
 
+    datafiles = []
     cdds_output_data_path = os.path.join(plugin.data_directory(request), "output")
     logger.info(f"Looking for files in {cdds_output_data_path}/...")
-    files = run_command(['find', cdds_output_data_path, '-type', 'f', '-name', '*.nc']).split("\n")
-    files = [f for f in files if f.strip()]  # Remove any blank items
+    for root, directories, files in os.walk(cdds_output_data_path):
+        for filename in files:
+            if filename.endswith(".nc"):
+                datafiles.append(filename)
     logger.info(f"Found {len(files)} files in {cdds_output_data_path}...")
 
     esgf_path_root = create_esgf_root_dir(plugin, request, args.output_root_dir)
-
     if args.move:
         logger.info(f"Moving {len(files)} to root path {esgf_path_root}")
         rearrange_files(files, esgf_path_root, "mv")
