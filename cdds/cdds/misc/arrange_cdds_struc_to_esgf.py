@@ -165,7 +165,7 @@ def main_arrange_to_esgf():
     for root, directories, files in os.walk(cdds_output_data_path):
         for filename in files:
             if filename.endswith(".nc"):
-                datafiles.append(filename)
+                datafiles.append(f"{root}/{filename}")
     logger.info(f"Found {len(datafiles)} files in {cdds_output_data_path}...")
 
     esgf_path_root = create_esgf_root_dir(plugin, request, args.output_root_dir)
