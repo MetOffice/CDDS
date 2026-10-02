@@ -61,10 +61,10 @@ def get_logger(request: Request, plugin) -> logging.Logger:
         The logger.
     """
     # Create the full log path and filename
-    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
-    if not Path.exists(prepare_dir):
-        raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
-    log_name = prepare_dir / f"arrange_cdds_to_esgf"
+    log_dir = Path(plugin.proc_directory(request))
+    if not Path.exists(log_dir):
+        raise FileNotFoundError(f"Directory: '{log_dir}' does not exist.")
+    log_name = log_dir / f"arrange_cdds_to_esgf"
 
     configure_logger(str(log_name), "DEBUG", append_log=True)
 
