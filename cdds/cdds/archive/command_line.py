@@ -97,6 +97,12 @@ def main_store_spice(arguments: List[str] = None) -> int:
     logger.info('Using CDDS Transfer version {}'.format(__version__))
 
     try:
+        check_moo_login()
+    except MooseNotLoggedInError as exc:
+        logger.critical(exc)
+        return 1
+
+    try:
         run_store_spice_job(request)
         exit_code = 0
     except BaseException as exc:

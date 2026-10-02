@@ -25,8 +25,12 @@ def check_moo_login():
     logger = logging.getLogger(__name__)
     moo_cmd = ['moo', 'si', '-v']
     logger.debug('Checking MOOSE login status: {}'.format(' '.join(moo_cmd)))
-    process = subprocess.Popen(moo_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    stdout, stderr = process.communicate()
+    try:
+        process = subprocess.Popen(moo_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        stdout, stderr = process.communicate()
+    except (FileNotFoundError, OSError) as exc:
+        logger.warning('Unable to run "moo si -v": {}'.format(exc))
+        return
     if 'NOT_LOGGED_IN' in stderr or 'NOT_LOGGED_IN' in stdout:
         raise MooseNotLoggedInError()
 
