@@ -166,12 +166,12 @@ def main_arrange_to_esgf():
         for filename in files:
             if filename.endswith(".nc"):
                 datafiles.append(filename)
-    logger.info(f"Found {len(files)} files in {cdds_output_data_path}...")
+    logger.info(f"Found {len(datafiles)} files in {cdds_output_data_path}...")
 
     esgf_path_root = create_esgf_root_dir(plugin, request, args.output_root_dir)
     if args.move:
-        logger.info(f"Moving {len(files)} to root path {esgf_path_root}")
-        rearrange_files(files, esgf_path_root, "mv")
+        logger.info(f"Moving {len(datafiles)} to root path {esgf_path_root}")
+        rearrange_files(datafiles, esgf_path_root, "mv")
     else:
-        logger.info(f"Symbolic linking {len(files)} to root path {esgf_path_root}")
-        rearrange_files(files, esgf_path_root, "ln -s")
+        logger.info(f"Symbolic linking {len(datafiles)} to root path {esgf_path_root}")
+        rearrange_files(datafiles, esgf_path_root, "ln -s")
