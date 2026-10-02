@@ -12,7 +12,6 @@ The log file produced with this script can be found in the $proc_dir/prepare/log
 """
 import argparse
 import logging
-import os
 
 from pathlib import Path
 
@@ -64,69 +63,35 @@ def arg_parser() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def get_newest_validate_log(logs_for_stream: list):
-    """Identifies the most recent log from the list of given log files for a single stream.
+def check_log_type(plugin, request):
+    """Checks whether any extract validate logs are present. If not, mip_convert logs are used."""
+    extract_log_dir = Path(plugin.proc_directory(request)) / "extract" / "log"
+    mip_convert_log_dir = Path(plugin.proc_directory(request)) / "convert" / "log"
 
-    Parameters
-    ----------
-    logs_for_stream: list
-        All logs currently available for a single stream.
+    if list(extract_log_dir.glob("validate_*.log")):
+        return extract_log_dir, "validate"
 
-    Returns
-    -------
-    :
-        The path of the most recent extract validate log file or an empty string if no log file is found.
-    """
+    elif list(mip_convert_log_dir.glob("**/mip_convert_*.log.gz")):
+        return mip_convert_log_dir, "convert"
+
+
+def get_log(root_log_type, root_log_dir, stream):
     logger = logging.getLogger(__name__)
-    # If there are more than one extract validate log files find the most recent
+    if root_log_type == "validate":
+        search_regex = f"**/validate_{stream}*.log"
+    elif root_log_type == "convert":
+        search_regex = f"**/{stream}_*/mip_convert_*.log.gz"
+
+    logs_for_stream = list(root_log_dir.glob(search_regex))
     if not logs_for_stream:
-        logger.info("No extract validate log found. Skipping stream...")
+        logger.info(f"No {root_log_type} logs found. Skipping stream {stream}...")
         return ""
 
-    elif len(logs_for_stream) > 1:
-        # Get a list of all of the datetimes referenced in the extract validate log file names. Find the most recent and
-        # identify the log file it belongs to.
-        datetimes = [log.split("_")[-1].split(".")[0] for log in logs_for_stream]
-        latest = max(datetimes)
-        for log in logs_for_stream:
-            if latest in log:
-                latest_log = log
-    # If there is only one extract validate log file for the given stream, use that one.
-    else:
-        latest_log = logs_for_stream[0]
+    # If there are more than one mip convert log files, find the most recent
+    log = sorted(logs_for_stream)[-1]
+    logger.info(f"Using most recent log file {log}")
 
-    logger.info(f"Using most recent log file {latest_log}")
-
-    return latest_log
-
-
-def get_validate_log(log_dir: Path, stream: str):
-    """Identify the extract validate log to read for a single stream.
-
-    Parameters
-    ----------
-    log_dir: Path
-        The log containing all extract validate logs.
-    stream: str
-        The stream whos extract validate log is being checked.
-
-    Returns
-    -------
-    :
-        The path to the latest validate log file for a single stream or an empty string if none exists.
-    """
-    logs_for_stream = []
-    for (root, dirs, files) in os.walk(log_dir):
-        for file in files:
-            if f"validate_{stream}" in file:
-                logs_for_stream.append(file)
-
-    # Identify the most recent log for that stream.
-    validate_log = get_newest_validate_log(logs_for_stream)
-    if not validate_log:
-        return ""
-
-    return Path(log_dir) / validate_log
+    return log
 
 
 def get_vars_to_remove(validate_log: Path) -> list:
@@ -243,14 +208,15 @@ def main_update_variables_from_validate() -> None:
     logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
 
     streams = request.data.streams if not args.streams else args.streams
-    extract_log_dir = Path(plugin.proc_directory(request)) / "extract" / "log"
+    root_log_path, root_log_type = check_log_type(plugin, request)
     count = 0
     for stream in streams:
         logger.info(f"Checking for faulty variables in stream {stream}")
-        validate_log = get_validate_log(extract_log_dir, stream)
-        if not validate_log:
+        log = get_log(root_log_type, root_log_path, stream)
+        if not log:
             continue
-        vars_to_remove = get_vars_to_remove(validate_log)
+        # CONTINUE FROM HERE ------------------------------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        vars_to_remove = get_vars_to_remove(root_log_type, log)
         if vars_to_remove:
             logger.info(f"  Identified variables with stash errors in {stream}")
             # Itterate through the variable list line by line, if the variable in that line is also in the
