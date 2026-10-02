@@ -16,11 +16,12 @@ class TestCheckMooLogin(unittest.TestCase):
     def setUp(self):
         configure_logger(None, logging.CRITICAL, False)
 
-    @patch('subprocess.Popen')
-    def test_check_moo_login_raises_when_not_logged_in(self, mock_popen):
-        mock_subprocess = MagicMock()
-        mock_subprocess.communicate.return_value = ('', '(NOT_LOGGED_IN) run \'moo login\' to continue.')
-        mock_popen.return_value = mock_subprocess
+    @patch('subprocess.run')
+    def test_check_moo_login_raises_when_not_logged_in(self, mock_run):
+        mock_result = MagicMock()
+        mock_result.stdout = ''
+        mock_result.stderr = "(NOT_LOGGED_IN) run 'moo login' to continue."
+        mock_run.return_value = mock_result
 
         with self.assertRaises(MooseNotLoggedInError):
             check_moo_login()
