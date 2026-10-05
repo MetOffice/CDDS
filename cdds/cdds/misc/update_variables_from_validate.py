@@ -8,6 +8,10 @@ command line usage of:
 
 `update_variables_from_valdiate <request> --streams <streams>`
 
+Updated as of 05/10/2026: This script can now also remove variables using mip_convert logs. It will pick up the most
+recent log from each substream (e.g. `mip_convert_ap6_latlon-native`, `mip_convert_ap6_uvgrid` will each have a single
+log file searched for faulty variables).
+
 The log file produced with this script can be found in the $proc_dir/prepare/log.
 """
 import argparse
@@ -90,8 +94,9 @@ def check_log_type(plugin: CddsPlugin, request: Request) -> tuple[Path, str]:
         return mip_convert_log_dir, "convert"
 
 
-def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, str]:
-    """Returns the most recent log file associated with a given stream.
+def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
+    """Returns the most recent log file(s) associated with a given stream. When using mip convert logs, multiple logs
+    may be identified is multiple substreams are being processed.
 
     Parameters
     ----------
@@ -105,8 +110,8 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, 
 
     Returns
     -------
-    Path, str
-        The path to the most recent log file for a given stream or an empty string '' if no log files are found.
+    list
+        The list of paths to the most recent log file(s) for a given stream.
     """
     logger = logging.getLogger(__name__)
     logs = []
@@ -122,7 +127,7 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, 
                 logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
 
     if not logs:
-        logger.info(f"No {root_log_type} logs found. Skipping stream {stream}...")
+        logger.info(f"No {root_log_type} log(s) found. Skipping stream {stream}...")
     else:
         logger.info(f"Using most recent log(s) file {logs}")
 
@@ -130,12 +135,13 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, 
 
 
 def sort_by_filename_only(log):
+    """Ensures file paths are sorted according to the filename only and not any subdirectories."""
     filename = str(log).split("/")[-1]
 
     return filename
 
 
-def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
+def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
     """Reads the variables that have been flagged as faulty for a single log file.
 
     Parameters
@@ -143,8 +149,8 @@ def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
     root_log_type: str
         'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
         different formatting and different verbage, hence must be handled separately.
-    log: Path
-        The path to the logfile being read.
+    logs: list[Path]
+        The list of paths to the logfiles being read.
 
     Returns
     -------
@@ -156,7 +162,7 @@ def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
     elif root_log_type == "convert":
         faulty_variable_flag = 'No cubes found using constraints "lbuser4='
 
-    log_lines = read_log(root_log_type, log)
+    log_lines = read_log(root_log_type, logs)
     if root_log_type == "validate":
         vars_to_remove = grep_validate_log(faulty_variable_flag, log_lines)
     elif root_log_type == "convert":
@@ -165,7 +171,7 @@ def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
     return vars_to_remove
 
 
-def read_log(root_log_type: str, logs: Path) -> list[str]:
+def read_log(root_log_type: str, logs: list[Path]) -> list[str]:
     """Reads a single log file.
 
     Parameters
@@ -173,13 +179,13 @@ def read_log(root_log_type: str, logs: Path) -> list[str]:
     root_log_type: str
         'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
         different formatting and different verbage, hence must be handled separately.
-    logs: Path
-        The path to the logfile being read.
+    logs: list[Path]
+        The list of paths to the logfile being read.
 
     Returns
     -------
     list[str]
-        The content of the log file as a list of lines.
+        The combined content of the log file(s) as a list of lines.
     """
     log_lines = []
     for log in logs:
@@ -327,11 +333,10 @@ def main_update_variables_from_validate() -> None:
     count = 0
     for stream in streams:
         logger.info(f"Checking for faulty variables in stream {stream}")
-        log = get_log(root_log_type, root_log_path, stream)
-        if not log:
+        logs = get_log(root_log_type, root_log_path, stream)
+        if not logs:
             continue
-        # CONTINUE FROM HERE ------------------------------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        vars_to_remove = get_vars_to_remove(root_log_type, log)
+        vars_to_remove = get_vars_to_remove(root_log_type, logs)
         if vars_to_remove:
             logger.info(f"  Identified variables with stash errors in {stream}")
             # Itterate through the variable list line by line, if the variable in that line is also in the
