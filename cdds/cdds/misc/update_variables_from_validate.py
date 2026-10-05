@@ -340,8 +340,8 @@ def main_update_variables_from_validate() -> None:
 
     streams = request.data.streams if not args.streams else args.streams
     root_log_path, root_log_type = check_log_type(plugin, request)
-    count = 0
     for stream in streams:
+        count = 0
         logger.info(f"Checking for faulty variables in stream {stream}")
         logs = get_log(root_log_type, root_log_path, stream)
         if not logs:
@@ -357,8 +357,12 @@ def main_update_variables_from_validate() -> None:
                         variable_list[i] = f"#{line} #removed due to extract validation error"
                         logger.info(f"      Removed variable `{variable}`")
                         count += 1
+            if count == 0:
+                logger.info(f"  All problematic variables for stream {stream} have already been removed.")
+            else:
+                logger.info(f"  Removed {count} variables from stream {stream}")
         else:
             logger.info(f"  No variables with stash errors in {stream}")
 
     save_new_variable_list(request, variable_list)
-    logger.info(f"Variable list {request.data.variable_list_file} successfully updated. Removed {count} variables.")
+    logger.info(f"Variable list {request.data.variable_list_file} successfully updated.")
