@@ -109,21 +109,24 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, 
         The path to the most recent log file for a given stream or an empty string '' if no log files are found.
     """
     logger = logging.getLogger(__name__)
+    logs = []
     if root_log_type == "validate":
         search_regex = f"**/validate_{stream}*.log"
+        logs_for_stream = list(root_log_dir.glob(search_regex))
+        logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
     elif root_log_type == "convert":
-        search_regex = f"**/{stream}_*/**/mip_convert_*.log.gz"
+        search_regex = f"**/mip_convert_*.log.gz"
+        for directory in root_log_dir.glob("*/"):
+            if stream in str(directory):
+                logs_for_stream = list(directory.glob(search_regex))
+                logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
 
-    logs_for_stream = list(root_log_dir.glob(search_regex))
-    if not logs_for_stream:
+    if not logs:
         logger.info(f"No {root_log_type} logs found. Skipping stream {stream}...")
-        return ""
+    else:
+        logger.info(f"Using most recent log(s) file {logs}")
 
-    # If there are more than log files, find the most recent
-    log = sorted(logs_for_stream, key=sort_by_filename_only)[-1] # Edit this to account for different grids
-    logger.info(f"Using most recent log file {log}")
-
-    return log
+    return logs
 
 
 def sort_by_filename_only(log):
@@ -162,7 +165,7 @@ def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
     return vars_to_remove
 
 
-def read_log(root_log_type: str, log: Path) -> list[str]:
+def read_log(root_log_type: str, logs: Path) -> list[str]:
     """Reads a single log file.
 
     Parameters
@@ -170,7 +173,7 @@ def read_log(root_log_type: str, log: Path) -> list[str]:
     root_log_type: str
         'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
         different formatting and different verbage, hence must be handled separately.
-    log: Path
+    logs: Path
         The path to the logfile being read.
 
     Returns
@@ -178,12 +181,14 @@ def read_log(root_log_type: str, log: Path) -> list[str]:
     list[str]
         The content of the log file as a list of lines.
     """
-    if root_log_type == "validate":
-        with open(log, "r") as f:
-            log_lines = f.readlines()
-    elif root_log_type == "convert":
-        with gzip.open(log, "rt") as f:
-            log_lines = f.readlines()
+    log_lines = []
+    for log in logs:
+        if root_log_type == "validate":
+            with open(log, "r") as f:
+                log_lines += f.readlines()
+        elif root_log_type == "convert":
+            with gzip.open(log, "rt") as f:
+                log_lines += f.readlines()
 
     return log_lines
 
