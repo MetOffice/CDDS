@@ -12,12 +12,14 @@ The log file produced with this script can be found in the $proc_dir/prepare/log
 """
 import argparse
 import logging
+import gzip
 
 from pathlib import Path
+from typing import Union
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
-from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 
 
 def get_logger(request: Request, plugin) -> logging.Logger:
@@ -63,8 +65,21 @@ def arg_parser() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def check_log_type(plugin, request):
-    """Checks whether any extract validate logs are present. If not, mip_convert logs are used."""
+def check_log_type(plugin: CddsPlugin, request: Request) -> tuple[Path, str]:
+    """Checks whether any extract validate logs are present. If not, mip_convert logs are used.
+
+    Parameters
+    ----------
+    plugin: CddsPlugin
+        The CDDS plugin.
+    request: Request
+        The CDDS request file.
+
+    returns
+    -------
+    tuple[Path, str]
+        The path to the log file directory being read and the type of log being looked at ('validate' or 'convert').
+    """
     extract_log_dir = Path(plugin.proc_directory(request)) / "extract" / "log"
     mip_convert_log_dir = Path(plugin.proc_directory(request)) / "convert" / "log"
 
@@ -75,54 +90,149 @@ def check_log_type(plugin, request):
         return mip_convert_log_dir, "convert"
 
 
-def get_log(root_log_type, root_log_dir, stream):
+def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> Union[Path, str]:
+    """Returns the most recent log file associated with a given stream.
+
+    Parameters
+    ----------
+    root_log_type: str
+        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
+        different formatting and different verbage, hence must be handled separately.
+    root_log_dir: Path
+        The path to the log file directory being read.
+    stream: str
+        The stream being processed.
+
+    Returns
+    -------
+    Path, str
+        The path to the most recent log file for a given stream or an empty string '' if no log files are found.
+    """
     logger = logging.getLogger(__name__)
     if root_log_type == "validate":
         search_regex = f"**/validate_{stream}*.log"
     elif root_log_type == "convert":
-        search_regex = f"**/{stream}_*/mip_convert_*.log.gz"
+        search_regex = f"**/{stream}_*/**/mip_convert_*.log.gz"
 
     logs_for_stream = list(root_log_dir.glob(search_regex))
     if not logs_for_stream:
         logger.info(f"No {root_log_type} logs found. Skipping stream {stream}...")
         return ""
 
-    # If there are more than one mip convert log files, find the most recent
-    log = sorted(logs_for_stream)[-1]
+    # If there are more than log files, find the most recent
+    log = sorted(logs_for_stream, key=sort_by_filename_only)[-1] # Edit this to account for different grids
     logger.info(f"Using most recent log file {log}")
 
     return log
 
 
-def get_vars_to_remove(validate_log: Path) -> list:
+def sort_by_filename_only(log):
+    filename = str(log).split("/")[-1]
+
+    return filename
+
+
+def get_vars_to_remove(root_log_type: str, log: Path) -> list[str]:
     """Reads the variables that have been flagged as faulty for a single log file.
 
     Parameters
     ----------
-    validate_log: Path
-        The extract validate log file to read.
+    root_log_type: str
+        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
+        different formatting and different verbage, hence must be handled separately.
+    log: Path
+        The path to the logfile being read.
 
     Returns
     -------
-    list
+    list[str]
         The list of faulty variables to be commented out.
     """
-    with open(validate_log, "r") as f:
-        log = f.readlines()
+    if root_log_type == "validate":
+        faulty_variable_flag = 'As a result, these variables cannot be produced:'
+    elif root_log_type == "convert":
+        faulty_variable_flag = 'No cubes found using constraints "lbuser4='
 
-    faulty_variable_flag = "As a result, these variables cannot be produced:"
+    log_lines = read_log(root_log_type, log)
+    if root_log_type == "validate":
+        vars_to_remove = grep_validate_log(faulty_variable_flag, log_lines)
+    elif root_log_type == "convert":
+        vars_to_remove = grep_convert_log(faulty_variable_flag, log_lines)
 
-    # If the faulty variable flag is not in the file, return an empty list (no variables to remove)
-    if open(validate_log, 'r').read().find(faulty_variable_flag) == -1:
-        return []
-    else:
-        for i, line in enumerate(log):
-            # Identify the line containing the faulty variable flag and take the snippet of the log that comes after it.
-            if faulty_variable_flag in line:
-                log = log[i:]
-                break
-        # Reformat the log content to a list of variables.
-        return format_to_list(log)
+    return vars_to_remove
+
+
+def read_log(root_log_type: str, log: Path) -> list[str]:
+    """Reads a single log file.
+
+    Parameters
+    ----------
+    root_log_type: str
+        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
+        different formatting and different verbage, hence must be handled separately.
+    log: Path
+        The path to the logfile being read.
+
+    Returns
+    -------
+    list[str]
+        The content of the log file as a list of lines.
+    """
+    if root_log_type == "validate":
+        with open(log, "r") as f:
+            log_lines = f.readlines()
+    elif root_log_type == "convert":
+        with gzip.open(log, "rt") as f:
+            log_lines = f.readlines()
+
+    return log_lines
+
+
+def grep_validate_log(faulty_variable_flag: str, log_lines: list[str]) -> list[str]:
+    """Greps through a single validate log to identify any variables that have been noted as unproducible.
+
+    Parameters
+    ----------
+    faulty_variable_flag: str
+        The string used in the log file to signify that the following variable(s) is unproducible.
+    log_lines: list[str]
+        The content of the log file as a list of lines.
+
+    Returns
+    -------
+    list[str]
+        The list of variables that cannot be produced and need to be removed from the variable list.
+    """
+    for i, line in enumerate(log_lines):
+        # Identify the line containing the faulty variable flag and take the snippet of the log that comes after it.
+        if faulty_variable_flag in line:
+            truncated_log = log_lines[i:]
+            break
+    # Reformat the log content to a list of variables.
+    return format_to_list(truncated_log)
+
+
+def grep_convert_log(faulty_variable_flag: str, log_lines: list[str]) -> list[str]:
+    """Greps through a single validate log to identify any variables that have been noted as unproducible.
+
+    Parameters
+    ----------
+    faulty_variable_flag: str
+        The string used in the log file to signify that the following variable(s) is unproducible.
+    log_lines: list[str]
+        The content of the log file as a list of lines.
+
+    Returns
+    -------
+    list[str]
+        The list of variables that cannot be produced and need to be removed from the variable list.
+    """
+    faulty_variables = []
+    for line in log_lines:
+        if faulty_variable_flag in line:
+            faulty_variables.append(line.split('"')[1])
+
+    return faulty_variables
 
 
 def format_to_list(log: list) -> list:
