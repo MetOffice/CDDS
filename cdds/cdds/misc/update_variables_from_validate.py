@@ -121,7 +121,10 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
     if root_log_type == "validate":
         search_regex = f"**/validate_{stream}*.log"
         logs_for_stream = list(root_log_dir.glob(search_regex))
-        logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
+        if not logs_for_stream:
+            logger.info(f"  No log file found under search path '{directory}', continuing...")
+        else:
+            logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
     elif root_log_type == "convert":
         search_regex = f"**/mip_convert_*.log.gz"
         # Check the convert sub directories for sub streams i.e. latlon-native, u-grid, v-grid etc, we need the latest
@@ -130,12 +133,15 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
             if stream in str(directory):
                 # Conduct a full file search only under the directories associated with the given stream.
                 logs_for_stream = list(directory.glob(search_regex))
+                if not logs_for_stream:
+                    logger.info(f"  No log file found under search path '{directory}', continuing...")
+                    continue
                 logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
 
     if not logs:
-        logger.info(f"No {root_log_type} log(s) found. Skipping stream {stream}...")
+        logger.info(f"  No {root_log_type} log(s) found. Skipping stream {stream}...")
     else:
-        logger.info(f"Using most recent log(s) file {logs}")
+        logger.info(f"  Using most recent log(s) file {logs}")
 
     return logs
 
