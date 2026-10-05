@@ -19,7 +19,6 @@ import logging
 import gzip
 
 from pathlib import Path
-from typing import Union
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
@@ -70,7 +69,8 @@ def arg_parser() -> argparse.Namespace:
 
 
 def check_log_type(plugin: CddsPlugin, request: Request) -> tuple[Path, str]:
-    """Checks whether any extract validate logs are present. If not, mip_convert logs are used.
+    """Checks whether any extract validate logs are present. If not, mip_convert logs are used. Returns the appropriate
+    directory and a note of the type of log used for easy separation of handling.
 
     Parameters
     ----------
@@ -121,8 +121,11 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
         logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
     elif root_log_type == "convert":
         search_regex = f"**/mip_convert_*.log.gz"
+        # Check the convert sub directories for sub streams i.e. latlon-native, u-grid, v-grid etc, we need the latest
+        # log from each of these.
         for directory in root_log_dir.glob("*/"):
             if stream in str(directory):
+                # Conduct a full file search only under the directories associated with the given stream.
                 logs_for_stream = list(directory.glob(search_regex))
                 logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
 
@@ -135,10 +138,9 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
 
 
 def sort_by_filename_only(log):
-    """Ensures file paths are sorted according to the filename only and not any subdirectories."""
-    filename = str(log).split("/")[-1]
-
-    return filename
+    """Ensures file paths are sorted according to the filename only and not any subdirectories to ensure only the most
+    recent logs are checked."""
+    return str(log).split("/")[-1]
 
 
 def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
@@ -162,7 +164,7 @@ def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
     elif root_log_type == "convert":
         faulty_variable_flag = 'No cubes found using constraints "lbuser4='
 
-    log_lines = read_log(root_log_type, logs)
+    log_lines = read_log_content(root_log_type, logs)
     if root_log_type == "validate":
         vars_to_remove = grep_validate_log(faulty_variable_flag, log_lines)
     elif root_log_type == "convert":
@@ -171,7 +173,7 @@ def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
     return vars_to_remove
 
 
-def read_log(root_log_type: str, logs: list[Path]) -> list[str]:
+def read_log_content(root_log_type: str, logs: list[Path]) -> list[str]:
     """Reads a single log file.
 
     Parameters
@@ -192,6 +194,7 @@ def read_log(root_log_type: str, logs: list[Path]) -> list[str]:
         if root_log_type == "validate":
             with open(log, "r") as f:
                 log_lines += f.readlines()
+        # Mip convert logs are gzipped, these need to be opened differently from standard txt logs
         elif root_log_type == "convert":
             with gzip.open(log, "rt") as f:
                 log_lines += f.readlines()
@@ -200,7 +203,8 @@ def read_log(root_log_type: str, logs: list[Path]) -> list[str]:
 
 
 def grep_validate_log(faulty_variable_flag: str, log_lines: list[str]) -> list[str]:
-    """Greps through a single validate log to identify any variables that have been noted as unproducible.
+    """Greps through a single validate log to identify any variables that have been noted as unproducible. Variables are
+    listed at the base of the file after the faulty variable flag.
 
     Parameters
     ----------
@@ -224,7 +228,8 @@ def grep_validate_log(faulty_variable_flag: str, log_lines: list[str]) -> list[s
 
 
 def grep_convert_log(faulty_variable_flag: str, log_lines: list[str]) -> list[str]:
-    """Greps through a single validate log to identify any variables that have been noted as unproducible.
+    """Greps through a single validate log to identify any variables that have been noted as unproducible. Variables are
+    noted inline with the faulty variable flag.
 
     Parameters
     ----------
@@ -291,6 +296,8 @@ def read_variable_list(variable_list_file: str) -> list:
             variable_list = [line.strip() for line in f]
     except FileNotFoundError:
         home_dir = Path.home()
+        # Pathlib interprets '~' as literal rather than $HOME, attempt to interpret any instance of this manually if the
+        # given path cannot be found.
         variable_list_file = variable_list_file.replace("~", str(home_dir))
         with open(variable_list_file, "r") as f:
             variable_list = [line.strip() for line in f]
