@@ -63,7 +63,7 @@ def arg_parser() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=("This is a command line tool to append or remove an item from the "
                                                   "known_issues.json file."))
     parser.add_argument("request", help="The path to the request file.")
-    parser.add_argument("-s", "--streams", nargs='*', help="The streams to ammend variables for. No specification will "
+    parser.add_argument("-s", "--streams", nargs='*', help="The streams to amend variables for. No specification will "
                         "process all streams listed in the request.")
 
     return parser.parse_args()
@@ -96,13 +96,13 @@ def check_log_type(plugin: CddsPlugin, request: Request) -> tuple[Path, str]:
 
 def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
     """Returns the most recent log file(s) associated with a given stream. When using mip convert logs, multiple logs
-    may be identified is multiple substreams are being processed.
+    may be identified is multiple sub streams are being processed.
 
     Parameters
     ----------
     root_log_type: str
-        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
-        different formatting and different verbage, hence must be handled separately.
+        'validate' or 'convert', the type of log file being read. These highlight variables that cannot be produced with
+        different formatting and different verbiage, hence must be handled separately.
     root_log_dir: Path
         The path to the log file directory being read.
     stream: str
@@ -147,8 +147,8 @@ def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
     Parameters
     ----------
     root_log_type: str
-        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
-        different formatting and different verbage, hence must be handled separately.
+        'validate' or 'convert', the type of log file being read. These highlight variables that cannot be produced with
+        different formatting and different verbiage, hence must be handled separately.
     logs: list[Path]
         The list of paths to the logfiles being read.
 
@@ -177,8 +177,8 @@ def read_log(root_log_type: str, logs: list[Path]) -> list[str]:
     Parameters
     ----------
     root_log_type: str
-        'validate' or 'convert', the type of log file being read. These highlight varaibles that cannot be produced with
-        different formatting and different verbage, hence must be handled separately.
+        'validate' or 'convert', the type of log file being read. These highlight variables that cannot be produced with
+        different formatting and different verbiage, hence must be handled separately.
     logs: list[Path]
         The list of paths to the logfile being read.
 
@@ -261,7 +261,7 @@ def format_to_list(log: list) -> list:
         A list of variables to be removed.
     """
     variables = []
-    # Remove any uneccesary realm information given in the log and any whitespace.
+    # Remove any unnecessary realm information given in the log and any whitespace.
     for realm in log[1:-1]:
         variables += [item.strip() for item in realm.split(":")[-1].split(",")]
 
@@ -309,7 +309,7 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
     request: Request
         The key information from the request configuration file.
     updated_variable_list: list
-        The list of ammended lines for the variable list with faulty variables commented out. This will override the
+        The list of amended lines for the variable list with faulty variables commented out. This will override the
         old variable list.
     """
     with open(request.data.variable_list_file, "w") as f:
@@ -339,7 +339,7 @@ def main_update_variables_from_validate() -> None:
         vars_to_remove = get_vars_to_remove(root_log_type, logs)
         if vars_to_remove:
             logger.info(f"  Identified variables with stash errors in {stream}")
-            # Itterate through the variable list line by line, if the variable in that line is also in the
+            # Iterate through the variable list line by line, if the variable in that line is also in the
             # vars_to_remove list, comment them out.
             for i, line in enumerate(variable_list):
                 for variable in vars_to_remove:
