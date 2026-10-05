@@ -93,6 +93,9 @@ def check_log_type(plugin: CddsPlugin, request: Request) -> tuple[Path, str]:
     elif list(mip_convert_log_dir.glob("**/mip_convert_*.log.gz")):
         return mip_convert_log_dir, "convert"
 
+    else:
+        raise RuntimeError("No convert or validate log files found.")
+
 
 def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
     """Returns the most recent log file(s) associated with a given stream. When using mip convert logs, multiple logs
