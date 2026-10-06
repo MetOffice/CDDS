@@ -122,7 +122,7 @@ def get_log(root_log_type: str, root_log_dir: Path, stream: str) -> list:
         search_regex = f"**/validate_{stream}*.log"
         logs_for_stream = list(root_log_dir.glob(search_regex))
         if not logs_for_stream:
-            logger.info(f"  No log file found under search path '{directory}', continuing...")
+            logger.info(f"  No log file found under search path '{root_log_dir}', continuing...")
         else:
             logs.append(sorted(logs_for_stream, key=sort_by_filename_only)[-1])
     elif root_log_type == "convert":
