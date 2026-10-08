@@ -175,7 +175,7 @@ class WorkflowManager:
             templated yet.
         """
         parser = ConfigParser(delimiters=['='], interpolation=None)
-        parser.optionxform = str  # type: ignore[method-assign]
+        parser.optionxform = str  # type: ignore[assignment, method-assign]
         parser.read(self.rose_suite_conf)
 
         if "template variables" not in parser:
