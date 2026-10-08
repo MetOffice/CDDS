@@ -6,8 +6,34 @@ import subprocess
 import re
 
 from cdds.common.mass_exception import (MassError, DirAlreadyExistMassError, FileNotExistMassError,
-                                        VariableArchivingError, MassFailure)
+                                        VariableArchivingError, MassFailure, MooseNotLoggedInError)
 from cdds.common.mass_record import get_records_from_stdout
+
+
+def check_moo_login():
+    """Check that the user is logged in to MOOSE.
+
+    Runs "moo si -v" and raises :class:`MooseNotLoggedInError` if MOOSE
+    reports that the user is not logged in, so that extract/transfer can fail fast
+    with a clear error before attempting MOOSE commands.
+
+    Raises
+    ------
+    MooseNotLoggedInError
+        If the user is not logged in to MOOSE.
+    """
+    logger = logging.getLogger(__name__)
+    moo_cmd = ['moo', 'si', '-v']
+    logger.debug('Checking MOOSE login status: {}'.format(' '.join(moo_cmd)))
+    try:
+        result = subprocess.run(moo_cmd, capture_output=True, text=True)
+    except (FileNotFoundError, OSError) as exc:
+        logger.warning(
+            'Unable to run "moo si -v": {}. Ensure "moo" is installed and available in PATH.'.format(exc)
+        )
+        return
+    if 'NOT_LOGGED_IN' in result.stderr or 'NOT_LOGGED_IN' in result.stdout:
+        raise MooseNotLoggedInError()
 
 
 def mass_list_dir(mass_path, simulation):
