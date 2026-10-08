@@ -262,7 +262,8 @@ def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates: Cub
             )
             replacement_coordinates = replacement_coordinates.extract(constraint)
             replace_coordinates(cube, replacement_coordinates)
-        elif "model_component" in cube.attributes and cube.attributes["model_component"] == "cice":
+        # Note that the si3_eORCA1_icemod.nc coordinate replacement file in duplicated from nemo_eORCA1_grid-T.nc
+        elif "model_component" in cube.attributes and cube.attributes["model_component"] in ("cice", "si3"):
             replace_coordinates(cube, replacement_coordinates)
 
     return cube
