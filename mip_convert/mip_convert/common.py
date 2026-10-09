@@ -1164,9 +1164,11 @@ def cmp_to_key(mycmp):
 def find_garbled_nemo_files(file_paths):
     """Return list of NEMO NetCDF files with garbled pre-1900 time coordinates.
 
-    NEMO files written relative to 1900-01-01 have non-negative time values for
-    pre-1900 runs (e.g. year 1900 instead of pre-1900). These need to be corrected
-    (e.g. using reset_time_coords.py) before Iris can load them.
+    Files are flagged when their filename indicates a pre-1900 period, but their
+    ``time_counter`` uses units relative to 1900-01-01 and starts at a non-negative
+    value. Such coordinates can cause Iris time filtering to exclude the data.
+    These files require manual correction (e.g. with ``reset_time_coords.py``)
+    before conversion.
 
     Parameters
     ----------
