@@ -6,12 +6,21 @@ import cf_units
 import iris
 import numpy as np
 import unittest
+import os
 
 from mip_convert.common import (check_values_equal,
                                 parse_to_loadables,
                                 Loadable,
-                                remove_extra_time_axis)
+                                remove_extra_time_axis,
+                                replace_coordinates)
 from mip_convert.plugins.config import mappings_config_info
+from cdds.common.request.request import Request
+from cdds.common.request.common_section import CommonSection
+from cdds.common.request.metadata_section import MetadataSection
+from cdds.common.request.conversion_section import ConversionSection
+from cdds.common.request.data_section import DataSection
+from cdds.common.cdds_files.cdds_directories import replacement_coordinate_files
+from cdds.common.plugins.plugin_loader import load_plugin
 
 
 class TestCheckValuesEqual(unittest.TestCase):
@@ -387,6 +396,38 @@ class TestRemoveExtraTimeAxis(unittest.TestCase):
         output = self.cube.copy()
         remove_extra_time_axis(output)
         self.assertEqual(output, reference)
+
+
+class ReplaceCoordinates(unittest.TestCase):
+
+    def setUp(self):
+        self.request = Request(
+            metadata=MetadataSection(base_date="1850-01-01T00:00:00Z", branch_method="no parent",
+                                     calendar="proleptic_gregorian", mip="CMIP", mip_era="CMIP7",
+                                     model_id="UKCM2-0-LL", variant_label="r1i1p1f1"),
+            common=CommonSection(mode="strict",
+                                 root_replacement_coordinates_dir=f"{os.environ["CDDS_ETC"]}/horizontal_coordinates/"),
+            data=DataSection(model_workflow_id="u-dw052"),
+            conversion=ConversionSection(mip_convert_plugin="UKCM2"))
+        load_plugin(self.request.metadata.mip_era)
+        self.replacement_coordinates = iris.load(replacement_coordinate_files(self.request).split())
+
+    def test_si3_coordinate_replacement(self):
+        lat = iris.coords.AuxCoord(np.zeros((332, 362)), standard_name='latitude', var_name="nav_lat_grid_T")
+        lon = iris.coords.AuxCoord(np.zeros((332, 362)), standard_name='longitude', var_name="nav_lon_grid_T")
+        time = iris.coords.DimCoord([0], standard_name='time', var_name='time_counter',
+                                    units=cf_units.Unit('seconds since 1900-01-01', 'gregorian'))
+        cube = iris.cube.Cube(
+            np.zeros((1, 332, 362), dtype=np.float32),
+            dim_coords_and_dims=[(time, 0)],
+            aux_coords_and_dims=[(lat, (1, 2)), (lon, (1, 2))]
+        )
+
+        replacement_cubes = iris.load(f"{self.request.common.root_replacement_coordinates_dir}/si3_eORCA1_icemod.nc")
+        replacement_cube = replacement_cubes.extract_cube("sea_surface_temperature")
+        replace_coordinates(cube, self.replacement_coordinates)
+        np.testing.assert_array_equal(cube.coord("latitude").points, replacement_cube.coord("latitude").points)
+        np.testing.assert_array_equal(cube.coord("longitude").points, replacement_cube.coord("longitude").points)
 
 
 if __name__ == '__main__':
