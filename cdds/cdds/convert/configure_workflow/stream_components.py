@@ -108,7 +108,7 @@ class StreamComponents:
         inactive_streams = set(self.streams) - set(self.active_streams)
         if inactive_streams:
             streams_str = ",".join(inactive_streams)
-            msg = ("Warning: Skipping streams {streams_str} as there are no "
+            msg = ("Skipping streams {streams_str} as there are no "
                    "variables to produce.".format(streams_str=streams_str))
             self.logger.warning(msg)
 

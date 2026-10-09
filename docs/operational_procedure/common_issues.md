@@ -132,6 +132,33 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     
     ### Solution
     
+    Run `prepare_generate_variable_list` with the `--remove-orphaned-tasks` flag:
+    
+    ```
+    prepare_generate_variable_list <request_config_file> --remove-orphaned-tasks
+    ```
+    
+    This command will:
+    
+    1. Re-generate the MIP Convert configuration files on disk with only the currently active variables.
+    2. Identify which component tasks have been orphaned.
+    3. Re-template, reinstall (`cylc reinstall`), and reload (`cylc reload`) the running Cylc conversion workflow so tasks for components with no remaining variables are removed from future cycle points.
+    
+    If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
+
+    ## 6. MIP Convert failure: "no variables to process" (orphaned tasks)
+    
+    e.g.
+    
+        `RuntimeError: There are no MIP requested variable names defined in the user configuration file`
+    
+    ### Cause
+    
+    This occurs when all variables belonging to a specific component/grid (for example, `atmos-latlon-uvgrid`) 
+    have been deactivated or removed mid-run—such as after editing the variable list file (either manually or via `update_variables_from_validate`).
+    
+    ### Solution
+    
     Run `prepare_generate_variable_list` with the `-t` flag:
     
     ```
@@ -299,6 +326,33 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     1. Inspect `~/.bashrc` and temporarily comment out any automated `module load` lines.
     2. Retrigger the failed tasks.
+
+    ## 7. MIP Convert failure: "no variables to process" (orphaned tasks)
+
+    e.g.
+
+        `RuntimeError: There are no MIP requested variable names defined in the user configuration file`
+
+    ### Cause
+
+    This occurs when all variables belonging to a specific component/grid (for example, `atmos-latlon-uvgrid`) 
+    have been deactivated or removed mid-run—such as after editing the variable list file (either manually or via `update_variables_from_validate`).
+
+    ### Solution
+
+    Run `prepare_generate_variable_list` with the `-t` flag:
+
+    ```
+    prepare_generate_variable_list <request_config_file> -t
+    ```
+
+    This command will:
+
+    1. Re-generate the MIP Convert configuration files on disk with only the currently active variables.
+    2. Identify which component tasks have been orphaned.
+    3. Re-template, reinstall (`cylc reinstall`), and reload (`cylc reload`) the running Cylc conversion workflow so tasks for components with no remaining variables are removed from future cycle points.
+
+    If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
 
     ## 7. MIP Convert failure: "no variables to process" (orphaned tasks)
 
