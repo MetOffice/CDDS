@@ -3,6 +3,7 @@
 # pylint: disable = eval-used
 import logging
 from operator import itemgetter
+import os
 import regex as re
 
 from cftime import datetime
@@ -1158,3 +1159,41 @@ def cmp_to_key(mycmp):
         def __ne__(self, other):
             return mycmp(self.obj, other.obj) != 0
     return K
+
+
+def find_garbled_nemo_files(file_paths):
+    """Return NEMO NetCDF files whose first ``time_counter`` date is before filename start or after filename end.
+
+    Such coordinates can cause Iris time filtering to exclude data and will need
+    correction before conversion.
+
+    Parameters
+    ----------
+    file_paths : list of str
+        File paths to check.
+
+    Returns
+    -------
+    list of str
+        List of matching file paths with garbled time coordinates.
+    """
+    garbled_files = []
+    for filepath in file_paths:
+        match = re.search(r'_(\d{8})-(\d{8})_', os.path.basename(filepath))
+        if not match:
+            continue
+
+        try:
+            import netCDF4 as nc
+            with nc.Dataset(filepath) as ds:
+                time_var = ds.variables.get('time_counter')
+                if time_var is None:
+                    continue
+                # Convert decoded date to filename's YYYYMMDD string format for comparison.
+                time_date = nc.num2date(time_var[0], time_var.units).strftime('%Y%m%d')
+                if time_date < match.group(1) or time_date > match.group(2):
+                    garbled_files.append(filepath)
+        except Exception:
+            pass
+
+    return garbled_files

@@ -32,7 +32,7 @@ from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
     PP_TO_CUBE_CONSTRAINTS, replace_coord_points_bounds, check_values_equal,
     apply_time_constraint, get_field_attribute_name, remove_extra_time_axis, promote_aux_time_coord_to_dim,
-    replace_coordinates)
+    replace_coordinates, find_garbled_nemo_files)
 from mip_convert.load.fix_pp import fix_pp_field
 
 _CACHED_FIELDS = {}
@@ -209,6 +209,15 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, effective_run_bounds)
 
     if not merged_cubes:
+        garbled_files = find_garbled_nemo_files(all_input_data)
+        if garbled_files:
+            file_list = '\n'.join(f'    - "...{f[f.find("/input"):]}"' for f in garbled_files)
+            error_msg = (
+                'The following input files have time coordinates outside the date ranges in their filenames.\n'
+                'These files should be corrected before retrying conversion.\n'
+                f'For more information, contact the CDDS team:\n{file_list}'
+            )
+            raise RuntimeError(error_msg)
         error_msg = 'No cubes found using constraints "{}" within "{}"'
         raise RuntimeError(error_msg.format(constraint_constructor.info, '" and "'.join(run_bounds)))
 
