@@ -105,8 +105,8 @@ JASMIN_URL_IDS = {'.ac.uk'}
 INPUT_DATA_DIRECTORY = 'input'
 INVENTORY_DB_FILENAME = 'inventory'
 INVENTORY_ROOT_DIR = os.path.join(os.environ['CDDS_ETC'], 'inventory')
-INVENTORY_FACET_LIST = ["mip_era", "mip", "institution", "model", "experiment", "variant", "mip_table", "variable",
-                        "grid", "status", "timestamp"]
+INVENTORY_FACET_LIST = ["mip_era", "mip", "institution", "model", "experiment", "variant", "region", "frequency",
+                        "variable", "grid", "status", "timestamp"]
 INVENTORY_HEADINGS = ['Mip Era', 'Mip', 'Institute', 'Model', 'Experiment', 'Variant', 'Mip Table', 'Variable Name',
                       'Grid', 'Status', 'Version', 'Facet String']
 INVENTORY_HEADINGS_FORMAT = '{:7} {:6} {:10} {:18} {:15} {:10} {:10} {:20} {:4} {:10} {:10} {:10}'
