@@ -1162,13 +1162,10 @@ def cmp_to_key(mycmp):
 
 
 def find_garbled_nemo_files(file_paths):
-    """Return list of NEMO NetCDF files with garbled pre-1900 time coordinates.
+    """Return NEMO NetCDF files whose first ``time_counter`` date is before filename start or after filename end.
 
-    Files are flagged when their filename indicates a pre-1900 period, but their
-    ``time_counter`` uses units relative to 1900-01-01 and starts at a non-negative
-    value. Such coordinates can cause Iris time filtering to exclude the data.
-    These files require manual correction (e.g. with ``reset_time_coords.py``)
-    before conversion.
+    Such coordinates can cause Iris time filtering to exclude data and will need
+    correction before conversion.
 
     Parameters
     ----------
@@ -1182,17 +1179,19 @@ def find_garbled_nemo_files(file_paths):
     """
     garbled_files = []
     for filepath in file_paths:
-        # Match date range pattern (e.g. _18500101-18500201_) and check if captured start year is pre-1900
-        match = re.search(r'_(\d{4})\d{4}-\d{8}_', os.path.basename(filepath))
-        if not match or match.group(1) >= '1900':
+        match = re.search(r'_(\d{8})-(\d{8})_', os.path.basename(filepath))
+        if not match:
             continue
 
         try:
             import netCDF4 as nc
             with nc.Dataset(filepath) as ds:
-                # Corrected pre-1900 files have negative offsets relative to 1900; uncorrected values remain >= 0
                 time_var = ds.variables.get('time_counter')
-                if time_var and '1900' in getattr(time_var, 'units', '') and time_var[0] >= 0:
+                if time_var is None:
+                    continue
+                # Convert decoded date to filename's YYYYMMDD string format for comparison.
+                time_date = nc.num2date(time_var[0], time_var.units).strftime('%Y%m%d')
+                if time_date < match.group(1) or time_date > match.group(2):
                     garbled_files.append(filepath)
         except Exception:
             pass

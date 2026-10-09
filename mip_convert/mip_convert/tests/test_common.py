@@ -414,7 +414,7 @@ class TestFindGarbledNemoFiles(unittest.TestCase):
             var[:] = [time_val]
         return path
 
-    def test_garbled_pre_1900_file(self):
+    def test_time_coordinate_outside_filename_dates(self):
         path = self._create_nc(
             'nemo_dv623o_1m_18980101-18980201_grid-T.nc',
             'seconds since 1900-01-01 00:00:00',
@@ -423,18 +423,13 @@ class TestFindGarbledNemoFiles(unittest.TestCase):
         result = find_garbled_nemo_files([path])
         self.assertEqual(result, [path])
 
-    def test_corrected_pre_1900_file(self):
+    def test_time_coordinate_within_filename_dates(self):
         path = self._create_nc(
             'nemo_dv623o_1m_18980101-18980201_grid-T.nc',
             'seconds since 1900-01-01 00:00:00',
             -63072000.0,
         )
         result = find_garbled_nemo_files([path])
-        self.assertEqual(result, [])
-
-    def test_post_1900_file_skipped(self):
-        nonexistent = os.path.join(self.test_dir, 'nemo_dv623o_1m_19500101-19500201_grid-T.nc')
-        result = find_garbled_nemo_files([nonexistent])
         self.assertEqual(result, [])
 
 

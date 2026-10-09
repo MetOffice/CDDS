@@ -213,8 +213,8 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         if garbled_files:
             file_list = '\n'.join(f'    - "...{f[f.find("/input"):]}"' for f in garbled_files)
             error_msg = (
-                'The following NEMO input files contain garbled pre-1900 time coordinates.\n'
-                'These will need to be fixed before retrying conversion.\n'
+                'The following input files have time coordinates outside the date ranges in their filenames.\n'
+                'These files should be corrected before retrying conversion.\n'
                 f'For more information, contact the CDDS team:\n{file_list}'
             )
             raise RuntimeError(error_msg)
