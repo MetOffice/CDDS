@@ -8,7 +8,7 @@ This should be used only when all processing has completed. Using the -m flag wi
 structure, using no flag will generate symbolic links.
 
 WARNING: Once data has been **moved** out of the CDDS structure transfer tasks in workflows may fail. If intending to
-use `cdds_transfer` to archive to MASS please ensure this is completed before moving any files.
+use `cdds_store` to archive to MASS please ensure this is completed before moving any files.
 """
 
 import logging
