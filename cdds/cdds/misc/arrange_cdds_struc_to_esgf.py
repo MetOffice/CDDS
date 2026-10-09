@@ -20,7 +20,7 @@ from datetime import datetime
 
 from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
-from cdds.common import configure_logger, run_command
+from cdds.common import configure_logger
 from cdds.common.request.validations.cv_validators import CVValidatorFactory
 
 from mip_convert.configuration.cv_config import CVConfig
@@ -137,19 +137,16 @@ def rearrange_files(files: list, esgf_path_root: str, command: str) -> None:
 
         # Construct new ESGF compliant path
         var_id, branding, freq, region, grid = filename.split("_")[:5]
-        new_path = esgf_path_root + f"/{region}/{freq}/{var_id}/{branding}/{grid}/{version}/"
+        new_path = esgf_path_root + f"/{region}/{freq}/{var_id}/{branding}/{grid}/{version}/{filename}"
 
         # Rearrange files
-        run_command(f"mkdir -p {new_path}".split())
-        logger.info(f"{command} {old_path} {new_path}")
-        try:
-            run_command(f"{command} {old_path} {new_path}".split())
-        except RuntimeError as e:
-            # Except file aleady exists runtime error only (occurs for symbolic links)
-            if ": File exists" in str(e):
-                logger.info(f"File already exists {new_path}{filename}, continuing")
-            else:
-                raise RuntimeError(e)
+        os.makedirs(new_path, exist_ok=True)
+        if command == "mv":
+            logger.info(f"moving `{old_path}` to `{new_path}`")
+            os.rename(old_path, new_path)
+        elif command == "ln -s":
+            logger.info(f"symbolic linking `{old_path}` `{new_path}`")
+            os.symlink(old_path, new_path)
 
 
 def main_arrange_to_esgf():
