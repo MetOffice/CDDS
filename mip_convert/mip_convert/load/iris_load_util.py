@@ -32,9 +32,8 @@ from mip_convert.load.pp import stash_to_int
 from mip_convert.common import (
     PP_TO_CUBE_CONSTRAINTS, replace_coord_points_bounds, check_values_equal,
     apply_time_constraint, get_field_attribute_name, remove_extra_time_axis, promote_aux_time_coord_to_dim,
-    replace_coordinates)
+    replace_coordinates, find_garbled_nemo_files)
 from mip_convert.load.fix_pp import fix_pp_field
-from mip_convert.plugins.plugins import MappingPluginStore
 
 _CACHED_FIELDS = {}
 ADDITIONAL_STASHCODE_IMPLIED_HEIGHTS = {3329: 1.5,
@@ -210,33 +209,21 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
         merged_cubes = load_cubes_from_nc(all_input_data, load_constraints, effective_run_bounds)
 
     if not merged_cubes:
-        error_msg = f'No cubes found using constraints "{constraint_constructor.info}" within "{" and ".join(run_bounds)}"'
-        ocean_files = _pre_1900_ukcm2_ocean_files(run_bounds, all_input_data)
-        if ocean_files:
-            file_list = '\n'.join(f'    - "{f}"' for f in ocean_files)
-            error_msg += (f'\nThe following input UKCM2 ocean data needs to be fixed before conversion.'
-                          f'\nPlease contact the CDDS team to resolve this issue.\nProblematic files:\n{file_list}')
-        raise RuntimeError(error_msg)
+        garbled_files = find_garbled_nemo_files(all_input_data)
+        if garbled_files:
+            file_list = '\n'.join(f'    - "...{f[f.find("/input"):]}"' for f in garbled_files)
+            error_msg = (
+                f'The following NEMO ocean input files have garbled pre-1900 time coordinates and need '
+                'to be fixed using reset_time_coords.py (contact the CDDS team for more information) '
+                f'before retrying conversion:\n{file_list}'
+            )
+            raise RuntimeError(error_msg)
+        error_msg = 'No cubes found using constraints "{}" within "{}"'
+        raise RuntimeError(error_msg.format(constraint_constructor.info, '" and "'.join(run_bounds)))
 
     for cube in merged_cubes:
         rechunk(cube)
     return merged_cubes
-
-
-def _pre_1900_ukcm2_ocean_files(run_bounds, all_input_data):
-    """Return pre-1900 UKCM2 ocean stream files (onm/ond) from all_input_data.
-
-    NEMO writes bogus time coordinate values relative to 1900 for pre-1900 runs,
-    causing date filtering to fail. Returns empty list if run is not pre-1900 UKCM2.
-    """
-    if not (run_bounds and run_bounds[0] < '1900'):
-        return []
-
-    plugin_store = MappingPluginStore.instance()
-    if not (plugin_store.has_plugin_loaded() and plugin_store.get_plugin().is_responsible('UKCM2')):
-        return []
-
-    return [f for f in all_input_data if '/onm/' in f or '/ond/' in f]
 
 
 def load_cube(all_input_data, run_bounds, loadable, replacement_coordinates: CubeList, ancil_variables):

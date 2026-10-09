@@ -3,6 +3,7 @@
 # pylint: disable = eval-used
 import logging
 from operator import itemgetter
+import os
 import regex as re
 
 from cftime import datetime
@@ -1158,3 +1159,40 @@ def cmp_to_key(mycmp):
         def __ne__(self, other):
             return mycmp(self.obj, other.obj) != 0
     return K
+
+
+def find_garbled_nemo_files(file_paths):
+    """Return list of NEMO NetCDF files with garbled pre-1900 time coordinates.
+
+    NEMO files written relative to 1900-01-01 have non-negative time values for
+    pre-1900 runs (e.g. year 1900 instead of pre-1900). These need to be corrected
+    (e.g. using reset_time_coords.py) before Iris can load them.
+
+    Parameters
+    ----------
+    file_paths : list of str
+        File paths to check.
+
+    Returns
+    -------
+    list of str
+        List of matching file paths with garbled time coordinates.
+    """
+    garbled_files = []
+    for filepath in file_paths:
+        # Match date range pattern (e.g. _18500101-18500201_) and check if captured start year is pre-1900
+        match = re.search(r'_(\d{4})\d{4}-\d{8}_', os.path.basename(filepath))
+        if not match or match.group(1) >= '1900':
+            continue
+
+        try:
+            import netCDF4 as nc
+            with nc.Dataset(filepath) as ds:
+                # Corrected pre-1900 files have negative offsets relative to 1900; uncorrected values remain >= 0
+                time_var = ds.variables.get('time_counter')
+                if time_var and '1900' in getattr(time_var, 'units', '') and time_var[0] >= 0:
+                    garbled_files.append(filepath)
+        except Exception:
+            pass
+
+    return garbled_files
