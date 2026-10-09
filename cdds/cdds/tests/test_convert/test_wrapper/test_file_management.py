@@ -1,11 +1,12 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Tests of mip_convert_wrapper.file_management"""
 import os
 
 from cdds.common.plugins.plugin_loader import load_plugin
 
-from cdds.convert.mip_convert_wrapper.file_management import get_paths, copy_to_staging_dir, link_data, filter_streams
+from cdds.convert.mip_convert_wrapper.file_management import (get_paths, copy_to_staging_dir, link_data,
+                                                              filter_streams, find_stream_prefix)
 from cdds.tests.test_convert.test_wrapper.test_file_processors import ATMOS_MONTHLY_FILENAMES, OCEAN_FILENAMES
 from metomi.isodatetime.data import TimePoint, Calendar
 from unittest import main, mock, TestCase
@@ -440,6 +441,7 @@ class TestMisc(TestCase):
             '/foo/bar/cice_bh819i_1m_20461101-20461201.nc',
             '/foo/bar/nemo_bh819o_1m_21490901-21491001_grid-U.nc',
             '/foo/bar/medusa_bh819o_1m_22450601-22450701_diad-T.nc',
+            '/foo/bar/jules_trendy0p5_1m_199001-199012_native.nc',
         ]
         self.assertEqual(['/foo/bar/bh819a.p41997apr.pp'], filter_streams(filelist, 'ap4'))
         self.assertEqual([], filter_streams(filelist, 'ap5'))
@@ -449,6 +451,10 @@ class TestMisc(TestCase):
             '/foo/bar/nemo_bh819o_1m_21490901-21491001_grid-U.nc',
             '/foo/bar/medusa_bh819o_1m_22450601-22450701_diad-T.nc'], filter_streams(filelist, 'onm'))
         self.assertEqual(['/foo/bar/cice_bh819i_1m_20461101-20461201.nc'], filter_streams(filelist, 'inm'))
+        self.assertEqual(['/foo/bar/jules_trendy0p5_1m_199001-199012_native.nc'], filter_streams(filelist, 'lnm'))
+
+    def test_find_stream_prefix_jules(self):
+        self.assertEqual('ln', find_stream_prefix('UKESM1-3-LL', 'lnm'))
 
 
 if __name__ == '__main__':

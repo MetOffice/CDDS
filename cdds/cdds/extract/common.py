@@ -831,6 +831,8 @@ def stream_file_template(stream, model_workflow_id):
                               'medusa_{}o_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
     elif stream.startswith('i'):
         filename_templates = ['cice_{}i_1{}_*'.format(model_workflow_id.split('-')[1], stream[2])]
+    elif stream.startswith('l'):
+        filename_templates = ['jules_*_1{}_*'.format(stream[2])]
     else:
         raise RuntimeError('Unknown stream type')
     return filename_templates
