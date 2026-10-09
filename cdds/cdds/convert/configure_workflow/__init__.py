@@ -140,6 +140,57 @@ def run_cdds_convert(arguments: ConvertArguments, request: "Request") -> None:
         workflow_manager.run_workflow()
 
 
+def remove_orphaned_tasks(request: "Request", request_path: str) -> None:
+    """Remove the orphaned tasks from a running conversion workflow.
+
+    A task is orphaned when all of the variables of its component have been deactivated,
+    so that the component no longer has a |user configuration file| and there is nothing
+    left for the task to convert. Such tasks are removed by regenerating the templated
+    workflow from the |user configuration files| currently on disk, then reinstalling and
+    reloading it. Any tasks that have already been spawned are unaffected.
+
+    Parameters
+    ----------
+    request : Request
+        The request information of 'cdds_convert'
+    request_path : str
+        The full path to the request configuration file.
+    """
+    arguments = ConvertArguments(request_path=request_path)
+    arguments = add_user_config_data_files(arguments, request)
+
+    stream_components = StreamComponents(arguments, request)
+    stream_components.build_stream_components()
+    stream_components.validate_streams()
+
+    stream_variables = stream_jinja2_variables(request, stream_components)
+
+    single_tasks = [
+        stream for stream in stream_components.active_streams
+        if StreamModelParameters(request=request, stream=stream, components=stream_components).is_single_run
+    ]
+
+    workflow_configuration = ConfigureTemplateVariables(
+        arguments,
+        request,
+        stream_variables,
+        single_tasks,
+    )
+
+    workflow_manager = WorkflowManager(request, workflow_configuration)
+    # The orphaned tasks must be determined before the templated workflow is recreated.
+    orphaned_tasks = workflow_manager.orphaned_tasks()
+    workflow_manager.checkout_convert_workflow()
+    workflow_manager.update()
+    workflow_manager.refresh_workflow()
+
+    logger = logging.getLogger(__name__)
+    if orphaned_tasks:
+        logger.info('Removed orphaned tasks: {}'.format(', '.join(orphaned_tasks)))
+    else:
+        logger.info('No orphaned tasks found')
+
+
 def stream_jinja2_variables(request, stream_components):
     jijna2_variables = {}
 
