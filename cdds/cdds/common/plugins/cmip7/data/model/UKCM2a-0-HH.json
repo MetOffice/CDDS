@@ -156,7 +156,8 @@
       "levels": 75,
       "replacement_coordinate_files": [
         "nemo_eORCA12_grid-U.nc",
-        "nemo_eORCA12_grid-V.nc"
+        "nemo_eORCA12_grid-V.nc",
+        "si3_eORCA12_icemod.nc"
       ],
       "ancil_filenames": [
         "ocean_basin.nc",
