@@ -3,7 +3,6 @@
 """The :mod:`mass` module interact with the MASS archiving system."""
 import logging
 import subprocess
-import re
 
 from cdds.common.mass_exception import (MassError, DirAlreadyExistMassError, FileNotExistMassError,
                                         VariableArchivingError, MassFailure, MooseNotLoggedInError)
@@ -261,7 +260,7 @@ def mass_list_files_recursively(mass_path, simulation):
         if m[0] == 'F':
             elems = [s1 for s1 in m.split()]
             (mip, institution, model, experiment, variant, mip_table, variable, grid, status,
-             timestamp, filename) = elems[8].split('/')[-11:]
+             timestamp, filename) = elems[6].split('/')[-11:]
             if filename.endswith('.nc'):
                 dataset_id = '{}.{}.{}.{}.{}.{}.{}.{}.{}'.format(
                     'CMIP6', mip, institution, model, experiment, variant, mip_table, variable, grid)
@@ -272,9 +271,9 @@ def mass_list_files_recursively(mass_path, simulation):
                         'files': []
                     }
                 datasets[dataset_id]['files'].append({
-                    'filesize': elems[4],
+                    'filesize': elems[2],
                     'filename': filename,
-                    'mass_path': elems[8]
+                    'mass_path': elems[6]
                 })
     return datasets
 
