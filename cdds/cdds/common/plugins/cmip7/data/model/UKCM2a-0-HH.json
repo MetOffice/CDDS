@@ -155,8 +155,11 @@
       "latitude": 3604,
       "levels": 75,
       "replacement_coordinate_files": [
+        "nemo_eORCA12_diaptr.nc",
+        "nemo_eORCA12_grid-T.nc",
         "nemo_eORCA12_grid-U.nc",
-        "nemo_eORCA12_grid-V.nc"
+        "nemo_eORCA12_grid-V.nc",
+        "nemo_eORCA12_grid-W.nc"
       ],
       "ancil_filenames": [
         "ocean_basin.nc",
