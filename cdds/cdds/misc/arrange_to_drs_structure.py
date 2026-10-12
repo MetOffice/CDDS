@@ -132,25 +132,25 @@ def create_esgf_path(output_root: str, file: str, cv_config: CVConfig, request: 
         value = search_path_facets(request, attr, filename_attrs)
         esgf_path.append(value)
 
-    filename_str = []
+    filename_as_list = []
     for attr in drs_filename_elem:
         if attr == "time-range" and search_path_facets(request, attr, filename_attrs) is None:
             continue
         value = search_path_facets(request, attr, filename_attrs)
-        filename_str.append(value)
-    filename_str = "_".join(filename_str) + file_suffix
+        filename_as_list.append(value)
+    filename_str = "_".join(filename_as_list) + file_suffix
     esgf_path.append(filename_str)
 
     return "/".join(esgf_path)
 
 
-def identify_filename_attrs(filename: str, cv_config: CVConfig) -> dict:
+def identify_filename_attrs(filename: list, cv_config: CVConfig) -> dict:
     """Identifies attributes nly available through the filename (e.g. variable_id, frequency, grid_label etc).
 
     Parameters
     ----------
-    filename: str
-        The filename as a string.
+    filename: list
+        The filename as a list of strings split on an `_`.
     cv_config: CVConfig
         The cv_config associated with the plugin given in the request.
 
