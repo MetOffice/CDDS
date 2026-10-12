@@ -14,16 +14,21 @@ use `cdds_store` to archive to MASS please ensure this is completed before movin
 import logging
 import argparse
 import os
+import re
 
 from pathlib import Path
-from datetime import datetime
 
 from cdds.common.request.request import read_request, Request
-from cdds.common.plugins.plugins import PluginStore, CddsPlugin
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common import configure_logger
-from cdds.common.request.validations.cv_validators import CVValidatorFactory
 
 from mip_convert.configuration.cv_config import CVConfig
+
+ALTERNATIVE_FACET_NAMES = {
+    "activity_id": "mip",
+    "source_id": "model_id",
+    "version": "data_version"
+}
 
 
 def arg_parser() -> argparse.Namespace:
@@ -71,82 +76,146 @@ def get_logger(request: Request, plugin) -> logging.Logger:
     return logging.getLogger(__name__)
 
 
-def create_esgf_root_dir(plugin: CddsPlugin, request: Request, output_root: str) -> str:
-    """Creates an empty, new esgf compliant root path structure.
+def search_path_facets(request: Request, attr: str, filename_attrs: dict) -> str:
+    """Looks at the request and filename structure to identify the value of the attributes defined in the CV template.
 
     Parameters
     ----------
-    plugin: CddsPlugin
-        The CDDS plugin.
     request: Request
         The CDDS request.
-    output_root: str
-            The base directory that the esgf compliant directory structure will be created within.
+    attr: str
+        The attribute to find the value of.
+    filename_attrs: dict
+        The attributes identified directly from the filename as they are not available in the request.
+        (e.g. grid_label/ frequency, variable_id etc).
 
     Returns
     -------
     str
-        The esgf compliant root directory structure.
+        The value of the attribute.
     """
-    cv_to_request_attr_mapping = {
-        "drs_specs": request.netcdf_global_attributes.attributes.get("drs_specs"),
-        "mip_era": request.metadata.mip_era,
-        "activity_id": request.metadata.mip,
-        "institution_id": request.metadata.institution_id,
-        "source_id": request.metadata.model_id,
-        "experiment_id": request.metadata.experiment_id,
-        "variant_label": request.metadata.variant_label,
+    value = request.items.get(attr)
+    if value is None:
+        value = request.items.get(ALTERNATIVE_FACET_NAMES.get(attr))
+    if value is None:
+        value = filename_attrs.get(attr)
+
+    return value
+
+
+def create_esgf_path(output_root: str, file: str, cv_config: CVConfig, request: Request) -> str:
+    """Creates an empty, new esgf compliant root path structure.
+
+    Parameters
+    ----------
+    output_root: str
+        The base directory that the esgf compliant directory structure will be created within.
+    file: str
+        The file to create a new path structure for.
+    cv_config: CVConfig
+        The cv_config associated with the plugin given in the request.
+    request: Request
+        The CDDS request.
+
+    Returns
+    -------
+    str
+        The esgf compliant path.
+    """
+    drs_dir_elem = re.split('[<>]+', cv_config.get_collection('DRS')['directory_path_template'])[1:-1]
+    drs_filename_elem = re.split('[<>]+', cv_config.get_collection('DRS')['filename_template'])[1:-1] + ['time-range']
+    file_suffix = f".{file.split('.')[-1]}"
+    filename_attrs = identify_filename_attrs(file.strip(file_suffix).split("/")[-1].split("_"), cv_config)
+
+    esgf_path = [output_root]
+    for attr in drs_dir_elem:
+        value = search_path_facets(request, attr, filename_attrs)
+        esgf_path.append(value)
+
+    filename_str = []
+    for attr in drs_filename_elem:
+        if attr == "time-range" and search_path_facets(request, attr, filename_attrs) is None:
+            continue
+        value = search_path_facets(request, attr, filename_attrs)
+        filename_str.append(value)
+    filename_str = "_".join(filename_str) + file_suffix
+    esgf_path.append(filename_str)
+
+    return "/".join(esgf_path)
+
+
+def identify_filename_attrs(filename: str, cv_config: CVConfig) -> dict:
+    """Identifies attributes nly available through the filename (e.g. variable_id, frequency, grid_label etc).
+
+    Parameters
+    ----------
+    filename: str
+        The filename as a string.
+    cv_config: CVConfig
+        The cv_config associated with the plugin given in the request.
+
+    Returns
+    -------
+    dict
+        Filename attributes and their values.
+    """
+    grids = list(cv_config.get_collection("grid_label").keys())
+    freqs = list(cv_config.get_collection("frequency").keys())
+    timerange_regex = r'^\d{6,8}-\d{6,8}'
+    branding_regex = r'[A-Za-z0-9]+(?:-[A-Za-z0-9]+){3}'
+    timerange = None  # Fixed files will not present with a time range.
+
+    for item in filename:
+        if item == filename[0]:
+            variable_id = item
+        if item in grids:
+            grid_label = item
+        if item in freqs:
+            frequency = item
+        if re.fullmatch(timerange_regex, item):
+            timerange = item
+        if re.fullmatch(branding_regex, item):
+            branding_suffix = item
+
+    return {
+        "grid_label": grid_label,
+        "frequency": frequency,
+        "time-range": timerange,
+        "branding_suffix": branding_suffix,
+        "variable_id": variable_id
     }
-    cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(request.metadata.mip_era))
-    CVValidatorFactory.path_validator()(cv_path)
-    cv_config = CVConfig(cv_path)
-
-    esgf_root_dir_attrs = [output_root]
-    for attr in cv_config.drs_directory_template.split("/"):
-        attr = attr.lstrip("<").rstrip(">")
-        # Stop forming the root dir if the loop encounters any variable specific attributes
-        if attr in ("region", "frequency", "variable_id", "branding_suffix", "grid_label", "version"):
-            break
-        try:
-            esgf_root_dir_attrs.append(cv_to_request_attr_mapping.get(attr).strip())
-        except AttributeError as err:
-            if "'NoneType' object has no attribute 'strip'" in str(err):
-                raise RuntimeError(f"Key path attribute `{attr}` missing from request file.")
-            else:
-                raise AttributeError(err)
-
-    return "/".join(esgf_root_dir_attrs)
 
 
-def rearrange_files(files: list, esgf_path_root: str, command: str) -> None:
+def rearrange_files(files: list, root: str, cv_config: CVConfig, request: Request, command: str) -> None:
     """Rearranges all files into the new esgf compliant directory structure.
 
     Parameters
     ----------
     files: list
         The files to rearrange.
-    esgf_path_root: str
-        The esgf compliant root directory structure as created by `create_esgf_root_dir()`.
+    root: str
+        The root directory to form the ESGF directory structure from.
+    cv_config: CVConfig
+        The cv_config associated with the plugin given in the request.
+    request: Request
+        The CDDS request.
     command: str
         'mv' or 'ln -s'. Determines whether files will be moved to the new structure or symbolically linked.
     """
     logger = logging.getLogger(__name__)
-    version = f"v{datetime.today().strftime('%Y%m%d')}"
     for old_path in files:
-        filename = old_path.split("/")[-1]  # This already exists in the expected format
-
-        # Construct new ESGF compliant path
-        var_id, branding, freq, region, grid = filename.split("_")[:5]
-        new_path = esgf_path_root + f"/{region}/{freq}/{var_id}/{branding}/{grid}/{version}/{filename}"
+        new_path = create_esgf_path(root, old_path, cv_config, request)
 
         # Rearrange files
-        os.makedirs(new_path, exist_ok=True)
-        if command == "mv":
-            logger.info(f"moving `{old_path}` to `{new_path}`")
-            os.rename(old_path, new_path)
-        elif command == "ln -s":
-            logger.info(f"symbolic linking `{old_path}` `{new_path}`")
-            os.symlink(old_path, new_path)
+        logger.info(f"{command} `{old_path}` to `{new_path}`")
+        os.makedirs(os.path.dirname(new_path), exist_ok=True)
+        if command == "move":
+            os.rename(os.path.abspath(old_path), os.path.abspath(new_path))
+        else:
+            if os.path.lexists(os.path.abspath(new_path)):
+                print(f"Already exists: {new_path}")
+                continue
+            os.symlink(os.path.abspath(old_path), os.path.abspath(new_path))
 
 
 def main_arrange_to_esgf():
@@ -165,10 +234,13 @@ def main_arrange_to_esgf():
                 datafiles.append(f"{root}/{filename}")
     logger.info(f"Found {len(datafiles)} files in {cdds_output_data_path}...")
 
-    esgf_path_root = create_esgf_root_dir(plugin, request, args.output_root_dir)
-    if args.move:
-        logger.info(f"Moving {len(datafiles)} to root path {esgf_path_root}")
-        rearrange_files(datafiles, esgf_path_root, "mv")
+    mip_era = request.metadata.mip_era
+    if request.common.mip_table_dir:
+        cv_path = os.path.join(request.common.mip_table_dir, '{}_CV.json'.format(mip_era))
     else:
-        logger.info(f"Symbolic linking {len(datafiles)} to root path {esgf_path_root}")
-        rearrange_files(datafiles, esgf_path_root, "ln -s")
+        plugin = PluginStore.instance().get_plugin()
+        cv_path = os.path.join(plugin.mip_table_dir(), '{}_CV.json'.format(mip_era))
+    cv_config = CVConfig(cv_path)
+
+    command = "move" if args.move else "symbolic link"
+    rearrange_files(datafiles, args.output_root_dir, cv_config, request, command)
