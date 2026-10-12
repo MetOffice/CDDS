@@ -19,7 +19,7 @@ import re
 from pathlib import Path
 
 from cdds.common.request.request import read_request, Request
-from cdds.common.plugins.plugins import PluginStore
+from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 from cdds.common import configure_logger
 
 from mip_convert.configuration.cv_config import CVConfig
@@ -50,14 +50,14 @@ def arg_parser() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def get_logger(request: Request, plugin) -> logging.Logger:
+def get_logger(request: Request, plugin: CddsPlugin) -> logging.Logger:
     """Configures and set up the log name ready for use.
 
     Parameters
     ----------
     request: Request
         The request configuration file.
-    plugin:
+    plugin: CddsPlugin
         The plugin.
 
     Returns
