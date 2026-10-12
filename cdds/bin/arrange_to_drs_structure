@@ -3,7 +3,7 @@
 # Please see LICENSE.md for license details.
 import sys
 
-from cdds.misc.arrange_cdds_struc_to_esgf import main_arrange_to_esgf
+from cdds.misc.arrange_to_drs_structure import main_arrange_to_esgf
 
 
 if __name__ == '__main__':
