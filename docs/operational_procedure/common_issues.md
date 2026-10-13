@@ -135,7 +135,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     Run `prepare_generate_variable_list` with the `-t` flag:
     
     ```
-    prepare_generate_variable_list <request_config_file> --t
+    prepare_generate_variable_list <request_config_file> -t
     ```
     
     This command will:
