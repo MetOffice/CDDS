@@ -4,12 +4,12 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
 === "MOHC"
 
-    ### 1. MASS error OPERATION_FAILED
+    ## 1. MASS error OPERATION_FAILED
 
     We think this means that MASS is struggling to handle the complexity of a select command. 
     Until further notice use the following process to work around this.
 
-    #### Deactivate a set of variables in the corresponding stream.
+    #### Deactivate a set of variables in the corresponding stream:
 
     Edit the variables file indicated in the request file and prefix a number of lines (e.g. 10) with `#` and
     then run the command
@@ -27,7 +27,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
         We are working on updates to ensure that workflows are updated when variables are removed 
         and this should appear in CDDS in the near future.
 
-    ### 2. Error time_bnds have gaps between them
+    ## 2. Error time_bnds have gaps between them
 
     e.g.
 
@@ -49,7 +49,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
 
-    ### 3. Extract validation failure
+    ## 3. Extract validation failure
 
     e.g. the following appears in the extract_validate log for the ap5 stream
 
@@ -91,7 +91,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     To continue, please set the task as succeeded by hitting left click on the task in the cylc UI and selecting `set`. The workflow should automatically continue. 
 
 
-    ### 4. Extract validation "potential missing STASH code 33" warning
+    ## 4. Extract validation "potential missing STASH code 33" warning
 
     e.g.
 
@@ -102,7 +102,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
 
 
-    ### 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
+    ## 5. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
 
     e.g.
 
@@ -132,10 +132,10 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     
     ### Solution
     
-    Run `prepare_generate_variable_list` with the `--remove-orphaned-tasks` flag:
+    Run `prepare_generate_variable_list` with the `-t` flag:
     
     ```
-    prepare_generate_variable_list <request_config_file> --remove-orphaned-tasks
+    prepare_generate_variable_list <request_config_file> -t
     ```
     
     This command will:
@@ -146,7 +146,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     
     If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
 
-    ### 7. MIP Convert failure: Input date values do not match filenames
+    ## 7. MIP Convert failure: Input date values do not match filenames
 
     e.g.
 
@@ -164,7 +164,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
 === "JASMIN"
 
-    ### 1. Error time_bnds have gaps between them
+    ## 1. Error time_bnds have gaps between them
 
     e.g.
 
@@ -186,7 +186,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     If this error occurs for a large number of variables within any given stream, please contact a member of the CDDS team for suppport.
 
-    ### 2. Extract validation failure
+    ## 2. Extract validation failure
 
     e.g. the following appears in the extract_validate log for the ap5 stream
 
@@ -228,7 +228,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     To continue, please set the task as succeeded either by hitting left click on the task in the cylc ui and selecting `set`. The workflow should automatically continue. 
 
 
-    ### 3. Extract validation "potential missing STASH code 33" warning
+    ## 3. Extract validation "potential missing STASH code 33" warning
 
     e.g.
 
@@ -239,7 +239,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     This means that CDDS has identified an inconsistency surrounding STASH code 33 (orography). This is a warning rather than an error since orography is sometimes sourced from an ancil file and may not be present in all input files. This is only an issue if you are expecting your input files to include orography.
 
 
-    ### 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
+    ## 4. QC task failure: `Cannot retrieve further_info_url` (exclusive to CMIP6/CMIP6Plus/GCModelDev processing)
 
     e.g.
 
@@ -256,7 +256,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     1. If you have only processed a small amount of data (for instance if you're just experimenting), you can rerun the workflow with the corrected `request.cfg` file (see above).
     2. If you don't wish to process the data from scratch again, contact the CDDS team and we can provide you with a script that you can run on your processed outputs that will fix them. You can then retrigger the QC step that previously failed and it should pass.
 
-    ### 5. `mip_convert` tasks failing or timing out on JASMIN
+    ## 5. `mip_convert` tasks failing or timing out on JASMIN
 
     For heavy streams (e.g. `ap4`), tasks submitted under `--qos = short` may exceed queue walltime or memory limits:
 
@@ -289,7 +289,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
        ```
     4. Retrigger the failed task.
 
-    ### 6. Tasks fail with `command not found` or environment conflicts on `localhost` (e.g. `finaliser`)
+    ## 6. Tasks fail with `command not found` or environment conflicts on `localhost` (e.g. `finaliser`)
 
     If tasks running on `localhost` (such as `finaliser_<stream>`) fail with errors like `metomi: command not found` or library clashes, check your `~/.bashrc`.
 
@@ -327,7 +327,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
 
-    ### 8. MIP Convert failure: Input date values do not match filenames
+    ## 8. MIP Convert failure: Input date values do not match filenames
 
     e.g.
 
