@@ -159,7 +159,8 @@
         "nemo_eORCA12_grid-T.nc",
         "nemo_eORCA12_grid-U.nc",
         "nemo_eORCA12_grid-V.nc",
-        "nemo_eORCA12_grid-W.nc"
+        "nemo_eORCA12_grid-W.nc",
+        "si3_eORCA12_icemod.nc"
       ],
       "ancil_filenames": [
         "ocean_basin.nc",
