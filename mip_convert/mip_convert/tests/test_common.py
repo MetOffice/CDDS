@@ -9,7 +9,7 @@ import unittest
 
 import cf_units
 import iris
-import netCDF4 as nc
+import netCDF4 
 import numpy as np
 
 from mip_convert.common import (check_values_equal,
@@ -407,7 +407,7 @@ class TestFindGarbledNemoFiles(unittest.TestCase):
     # Write minimal NetCDF input with time metadata for garbled-coordinate checks.
     def _create_nc(self, filename, time_units, time_val):
         path = os.path.join(self.test_dir, filename)
-        with nc.Dataset(path, 'w', format='NETCDF4') as ds:
+        with netCDF4.Dataset(path, 'w', format='NETCDF4') as ds:
             ds.createDimension('time_counter', 1)
             var = ds.createVariable('time_counter', 'f8', ('time_counter',))
             var.units = time_units
