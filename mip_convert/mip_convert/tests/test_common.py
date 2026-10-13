@@ -5,7 +5,7 @@
 
 import cf_units
 import iris
-import netCDF4 
+import netCDF4
 import numpy as np
 import unittest
 import os
