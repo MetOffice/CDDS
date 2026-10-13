@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 """The :mod:`constants` module contains constants (values that should never
 be changes by a user and exist for readability and maintainability
@@ -42,6 +42,11 @@ STREAMS_FILES_REGEX = {
           r'(?P<grid>[a-zA-Z-]+).nc',
     'in': r'(?P<model>cice|si3)_(?P<suite_id>[a-z]{2}[0-9]{3})(\-[ripf0-9]+)?i_'
           r'(?P<period>\d[md])_(?P<start_str>\d{8})-(?P<end_str>\d{8})(?P<grid>[a-zA-Z-_]+)?.nc',
+    # The JULES filename convention is still being agreed with the JULES team, so the run
+    # configuration and grid portions of the name are matched permissively.
+    'ln': r'jules_(?P<suite_id>[a-zA-Z0-9.]+)_'
+          r'(?P<period>\d[md])_(?P<start_str>\d{6})-(?P<end_str>\d{6})_'
+          r'(?P<grid>[a-zA-Z0-9-]+).nc',
 }
 TASK_STATUS_COMPLETE = 'COMPLETE'
 TASK_STATUS_FAILED = 'FAILED'

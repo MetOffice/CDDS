@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2024-2025, Met Office.
+# (C) British Crown Copyright 2024-2026, Met Office.
 # Please see LICENSE.md for license details.
 from unittest import TestCase
 
@@ -7,6 +7,7 @@ from mip_convert.plugins.exceptions import PluginLoadError
 from mip_convert.plugins.plugins import MappingPluginStore
 from mip_convert.plugins.plugin_loader import load_mapping_plugin, load_external_mapping_plugin
 from mip_convert.plugins.hadgem3.hadgem3_plugin import HadGEM3MappingPlugin
+from mip_convert.plugins.jules.jules_plugin import JULESMappingPlugin
 
 
 class TestLoadHadGEM3MappingPlugin(TestCase):
@@ -21,6 +22,12 @@ class TestLoadHadGEM3MappingPlugin(TestCase):
         load_mapping_plugin('HadGEM3')
         plugin = MappingPluginStore.instance().get_plugin()
         self.assertIsInstance(plugin, HadGEM3MappingPlugin)
+        self.assertTrue(MappingPluginStore.instance().has_plugin_loaded())
+
+    def test_load_jules_mapping_plugin(self):
+        load_mapping_plugin('JULES')
+        plugin = MappingPluginStore.instance().get_plugin()
+        self.assertIsInstance(plugin, JULESMappingPlugin)
         self.assertTrue(MappingPluginStore.instance().has_plugin_loaded())
 
     def test_load_unknown_mapping_plugin(self):

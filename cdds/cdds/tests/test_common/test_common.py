@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2018-2025, Met Office.
+# (C) British Crown Copyright 2018-2026, Met Office.
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """Tests for :mod:`common.py`."""
@@ -8,8 +8,9 @@ import unittest
 import re
 
 from cdds.common.constants import APPROVED_VARS_DATETIME_REGEX, APPROVED_VARS_DATETIME_STREAM_REGEX
-from cdds.common import (construct_string_from_facet_string, netCDF_regexp, get_most_recent_file,
-                         get_most_recent_file_by_stream, generate_datestamps_pp, generate_datestamps_nc)
+from cdds.common import (construct_string_from_facet_string, netCDF_regexp, jules_netCDF_regexp,
+                         get_most_recent_file, get_most_recent_file_by_stream, generate_datestamps_pp,
+                         generate_datestamps_nc)
 
 from metomi.isodatetime.data import Calendar
 from metomi.isodatetime.parsers import TimePointParser
@@ -82,6 +83,23 @@ class TestNetcdfRegexp(unittest.TestCase):
         self.assertEqual('24391201', match["start"])
         self.assertEqual('24400101', match["end"])
         self.assertEqual('grid-W', match["substream"])
+
+    def test_match_jules_regexp_with_jules_filename(self):
+        filename = 'jules_trendy0p5_1m_199001-199012_native.nc'
+        regexp = jules_netCDF_regexp()
+        match = re.search(regexp, filename)
+        self.assertIsNotNone(match)
+        self.assertEqual('jules', match["model"])
+        self.assertEqual('trendy0p5', match["suite"])
+        self.assertEqual('199001', match["start"])
+        self.assertEqual('199012', match["end"])
+        self.assertEqual('native', match["substream"])
+
+    def test_nomatch_jules_regexp_with_nemo_filename(self):
+        filename = 'nemo_aw310o_1m_24391201-24400101_grid-W.nc'
+        regexp = jules_netCDF_regexp()
+        match = re.search(regexp, filename)
+        self.assertIsNone(match)
 
 
 class TestGetRecentFile(unittest.TestCase):

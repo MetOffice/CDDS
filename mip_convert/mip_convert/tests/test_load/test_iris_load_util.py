@@ -464,6 +464,12 @@ class TestSplittingFilename(unittest.TestCase):
         self.assertEqual('cice', model_component)
         self.assertIsNone(substream)
 
+    def test_jules_filename(self):
+        model_component, substream = split_netCDF_filename(
+            'jules_trendy0p5_1m_199001-199012_native.nc')
+        self.assertEqual('jules', model_component)
+        self.assertEqual('native', substream)
+
 
 class TestRechunking(unittest.TestCase):
 
