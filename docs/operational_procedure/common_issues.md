@@ -156,7 +156,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     ### Cause
 
-    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert`failures.
+    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert` failures.
 
     ### Solution
 
@@ -337,7 +337,7 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
     ### Cause
 
-    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert`failures.
+    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert` failures.
 
     ### Solution
 
