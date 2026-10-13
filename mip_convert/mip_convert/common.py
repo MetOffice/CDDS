@@ -1088,12 +1088,22 @@ def replace_coordinates(cube: Cube, replacement_coordinates: CubeList) -> None:
     replacement_coordinates : :class:`iris.cube.CubeList`
         the area cubes containing the replacement coordinates
     """
+    # For every replacement coordinate file listed in the model config, the cubes are loaded creating a cube list
+    # `replacement_coordinates`. For nemo this list is constrained to model_component=nemo and substream=substream
+    # before being parsed to this function. For cice and SI3 it is not.
+
+    # For every cube in the replacment coordinate cube list
     for area_cube in replacement_coordinates:
+        # For every coordinate within that cube
         for area_coord in area_cube.coords():
+            # Skip if it is a time coordinate
             if area_coord.name() == "time":
                 continue
+            # For any other coordinate, if the coordinate name is also in the data cube of the variable being processed.
+            # e.g. nat_lat, nav_long, replace the coord whose name matches.
             if cube.coords(var_name=area_coord.var_name):
                 coord = cube.coord(var_name=area_coord.var_name)
+                # Replace the data cube coord whose name matches with the corresponding replacement coord
                 coord.points = area_coord.points
                 coord.bounds = area_coord.bounds
 
