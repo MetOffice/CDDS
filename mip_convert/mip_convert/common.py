@@ -10,6 +10,7 @@ from cftime import datetime
 import iris
 from iris.cube import Cube, CubeList
 from iris.fileformats.pp import STASH
+import netCDF4
 import numpy as np
 from scipy.spatial import distance
 
@@ -1184,13 +1185,12 @@ def find_garbled_nemo_files(file_paths):
             continue
 
         try:
-            import netCDF4 as nc
-            with nc.Dataset(filepath) as ds:
-                time_var = ds.variables.get('time_counter')
+            with netCDF4.Dataset(filepath) as dataset:
+                time_var = dataset.variables.get('time_counter')
                 if time_var is None:
                     continue
                 # Convert decoded date to filename's YYYYMMDD string format for comparison.
-                time_date = nc.num2date(time_var[0], time_var.units).strftime('%Y%m%d')
+                time_date = netCDF4.num2date(time_var[0], time_var.units).strftime('%Y%m%d')
                 if time_date < match.group(1) or time_date > match.group(2):
                     garbled_files.append(filepath)
         except Exception:
