@@ -64,6 +64,11 @@ class CVConfig(JSONConfig):
         """Return all the |MIPs| specified by the CV file."""
         return self._get_values_from_cv(CVKey.ACTIVITY_ID)
 
+    @property
+    def drs_directory_template(self):
+        """Returns the DRS directory template specified by the CV file."""
+        return self.config['CV']['DRS'].get("directory_path_template")
+
     def activity_id(self, experiment_id):
         """Return the allowed |MIPs| specified by the CV file.
 
