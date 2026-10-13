@@ -146,6 +146,22 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     
     If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
 
+    ### 7. MIP Convert failure: Input date values do not match filenames
+
+    e.g.
+
+        RuntimeError: The following input files have time coordinates outside the date ranges in their filenames.
+        These files should be corrected before retrying conversion.
+        For more information, check the "common issues" in the documentation:
+
+    ### Cause
+
+    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert` failures.
+
+    ### Solution
+
+    Correct the dates in the listed files by running `reset_time_coords.py` (contact the CDDS team and we will provide its location) on the folder containing them, then retry conversion. 
+
 === "JASMIN"
 
     ### 1. Error time_bnds have gaps between them
@@ -310,3 +326,19 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     3. Re-template, reinstall (`cylc reinstall`), and reload (`cylc reload`) the running Cylc conversion workflow so tasks for components with no remaining variables are removed from future cycle points.
 
     If the failed task is still sitting in the active cycle point, you can now set it to `succeeded` to let the workflow move on.
+
+    ### 8. MIP Convert failure: Input date values do not match filenames
+
+    e.g.
+
+        RuntimeError: The following input files have time coordinates outside the date ranges in their filenames.
+        These files should be corrected before retrying conversion.
+        For more information, check the "common issues" in the documentation:
+
+    ### Cause
+
+    Some ocean input files (e.g. NEMO pre-1900) contain date values outside the date range shown in their filenames - leading to `mip_convert` failures.
+
+    ### Solution
+
+    Correct the dates in the listed files by running `reset_time_coords.py` (contact the CDDS team and we will provide its location) on the folder containing them, then retry conversion. 

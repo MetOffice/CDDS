@@ -138,5 +138,12 @@ def convert(parameters):
 
     # Close CMOR.
     cmor_lite.close()
-    logger.info('*** Finished conversions ***')
+    if exit_code:
+        logger.info(f'Exiting with code {exit_code}')
+        if exit_code == 1:
+            logger.info('*** Conversion failed for all variables ***')
+        else:
+            logger.info('*** Some conversions failed ***')
+    else:
+        logger.info('*** Finished conversions ***')
     return exit_code
