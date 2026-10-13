@@ -2,17 +2,22 @@
 # Please see LICENSE.md for license details.
 # pylint: disable = missing-docstring, invalid-name, too-many-public-methods
 """Tests for common.py."""
+
 import cf_units
 import iris
+import netCDF4
 import numpy as np
 import unittest
 import os
+import tempfile
+import shutil
 
 from mip_convert.common import (check_values_equal,
                                 parse_to_loadables,
                                 Loadable,
                                 remove_extra_time_axis,
-                                replace_coordinates)
+                                replace_coordinates,
+                                find_garbled_nemo_files)
 from mip_convert.plugins.config import mappings_config_info
 from cdds.common.request.request import Request
 from cdds.common.request.common_section import CommonSection
@@ -428,6 +433,44 @@ class ReplaceCoordinates(unittest.TestCase):
         replace_coordinates(cube, self.replacement_coordinates)
         np.testing.assert_array_equal(cube.coord("latitude").points, replacement_cube.coord("latitude").points)
         np.testing.assert_array_equal(cube.coord("longitude").points, replacement_cube.coord("longitude").points)
+
+
+class TestFindGarbledNemoFiles(unittest.TestCase):
+    """Tests for ``find_garbled_nemo_files`` in common.py."""
+
+    def setUp(self):
+        self.test_dir = tempfile.mkdtemp()
+
+    def tearDown(self):
+        shutil.rmtree(self.test_dir, ignore_errors=True)
+
+    # Write minimal NetCDF input with time metadata for garbled-coordinate checks.
+    def _create_nc(self, filename, time_units, time_val):
+        path = os.path.join(self.test_dir, filename)
+        with netCDF4.Dataset(path, 'w', format='NETCDF4') as ds:
+            ds.createDimension('time_counter', 1)
+            var = ds.createVariable('time_counter', 'f8', ('time_counter',))
+            var.units = time_units
+            var[:] = [time_val]
+        return path
+
+    def test_time_coordinate_outside_filename_dates(self):
+        path = self._create_nc(
+            'nemo_dv623o_1m_18980101-18980201_grid-T.nc',
+            'seconds since 1900-01-01 00:00:00',
+            1339200.0,
+        )
+        result = find_garbled_nemo_files([path])
+        self.assertEqual(result, [path])
+
+    def test_time_coordinate_within_filename_dates(self):
+        path = self._create_nc(
+            'nemo_dv623o_1m_18980101-18980201_grid-T.nc',
+            'seconds since 1900-01-01 00:00:00',
+            -63072000.0,
+        )
+        result = find_garbled_nemo_files([path])
+        self.assertEqual(result, [])
 
 
 if __name__ == '__main__':
