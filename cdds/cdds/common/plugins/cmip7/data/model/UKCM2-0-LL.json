@@ -221,7 +221,8 @@
         "nemo_eORCA1_grid-T.nc",
         "nemo_eORCA1_grid-U.nc",
         "nemo_eORCA1_grid-V.nc",
-        "nemo_eORCA1_grid-W.nc"
+        "nemo_eORCA1_grid-W.nc",
+        "si3_eORCA1_icemod.nc"
       ],
       "ancil_filenames": [
         "nemo_eORCA1_grid-V.nc",
