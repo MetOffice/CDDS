@@ -215,7 +215,7 @@ def load_cubes(all_input_data, run_bounds, loadable, ancil_variables):
             error_msg = (
                 'The following input files have time coordinates outside the date ranges in their filenames.\n'
                 'These files should be corrected before retrying conversion.\n'
-                f'For more information, contact the CDDS team:\n{file_list}'
+                f'For more information, check "common issues" in the documentation:\n{file_list}'
             )
             raise RuntimeError(error_msg)
         error_msg = 'No cubes found using constraints "{}" within "{}"'
