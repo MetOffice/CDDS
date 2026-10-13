@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2019-2025, Met Office.
+# (C) British Crown Copyright 2019-2026, Met Office.
 # Please see LICENSE.md for license details.
 """Tests of mip_convert_wrapper.file_management"""
 import unittest
@@ -10,7 +10,7 @@ from cdds.common.plugins.plugin_loader import load_plugin
 from cdds.convert.constants import STREAMS_FILES_REGEX
 from cdds.convert.mip_convert_wrapper.file_processors import (
     parse_atmos_monthly_filename, parse_atmos_submonthly_filename,
-    parse_ocean_seaice_filename, parse_atmos_hourly_filename
+    parse_ocean_seaice_filename, parse_atmos_hourly_filename, parse_jules_filename
 )
 
 ATMOS_MONTHLY_FILENAMES = [
@@ -252,6 +252,17 @@ class TestProcessors(unittest.TestCase):
         expected_start = TimePoint(year=1997, month_of_year=1, day_of_month=1, hour_of_day=0)
         expected_end = TimePoint(year=1997, month_of_year=1, day_of_month=1, hour_of_day=1)
         expected_suite_id = 'aw310'
+        self.assertEqual(output_file_dict['start'], expected_start)
+        self.assertEqual(output_file_dict['end'], expected_end)
+        self.assertEqual(output_file_dict['suite_id'], expected_suite_id)
+
+    def test_parse_jules_filename(self):
+        test_pattern = re.compile(STREAMS_FILES_REGEX['ln'])
+        output_file_dict = parse_jules_filename('jules_trendy0p5_1m_199001-199012_native.nc', test_pattern)
+        expected_start = TimePoint(year=1990, month_of_year=1, day_of_month=1)
+        # End month in the filename is inclusive.
+        expected_end = TimePoint(year=1991, month_of_year=1, day_of_month=1)
+        expected_suite_id = 'trendy0p5'
         self.assertEqual(output_file_dict['start'], expected_start)
         self.assertEqual(output_file_dict['end'], expected_end)
         self.assertEqual(output_file_dict['suite_id'], expected_suite_id)
