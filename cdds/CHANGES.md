@@ -2,7 +2,7 @@
 
 -   `cdds_extract` and `cdds_store` check users MASS login status prior to attempting tasks (#1085)
 -   Updates to UKCM2 and UKCM2a model configuration to include missing ocean coordinate replacement files (#1145, #1142)
--   `prepare_generate_variable_list` can now remove orphaned tasks with the `--remove-orphaned-tasks` flag (#1118)
+-   `prepare_generate_variable_list` can now remove orphaned tasks with the `--remove-orphaned-tasks` or `-t` flag (#1118)
 -   `update_variables_from_validate` can now use mip convert logs to remove variables with missing STASH if no validate logs are available (#1056)
 -   Correction to sizing limits for UKCM2a ocean data (#1125)
 -   `cdds_arrange_to_drs_structure_cmip7` utility added (#1032)
