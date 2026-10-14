@@ -7,6 +7,7 @@
 -   Correction to sizing limits for UKCM2a ocean data (#1125)
 -   `cdds_arrange_to_drs_structure_cmip7` utility added (#1032)
 -   Updates to allow for integration of the `JULES` plugin (#1134)
+-   Update to concatenation process to support sub annual file sizes with gregoiran calendar (#1147)
 
 ## Release 4.0.4, September 28, 2026
 
