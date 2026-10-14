@@ -167,10 +167,6 @@ class ConstraintConstructor(object):
         self._log_constraint('depth', depth, '<')
         return iris.Constraint(depth=lambda cell: cell < depth)
 
-    def _olevel_constraint(self, olevel):
-        self._log_constraint('olevel', olevel)
-        return iris.Constraint(olevel=olevel)
-
     def _log_constraint(self, constraint, value, comparitor='='):
         info = '{}{}{}'.format(constraint, comparitor, value)
         self.logger.debug('Adding {} to the constraints'.format(info))

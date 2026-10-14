@@ -61,9 +61,6 @@ def mappings_config_info() -> Dict[str, Dict[str, Any]]:
         'notes': {
             'python_type': str,
             'value_type': 'single'},
-        'olevel': {
-            'python_type': int,
-            'value_type': 'single'},
         'positive': {
             'python_type': str,
             'value_type': 'single'},
