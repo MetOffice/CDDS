@@ -1,3 +1,11 @@
+## Release 4.0.5. October 14, 2026
+
+-   `UKESM1p3` mappings correction to allow the processing of `meanage_tavg-al-hxy-u` (#1049)
+-   Integration of the `JULES` plugin (#1134)
+-   Improved logging for pre 1900 `NEMO` time coordinate errors (#967)
+-   Mappings update to be consistent with the CDDS-v4.0.5 tag on CDDS-CMIP7-mappings (#1155)
+-   `UKCM2` and `UKESM1p3` mappings updates to allow for the extraction of CF sites variables from MASS (#1153)
+
 ## Release 4.0.4, September 28, 2026
 
 -   No changes
