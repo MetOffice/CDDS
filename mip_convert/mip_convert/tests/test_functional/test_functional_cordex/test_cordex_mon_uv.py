@@ -46,7 +46,8 @@ class TestCordexMonUv(AbstractFunctionalTests):
                         'vas_EUR-12_HadGEM3-GC31-LL_evaluation_r1i1p1f3_MOHC_HadREM3-GA7-05_v1-r1_mon_200001-200002.nc'
                     ],
                     'ignore_history': True,
-                    'other_options': '-B'
+                    'other_options': '-B',
+                    'tolerance_value': 0.0000001  # Allow round-off in rotated-grid pyproj coordinates.
                 }
             )
         )
