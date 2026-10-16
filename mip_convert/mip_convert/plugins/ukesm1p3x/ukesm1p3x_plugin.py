@@ -12,12 +12,12 @@ from mip_convert.plugins.base.data.processors import *
 from mip_convert.plugins.ukesm1p3.data.processors import *
 
 
-class UKESM1p3MappingPlugin(BaseMappingPlugin):
+class UKESM1p3xMappingPlugin(BaseMappingPlugin):
     """Plugin for UKESM1.3x models"""
 
     def __init__(self):
         data_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data')
-        super(UKESM1p3MappingPlugin, self).__init__('UKESM1p3x', data_dir)
+        super(UKESM1p3xMappingPlugin, self).__init__('UKESM1p3x', data_dir)
 
         self.input_variables: Dict[str, iris.cube.Cube] = {}
 
