@@ -189,15 +189,27 @@ class TestMooseMove(unittest.TestCase):
         mock_move_atom.assert_called_once_with(fake_dir[0], new_dir)
 
     def test_successful_move_atom(self):
+        mock_ls = util.create_patch(
+            self, "cdds.deprecated.transfer.moo_cmd.ls")
+        mock_ls.return_value = ["moose/old/file.nc"]
         mock_dir_exists = util.create_patch(
             self, "cdds.deprecated.transfer.moo_cmd.dir_exists")
         mock_dir_exists.return_value = False
         self.xfer._move_atom("moose/old", "moose/new")
+        mock_ls.assert_called_once_with("moose/old", simulation=False)
         expected_call = [
             call("mkdir", ["-p", "moose/new"], simulation=False),
             call("mv", ["moose/old/*", "moose/new"], simulation=False),
             call("rmdir", ["--force", "moose/old"], simulation=False)]
         self.mock_moo.assert_has_calls(expected_call)
+
+    def test_empty_move_atom(self):
+        mock_ls = util.create_patch(
+            self, "cdds.deprecated.transfer.moo_cmd.ls")
+        mock_ls.return_value = [""]
+        self.xfer._move_atom("moose/old", "moose/new")
+        mock_ls.assert_called_once_with("moose/old", simulation=False)
+        self.mock_moo.assert_not_called()
 
     def fake_single_ls(self, mock_output):
         # Mock a single ls with a single fake list of output.

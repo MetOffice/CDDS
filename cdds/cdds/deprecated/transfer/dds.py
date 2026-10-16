@@ -616,6 +616,11 @@ class DataTransfer(object):
         # Moves the files contained in directory old_atom on MASS to
         # new_atom. Tidies away (now empty) directory old_atom after
         # successful move.
+        old_contents = moo_cmd.ls(old_atom, simulation=self._simulation)
+        if not any(content.strip() for content in old_contents):
+            logging.getLogger(__name__).info(
+                'Skipping move from empty MASS directory "{}"'.format(old_atom))
+            return
         if not moo_cmd.dir_exists(new_atom, simulation=self._simulation):
             moo_cmd.mkdir(new_atom, simulation=self._simulation)
         moo_cmd.mv("{}/*".format(old_atom), new_atom,
