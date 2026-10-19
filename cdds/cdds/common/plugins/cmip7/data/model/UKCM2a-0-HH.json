@@ -176,6 +176,10 @@
         "v_coord_reference"
       ],
       "bounds_coordinates": {
+        "onm-diaptr": [
+          "time_centered_bounds",
+          "depthw_bounds"
+        ],
         "onm-grid-T": [
           "bounds_nav_lon",
           "bounds_nav_lat",
