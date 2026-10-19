@@ -16,6 +16,9 @@ def mappings_config_info() -> Dict[str, Dict[str, Any]]:
         Information to be read from the |model to MIP mapping| configuration file
     """
     return {
+        'basin': {
+            'python_type': int,
+            'value_type': 'single'},
         'blev': {
             'python_type': float,
             'value_type': 'multiple'},

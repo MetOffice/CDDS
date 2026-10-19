@@ -155,6 +155,10 @@ class ConstraintConstructor(object):
         parsed_cell_methods = parse_cell_methods(cell_methods)
         return iris.Constraint(cube_func=lambda cube: cube.cell_methods == parsed_cell_methods)
 
+    def _basin_constraint(self, basin):
+        self._log_constraint('basin', basin)
+        return iris.Constraint(basin=basin)
+
     def _depth_constraint(self, depth):
         self._log_constraint('depth', depth)
         return iris.Constraint(depth=depth)
