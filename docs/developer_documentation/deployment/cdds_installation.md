@@ -96,13 +96,11 @@
     - [x] Run the following tests.
           ```bash
           echo "# Executing tests for cdds:"
-          pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ and not data_request'
+          pytest -s $SRCDIR/cdds --doctest-modules -m 'not slow and not integration and not rabbitMQ'
           pytest -s $SRCDIR/cdds -m slow
           pytest -s $SRCDIR/cdds -m integration
-          pytest -s $SRCDIR/cdds -m data_request
           echo "# Executing tests for mip_convert:"
-          pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not mappings and not superslow'
-          pytest -s $SRCDIR/mip_convert -m mappings
+          pytest -s $SRCDIR/mip_convert --doctest-modules -m 'not slow and not superslow'
           pytest -s $SRCDIR/mip_convert -m slow
           ```
     
