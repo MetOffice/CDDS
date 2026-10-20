@@ -234,10 +234,18 @@
         "ocean_zostoga.nc"
       ],
       "ancil_variables": [
+        "atlantic_arctic_ocean_1D_V_34S",
+        "atlantic_arctic_ocean_2D_V_34S",
+        "indian_pacific_ocean_1D_V_34S",
+        "indian_pacific_ocean_2D_V_34S",
         "u_coord_reference",
         "v_coord_reference"
       ],
       "bounds_coordinates": {
+        "onm-diaptr": [
+          "time_centered_bounds",
+          "depthw_bounds"
+        ],
         "onm-grid-T": [
           "bounds_nav_lon",
           "bounds_nav_lat",
