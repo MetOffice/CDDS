@@ -203,11 +203,11 @@ Each time a new CDDS release is created, the front page of [CDDS-simulation-meta
 
 2. In the "workflows" sidebar on the left side of the page, select the [Update mappings](https://github.com/UKNCSP/CDDS-simulation-metadata/actions/workflows/update_mappings.yml) workflow.
 
-3. Select the "run workflow" button on the top right hand side of the screen. Set the "use workflow from" dropdown menu to "main" if not done so automatically. Enter the most recent mappings tag as shown on [CDDS-CMIP7-mappings](https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases) (this may be in the form `vYYY-MM-DD` OR `CDDS-vX-Y-Z`). This tag must be written exactly as it is shown on [CDDS-CMIP7-mappings](https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases) otherwise the action will fail.
+3. Select the "run workflow" button on the top right hand side of the screen. Set the "use workflow from" dropdown menu to "main" if not done so automatically. Enter the most recent mappings tag as shown on [CDDS-CMIP7-mappings](https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases) (this may be in the form `vYYY-MM-DD` OR `CDDS-vX-Y-Z`) and hit "Run workflow" at the bottom right of the page. This tag must be written exactly as it is shown on [CDDS-CMIP7-mappings](https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases) otherwise the action will fail.
 !!! note
     The above step must be completed even if the "current mappings file version" at the top of the readme.md on [CDDS-simulation-metadata](https://github.com/UKNCSP/CDDS-simulation-metadata) already matches the most recent tag on [CDDS-CMIP7-mappings](https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases).
 
-4. Confirm the action has completed successfully
+4. Confirm the action has completed successfully.
 
 !!! important
     Do not attempt to manually update the readme.md by hand. This readme.md draws from a template in the repository that is populated within the `Update mappings` action: any manual updates will ultimately be lost/overwritten when the action is re run.
