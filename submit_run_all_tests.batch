@@ -13,4 +13,12 @@
 #SBATCH --time=30
 #SBATCH --wckey=CDDS
 
+if [[ -n "${CDDS_VERSION:-}" ]]; then
+    CDDS_HOME=~cdds
+    source "${CDDS_HOME}/bin/setup_env_for_cdds" "${CDDS_VERSION}" || exit 1
+    export SRCDIR="${CDDS_HOME}/conda_environments/cdds-${CDDS_VERSION}/lib/python3.12/site-packages"
+else
+    unset SRCDIR
+fi
+
 /usr/bin/time ./run_all_tests

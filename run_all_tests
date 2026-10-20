@@ -12,7 +12,8 @@ from timeit import default_timer as timer
 from datetime import timedelta
 
 CDDS_DIR = os.path.dirname(os.path.realpath(__file__))
-LOG_NAME = os.path.join(CDDS_DIR, 'cdds_test_failures.log')
+TESTS_DIR = os.path.abspath(os.environ.get('SRCDIR') or CDDS_DIR)
+LOG_NAME = os.path.join(os.path.expanduser('~'), 'cdds_test_failures.log')
 ROOT_COMMAND = 'pytest -s'
 TESTS_TO_RUN = {
     # rabbitMQ tests cannot be included here as they can only be run on systems with
@@ -97,6 +98,10 @@ def main():
     exit_code = 0
     arguments = parse_arguments()
     start = timer()
+    if not os.path.isdir(TESTS_DIR):
+        raise ValueError('Test package directory "{}" does not exist'.format(TESTS_DIR))
+    os.environ.setdefault('CDDS_DIR', CDDS_DIR)
+    print('Testing central installation supplied by $SRCDIR: {}'.format(TESTS_DIR))
     print('Using $SCRATCH ({}) for temporary large volume storage'.format(os.environ['SCRATCH']))
     # not yet implemented on Azure
     # print('Current data volume of $SCRATCH: {}'.format(du(os.environ['SCRATCH']+"/testdata")))
@@ -110,7 +115,8 @@ def main():
             command = ROOT_COMMAND.split()
             if package in ADDITIONAL_OPTS:
                 command.extend(ADDITIONAL_OPTS[package])
-            command.append(package)
+            package_path = os.path.join(TESTS_DIR, package)
+            command.append(package_path)
             if test:
                 command.extend(test.split(' ', 1))
             command_str = ' '.join(command)
