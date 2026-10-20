@@ -20,11 +20,10 @@ The version of `pytest` currently used within `cdds` is 7.1.2
 python_files = test_*.py
 python_functions = test_*
 console_output_style = progress
-addopts = -m 'not slow and not integration and not rabbitMQ and not data_request'
+addopts = -m 'not slow and not integration and not rabbitMQ'
 markers =
     slow
     rabbitMQ
-    data_request
     integration
     style
 ```
