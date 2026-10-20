@@ -26,7 +26,7 @@ def cdds_dir_env(monkeypatch):
     monkeypatch : pytest.MonkeyPatch
         object used to patch environment
     """
-    monkeypatch.setenv("CDDS_DIR", str(Path(__file__).parents[3]))
+    monkeypatch.setenv("CDDS_DIR", str(Path(__file__).parents[1]))
 
 
 @pytest.fixture
