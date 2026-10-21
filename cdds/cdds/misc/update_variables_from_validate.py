@@ -168,6 +168,7 @@ def get_vars_to_remove(root_log_type: str, logs: list[Path]) -> list[str]:
     list[str]
         The list of faulty variables to be commented out.
     """
+    vars_to_remove = []
     if root_log_type == "validate":
         faulty_variable_flag = 'As a result, these variables cannot be produced:'
     elif root_log_type == "convert":
@@ -227,6 +228,7 @@ def grep_validate_log(faulty_variable_flag: str, log_lines: list[str]) -> list[s
     list[str]
         The list of variables that cannot be produced and need to be removed from the variable list.
     """
+    truncated_log = [""]
     for i, line in enumerate(log_lines):
         # Identify the line containing the faulty variable flag and take the snippet of the log that comes after it.
         if faulty_variable_flag in line:
