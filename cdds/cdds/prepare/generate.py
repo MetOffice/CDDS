@@ -176,7 +176,12 @@ def check_variables_recognised(var_list: dict[str, Any]) -> int:
             unrecognised_variables.append(var)
 
     for x in unrecognised_variables:
-        logger.critical(f'Unrecognised variable: {x["miptable"]}/{x["label"]}{x["comments"]}')
+        if "frequency" in x:
+            msg = f"{x["miptable"]}/{x["label"]}@{x["frequency"]}; {";".join(x["comments"])}"
+            logger.critical(f'Variable set as inactive: {msg}')
+        else:
+            logger.critical(f'Variable set as inactive: {x["miptable"]}/{x["label"]}; {";".join(x["comments"])}')
+
     if unrecognised_variables:
         return 1
     else:
@@ -400,7 +405,8 @@ def resolve_requested_variables(
 
 
 class VariablesConstructor:
-    def __init__(self, request: Request, requested_variables: list[UserDefinedVariable]):
+    def __init__(self, request: Request, requested_variables: list[dict[str, Any
+                                                                        ]]):
         self.request = request
         self.requested_variables = requested_variables
 
