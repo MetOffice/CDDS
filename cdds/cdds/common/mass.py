@@ -264,9 +264,9 @@ def mass_list_files_recursively(mass_path, simulation):
              timestamp, filename) = elems[6].split('/')[-13:]
 
             if filename.endswith('.nc'):
-                dataset_id = '{}.{}.{}.{}.{}.{}.{}.{}.{}.{}'.format(
-                    'CMIP7', mip, institution, model, experiment, variant, region, frequency, f"{variable}_{suffix}",
-                    grid)
+                dataset_id = '{}.{}.{}.{}.{}.{}.{}.{}.{}.{}.{}.{}'.format(
+                    'MIP-DRS7', 'CMIP7', mip, institution, model, experiment, variant, region, frequency, variable,
+                    suffix, grid)
                 if dataset_id not in datasets:
                     datasets[dataset_id] = {
                         'status': status,

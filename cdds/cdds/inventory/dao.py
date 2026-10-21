@@ -176,6 +176,10 @@ class DBVariable(object):
         return self._data[13]
 
     @property
+    def suffix(self):
+        return self._data[16]
+
+    @property
     def status(self):
         return self._data[14]
 

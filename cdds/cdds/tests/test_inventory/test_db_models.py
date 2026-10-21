@@ -1,6 +1,7 @@
 # (C) British Crown Copyright 2020-2025, Met Office.
 # Please see LICENSE.md for license details.
 
+import sqlite3
 import unittest
 
 import cdds.inventory.db_models as db_models
@@ -21,7 +22,8 @@ class DatabaseTestCase(unittest.TestCase):
             'region': ['glb'],
             'frequency': ['mon'],
             'grid': ['g110'],
-            'variable': ['tas_tavg-h2m-hxy-u', 'ps_pavg-sfc-hxy-m'],
+            'variable': ['tas', 'ps'],
+            'suffix': ['tavg-h2m-hxy-u', 'pavg-sfc-hxy-m'],
             'status': ['embargoed', 'available'],
             'model': ['UKCM2-0-LL', 'UKESM1-0-LL']
         }
@@ -36,6 +38,7 @@ class DatabaseTestCase(unittest.TestCase):
                 self.db.commit()
         dataset_dict['mip_era_id'] = 1
         dataset_dict['variable_id'] = 1
+        dataset_dict['suffix_id'] = 1
         dataset_dict['model_id'] = 1
         dataset_dict['experiment_id'] = 1
         dataset_dict['institution_id'] = 1
@@ -56,6 +59,7 @@ class DatabaseTestCase(unittest.TestCase):
         execute_insert_query(self.cursor, 'netcdf_file', file_dict)
 
         dataset_dict['variable_id'] = 2
+        dataset_dict['suffix_id'] = 2
         dataset_dict['status_id'] = 2
         dataset_dict['dataset_id'] = 'CMIP7.CMIP.UKNCSP.UKCM2-0-LL.1pctCO2.r1i1p1f1.glb.mon.ps_pavg-sfc-hxy-m.g110'
         execute_insert_query(self.cursor, 'dataset', dataset_dict)
@@ -80,7 +84,7 @@ class DatabaseTestCase(unittest.TestCase):
         self.db.commit()
 
     def test_building_query_with_facets(self):
-        facets = {'variable': 'tas_tavg-h2m-hxy-u', 'mip': 'CMIP'}
+        facets = {'variable': 'tas', 'suffix': 'tavg-h2m-hxy-u', 'mip': 'CMIP'}
         sql = db_models.build_sql_query(facets)
         rows = db_models.execute_query(self.cursor, sql, facets).fetchall()
         self.assertEqual(1, len(rows))
@@ -88,6 +92,11 @@ class DatabaseTestCase(unittest.TestCase):
         sql = db_models.build_sql_query(facets)
         rows = db_models.execute_query(self.cursor, sql, facets).fetchall()
         self.assertEqual(2, len(rows))
+        facets = {'suffix': 'pavg-sfc-hxy-m'}
+        rows = db_models.execute_query(self.cursor, db_models.build_sql_query(facets), facets).fetchall()
+        self.assertEqual(2, len(rows))
+        self.assertEqual('ps', rows[0]['variable_name'])
+        self.assertEqual('pavg-sfc-hxy-m', rows[0]['suffix_name'])
 
     def test_get_simulation_datasets(self):
         rows = db_models.get_simulation_datasets(self.cursor, 'CMIP7', 'CMIP', 'UKCM2-0-LL', '1pctCO2',
@@ -115,7 +124,8 @@ class DatabaseTestCase(unittest.TestCase):
             'experiment': 'hist-GHG',
             'region': 'glb',
             'frequency': 'mon',
-            'variable': 'ps_pavg-sfc-hxy-m',
+            'variable': 'ps',
+            'suffix': 'pavg-sfc-hxy-m',
             'grid': 'g110',
         }
         dataset_dict = db_models.populate_dataset_dictionary(self.cursor, facet_dict)
@@ -127,8 +137,18 @@ class DatabaseTestCase(unittest.TestCase):
             'mip_id': 2,
             'model_id': 1,
             'region_id': 1,
-            'variable_id': 2
+            'variable_id': 2,
+            'suffix_id': 2
         }, dataset_dict)
+
+    def test_dataset_requires_valid_suffix(self):
+        dataset = dict(self.cursor.execute('SELECT * FROM dataset WHERE id = 1').fetchone())
+        dataset.pop('id')
+        dataset.pop('created')
+        dataset.pop('changed')
+        dataset['suffix_id'] = 999
+        with self.assertRaises(sqlite3.IntegrityError):
+            execute_insert_query(self.cursor, 'dataset', dataset)
 
 
 if __name__ == '__main__':
