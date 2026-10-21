@@ -228,7 +228,7 @@ def grep_validate_log(faulty_variable_flag: str, log_lines: list[str]) -> list[s
     list[str]
         The list of variables that cannot be produced and need to be removed from the variable list.
     """
-    truncated_log = ""
+    truncated_log = [""]
     for i, line in enumerate(log_lines):
         # Identify the line containing the faulty variable flag and take the snippet of the log that comes after it.
         if faulty_variable_flag in line:
