@@ -115,6 +115,16 @@ prior to starting processing to:
 1. Get appropriate guidance on the steps needed to correctly construct the request and variables file.
 2. Arrange for an appropriate [Errata](https://errata.esgf.io) to be issued following submission of data sets.
 
+### UKESM1-3 variables with conflicting mappings
+
+A small number of variables have conflicting mappings between different frequencies under UKESM1-3-LL. CDDS currently has no nice way of handling this under the main UKESM1-3 mapping plugin. To allow these variables to still be produced, a new mapping plugin (`ukesm1p3x`) has been created. This has the same functionality as the standard `ukesm1p3` mapping, however it contains the required expressions to produce the **daily** frequency of the variables with conflicting mappings.
+- sbl_tavg-u-hxy-u@day
+- chl_tavg-ols-hxy-sea@day
+- o2_tavg-ols-hxy-sea@day
+- phyc_tavg-ols-hxy-sea@day
+
+!!! important
+    This mapping plugin should only be used when attempting to produce the variables listed. Please contact a member of the CDDS team for support in doing this.
 
 ## 3. Creating an operational simulation issue
 
