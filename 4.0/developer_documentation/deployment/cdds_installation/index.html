@@ -1765,13 +1765,11 @@ with the following steps.</p>
 </code></pre></div></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Run the following tests.
       <div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for cdds:&quot;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not integration and not rabbitMQ and not data_request&#39;</span>
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not integration and not rabbitMQ&#39;</span>
 pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>slow
 pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>integration
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/cdds<span class="w"> </span>-m<span class="w"> </span>data_request
 <span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;# Executing tests for mip_convert:&quot;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not mappings and not superslow&#39;</span>
-pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>mappings
+pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>--doctest-modules<span class="w"> </span>-m<span class="w"> </span><span class="s1">&#39;not slow and not superslow&#39;</span>
 pytest<span class="w"> </span>-s<span class="w"> </span><span class="nv">$SRCDIR</span>/mip_convert<span class="w"> </span>-m<span class="w"> </span>slow
 </code></pre></div></li>
 </ul>

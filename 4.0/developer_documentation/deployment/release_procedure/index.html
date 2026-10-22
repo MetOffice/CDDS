@@ -1045,6 +1045,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#update-release-version-on-cdds-simulation-metadata" class="md-nav__link">
+    Update Release Version on CDDS-simulation-metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#close-issue" class="md-nav__link">
     Close Issue
   </a>
@@ -1677,6 +1684,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#update-release-version-on-cdds-simulation-metadata" class="md-nav__link">
+    Update Release Version on CDDS-simulation-metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#close-issue" class="md-nav__link">
     Close Issue
   </a>
@@ -1864,6 +1878,34 @@ to pull in just the <code>CHANGES.md</code> updates with release notes. Commit t
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>There will be a box asking you to "attach binaries by dropping them here". This can be ignored. The binaries/assets will be generated automatically.</p>
+</div>
+<h2 id="update-release-version-on-cdds-simulation-metadata">Update Release Version on <abbr title="Climate Data Dissemination System">CDDS</abbr>-<abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>-metadata</h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A release must be created on <abbr title="Climate Data Dissemination System">CDDS</abbr> GitHub before doing the following.</p>
+</div>
+<p>Each time a new <abbr title="Climate Data Dissemination System">CDDS</abbr> release is created, the front page of <a href="https://github.com/UKNCSP/CDDS-simulation-metadata"><abbr title="Climate Data Dissemination System">CDDS</abbr>-<abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>-metadata</a> must be updated to ensure that it remains synchronised with <a href="https://github.com/MetOffice/CDDS"><abbr title="Climate Data Dissemination System">CDDS</abbr></a>.</p>
+<ol>
+<li>
+<p>Navigate to the actions tab of <a href="https://github.com/UKNCSP/CDDS-simulation-metadata/actions"><abbr title="Climate Data Dissemination System">CDDS</abbr>-<abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>-metadata</a></p>
+</li>
+<li>
+<p>In the "workflows" sidebar on the left side of the page, select the <a href="https://github.com/UKNCSP/CDDS-simulation-metadata/actions/workflows/update_mappings.yml">Update mappings</a> workflow.</p>
+</li>
+<li>
+<p>Select the "run workflow" button on the top right hand side of the screen. Set the "use workflow from" dropdown menu to "main" if not done so automatically. Enter the most recent mappings tag as shown on <a href="https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases"><abbr title="Climate Data Dissemination System">CDDS</abbr>-CMIP7-mappings</a> (this may be in the form <code>vYYY-MM-DD</code> OR <code>CDDS-vX-Y-Z</code>) and hit "Run workflow" at the bottom right of the page. This tag must be written exactly as it is shown on <a href="https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases"><abbr title="Climate Data Dissemination System">CDDS</abbr>-CMIP7-mappings</a> otherwise the action will fail.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above step must be completed even if the "current mappings file version" at the top of the readme.md on <a href="https://github.com/UKNCSP/CDDS-simulation-metadata"><abbr title="Climate Data Dissemination System">CDDS</abbr>-<abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr>-metadata</a> already matches the most recent tag on <a href="https://github.com/UKNCSP/CDDS-CMIP7-mappings/releases"><abbr title="Climate Data Dissemination System">CDDS</abbr>-CMIP7-mappings</a>.</p>
+</div>
+<ol>
+<li>Confirm the action has completed successfully.</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Do not attempt to manually update the readme.md by hand. This readme.md draws from a template in the repository that is populated within the <code>Update mappings</code> action: any manual updates will ultimately be lost/overwritten when the action is re run.</p>
 </div>
 <h2 id="close-issue">Close Issue</h2>
 <ol>
