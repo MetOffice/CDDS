@@ -36,3 +36,12 @@ def test_main_is_silent_when_requested_version_is_newer_than_latest(tmp_path: Pa
 
     assert main_check_latest_version("5.0.0", tmp_path) == 0
     assert capsys.readouterr().out == ""
+
+
+def test_main_warns_for_non_release_version(tmp_path: Path, capsys) -> None:
+    (tmp_path / "cdds-4.0.10").mkdir()
+
+    assert main_check_latest_version("3.0.5rc1", tmp_path) == 0
+    assert capsys.readouterr().out == (
+        "Unexpected version selected. Double check 3.0.5rc1 was the version you meant to activate.\n"
+    )

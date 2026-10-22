@@ -10,6 +10,9 @@ from pathlib import Path
 from typing import Tuple
 
 
+RELEASE_VERSION_PATTERN = re.compile(r"\d+\.\d+\.\d+")
+
+
 def parse_version(version: str) -> Tuple[int, ...]:
     """Convert an 'X.Y.Z' version string to integer components."""
     return tuple(int(part) for part in version.split("."))
@@ -21,13 +24,17 @@ def retrieve_latest_version(environments_directory: Path) -> Tuple[int, ...]:
     for environment in environments_directory.glob("cdds-*"):
         version_name = environment.name[len("cdds-"):]
         # Ignore non-release versions like '4.1.0rc1' or '4.2_dev-1'.
-        if re.fullmatch(r"\d+\.\d+\.\d+", version_name):
+        if RELEASE_VERSION_PATTERN.fullmatch(version_name):
             release_versions_available.append(parse_version(version_name))
     return max(release_versions_available)
 
 
 def main_check_latest_version(version: str, central_environments_directory: Path) -> int:
     """Print a notice saying whether the activated CDDS version is the latest."""
+    if not RELEASE_VERSION_PATTERN.fullmatch(version):
+        print("Unexpected version selected. Double check {} was the version you meant to activate.".format(version))
+        return 0
+
     requested_version = parse_version(version)
     latest_version = retrieve_latest_version(central_environments_directory)
 
