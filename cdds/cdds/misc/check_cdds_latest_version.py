@@ -2,7 +2,8 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
 
-"""Checks whether a newer CDDS environment is available. Logs accordingly."""
+"""Checks for the latest version of CDDS when source setup_env_for_cdds X.Y.X is used.
+Logs appropriately if latest version has not been activated."""
 
 import re
 from pathlib import Path
