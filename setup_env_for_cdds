@@ -13,12 +13,12 @@ else
     CONDA=/opt/conda/bin/activate
 fi
 
-source "$CONDA" ~cdds/conda_environments/"$CDDS"
+source "$CONDA" ~cdds/conda_environments/"$CDDS" || return $?
 
 # Show the version notice only in interactive shells, not automated workflows.
 if [[ $- == *i* ]]; then
     if ! cdds_check_latest_version "$1" ~cdds/conda_environments; then
-        echo "Unable to check for a newer CDDS version." >&2
+        echo "Unable to verify the latest CDDS version." >&2
     fi
 fi
 

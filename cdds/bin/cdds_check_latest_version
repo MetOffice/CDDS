@@ -4,8 +4,8 @@
 import sys
 from pathlib import Path
 
-from cdds.misc.check_cdds_latest_version import main
+from cdds.misc.check_cdds_latest_version import main_check_latest_version
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1], Path(sys.argv[2])))
+    sys.exit(main_check_latest_version(sys.argv[1], Path(sys.argv[2])))
