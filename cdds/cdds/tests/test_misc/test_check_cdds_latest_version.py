@@ -1,9 +1,6 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
 
-import os
-import subprocess
-import sys
 from pathlib import Path
 
 from cdds.misc.check_cdds_latest_version import main_check_latest_version, retrieve_latest_version
