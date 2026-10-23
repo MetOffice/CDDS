@@ -2,8 +2,10 @@
 # (C) British Crown Copyright 2026, Met Office.
 # Please see LICENSE.md for license details.
 
-"""Checks for the latest version of CDDS when source setup_env_for_cdds X.Y.X is used.
-Logs appropriately if latest version has not been activated."""
+"""Check whether activated CDDS environment is the latest available release.
+
+Run by ``setup_env_for_cdds`` to notify users when a newer CDDS release is available.
+"""
 
 import re
 import sys
@@ -15,12 +17,39 @@ RELEASE_VERSION_PATTERN = re.compile(r"\d+\.\d+\.\d+")
 
 
 def parse_version(version: str) -> Tuple[int, ...]:
-    """Convert an 'X.Y.Z' version string to integer components."""
+    """Convert a release version string into integer components.
+
+    Parameters
+    ----------
+    version : str
+        Version string in ``X.Y.Z`` format.
+
+    Returns
+    -------
+    tuple of int
+        Numeric version components.
+    """
     return tuple(int(part) for part in version.split("."))
 
 
 def retrieve_latest_version(environments_directory: Path) -> Tuple[int, ...]:
-    """Return the highest version number from the conda_environments directory."""
+    """Find the highest release version in a Conda environments directory.
+
+    Parameters
+    ----------
+    environments_directory : pathlib.Path
+        Directory containing CDDS environment directories.
+
+    Returns
+    -------
+    tuple of int
+        Numeric components of the highest release version.
+
+    Raises
+    ------
+    ValueError
+        If the directory contains no release-version environments.
+    """
     release_versions_available = []
     for environment in environments_directory.glob("cdds-*"):
         version_name = environment.name[len("cdds-"):]
@@ -31,7 +60,20 @@ def retrieve_latest_version(environments_directory: Path) -> Tuple[int, ...]:
 
 
 def check_latest_version(version: str, central_environments_directory: Path) -> int:
-    """Print a notice saying whether the activated CDDS version is the latest."""
+    """Print a notice describing how the activated release compares to latest release.
+
+    Parameters
+    ----------
+    version : str
+        Version of the activated CDDS environment.
+    central_environments_directory : pathlib.Path
+        Directory containing centrally installed CDDS environments.
+
+    Returns
+    -------
+    int
+        Zero after printing the applicable notice.
+    """
     if not RELEASE_VERSION_PATTERN.fullmatch(version):
         print("Unexpected version selected. Double check {} was the version you meant to activate.".format(version))
         return 0
