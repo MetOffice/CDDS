@@ -17,8 +17,11 @@ source "$CONDA" ~cdds/conda_environments/"$CDDS" || return $?
 
 # Show the version notice only in interactive shells, not automated workflows.
 if [[ $- == *i* ]]; then
-    if ! cdds_check_latest_version "$1" ~cdds/conda_environments; then
-        echo "Unable to verify the latest CDDS version." >&2
+    # Skip the check when using an older version of CDDS that does not contain the checker.
+    if command -v cdds_check_latest_version >/dev/null 2>&1; then
+        if ! cdds_check_latest_version; then
+            echo "Unable to verify the latest CDDS version." >&2
+        fi
     fi
 fi
 
