@@ -33,7 +33,7 @@ def parse_version(version: str) -> Tuple[int, ...]:
 
 
 def retrieve_latest_version(environments_directory: Path) -> Tuple[int, ...]:
-    """Find the highest release version in a Conda environments directory.
+    """Find the highest release version in the central conda_environments directory.
 
     Parameters
     ----------
