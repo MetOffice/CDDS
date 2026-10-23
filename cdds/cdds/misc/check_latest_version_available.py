@@ -82,7 +82,7 @@ def check_latest_version(version: str, central_environments_directory: Path) -> 
     latest_version = retrieve_latest_version(central_environments_directory)
 
     if latest_version == requested_version:
-        print("Latest version of CDDS activated.".format(version))
+        print("Latest version of CDDS activated.")
     elif latest_version > requested_version:
         print(
             "The latest version of CDDS is {}. \n"
