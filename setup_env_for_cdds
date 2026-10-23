@@ -15,14 +15,12 @@ fi
 
 source "$CONDA" ~cdds/conda_environments/"$CDDS" || return $?
 
-# Show the version notice only in interactive shells, not automated workflows.
+# Run check for latest version of CDDS available:
+# (Runs only in interactive shells, not cylc workflows).
 if [[ $- == *i* ]]; then
-    # Skip the check when using an older version of CDDS that does not contain the checker.
-    if command -v cdds_check_latest_version >/dev/null 2>&1; then
-        if ! cdds_check_latest_version; then
-            echo "Unable to verify the latest CDDS version." >&2
-        fi
+    # Suppress import errors for older versions without checker;
+    # run the checker if its module is available.
+    if python -c "import cdds.misc.check_latest_version_available" >/dev/null 2>&1; then
+        python -m cdds.misc.check_latest_version_available "$1" ~cdds/conda_environments
     fi
 fi
-
-return 0

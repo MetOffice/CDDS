@@ -5,8 +5,6 @@
 """Checks for the latest version of CDDS when source setup_env_for_cdds X.Y.X is used.
 Logs appropriately if latest version has not been activated."""
 
-import argparse
-import os
 import re
 import sys
 from pathlib import Path
@@ -53,19 +51,7 @@ def check_latest_version(version: str, central_environments_directory: Path) -> 
     return 0
 
 
-def main() -> int:
-    """Check whether the active CDDS environment is the latest available version."""
-    parser = argparse.ArgumentParser(
-        description=(
-            "Check whether the active CDDS environment is the latest version available "
-            "alongside it in the central conda environments directory."
-        )
-    )
-    parser.parse_args()
-
-    active_environment = Path(os.environ.get("CONDA_PREFIX", sys.prefix))
-    if not active_environment.name.startswith("cdds-"):
-        parser.error("unable to determine the active CDDS environment from {}".format(active_environment))
-
-    version = active_environment.name[len("cdds-"):]
-    return check_latest_version(version, active_environment.parent)
+if __name__ == "__main__":
+    # Run by setup_env_for_cdds as:
+    # python -m cdds.misc.check_latest_version_available <version> <environments_directory>
+    sys.exit(check_latest_version(sys.argv[1], Path(sys.argv[2])))
