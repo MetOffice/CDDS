@@ -21,6 +21,6 @@ if [[ $- == *i* ]]; then
     # Suppress import errors for older versions without checker;
     # run the checker if its module is available.
     if python -c "import cdds.misc.check_latest_version_available" >/dev/null 2>&1; then
-        python -m cdds.misc.check_latest_version_available "$1" ~cdds/conda_environments
+        python -m cdds.misc.check_latest_version_available "$1"
     fi
 fi

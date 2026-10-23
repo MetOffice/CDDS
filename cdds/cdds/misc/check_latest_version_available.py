@@ -14,6 +14,7 @@ from typing import Tuple
 
 
 RELEASE_VERSION_PATTERN = re.compile(r"\d+\.\d+\.\d+")
+CENTRAL_ENVIRONMENTS_DIRECTORY = Path("~cdds/conda_environments").expanduser()
 
 
 def parse_version(version: str) -> Tuple[int, ...]:
@@ -33,7 +34,7 @@ def parse_version(version: str) -> Tuple[int, ...]:
 
 
 def retrieve_latest_version(environments_directory: Path) -> Tuple[int, ...]:
-    """Find the highest release version in the central conda_environments directory.
+    """Find the highest release version in the target directory.
 
     Parameters
     ----------
@@ -95,5 +96,5 @@ def check_latest_version(version: str, central_environments_directory: Path) -> 
 
 if __name__ == "__main__":
     # Run by setup_env_for_cdds as:
-    # python -m cdds.misc.check_latest_version_available <version> <environments_directory>
-    sys.exit(check_latest_version(sys.argv[1], Path(sys.argv[2])))
+    # python -m cdds.misc.check_latest_version_available <version>
+    sys.exit(check_latest_version(sys.argv[1], CENTRAL_ENVIRONMENTS_DIRECTORY))
