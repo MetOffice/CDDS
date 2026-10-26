@@ -6,6 +6,7 @@ using SELECT and FILTER
 """
 
 import logging
+import os
 import re
 from collections import defaultdict
 from operator import itemgetter
@@ -533,6 +534,37 @@ class Filters(object):
                                 "filename": filename})
 
         return pp_filelist
+
+    def _missing_pp_file_runs(self, pp_filelist: List[Dict], target: str) -> List[List[Dict]]:
+        """Split a pp_filelist into contiguous runs of files not already present in target.
+
+        Filter files select pp files by filename range, so any file already on disk
+        must break the run to avoid it being selected again.
+
+        Parameters
+        ----------
+        pp_filelist : List[Dict]
+            A pp_filelist
+        target : str
+            Directory the files are extracted to
+
+        Returns
+        -------
+        List[List[Dict]]
+            Contiguous runs of pp_filelist entries missing from target
+        """
+        runs: List[List[Dict]] = []
+        current_run: List[Dict] = []
+        for pp_file in pp_filelist:
+            if os.path.exists(os.path.join(target, pp_file["filename"])):
+                if current_run:
+                    runs.append(current_run)
+                    current_run = []
+            else:
+                current_run.append(pp_file)
+        if current_run:
+            runs.append(current_run)
+        return runs
 
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, int]:
         """Create the list of mass commands and respective filter files needed for a given

@@ -6,6 +6,7 @@
 from copy import deepcopy
 import logging
 import os
+import tempfile
 import unittest
 from copy import deepcopy
 from unittest.mock import patch
@@ -596,6 +597,24 @@ class TestFilters(unittest.TestCase):
             "review your request config and variables files before re-running (in "
             "particular check the assignment of variables to streams)."
         )
+
+    def _touch_pp_files(self, target, filenames):
+        for filename in filenames:
+            open(os.path.join(target, filename), "w").close()
+
+    def test_missing_pp_file_runs_all_present(self):
+        pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(3)]
+        with tempfile.TemporaryDirectory() as target:
+            self._touch_pp_files(target, ["a0.pp", "a1.pp", "a2.pp"])
+            runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
+        self.assertEqual(runs, [])
+
+    def test_missing_pp_file_runs_mixed(self):
+        pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(5)]
+        with tempfile.TemporaryDirectory() as target:
+            self._touch_pp_files(target, ["a2.pp"])
+            runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
+        self.assertEqual(runs, [pp_filelist[0:2], pp_filelist[3:5]])
 
 
 class TestSubdailyFilters(unittest.TestCase):
