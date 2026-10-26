@@ -10,7 +10,7 @@ import os
 import re
 from collections import defaultdict
 from operator import itemgetter
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 from metomi.isodatetime.data import TimePoint
 import json
 
@@ -566,7 +566,7 @@ class Filters(object):
             runs.append(current_run)
         return runs
 
-    def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, int]:
+    def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands and respective filter files needed for a given
         stream.
 
@@ -583,12 +583,22 @@ class Filters(object):
 
         Returns
         -------
-        Tuple[str, List[Dict], str, int]
-            A list of mass cmds represented as dictionaries.
+        Tuple[str, List[Dict], str, Union[int, str]]
+            A list of mass cmds represented as dictionaries. If every expected file
+            is already present in the target the list is empty, the message describes
+            this and the code is "already_exists".
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
-        chunks = self._chunk_pp_filelist(pp_filelist)
+        missing_runs = self._missing_pp_file_runs(pp_filelist, self.target)
+        missing_count = sum(len(run) for run in missing_runs)
+        logging.getLogger(__name__).info(
+            "Skipping {} existing pp files; selecting {} missing pp files".format(
+                len(pp_filelist) - missing_count, missing_count))
+        if not missing_runs:
+            return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
+                len(pp_filelist), self.target), "already_exists"
+        chunks = [chunk for run in missing_runs for chunk in self._chunk_pp_filelist(run)]
 
         for chunk in chunks:
             start, end = chunk[0]["timepoint"], chunk[-1]["timepoint"]

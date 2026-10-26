@@ -111,6 +111,7 @@ def set_language():
             """Stream Start:  {}  ---------------- start: {}  end: {} """,
         "stream_skip": "stream {} skipped on user request",
         "stream_skip_data": "stream {} skipped: [ {} ]\n",
+        "stream_already_extracted": "stream {} already extracted, no MASS requests needed: [ {} ]",
         "stream_not_selected": "CRITICAL: no stream could be selected for "
                                "processing",
         "stream_type_invalid": "CRITICAL: stream {} has invalid filetype "
