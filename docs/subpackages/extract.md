@@ -20,5 +20,6 @@ The cdds_extract script then performs the following processing steps:
 * creates directories for holding the retrieved data from MASS, the post-processed data which will be disseminated and the directories used to hold the artifacts used by other cdds processes (e.g. log files)
 * creates appropriate PP and netCDF variable filter files that are used to filter the data retrieved from MASS before it is copied to disk.
 * checks that MASS holds the relevant data collections and constructs MOOSE commands that will retrieve the required model data from these data collections (optionally incorporating the relevant filter files)
+* for PP streams retrieved using `moo select`, skips files already present in the stream's input directory so that a rerun only requests the missing files. A stream with every expected file present is reported as already extracted and no MOOSE commands are submitted for it. Only file existence is checked, so incomplete files must be deleted before rerunning
 * submits constructed MOOSE commands and reports progress in text logs
 * performs validation on the retrieved data to check it meets processing requirement
