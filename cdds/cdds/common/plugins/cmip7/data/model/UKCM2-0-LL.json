@@ -292,6 +292,11 @@
           "bounds_nav_lat",
           "time_centered_bounds"
         ],
+        "ond-grid-W:": [
+          "bounds_nav_lon",
+          "bounds_nav_lat",
+          "time_centered_bounds"
+        ],
         "inm-icemod": [
           "bounds_nav_lon_grid_T",
           "bounds_nav_lat_grid_T",
