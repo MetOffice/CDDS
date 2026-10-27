@@ -1,5 +1,45 @@
 # Available Plugins
 
+## UKESM1p3x Plugin
+
+| Responsible                        | Code Base                                                                                            |
+|:-----------------------------------|:-----------------------------------------------------------------------------------------------------|
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/mip_convert/mip_convert/plugins/ukesm1p3x) |
+
+The UKESM1p3x plugin provides functionality needed for mapping variables with conflicting daily and monthly mappings to UKESM1p3 models for CMIP7 like projects. This mapping plugin should only be used when producing one of the following:
+- sbl_tavg-u-hxy-u@day
+- chl_tavg-ols-hxy-sea@day
+- o2_tavg-ols-hxy-sea@day
+- phyc_tavg-ols-hxy-sea@day
+
+The plugin is implemented by the CDDS team. If you like any changes to this plugin, speak with the CDDS team to make some improvements.
+If you like to add or change any mappings, please following the guide given at [Add mapping](../../tutorials/add_plugin.md) and inform 
+the CDDS team.
+
+## UKESM1p3 Plugin
+
+| Responsible                        | Code Base                                                                                            |
+|:-----------------------------------|:-----------------------------------------------------------------------------------------------------|
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/mip_convert/mip_convert/plugins/ukesm1p3) |
+
+The UKESM1p3 plugin provides all functionality needed for mapping UKESM1p3 models for CMIP7 like projects.
+
+The plugin is implemented by the CDDS team. If you like any changes to this plugin, speak with the CDDS team to make some improvements.
+If you like to add or change any mappings, please following the guide given at [Add mapping](../../tutorials/add_plugin.md) and inform 
+the CDDS team.
+
+## UKCM2 Plugin
+
+| Responsible                        | Code Base                                                                                            |
+|:-----------------------------------|:-----------------------------------------------------------------------------------------------------|
+| [CDDS Team](mailto:cdds@metoffice.gov.uk) | [Link to code on GitHub](https://github.com/MetOffice/CDDS/tree/main/mip_convert/mip_convert/plugins/ukcm2) |
+
+The UKCM2 plugin provides all functionality needed for mapping UKCM2 models for CMIP7 like projects.
+
+The plugin is implemented by the CDDS team. If you like any changes to this plugin, speak with the CDDS team to make some improvements.
+If you like to add or change any mappings, please following the guide given at [Add mapping](../../tutorials/add_plugin.md) and inform 
+the CDDS team.
+
 ## UKESM1 Plugin
 
 | Responsible                        | Code Base                                                                                            |
