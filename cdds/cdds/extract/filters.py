@@ -536,35 +536,42 @@ class Filters(object):
         return pp_filelist
 
     def _missing_pp_file_runs(self, pp_filelist: List[Dict], target: str) -> List[List[Dict]]:
-        """Split a pp_filelist into contiguous runs of files not already present in target.
+        """Group the pp files missing from the target directory into runs of
+        consecutive files.
 
-        Filter files select pp files by filename range, so any file already on disk
-        must break the run to avoid it being selected again.
+        Each run becomes its own moo select. A filter file can request a range of
+        filenames, so a single select spanning a file already on disk would retrieve
+        that file again. Each file already on disk therefore ends the current run, and
+        the next missing file starts a new one. For example, if May is on disk then
+        Jan-Apr and Jun-Dec are separate runs.
 
         Parameters
         ----------
         pp_filelist : List[Dict]
             A pp_filelist
         target : str
-            Directory the files are extracted to
+            Target directory the files are extracted to
 
         Returns
         -------
         List[List[Dict]]
-            Contiguous runs of pp_filelist entries missing from target
+            Runs of consecutive pp_filelist entries missing from the target directory
         """
-        runs: List[List[Dict]] = []
-        current_run: List[Dict] = []
+        collated_missing_runs: List[List[Dict]] = []
+        # A Jan-Dec select would re-fetch a May that was already on disk,
+        # so build Jan-Apr and Jun-Dec as separate sequences.
+        missing_files_sequence: List[Dict] = []
         for pp_file in pp_filelist:
             if os.path.exists(os.path.join(target, pp_file["filename"])):
-                if current_run:
-                    runs.append(current_run)
-                    current_run = []
+                # Only close a non-empty sequence; consecutive files on disk would otherwise add empty sequences
+                if missing_files_sequence:
+                    collated_missing_runs.append(missing_files_sequence)
+                    missing_files_sequence = []
             else:
-                current_run.append(pp_file)
-        if current_run:
-            runs.append(current_run)
-        return runs
+                missing_files_sequence.append(pp_file)
+        if missing_files_sequence:
+            collated_missing_runs.append(missing_files_sequence)
+        return collated_missing_runs
 
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands and respective filter files needed for a given
