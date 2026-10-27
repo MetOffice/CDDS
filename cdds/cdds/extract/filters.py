@@ -592,9 +592,12 @@ class Filters(object):
         pp_filelist = self._create_pp_filelist(start, end)
         missing_runs = self._missing_pp_file_runs(pp_filelist, self.target)
         missing_count = sum(len(run) for run in missing_runs)
-        logging.getLogger(__name__).info(
-            "Skipping {} existing pp files; selecting {} missing pp files".format(
-                len(pp_filelist) - missing_count, missing_count))
+        logger = logging.getLogger(__name__)
+        if missing_count == len(pp_filelist):
+            logger.info("{} pp files to moo select (none already present)".format(missing_count))
+        else:
+            logger.info("{} of {} pp files already present; {} pp files to moo select".format(
+                len(pp_filelist) - missing_count, len(pp_filelist), missing_count))
         if not missing_runs:
             return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
                 len(pp_filelist), self.target), "already_exists"
