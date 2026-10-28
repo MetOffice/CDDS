@@ -541,9 +541,9 @@ class Filters(object):
 
         Each run becomes its own moo select. A filter file can request a range of
         filenames, so a single select spanning a file already on disk would retrieve
-        that file again. Each file already on disk therefore ends the current run, and
-        the next missing file starts a new one. For example, if May is on disk then
-        Jan-Apr and Jun-Dec are separate runs.
+        that file again. Each file already on disk therefore ends the current missing file
+        sequence, and the next missing file starts a new one. For example, if May is on
+        disk then Jan-Apr and Jun-Dec are separate runs.
 
         Parameters
         ----------
@@ -562,20 +562,20 @@ class Filters(object):
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
         for pp_file in pp_filelist:
-            if os.path.exists(os.path.join(target, pp_file["filename"])):
-                # Only close a non-empty sequence; consecutive files on disk would otherwise add empty sequences
-                if missing_files_sequence:
-                    collated_missing_runs.append(missing_files_sequence)
-                    missing_files_sequence = []
-            else:
+            on_disk = os.path.exists(os.path.join(target, pp_file["filename"]))
+            if not on_disk:
                 missing_files_sequence.append(pp_file)
+            elif missing_files_sequence:
+                # A file on disk ends the current sequence of missing files: store it and start a new one
+                collated_missing_runs.append(missing_files_sequence)
+                missing_files_sequence = []
         if missing_files_sequence:
             collated_missing_runs.append(missing_files_sequence)
         return collated_missing_runs
 
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands and respective filter files needed for a given
-        stream.
+        stream. Files already in the target directory are not requested again.
 
         Parameters
         ----------
@@ -591,14 +591,17 @@ class Filters(object):
         Returns
         -------
         Tuple[str, List[Dict], str, Union[int, str]]
-            A list of mass cmds represented as dictionaries. If every expected file
-            is already present in the target the list is empty, the message describes
-            this and the code is "already_exists".
+            Status, list of mass cmds represented as dictionaries, message and status code.
+            Normally ("ok", <one moo select cmd per chunk of files to retrieve>, "", 1).
+            If every expected file is already in the target directory, returns
+            ("ok", [], <message saying so>, "already_exists"). No MOOSE commands are
+            run for the stream, and the runner logs it as already extracted and
+            treats it as a success rather than a failure.
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
         missing_runs = self._missing_pp_file_runs(pp_filelist, self.target)
-        missing_count = sum(len(run) for run in missing_runs)
+        missing_count = sum(len(missing_files_sequence) for missing_files_sequence in missing_runs)
         logger = logging.getLogger(__name__)
         if missing_count == len(pp_filelist):
             logger.info("{} pp files to moo select (none already present)".format(missing_count))
