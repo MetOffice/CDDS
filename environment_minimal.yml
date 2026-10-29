@@ -4,6 +4,7 @@ channels:
   - nodefaults 
 dependencies:
   - brotli-python=1.2.1
+  - cartopy=0.25.0
   - cf-units=3.2.0
   - cftime=1.6.5
   - cmip7-repack=1.1.1
