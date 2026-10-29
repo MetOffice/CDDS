@@ -320,5 +320,9 @@ def do_sim_review(request: Request, request_file_path: str) -> None:
     check_qc_report(qc_dir)
 
     recent_approved_path = display_approved_variables(qc_dir)
+    # Copy the request to the root proc dir with fully expanded paths to be used in the mass submission command
+    request_filename = request_file_path.split("/")[-1]
+    request_copy_path = f"{proc_dir}/{request_filename}"
+    request.write(request_copy_path)
 
-    show_submission_command(request_file_path, recent_approved_path)
+    show_submission_command(request_copy_path, recent_approved_path)
