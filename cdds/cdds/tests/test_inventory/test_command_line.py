@@ -42,7 +42,7 @@ class CommandLineTestCase(unittest.TestCase):
         }
         db = setup_db(':memory:')
         try:
-            walk_mass_dir('moose:/variable/tas', INVENTORY_FACET_LIST[-4:], db)
+            walk_mass_dir('moose:/variable/tas', INVENTORY_FACET_LIST[-6:], db)
             facets = {'variable': 'tas', 'suffix': 'tavg-h2m-hxy-u'}
             rows = execute_query(db.cursor(), build_sql_query(facets), facets).fetchall()
             self.assertEqual(1, len(rows))

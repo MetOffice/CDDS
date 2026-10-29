@@ -256,6 +256,7 @@ def mass_list_files_recursively(mass_path, simulation):
         logger.critical(str(e))
         raise e
     mass_paths = [s1 for s1 in stdout_str.split('\n') if s1]
+    logger.info(f"number of lines in moo listing {len(mass_paths)}")
     datasets = {}
     for m in mass_paths:
         if m[0] == 'F':

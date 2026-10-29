@@ -97,7 +97,7 @@ def walk_mass_dir(root, facet_list, inventory):
     """
     cursor = inventory.cursor()
     logger = logging.getLogger(__name__)
-    if len(facet_list) == 4:
+    if len(facet_list) == 6:
         # we're down to variable/grid/status/timestamp/
         datasets = mass_list_files_recursively(root, False)
         for dataset_id, dataset_metadata in datasets.items():

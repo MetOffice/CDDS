@@ -101,7 +101,7 @@ class DBVariableData(object):
             rows in the database containing the variable data
         """
         self._row = {row[5]: DBVariable(row) for row in db_data}
-        self._variables_data = {(row[12], row[13]): DBVariable(row) for row in db_data}
+        self._variables_data = {(row[12], row[13] + "_" + row[16]): DBVariable(row) for row in db_data}
 
     def get_variable(self, frequency, variable_name):
         """Returns the data of the variable having given frequency and name

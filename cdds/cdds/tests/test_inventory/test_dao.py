@@ -132,7 +132,7 @@ class InventoryDaoIntegrationTest(TestCase):
         dao = InventoryDaoStub(self.db)
         data = dao.get_variables_data(model, experiment, variant)
 
-        variable1 = data.get_variable('mon', 'ps')
+        variable1 = data.get_variable('mon', 'ps_pavg-sfc-hxy-m')
         self.assertEqual(variable1.experiment, '1pctCO2')
         self.assertEqual(variable1.model, 'UKCM2-0-LL')
         self.assertEqual(variable1.mip_era, 'CMIP7')
@@ -147,7 +147,7 @@ class InventoryDaoIntegrationTest(TestCase):
         self.assertEqual(variable1.grid, 'g110')
         self.assertEqual(variable1.institute, 'UKNCSP')
 
-        variable2 = data.get_variable('mon', 'tas')
+        variable2 = data.get_variable('mon', 'tas_tavg-h2m-hxy-u')
         self.assertEqual(variable2.experiment, '1pctCO2')
         self.assertEqual(variable2.model, 'UKCM2-0-LL')
         self.assertEqual(variable2.mip_era, 'CMIP7')
@@ -181,7 +181,7 @@ class TestDeactivateVariable(TestCase):
         dao = InventoryDaoStub(self.db)
         data = dao.get_variables_data(model, experiment, variant)
 
-        variable = data.get_variable('mon', 'ps')
+        variable = data.get_variable('mon', 'ps_pavg-sfc-hxy-m')
         state = DBVariableStatus.AVAILABLE
 
         self.assertFalse(variable.has_not_status(state))
@@ -194,7 +194,7 @@ class TestDeactivateVariable(TestCase):
         dao = InventoryDaoStub(self.db)
         data = dao.get_variables_data(model, experiment, variant)
 
-        variable = data.get_variable('mon', 'tas')
+        variable = data.get_variable('mon', 'tas_tavg-h2m-hxy-u')
         state = DBVariableStatus.AVAILABLE
 
         self.assertTrue(variable.has_not_status(state))
