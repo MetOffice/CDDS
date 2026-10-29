@@ -25,7 +25,8 @@ def setup_db(db_file):
     conn.execute('PRAGMA foreign_keys = 1')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    dictionary_tables = ['mip_era', 'mip', 'institution', 'model', 'mip_table', 'experiment', 'grid', 'status']
+    dictionary_tables = ['mip_era', 'mip', 'institution', 'model', 'region', 'frequency', 'experiment', 'grid',
+                         'suffix', 'status']
     create_sql = []
     for dictionary_table in dictionary_tables:
         create_sql.append(
@@ -54,8 +55,10 @@ def setup_db(db_file):
             'mip_id INTEGER NOT NULL, '
             'institution_id INTEGER NOT NULL, '
             'model_id INTEGER NOT NULL, '
-            'mip_table_id INTEGER NOT NULL, '
+            'region_id INTEGER NOT NULL, '
+            'frequency_id INTEGER NOT NULL, '
             'variable_id INTEGER NOT NULL, '
+            'suffix_id INTEGER NOT NULL, '
             'experiment_id INTEGER NOT NULL, '
             'status_id INTEGER NOT NULL, '
             'grid_id INTEGER NOT NULL, '
@@ -66,10 +69,12 @@ def setup_db(db_file):
             'FOREIGN KEY(mip_id) REFERENCES mip(id),'
             'FOREIGN KEY(institution_id) REFERENCES institution(id),'
             'FOREIGN KEY(model_id) REFERENCES model(id),'
-            'FOREIGN KEY(mip_table_id) REFERENCES mip_table(id),'
+            'FOREIGN KEY(region_id) REFERENCES region(id),'
+            'FOREIGN KEY(frequency_id) REFERENCES frequency(id),'
             'FOREIGN KEY(variable_id) REFERENCES variable(id),'
-            'FOREIGN KEY(experiment_id) REFERENCES experiment(id)'
-            'FOREIGN KEY(status_id) REFERENCES status(id)'
+            'FOREIGN KEY(suffix_id) REFERENCES suffix(id),'
+            'FOREIGN KEY(experiment_id) REFERENCES experiment(id),'
+            'FOREIGN KEY(status_id) REFERENCES status(id),'
             'FOREIGN KEY(grid_id) REFERENCES grid(id)'
             ')'
         ),
@@ -174,8 +179,10 @@ def build_sql_query(facets):
         'model': 'model.name',
         'experiment': 'experiment.name',
         'variant': 'variant',
-        'mip_table': 'mip_table.name',
+        'region': 'region.name',
+        'frequency': 'frequency.name',
         'variable': 'variable.name',
+        'suffix': 'suffix.name',
         'institution': 'institution.name',
         'grid': 'grid.name',
         'status': 'current_status',
@@ -186,18 +193,20 @@ def build_sql_query(facets):
         'SELECT d.id, d.created, d.changed, d.timestamp, d.variant, d.dataset_id, '
         'mip.name as mip_name, institution.name as institution_name, '
         'model.name as model_name, experiment.name as experiment_name, '
-        'mip_era.name as mip_era_name, '
-        'mip_table.name as mip_table_name, variable.name as variable_name, '
-        'status.name as current_status, grid.name as grid_name '
+        'mip_era.name as mip_era_name, region.name as region_name, '
+        'frequency.name as frequency_name, variable.name as variable_name, '
+        'status.name as current_status, grid.name as grid_name, suffix.name as suffix_name '
         'FROM dataset d '
         'INNER JOIN mip ON d.mip_id = mip.id '
         'INNER JOIN mip_era ON d.mip_era_id = mip_era.id '
         'INNER JOIN model ON d.model_id = model.id '
         'INNER JOIN experiment ON d.experiment_id = experiment.id '
         'INNER JOIN institution ON d.institution_id = institution.id '
-        'INNER JOIN mip_table ON d.mip_table_id = mip_table.id '
+        'INNER JOIN region ON d.region_id = region.id '
+        'INNER JOIN frequency ON d.frequency_id = frequency.id '
         'INNER JOIN grid ON d.grid_id = grid.id '
         'INNER JOIN variable ON d.variable_id = variable.id '
+        'INNER JOIN suffix ON d.suffix_id = suffix.id '
         'INNER JOIN status ON d.status_id = status.id '
         'WHERE {} '
     ).format(' AND '.join(condition))

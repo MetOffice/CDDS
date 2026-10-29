@@ -34,7 +34,7 @@ OCEAN_STREAMS = {'inm': 'd', 'ind': 'h', 'ond': '1d', 'onm': '1m'}
 PRIORITY_UNSET = 99
 
 # Log messages that variable is / is not in inventory:
-VARIABLE_IN_INVENTORY_LOG = 'Variable "{}/{}" is in the inventory database settings active: "{}".'
+VARIABLE_IN_INVENTORY_LOG = 'Variable "{}/{}" is in the inventory database marked as active: "{}".'
 VARIABLE_NOT_IN_INVENTORY_LOG = 'Variable "{}/{}" can not be found in the inventory database.'
 
 # Comments of approved variable that in inventory
