@@ -607,11 +607,15 @@ class TestFilters(unittest.TestCase):
         with tempfile.TemporaryDirectory() as target:
             self._touch_pp_files(target, ["a0.pp", "a1.pp", "a2.pp"])
             missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
+        # Must be [] not [[]]: callers use "if not missing_runs" to detect nothing to fetch,
+        # and an empty sequence would crash when building the filter file
         self.assertEqual(missing_runs, [])
 
     def test_missing_pp_file_runs_mixed(self):
         pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(5)]
         with tempfile.TemporaryDirectory() as target:
+            # A file on disk in the middle must split the missing files, otherwise one
+            # select spanning a0-a4 would fetch a2 again
             self._touch_pp_files(target, ["a2.pp"])
             missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
         self.assertEqual(missing_runs, [pp_filelist[0:2], pp_filelist[3:5]])
@@ -626,10 +630,13 @@ class TestFilters(unittest.TestCase):
             self._touch_pp_files(target, ["a0.pp", "a1.pp", "a2.pp"])
             status, mass_cmd, error, code = filters._mass_cmd_pp(None, None)
 
+        # "ok" with "already_exists" lets the runner report the stream as already extracted,
+        # rather than failing because there are no commands
         self.assertEqual(status, "ok")
         self.assertEqual(mass_cmd, [])
         self.assertEqual(code, "already_exists")
         self.assertEqual(error, "all 3 pp files already present in {}".format(target))
+        # Chunking runs dry-run selects against MASS, so it must be skipped when nothing is missing
         mock_chunk_pp_filelist.assert_not_called()
 
     @patch("cdds.extract.filters.Filters._create_filterfile_pp", return_value="filter.dff")
@@ -638,6 +645,7 @@ class TestFilters(unittest.TestCase):
     @patch("cdds.extract.filters.Filters._create_pp_filelist")
     def test_mass_cmd_pp_selects_only_missing_file_runs(
             self, mock_create_pp_filelist, mock_chunk_pp_filelist, mock_create_filterfile_pp):
+        # Real TimePoints are needed because _mass_cmd_pp reads the year/month/day for each command
         pp_filelist = []
         for i in range(5):
             timepoint = TimePointParser().parse("2000-01-0{}T00:00:00Z".format(i + 1))
@@ -652,6 +660,7 @@ class TestFilters(unittest.TestCase):
 
         self.assertEqual(status, "ok")
         self.assertEqual(code, 1)
+        # The commands must be built from the missing sequences, not the full file list
         self.assertEqual(len(mass_cmd), 2)
         missing_sequences = [call.args[0] for call in mock_chunk_pp_filelist.call_args_list]
         self.assertEqual(missing_sequences, [pp_filelist[:2], pp_filelist[3:]])
