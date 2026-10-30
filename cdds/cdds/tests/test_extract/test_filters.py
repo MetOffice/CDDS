@@ -606,61 +606,55 @@ class TestFilters(unittest.TestCase):
         pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(3)]
         with tempfile.TemporaryDirectory() as target:
             self._touch_pp_files(target, ["a0.pp", "a1.pp", "a2.pp"])
-            runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
-        self.assertEqual(runs, [])
+            missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
+        self.assertEqual(missing_runs, [])
 
     def test_missing_pp_file_runs_mixed(self):
         pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(5)]
         with tempfile.TemporaryDirectory() as target:
             self._touch_pp_files(target, ["a2.pp"])
-            runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
-        self.assertEqual(runs, [pp_filelist[0:2], pp_filelist[3:5]])
+            missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target)
+        self.assertEqual(missing_runs, [pp_filelist[0:2], pp_filelist[3:5]])
 
-    def test_mass_cmd_pp_skips_when_all_files_exist(self):
-        pp_filelist = [{"filename": "a{}.pp".format(i)} for i in range(3)]
+    @patch("cdds.extract.filters.Filters._chunk_pp_filelist")
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_pp_skips_when_all_files_exist(self, mock_create_pp_filelist, mock_chunk_pp_filelist):
+        mock_create_pp_filelist.return_value = [{"filename": "a{}.pp".format(i)} for i in range(3)]
         filters = Filters(procdir="foo")
         with tempfile.TemporaryDirectory() as target:
             filters.target = target
-            self._touch_pp_files(target, [file["filename"] for file in pp_filelist])
-            with patch.object(filters, "_create_pp_filelist", return_value=pp_filelist), \
-                    patch.object(filters, "_chunk_pp_filelist") as chunk_pp_filelist:
-                status, mass_cmd, error, code = filters._mass_cmd_pp(None, None)
+            self._touch_pp_files(target, ["a0.pp", "a1.pp", "a2.pp"])
+            status, mass_cmd, error, code = filters._mass_cmd_pp(None, None)
 
         self.assertEqual(status, "ok")
         self.assertEqual(mass_cmd, [])
         self.assertEqual(code, "already_exists")
         self.assertEqual(error, "all 3 pp files already present in {}".format(target))
-        chunk_pp_filelist.assert_not_called()
+        mock_chunk_pp_filelist.assert_not_called()
 
-    def test_mass_cmd_pp_selects_only_missing_file_runs(self):
-        pp_filelist = [
-            {
-                "timepoint": TimePointParser().parse(
-                    "2000-01-0{}T00:00:00Z".format(i + 1)),
-                "filename": "a{}.pp".format(i),
-            }
-            for i in range(5)
-        ]
+    @patch("cdds.extract.filters.Filters._create_filterfile_pp", return_value="filter.dff")
+    # Return each missing sequence as a single chunk so no MOOSE size check is needed
+    @patch("cdds.extract.filters.Filters._chunk_pp_filelist", side_effect=lambda sequence: [sequence])
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_pp_selects_only_missing_file_runs(
+            self, mock_create_pp_filelist, mock_chunk_pp_filelist, mock_create_filterfile_pp):
+        pp_filelist = []
+        for i in range(5):
+            timepoint = TimePointParser().parse("2000-01-0{}T00:00:00Z".format(i + 1))
+            pp_filelist.append({"timepoint": timepoint, "filename": "a{}.pp".format(i)})
+        mock_create_pp_filelist.return_value = pp_filelist
         filters = Filters(procdir="foo")
-        expected_runs = [pp_filelist[:2], pp_filelist[3:]]
         with tempfile.TemporaryDirectory() as target:
             filters.target = target
             filters.source = "source"
             self._touch_pp_files(target, ["a2.pp"])
-            with patch.object(filters, "_create_pp_filelist", return_value=pp_filelist), \
-                    patch.object(
-                        filters, "_chunk_pp_filelist", side_effect=lambda run: [run]
-                    ) as chunk_pp_filelist, \
-                    patch.object(filters, "_create_filterfile_pp", return_value="filter.dff"):
-                status, mass_cmd, _, code = filters._mass_cmd_pp(None, None)
+            status, mass_cmd, _, code = filters._mass_cmd_pp(None, None)
 
         self.assertEqual(status, "ok")
         self.assertEqual(code, 1)
         self.assertEqual(len(mass_cmd), 2)
-        self.assertEqual(
-            [call.args[0] for call in chunk_pp_filelist.call_args_list],
-            expected_runs,
-        )
+        missing_sequences = [call.args[0] for call in mock_chunk_pp_filelist.call_args_list]
+        self.assertEqual(missing_sequences, [pp_filelist[:2], pp_filelist[3:]])
 
 
 class TestSubdailyFilters(unittest.TestCase):
