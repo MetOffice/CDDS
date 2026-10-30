@@ -592,11 +592,10 @@ class Filters(object):
         -------
         Tuple[str, List[Dict], str, Union[int, str]]
             Status, list of mass cmds represented as dictionaries, message and status code.
-            Normally ("ok", <one moo select cmd per chunk of files to retrieve>, "", 1).
-            If every expected file is already in the target directory, returns
-            ("ok", [], <message saying so>, "already_exists"). No MOOSE commands are
-            run for the stream, and the runner logs it as already extracted and
-            treats it as a success rather than a failure.
+            Commands are only created for files missing from the target directory.
+            If no files are missing, the list is empty and the status code is
+            "already_exists"; the runner then reports the stream as already extracted,
+            not as failed.
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
@@ -611,7 +610,10 @@ class Filters(object):
         if not missing_runs:
             return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
                 len(pp_filelist), self.target), "already_exists"
-        chunks = [chunk for run in missing_runs for chunk in self._chunk_pp_filelist(run)]
+        # Split each sequence of missing files into chunks small enough for a single moo select
+        chunks: List[List[Dict]] = []
+        for missing_files_sequence in missing_runs:
+            chunks.extend(self._chunk_pp_filelist(missing_files_sequence))
 
         for chunk in chunks:
             start, end = chunk[0]["timepoint"], chunk[-1]["timepoint"]
