@@ -607,6 +607,7 @@ class Filters(object):
         else:
             logger.info("{} of {} pp files already present; {} pp files to moo select".format(
                 len(pp_filelist) - missing_count, len(pp_filelist), missing_count))
+        # Return early so the runner reports the stream as already extracted, not as an empty "ok" result
         if not missing_runs:
             return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
                 len(pp_filelist), self.target), "already_exists"
