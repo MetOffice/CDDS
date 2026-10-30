@@ -109,9 +109,17 @@ class ExtractRunner(object):
                         extract_process.configure_commands(
                             mappings, stream, data_source, data_target))
 
+                    # all stream files already present - nothing to retrieve
+                    if status == "already_exists":
+                        logger.info(
+                            self.lang["stream_already_extracted"].format(
+                                stream, err
+                            )
+                        )
+
                     # if status is skip OR mass_cmd is empty
                     # then skip this stream
-                    if status == "skip" or not mass_cmd:
+                    elif status == "skip" or not mass_cmd:
                         overall_result = "failed"
                         logger.critical(
                             self.lang["stream_skip_data"].format(

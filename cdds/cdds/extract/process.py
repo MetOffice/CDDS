@@ -199,7 +199,8 @@ class Process(object):
         Returns
         -------
         str
-            status information on subsequenct action to take [ok|skip|stop]
+            status information on subsequenct action to take
+            [ok|skip|stop|already_exists]
         list of dict
             MOOSE commands - dict per command
         str
@@ -246,8 +247,9 @@ class Process(object):
                 for cmd in mass_cmd:
                     log_msg += "  command --  {}\n".format(cmd)
                 logger.debug(log_msg)
-                if status == "ok" and code == "already_exists":
-                    logger.debug(error)
+
+            if status == "ok" and code == "already_exists":
+                status = "already_exists"
 
             if status == "stop":
                 errmsg = self.lang["stream_size_fail"].format(error)

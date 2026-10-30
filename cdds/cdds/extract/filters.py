@@ -6,10 +6,11 @@ using SELECT and FILTER
 """
 
 import logging
+import os
 import re
 from collections import defaultdict
 from operator import itemgetter
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Union
 from metomi.isodatetime.data import TimePoint
 import json
 
@@ -534,9 +535,47 @@ class Filters(object):
 
         return pp_filelist
 
-    def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, int]:
+    def _missing_pp_file_runs(self, pp_filelist: List[Dict], target: str) -> List[List[Dict]]:
+        """Group the pp files missing from the target directory into runs of
+        consecutive files.
+
+        Each run becomes its own moo select. A filter file can request a range of
+        filenames, so a single select spanning a file already on disk would retrieve
+        that file again. Each file already on disk therefore ends the current missing file
+        sequence, and the next missing file starts a new one. For example, if May is on
+        disk then Jan-Apr and Jun-Dec are separate runs.
+
+        Parameters
+        ----------
+        pp_filelist : List[Dict]
+            A pp_filelist
+        target : str
+            Target directory the files are extracted to
+
+        Returns
+        -------
+        List[List[Dict]]
+            Runs of consecutive pp_filelist entries missing from the target directory
+        """
+        collated_missing_runs: List[List[Dict]] = []
+        # A Jan-Dec select would re-fetch a May that was already on disk,
+        # so build Jan-Apr and Jun-Dec as separate sequences.
+        missing_files_sequence: List[Dict] = []
+        for pp_file in pp_filelist:
+            on_disk = os.path.exists(os.path.join(target, pp_file["filename"]))
+            if not on_disk:
+                missing_files_sequence.append(pp_file)
+            elif missing_files_sequence:
+                # A file on disk ends the current sequence of missing files: store it and start a new one
+                collated_missing_runs.append(missing_files_sequence)
+                missing_files_sequence = []
+        if missing_files_sequence:
+            collated_missing_runs.append(missing_files_sequence)
+        return collated_missing_runs
+
+    def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands and respective filter files needed for a given
-        stream.
+        stream. Files already in the target directory are not requested again.
 
         Parameters
         ----------
@@ -551,12 +590,31 @@ class Filters(object):
 
         Returns
         -------
-        Tuple[str, List[Dict], str, int]
-            A list of mass cmds represented as dictionaries.
+        Tuple[str, List[Dict], str, Union[int, str]]
+            Status, list of mass cmds represented as dictionaries, message and status code.
+            Commands are only created for files missing from the target directory.
+            If no files are missing, the list is empty and the status code is
+            "already_exists"; the runner then reports the stream as already extracted,
+            not as failed.
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
-        chunks = self._chunk_pp_filelist(pp_filelist)
+        missing_runs = self._missing_pp_file_runs(pp_filelist, self.target)
+        missing_count = sum(len(missing_files_sequence) for missing_files_sequence in missing_runs)
+        logger = logging.getLogger(__name__)
+        if missing_count == len(pp_filelist):
+            logger.info("{} pp files to moo select (none already present)".format(missing_count))
+        else:
+            logger.info("{} of {} pp files already present; {} pp files to moo select".format(
+                len(pp_filelist) - missing_count, len(pp_filelist), missing_count))
+        # Return early so the runner reports the stream as already extracted, not as an empty "ok" result
+        if not missing_runs:
+            return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
+                len(pp_filelist), self.target), "already_exists"
+        # Split each sequence of missing files into chunks small enough for a single moo select
+        chunks: List[List[Dict]] = []
+        for missing_files_sequence in missing_runs:
+            chunks.extend(self._chunk_pp_filelist(missing_files_sequence))
 
         for chunk in chunks:
             start, end = chunk[0]["timepoint"], chunk[-1]["timepoint"]
