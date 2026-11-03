@@ -598,6 +598,9 @@ class TestFilters(unittest.TestCase):
             "particular check the assignment of variables to streams)."
         )
 
+
+class TestSkipExistingPpFiles(unittest.TestCase):
+
     def _create_empty_pp_files(self, target_dir, filenames):
         for filename in filenames:
             open(os.path.join(target_dir, filename), "w").close()
