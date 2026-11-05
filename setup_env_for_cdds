@@ -13,4 +13,14 @@ else
     CONDA=/opt/conda/bin/activate
 fi
 
-source "$CONDA" ~cdds/conda_environments/"$CDDS"
+source "$CONDA" ~cdds/conda_environments/"$CDDS" || return $?
+
+# Run check for latest version of CDDS available:
+# (Runs only in interactive shells, not cylc workflows).
+if [[ $- == *i* ]]; then
+    # Suppress import errors for older versions without checker;
+    # run the checker if its module is available.
+    if python -c "import cdds.misc.check_latest_version_available" >/dev/null 2>&1; then
+        python -m cdds.misc.check_latest_version_available "$1"
+    fi
+fi
