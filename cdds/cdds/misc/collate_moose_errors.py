@@ -144,5 +144,5 @@ def main_collate_moose_errors(arguments: Optional[List[str]] = None) -> int:
     errors_dir = Path(request.common.root_proc_dir) / ERRORS_NAME
     logs = find_stream_logs(request, args.stream)
     new_count = store_failures(errors_dir, logs)
-    print("Stored {} new failure command ID(s) from {} log(s) in {}".format(new_count, len(logs), errors_dir))
+    print("Stored {} new moose failure command ID(s) from {} log(s) in {}".format(new_count, len(logs), errors_dir))
     return 0
