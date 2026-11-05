@@ -4,35 +4,63 @@
 import argparse
 import fcntl
 import re
+from collections import defaultdict
+from datetime import date
 from pathlib import Path
-from typing import Iterable, List, Optional
+from typing import Iterable, List, Optional, Tuple
 
 from cdds.common.cdds_files.cdds_directories import log_directory
 from cdds.common.request.request import Request, read_request
 
-CENTRAL_LOG_NAME = "moose_command_errors.log"
+ERRORS_NAME = "moose_command_errors"
 LOG_PATTERNS = {
     "extract": "cdds_extract_{}_*.log",
     "archive": "cdds_store_{}_*.log",
 }
 # Match any log line with a command ID followed by a parenthesized status tag.
 MOOSE_FAILURE_PATTERN = re.compile(r"command-id=([^,\s'\"]+),\s+\([A-Z][A-Z0-9_]*\)")
+LOG_DATE_PATTERN = re.compile(r"^(\d{4}-\d{2}-\d{2}) \d{2}:\d{2}:\d{2}")
 
 
-def collect_failures(lines: Iterable[str], failures: dict[str, str]) -> None:
-    """Add the first failure line for each new command ID in ``lines`` to ``failures``.
+def collect_failures(lines: Iterable[str], failures: dict[str, Tuple[str, str]]) -> None:
+    """Add the date and first failure line for each new command ID in ``lines`` to ``failures``.
 
     Parameters
     ----------
     lines: Iterable[str]
         Log lines to scan.
-    failures: dict[str, str]
-        Failure lines keyed by command ID, updated in place.
+    failures: dict[str, Tuple[str, str]]
+        ``(date, line)`` keyed by command ID, updated in place.
     """
+    log_date = ""
     for line in lines:
+        date_match = LOG_DATE_PATTERN.match(line)
+        # Continuation lines of multi-line messages carry no date, so keep the last one seen.
+        if date_match:
+            log_date = date_match.group(1)
         match = MOOSE_FAILURE_PATTERN.search(line)
         if match:
-            failures.setdefault(match.group(1), line)
+            failures.setdefault(match.group(1), (log_date, line))
+
+
+def read_failures(paths: Iterable[Path]) -> dict[str, Tuple[str, str]]:
+    """Return failures found in ``paths``, keeping the first occurrence of each command ID.
+
+    Parameters
+    ----------
+    paths: Iterable[Path]
+        Log files to scan.
+
+    Returns
+    -------
+    dict[str, Tuple[str, str]]
+        ``(date, line)`` keyed by command ID.
+    """
+    failures: dict[str, Tuple[str, str]] = {}
+    for path in paths:
+        with path.open(encoding="utf-8", errors="replace") as log_file:
+            collect_failures(log_file, failures)
+    return failures
 
 
 def find_stream_logs(request: Request, stream: str) -> List[Path]:
@@ -58,13 +86,13 @@ def find_stream_logs(request: Request, stream: str) -> List[Path]:
     return logs
 
 
-def store_failures(central_log: Path, logs: Iterable[Path]) -> int:
-    """Append failure lines for command IDs not already in ``central_log``.
+def store_failures(errors_dir: Path, logs: Iterable[Path]) -> int:
+    """Append failures not already recorded in ``errors_dir`` to daily logs named after each failure's date.
 
     Parameters
     ----------
-    central_log: Path
-        Shared log of MOOSE failures.
+    errors_dir: Path
+        Directory holding the daily MOOSE failure logs.
     logs: Iterable[Path]
         Log files to scan.
 
@@ -73,21 +101,22 @@ def store_failures(central_log: Path, logs: Iterable[Path]) -> int:
     int
         Number of new command IDs stored.
     """
-    with central_log.open("a+", encoding="utf-8", errors="replace") as central_file:
-        # Lock held across read and append as several streams may write at once.
-        fcntl.flock(central_file, fcntl.LOCK_EX)
-        central_file.seek(0)
-        existing: dict[str, str] = {}
-        collect_failures(central_file, existing)
+    errors_dir.mkdir(parents=True, exist_ok=True)
+    with (errors_dir / ".lock").open("w") as lock_file:
+        # Several streams may collate at once.
+        fcntl.flock(lock_file, fcntl.LOCK_EX)
+        existing = read_failures(errors_dir.glob("{}_*.log".format(ERRORS_NAME)))
 
-        failures = dict(existing)
-        for log_path in logs:
-            with log_path.open(encoding="utf-8", errors="replace") as log_file:
-                collect_failures(log_file, failures)
+        new_by_date: dict[str, List[str]] = defaultdict(list)
+        for command_id, (log_date, line) in read_failures(logs).items():
+            if command_id not in existing:
+                new_by_date[log_date or date.today().isoformat()].append(line)
 
-        new_lines = [line for command_id, line in failures.items() if command_id not in existing]
-        central_file.writelines(new_lines)
-    return len(new_lines)
+        for log_date, lines in new_by_date.items():
+            errors_log = errors_dir / "{}_{}.log".format(ERRORS_NAME, log_date)
+            with errors_log.open("a", encoding="utf-8") as errors_file:
+                errors_file.writelines(lines)
+    return sum(len(lines) for lines in new_by_date.values())
 
 
 def parse_args(arguments: Optional[List[str]]) -> argparse.Namespace:
@@ -98,7 +127,7 @@ def parse_args(arguments: Optional[List[str]]) -> argparse.Namespace:
 
 
 def main_collate_moose_errors(arguments: Optional[List[str]] = None) -> int:
-    """Collate MOOSE command failures for a stream into the central log under ``root_proc_dir``.
+    """Collate MOOSE command failures for a stream into daily logs in ``<root_proc_dir>/moose_command_errors/``.
 
     Parameters
     ----------
@@ -112,8 +141,8 @@ def main_collate_moose_errors(arguments: Optional[List[str]] = None) -> int:
     """
     args = parse_args(arguments)
     request = read_request(args.request)
-    central_log = Path(request.common.root_proc_dir) / CENTRAL_LOG_NAME
+    errors_dir = Path(request.common.root_proc_dir) / ERRORS_NAME
     logs = find_stream_logs(request, args.stream)
-    new_count = store_failures(central_log, logs)
-    print("Stored {} new failure command ID(s) from {} log(s) in {}".format(new_count, len(logs), central_log))
+    new_count = store_failures(errors_dir, logs)
+    print("Stored {} new failure command ID(s) from {} log(s) in {}".format(new_count, len(logs), errors_dir))
     return 0
