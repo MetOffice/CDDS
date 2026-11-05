@@ -499,7 +499,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'evaluation',
+            'driving_experiment_id': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'tas',
@@ -512,12 +512,12 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
 
         self.assertFalse(relevant)
 
-    def test_wrong_driving_experiment(self):
+    def test_wrong_driving_experiment_id(self):
         request = simple_request()
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'historical',
+            'driving_experiment_id': 'historical',
         }
         variable_dict = {
             'out_var_name': 'hus1000',
@@ -534,7 +534,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-MM'
         request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'evaluation',
+            'driving_experiment_id': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'psl',
@@ -551,7 +551,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadGEM3-GC31-LL'
         request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'evaluation',
+            'driving_experiment_id': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'hus1000',
