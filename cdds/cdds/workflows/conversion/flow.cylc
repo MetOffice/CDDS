@@ -327,7 +327,7 @@ mkdir -p {{ BASE_OUTPUT }}
             STREAM = {{ STREAM }}
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
-            --ntasks = 1
+            --ntasks = {{ MASS_TASKS }}
             --partition = cpu-long
         {% elif PLATFORM == 'JASMIN' %}
     [[run_extract_{{ STREAM }}]]
@@ -340,7 +340,7 @@ mkdir -p {{ BASE_OUTPUT }}
             STREAM = {{ STREAM }}
         [[[directives]]]
             --mem = {{ MEMORY_EXTRACT }}
-            --ntasks = 1
+            --ntasks = {{ MASS_TASKS }}
             --partition = mass
             --qos = mass
             --account = mass
@@ -408,7 +408,7 @@ mkdir -p {{ BASE_OUTPUT }}
             DATA_VERSION = {{ ARCHIVE_DATA_VERSION }}
         [[[directives]]]
             --mem = {{ MEMORY_TRANSFER }}
-            --ntasks = 1
+            --ntasks = {{ MASS_TASKS}}
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
