@@ -481,7 +481,7 @@ class TestRegionalModelFileIsRelevantForArchiving(TestCase):
         request.metadata.mip_era = 'CORDEX'
         request.metadata.model_id = 'HadREM3-GA7-05'
         request.netcdf_global_attributes.attributes = {
-            'driving_experiment': 'evaluation',
+            'driving_experiment_id': 'evaluation',
         }
         variable_dict = {
             'out_var_name': 'hus1000',

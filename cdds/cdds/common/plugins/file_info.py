@@ -444,7 +444,7 @@ class RegionalModelFileInfo(ModelFileInfo):
     _NC_FILES_TO_ARCHIVE_REGEX = ('(?P<out_var_name>[a-zA-Z0-9-]+)_'
                                   '(?P<domain_id>[a-zA-Z0-9-]+)_'
                                   '(?P<driving_model_id>[a-zA-Z0-9-]+)_'
-                                  '(?P<driving_experiment>[a-zA-Z0-9-]+)_'
+                                  '(?P<driving_experiment_id>[a-zA-Z0-9-]+)_'
                                   '(?P<driving_variant_label>[a-zA-Z0-9-]+)_'
                                   '(?P<institution_id>[a-zA-Z0-9-]+)_'
                                   '(?P<model_id>[a-zA-Z0-9-]+)_'
@@ -513,7 +513,7 @@ class RegionalModelFileInfo(ModelFileInfo):
             request.netcdf_global_attributes.attributes['domain'],
             request.metadata.institution_id,
             request.netcdf_global_attributes.attributes['driving_source_id'],
-            request.netcdf_global_attributes.attributes['driving_experiment'],
+            request.netcdf_global_attributes.attributes['driving_experiment_id'],
             request.netcdf_global_attributes.attributes['driving_variant_label'],
             request.metadata.model_id,
             request.netcdf_global_attributes.attributes['version_realization']
@@ -574,6 +574,6 @@ class RegionalModelFileInfo(ModelFileInfo):
             return False
         if variable_dict['out_var_name'] != match.group('out_var_name'):
             return False
-        if global_attributes['driving_experiment'] != match.group('driving_experiment'):
+        if global_attributes['driving_experiment_id'] != match.group('driving_experiment_id'):
             return False
         return True
