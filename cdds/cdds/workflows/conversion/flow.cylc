@@ -408,7 +408,7 @@ mkdir -p {{ BASE_OUTPUT }}
             DATA_VERSION = {{ ARCHIVE_DATA_VERSION }}
         [[[directives]]]
             --mem = {{ MEMORY_TRANSFER }}
-            --ntasks = 1
+            --ntasks = {{ MASS_TASKS}}
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
