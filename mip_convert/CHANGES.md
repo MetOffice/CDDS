@@ -1,4 +1,4 @@
-## Release 4.0.6
+## Release 4.0.6 November 06, 2026
 
 -   Added the `UKESM1p3x` mappings plugin (#1171)
 -   Added support for `basin` and `olevel` variables (#1154)
