@@ -559,7 +559,8 @@ class Filters(object):
             missing from the target directory.
         """
         collated_missing_retrievals: List[List[Dict]] = []
-        # A Jan-Dec select would re-fetch a May that was already on disk,
+        # In our docstring example, where data for May exists but others are missing,
+        # a Jan-Dec select would re-fetch a May that was already on disk,
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
         for pp_file in pp_filelist:
