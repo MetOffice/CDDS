@@ -1,4 +1,4 @@
-## Release 4.0.6
+## Release 4.0.6 November 06, 2026
 
 -   CMIP7 inventory deactivation is now supported (#740)
 -   `cdds_extract` avoids redundant MASS select requests for data that already exists (#1194)
