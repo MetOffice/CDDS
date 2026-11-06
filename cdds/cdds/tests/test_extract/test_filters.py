@@ -6,6 +6,7 @@
 from copy import deepcopy
 import logging
 import os
+import tempfile
 import unittest
 from copy import deepcopy
 from unittest.mock import patch
@@ -596,6 +597,89 @@ class TestFilters(unittest.TestCase):
             "review your request config and variables files before re-running (in "
             "particular check the assignment of variables to streams)."
         )
+
+
+class TestSkipExistingPpFiles(unittest.TestCase):
+
+    def _create_empty_pp_files(self, target_dir, filenames):
+        for filename in filenames:
+            open(os.path.join(target_dir, filename), "w").close()
+
+    def test_missing_pp_file_retrievals_returns_empty_when_all_files_exist(self):
+        pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
+        with tempfile.TemporaryDirectory() as target_dir:
+            self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
+        # Must return [] not [[]]: callers use "if not missing_retrievals" to detect nothing to fetch.
+        # A nested empty sequence would be processed as a missing retrieval and fail during filter-file creation.
+        self.assertEqual(missing_retrievals, [])
+
+    def test_missing_pp_file_retrievals_mixed(self):
+        pp_filelist = [
+            {"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"},
+            {"filename": "a3.pp"}, {"filename": "a4.pp"},
+        ]
+        with tempfile.TemporaryDirectory() as target_dir:
+            # A file on disk in the middle must split the missing files, otherwise one
+            # select spanning a0-a4 would fetch a2 again
+            self._create_empty_pp_files(target_dir, ["a2.pp"])
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
+        self.assertEqual(missing_retrievals, [pp_filelist[0:2], pp_filelist[3:5]])
+
+    def test_missing_pp_file_retrievals_returns_one_retrieval_when_no_files_exist(self):
+        pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
+        with tempfile.TemporaryDirectory() as target_dir:
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
+        # With nothing in the target directory, no file splits the list, so all files are requested together
+        self.assertEqual(missing_retrievals, [pp_filelist])
+
+    @patch("cdds.extract.filters.Filters._chunk_pp_filelist")
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_pp_skips_when_all_files_exist(self, mock_create_pp_filelist, mock_chunk_pp_filelist):
+        mock_create_pp_filelist.return_value = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
+        filters = Filters(procdir="foo")
+        with tempfile.TemporaryDirectory() as target_dir:
+            filters.target = target_dir
+            self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
+            status, mass_cmd, error, code = filters._mass_cmd_pp(None, None)
+
+        # "ok" with "already_exists" lets the runner report the stream as already extracted,
+        # rather than failing because there are no commands
+        self.assertEqual(status, "ok")
+        self.assertEqual(mass_cmd, [])
+        self.assertEqual(code, "already_exists")
+        self.assertEqual(error, "all 3 pp files already present in {}".format(target_dir))
+        # Chunking runs dry-run selects against MASS, so it must be skipped when nothing is missing
+        mock_chunk_pp_filelist.assert_not_called()
+
+    @patch("cdds.extract.filters.Filters._create_filterfile_pp", return_value="filter.dff")
+    # Return each missing sequence as a single chunk so no MOOSE size check is needed
+    @patch("cdds.extract.filters.Filters._chunk_pp_filelist", side_effect=lambda sequence: [sequence])
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_pp_selects_only_missing_file_runs(
+            self, mock_create_pp_filelist, mock_chunk_pp_filelist, mock_create_filterfile_pp):
+        # Real TimePoints are needed because _mass_cmd_pp reads each chunk's start/end year, month and day
+        # when building the select commands
+        pp_filelist = []
+        for i in range(5):
+            timepoint = TimePointParser().parse("2000-01-0{}T00:00:00Z".format(i + 1))
+            pp_filelist.append({"timepoint": timepoint, "filename": "a{}.pp".format(i)})
+        mock_create_pp_filelist.return_value = pp_filelist
+        filters = Filters(procdir="foo")
+        # Only a2 is on disk, so a0-a1 and a3-a4 are missing
+        # filters.source can be any string as _mass_cmd_pp builds commands - doesn't run them.
+        with tempfile.TemporaryDirectory() as target_dir:
+            filters.target = target_dir
+            filters.source = "source"
+            self._create_empty_pp_files(target_dir, ["a2.pp"])
+            status, mass_cmd, _, code = filters._mass_cmd_pp(None, None)
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(code, 1)
+        # The commands must be built from the missing sequences, not the full file list
+        self.assertEqual(len(mass_cmd), 2)
+        missing_sequences = [call.args[0] for call in mock_chunk_pp_filelist.call_args_list]
+        self.assertEqual(missing_sequences, [pp_filelist[:2], pp_filelist[3:]])
 
 
 class TestSubdailyFilters(unittest.TestCase):
