@@ -97,11 +97,11 @@ def walk_mass_dir(root, facet_list, inventory):
     """
     cursor = inventory.cursor()
     logger = logging.getLogger(__name__)
-    if len(facet_list) == 4:
+    if len(facet_list) == 6:
         # we're down to variable/grid/status/timestamp/
         datasets = mass_list_files_recursively(root, False)
         for dataset_id, dataset_metadata in datasets.items():
-            dataset_facets = dataset_id.split('.')
+            dataset_facets = dataset_id.split('.')[1:]
             facet_dict = build_facet_dictionary(dataset_facets, INVENTORY_FACET_LIST)
             dataset_dict = populate_dataset_dictionary(cursor, facet_dict)
             dataset_dict['variant'] = dataset_facets[5]
