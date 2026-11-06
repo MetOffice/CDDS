@@ -605,16 +605,16 @@ class TestSkipExistingPpFiles(unittest.TestCase):
         for filename in filenames:
             open(os.path.join(target_dir, filename), "w").close()
 
-    def test_missing_pp_file_runs_returns_empty_when_all_files_exist(self):
+    def test_missing_pp_file_retrievals_returns_empty_when_all_files_exist(self):
         pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
         with tempfile.TemporaryDirectory() as target_dir:
             self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
-            missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target_dir)
-        # Must return [] not [[]]: callers use "if not missing_runs" to detect nothing to fetch.
-        # A nested empty sequence would be processed as a missing run and fail during filter-file creation.
-        self.assertEqual(missing_runs, [])
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
+        # Must return [] not [[]]: callers use "if not missing_retrievals" to detect nothing to fetch.
+        # A nested empty sequence would be processed as a missing retrieval and fail during filter-file creation.
+        self.assertEqual(missing_retrievals, [])
 
-    def test_missing_pp_file_runs_mixed(self):
+    def test_missing_pp_file_retrievals_mixed(self):
         pp_filelist = [
             {"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"},
             {"filename": "a3.pp"}, {"filename": "a4.pp"},
@@ -623,15 +623,15 @@ class TestSkipExistingPpFiles(unittest.TestCase):
             # A file on disk in the middle must split the missing files, otherwise one
             # select spanning a0-a4 would fetch a2 again
             self._create_empty_pp_files(target_dir, ["a2.pp"])
-            missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target_dir)
-        self.assertEqual(missing_runs, [pp_filelist[0:2], pp_filelist[3:5]])
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
+        self.assertEqual(missing_retrievals, [pp_filelist[0:2], pp_filelist[3:5]])
 
-    def test_missing_pp_file_runs_returns_one_run_when_no_files_exist(self):
+    def test_missing_pp_file_retrievals_returns_one_retrieval_when_no_files_exist(self):
         pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
         with tempfile.TemporaryDirectory() as target_dir:
-            missing_runs = Filters(procdir="foo")._missing_pp_file_runs(pp_filelist, target_dir)
+            missing_retrievals = Filters(procdir="foo")._missing_pp_file_retrievals(pp_filelist, target_dir)
         # With nothing in the target directory, no file splits the list, so all files are requested together
-        self.assertEqual(missing_runs, [pp_filelist])
+        self.assertEqual(missing_retrievals, [pp_filelist])
 
     @patch("cdds.extract.filters.Filters._chunk_pp_filelist")
     @patch("cdds.extract.filters.Filters._create_pp_filelist")

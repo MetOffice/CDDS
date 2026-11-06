@@ -535,15 +535,15 @@ class Filters(object):
 
         return pp_filelist
 
-    def _missing_pp_file_runs(self, pp_filelist: List[Dict], target: str) -> List[List[Dict]]:
-        """Group the pp files missing from the target directory into runs of
+    def _missing_pp_file_retrievals(self, pp_filelist: List[Dict], target: str) -> List[List[Dict]]:
+        """Group the pp files missing from the target directory into retrievals of
         consecutive files.
 
-        Each run becomes its own moo select. A filter file can request a range of
+        Each retrieval becomes its own moo select. A filter file can request a range of
         filenames, so a single select spanning a file already on disk would retrieve
         that file again. Each file already on disk therefore ends the current missing file
         sequence, and the next missing file starts a new one. For example, if May is on
-        disk then Jan-Apr and Jun-Dec are separate runs.
+        disk then Jan-Apr and Jun-Dec are separate retrievals.
 
         Parameters
         ----------
@@ -555,9 +555,10 @@ class Filters(object):
         Returns
         -------
         List[List[Dict]]
-            Runs of consecutive pp_filelist entries missing from the target directory
+            A list of retrievals, each containing consecutive PP files
+            missing from the target directory.
         """
-        collated_missing_runs: List[List[Dict]] = []
+        collated_missing_retrievals: List[List[Dict]] = []
         # A Jan-Dec select would re-fetch a May that was already on disk,
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
@@ -567,14 +568,15 @@ class Filters(object):
                 missing_files_sequence.append(pp_file)
             elif missing_files_sequence:
                 # A file on disk ends the current sequence of missing files: store it and start a new one
-                collated_missing_runs.append(missing_files_sequence)
+                collated_missing_retrievals.append(missing_files_sequence)
                 missing_files_sequence = []
         if missing_files_sequence:
-            collated_missing_runs.append(missing_files_sequence)
-        return collated_missing_runs
+            collated_missing_retrievals.append(missing_files_sequence)
+        return collated_missing_retrievals
 
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
-        """Create the list of mass commands and respective filter files needed for a given
+        """Create the list of mass commands
+        and respective filter files needed for a given
         stream. Files already in the target directory are not requested again.
 
         Parameters
@@ -599,8 +601,8 @@ class Filters(object):
         """
         self.mass_cmd = []
         pp_filelist = self._create_pp_filelist(start, end)
-        missing_runs = self._missing_pp_file_runs(pp_filelist, self.target)
-        missing_count = sum(len(missing_files_sequence) for missing_files_sequence in missing_runs)
+        missing_retrievals = self._missing_pp_file_retrievals(pp_filelist, self.target)
+        missing_count = sum(len(missing_files_sequence) for missing_files_sequence in missing_retrievals)
         logger = logging.getLogger(__name__)
         if missing_count == len(pp_filelist):
             logger.info("{} pp files to moo select (none already present)".format(missing_count))
@@ -608,12 +610,12 @@ class Filters(object):
             logger.info("{} of {} pp files already present; {} pp files to moo select".format(
                 len(pp_filelist) - missing_count, len(pp_filelist), missing_count))
         # Return early so the runner reports the stream as already extracted, not as an empty "ok" result
-        if not missing_runs:
+        if not missing_retrievals:
             return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
                 len(pp_filelist), self.target), "already_exists"
         # Split each sequence of missing files into chunks small enough for a single moo select
         chunks: List[List[Dict]] = []
-        for missing_files_sequence in missing_runs:
+        for missing_files_sequence in missing_retrievals:
             chunks.extend(self._chunk_pp_filelist(missing_files_sequence))
 
         for chunk in chunks:
