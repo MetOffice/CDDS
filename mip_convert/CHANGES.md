@@ -1,3 +1,8 @@
+## Release 4.0.6 November 06, 2026
+
+-   Added the `UKESM1p3x` mappings plugin (#1171)
+-   Added support for `basin` and `olevel` variables (#1154)
+
 ## Release 4.0.5. October 14, 2026
 
 -   `UKESM1p3` mappings correction to allow the processing of `meanage_tavg-al-hxy-u` (#1049)
