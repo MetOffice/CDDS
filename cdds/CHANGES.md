@@ -1,3 +1,11 @@
+## Release 4.0.6
+
+-   CMIP7 inventory deactivation is now supported (#740)
+-   `cdds_extract` avoids redundant MASS select requests for data that already exists (#1194)
+-   Fix to archiving code for CORDEX regional models (#1219)
+-   Users will be notified that they are not using the latest version when activating CDDS in an interactive session (#1144)
+-   Fixed an error when updating variables from validation output (#1175)
+
 ## Release 4.0.5. October 14, 2026
 
 -   `cdds_extract` and `cdds_store` check users MASS login status prior to attempting tasks (#1085)
