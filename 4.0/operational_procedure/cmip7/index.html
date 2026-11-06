@@ -508,6 +508,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ukesm1-3-variables-with-conflicting-mappings" class="md-nav__link">
+    UKESM1-3 variables with conflicting mappings
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1714,6 +1721,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#ukesm1-3-variables-with-conflicting-mappings" class="md-nav__link">
+    UKESM1-3 variables with conflicting mappings
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1995,6 +2009,16 @@ prior to starting processing to:</p>
 <li>Get appropriate guidance on the steps needed to correctly construct the request and variables file.</li>
 <li>Arrange for an appropriate <a href="https://errata.esgf.io">Errata</a> to be issued following submission of data sets.</li>
 </ol>
+<h3 id="ukesm1-3-variables-with-conflicting-mappings">UKESM1-3 variables with conflicting mappings</h3>
+<p>A small number of variables have conflicting mappings between different frequencies under UKESM1-3-LL. <abbr title="Climate Data Dissemination System">CDDS</abbr> currently has no nice way of handling this under the main UKESM1-3 mapping plugin. To allow these variables to still be produced, a new mapping plugin (<code>ukesm1p3x</code>) has been created. This has the same functionality as the standard <code>ukesm1p3</code> mapping, however it contains the required expressions to produce the <strong>daily</strong> frequency of the variables with conflicting mappings.
+- sbl_tavg-u-hxy-u@day
+- chl_tavg-ols-hxy-sea@day
+- o2_tavg-ols-hxy-sea@day
+- phyc_tavg-ols-hxy-sea@day</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This mapping plugin should only be used when attempting to produce the variables listed. Please contact a member of the <abbr title="Climate Data Dissemination System">CDDS</abbr> team for support in doing this.</p>
+</div>
 <h2 id="3-creating-an-operational-simulation-issue">3. Creating an operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</h2>
 <p>The <em><abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issue</em>, see the <a href="https://github.com/UKNCSP/CDDS-CMIP7-processing/issues">list of <abbr title="Climate Data Dissemination System">CDDS</abbr> operational <abbr title="A particular model run, with associated workflow identifier, which is defined by an experiment and has an assigned variant label.">simulation</abbr> issues</a>, is the 
 primary route for documenting progress of processing and for requesting support with processing.</p>
