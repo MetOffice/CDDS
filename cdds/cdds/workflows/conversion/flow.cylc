@@ -36,10 +36,11 @@
     {% endif %}
     {% if RUN_TRANSFER %}
     {% if RUN_QC %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}?
     {% else %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_repack_{{ STREAM }} => run_transfer_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_repack_{{ STREAM }} => run_transfer_{{ STREAM }}?
     {% endif %}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_transfer_{{ STREAM }}:fail? => collate_moose_errors_{{ STREAM }}
     {% endif %}
         {% if RUN_TRANSFER %}
             R1/{{ FINAL_CYCLE_POINT }} = """
@@ -54,11 +55,14 @@
 
         # {{ STREAM }} extract and extract validation
     {% if RUN_EXTRACT and RUN_EXTRACT_VALIDATION %}
-        R1 = run_extract_{{ STREAM }} => validate_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
+        R1 = run_extract_{{ STREAM }}? => validate_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
     {% elif RUN_EXTRACT %}
-        R1 = run_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
+        R1 = run_extract_{{ STREAM }}? => setup_output_dir_{{ STREAM }}
     {% elif RUN_EXTRACT_VALIDATION %}
         R1 = validate_extract_{{ STREAM }} => setup_output_dir_{{ STREAM }}
+    {% endif %}
+    {% if RUN_EXTRACT %}
+        R1 = run_extract_{{ STREAM }}:fail? => collate_moose_errors_{{ STREAM }}
     {% endif %}
 
     {% for COMPONENT in STREAM_COMPONENTS[STREAM] %}
@@ -110,7 +114,8 @@
     {% endif %}
 
     {% if RUN_TRANSFER %}
-        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_qc_{{ STREAM }} => run_transfer_{{ STREAM }}?
+        R1/{{ FINAL_CONCATENATION_CYCLE[STREAM] }} = run_transfer_{{ STREAM }}:fail? => collate_moose_errors_{{ STREAM }}
     {% endif %}
 
         {% if RUN_TRANSFER %}
@@ -409,6 +414,16 @@ mkdir -p {{ BASE_OUTPUT }}
         [[[directives]]]
             --mem = {{ MEMORY_TRANSFER }}
             --ntasks = {{ MASS_TASKS}}
+    {% endif %}
+
+    {% if RUN_TRANSFER or (RUN_EXTRACT and STREAM not in SINGLE_TASKS) %}
+    [[collate_moose_errors_{{ STREAM }}]]
+        inherit = {{ PLATFORM }}
+        [[[environment]]]
+            ROSE_TASK_APP = collate_moose_errors
+            STREAM = {{ STREAM }}
+        [[[directives]]]
+            --ntasks = 1
     {% endif %}
 {% endfor %} # STREAM LOOP END
 
