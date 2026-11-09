@@ -70,7 +70,7 @@ the release branch to `main`.
         This will likely have already been set correctly to the version you're preparing - in which case you can skip this step.
 
 3. Update the `CHANGES.md` files with all the relevant changes from the last release.
-    - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py`.
+    - Any new files added since the last release that do not have a `.py` extension are included in `MANIFEST.in` and `setup.py` (it is likely these are already covered by the current includes in the `MANIFEST.in`'s, so you only need to add to these if the release you're undertaking introduces a new file format to CDDS).
     - The milestone issues filter can be useful to quickly view all the issues completed in the milestone you're releasing see [here](https://github.com/MetOffice/CDDS/issues?q=is%3Aclosed%20milestone%3A%22CDDS%20v4.0.4%22) for an example.
     - Double check with the rest of the team as to anything important that needs including.
 
@@ -158,9 +158,9 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
     1. Ensure local copy of both `main` and `release_branch` are up to date.
     ```bash
     git checkout main
-    git pull main
-    git checkout vX.Y_release
-    git pull checkout vX.Y_release
+    git pull
+    git checkout v<X.Y>_release
+    git pull
     ```
 
     1. On the main branch use
