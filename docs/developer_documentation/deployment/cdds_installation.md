@@ -138,7 +138,7 @@
 
     - [x] Set the `CDDS_PLATFORM` and `CDDS_ETC` variables
           ```bash
-          conda activate cdds-X.Y.Z
+          conda activate $HOME/conda_environments/cdds-<X.Y.Z>
           conda env config vars set CDDS_PLATFORM=JASMIN
           conda env config vars set CDDS_ETC=$HOME/etc
           ```
