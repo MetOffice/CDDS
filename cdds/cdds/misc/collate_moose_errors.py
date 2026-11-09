@@ -137,12 +137,17 @@ def main_collate_moose_errors(arguments: Optional[List[str]] = None) -> int:
     Returns
     -------
     int
-        Exit code.
+        Exit code, always 1 so the upstream extract/transfer failure still stalls the workflow.
     """
     args = parse_args(arguments)
     request = read_request(args.request)
     errors_dir = Path(request.common.root_proc_dir) / ERRORS_NAME
     logs = find_stream_logs(request, args.stream)
     new_count = store_failures(errors_dir, logs)
-    print("Stored {} new moose failure command ID(s) from {} log(s) in {}".format(new_count, len(logs), errors_dir))
-    return 0
+    print("\nThe preceding task has failed.")
+    print("If there were any MOOSE errors, this task collates them from the logs "
+    "for record keeping and debugging purposes.")
+    print("Stored {} new moose failure command ID(s) from {} log(s) in {}\n".format(new_count, len(logs), errors_dir))
+    print("Note: This script is designed to exit non-zero on purpose so the workflow stalls.")
+    print("Try to fix the cause, then retrigger the failed task.")
+    return 1
