@@ -158,9 +158,9 @@ Follow the instructions provided in the [Installation](cdds_installation.md) gui
     1. Ensure local copy of both `main` and `release_branch` are up to date.
     ```bash
     git checkout main
-    git pull main
-    git checkout vX.Y_release
-    git pull checkout vX.Y_release
+    git pull
+    git checkout v<X.Y>_release
+    git pull
     ```
 
     1. On the main branch use
