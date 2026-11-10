@@ -20,30 +20,42 @@ LOG_PATTERNS = {
 # Match any log line with a command ID followed by a parenthesized status tag.
 MOOSE_FAILURE_PATTERN = re.compile(r"command-id=([^,\s'\"]+),\s+\([A-Z][A-Z0-9_]*\)")
 LOG_DATE_PATTERN = re.compile(r"^(\d{4}-\d{2}-\d{2}) \d{2}:\d{2}:\d{2}")
+# Noise removed from a failure line when it is first written to the collated log (extract, then transfer).
+LOG_LINE_PREFIXES = (
+    "cdds.extract.common.run_moo_cmd DEBUG: moo output: ",
+    "cdds.extract.common.run_moo_cmd INFO: moo output: ",
+    "MOO command standard error ",
+)
 
 
-def collect_failures(lines: Iterable[str], failures: dict[str, Tuple[str, str]]) -> None:
-    """Add the date and first failure line for each new command ID in ``lines`` to ``failures``.
+def collect_failures(lines: Iterable[str], path: Path, failures: dict[str, Tuple[str, str, Path]]) -> None:
+    """Add the date, first failure line and source path for each new command ID in ``lines`` to ``failures``.
 
     Parameters
     ----------
     lines: Iterable[str]
         Log lines to scan.
-    failures: dict[str, Tuple[str, str]]
-        ``(date, line)`` keyed by command ID, updated in place.
+    path: Path
+        Log file the lines were read from.
+    failures: dict[str, Tuple[str, str, Path]]
+        ``(date, line, path)`` keyed by command ID, updated in place.
     """
     log_date = ""
+    timestamp = ""
     for line in lines:
         date_match = LOG_DATE_PATTERN.match(line)
-        # Continuation lines of multi-line messages carry no date, so keep the last one seen.
+        # Continuation lines of multi-line messages carry no timestamp, so keep the last one seen.
         if date_match:
             log_date = date_match.group(1)
+            timestamp = date_match.group(0)
         match = MOOSE_FAILURE_PATTERN.search(line)
         if match:
-            failures.setdefault(match.group(1), (log_date, line))
+            if not date_match and timestamp:
+                line = "{} {}".format(timestamp, line)
+            failures.setdefault(match.group(1), (log_date, line, path))
 
 
-def read_failures(paths: Iterable[Path]) -> dict[str, Tuple[str, str]]:
+def read_failures(paths: Iterable[Path]) -> dict[str, Tuple[str, str, Path]]:
     """Return failures found in ``paths``, keeping the first occurrence of each command ID.
 
     Parameters
@@ -53,13 +65,13 @@ def read_failures(paths: Iterable[Path]) -> dict[str, Tuple[str, str]]:
 
     Returns
     -------
-    dict[str, Tuple[str, str]]
-        ``(date, line)`` keyed by command ID.
+    dict[str, Tuple[str, str, Path]]
+        ``(date, line, path)`` keyed by command ID.
     """
-    failures: dict[str, Tuple[str, str]] = {}
+    failures: dict[str, Tuple[str, str, Path]] = {}
     for path in paths:
         with path.open(encoding="utf-8", errors="replace") as log_file:
-            collect_failures(log_file, failures)
+            collect_failures(log_file, path, failures)
     return failures
 
 
@@ -86,7 +98,7 @@ def find_stream_logs(request: Request, stream: str) -> List[Path]:
     return logs
 
 
-def store_failures(errors_dir: Path, logs: Iterable[Path]) -> int:
+def store_failures(errors_dir: Path, logs: Iterable[Path], stream: str) -> int:
     """Append failures not already recorded in ``errors_dir`` to daily logs named after each failure's date.
 
     Parameters
@@ -95,6 +107,8 @@ def store_failures(errors_dir: Path, logs: Iterable[Path]) -> int:
         Directory holding the daily MOOSE failure logs.
     logs: Iterable[Path]
         Log files to scan.
+    stream: str
+        Stream name, prefixed to each stored line.
 
     Returns
     -------
@@ -108,9 +122,15 @@ def store_failures(errors_dir: Path, logs: Iterable[Path]) -> int:
         existing = read_failures(errors_dir.glob("{}_*.log".format(ERRORS_NAME)))
 
         new_by_date: dict[str, List[str]] = defaultdict(list)
-        for command_id, (log_date, line) in read_failures(logs).items():
+        for command_id, (log_date, line, path) in read_failures(logs).items():
             if command_id not in existing:
-                new_by_date[log_date or date.today().isoformat()].append(line)
+                # Only newly stored lines are trimmed; source logs and already stored lines are left unchanged.
+                for prefix in LOG_LINE_PREFIXES:
+                    line = line.replace(prefix, "", 1)
+                line = line.rstrip("\n")
+                new_by_date[log_date or date.today().isoformat()].append(
+                    "{} stream:{}, log origin: {}\n".format(line, stream, path.resolve())
+                )
 
         for log_date, lines in new_by_date.items():
             errors_log = errors_dir / "{}_{}.log".format(ERRORS_NAME, log_date)
@@ -137,19 +157,15 @@ def main_collate_moose_errors(arguments: Optional[List[str]] = None) -> int:
     Returns
     -------
     int
-        Exit code, always 1 so the upstream extract/transfer failure still stalls the workflow.
+        Exit code.
     """
     args = parse_args(arguments)
     request = read_request(args.request)
     errors_dir = Path(request.common.root_proc_dir) / ERRORS_NAME
     logs = find_stream_logs(request, args.stream)
-    new_count = store_failures(errors_dir, logs)
+    new_count = store_failures(errors_dir, logs, args.stream)
     print(
-        "\nThe preceding task has failed.\n"
-        "If there were any MOOSE errors, this task collates them from the logs "
-        "for record keeping and debugging purposes.\n"
-        "Stored {} moose failure command ID(s) from {} log(s) to {}\n\n"
-        "Note: This script is designed to exit non-zero on purpose so the workflow stalls.\n"
-        "Try to fix the cause, then retrigger the failed task.".format(new_count, len(logs), errors_dir)
+        "Collating any MOOSE errors from the logs for record keeping and debugging purposes.\n"
+        "Stored {} new moose failure command ID(s) from {} log(s) to {}".format(new_count, len(logs), errors_dir)
     )
-    return 1
+    return 0
