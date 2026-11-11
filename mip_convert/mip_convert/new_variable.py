@@ -461,7 +461,7 @@ class Variable(object):
         information is provided in the configuration file.
         """
         removal = self._variable_metadata.removal
-        grid_lat_variables = {'lat_variable': 'grid_latitude', 'lon_variable': 'grid_longitude'}
+        rotated_grid_variables = {'lat_variable': 'grid_latitude', 'lon_variable': 'grid_longitude'}
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
             for key, cube in self.input_variables.items():
@@ -472,11 +472,11 @@ class Variable(object):
                     if new_cube.coords("latitude"):
                         new_cube = self._remove_latitude_halo(new_cube, stream_removal)
                     if new_cube.coords("grid_latitude"):
-                        new_cube = self._remove_latitude_halo(new_cube, stream_removal, **grid_lat_variables)
+                        new_cube = self._remove_latitude_halo(new_cube, stream_removal, **rotated_grid_variables)
                     if new_cube.coords("longitude"):
                         new_cube = self._remove_longitude_halo(new_cube, stream_removal)
                     if new_cube.coords("grid_longitude"):
-                        new_cube = self._remove_longitude_halo(new_cube, stream_removal, **grid_lat_variables)
+                        new_cube = self._remove_longitude_halo(new_cube, stream_removal, **rotated_grid_variables)
 
                     self.logger.debug(f'Haloes removed from {new_cube}')
 
