@@ -1025,23 +1025,35 @@ class TestRemoveAltitudeCoords(unittest.TestCase):
 
 
 class TestCorrectD10cmUnits(unittest.TestCase):
-    def test_correct_d10cm_units(self):
+    def setUp(self):
         depth = DimCoord(
-            np.array([0.05], dtype=np.float32),
-            standard_name="depth",
-            units="m",
-            bounds=np.array([[0.0, 0.1]], dtype=np.float32)
+                    np.array([0.05], dtype=np.float32),
+                    standard_name="depth",
+                    units="",
+                    bounds=np.array([[0.0, 0.1]], dtype=np.float32)
         )
-        cube = Cube(
+        self.cube = Cube(
             np.array([1.0], dtype=np.float32),
             long_name="Total Water Content of Soil Layer",
             dim_coords_and_dims=[(depth, 0)]
         )
 
-        result = correct_d10cm_units(cube)
+        return self
+
+    def test_correct_d10cm_units_success(self):
+        self.cube.coord("depth").units = "m"
+        result = correct_d10cm_units(self.cube)
+
         self.assertEqual(result.coord("depth").units, "cm", "Failed to convert depth units to cm")
         np.testing.assert_array_equal(result.coord("depth").bounds, np.array([[0., 10.]], dtype=np.float32),
                                       "Failed to convert depth bounds values to cm")
+
+    def test_correct_d10cm_units_failure(self):
+        self.cube.coord("depth").units = "s"
+
+        with self.assertLogs(level='CRITICAL') as context:
+            correct_d10cm_units(self.cube)
+        self.assertIn("Unable to convert depth coordinate", context.output[0])
 
 
 if __name__ == '__main__':

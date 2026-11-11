@@ -2596,7 +2596,13 @@ def correct_d10cm_units(cube: iris.cube.Cube):
     iris.cube.Cube
         The update cube with depth in cm.
     """
-    if not cube.coord("depth").units == "cm":
-        cube.coord("depth").convert_units("cm")
+    logger = logging.getLogger(__name__)
+    old_units = cube.coord("depth").units
+    if not old_units == "cm":
+        try:
+            cube.coord("depth").convert_units("cm")
+            logger.info(f"Converting depth coordinate of {cube.name} from `{old_units}` to `cm`")
+        except ValueError:
+            logger.critical(f"Unable to convert depth coordinate of {cube.name} from `{old_units}` to `cm`")
 
     return cube
