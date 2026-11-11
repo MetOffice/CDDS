@@ -575,6 +575,15 @@ class Filters(object):
             collated_missing_retrievals.append(missing_files_sequence)
         return collated_missing_retrievals
 
+    def _paths_not_in_target(self, source_paths: List[str]) -> List[str]:
+        """Return source paths whose files are not yet present in the target."""
+        paths_not_in_target = []
+        for source_path in source_paths:
+            target_path = os.path.join(self.target, os.path.basename(source_path))
+            if not os.path.exists(target_path):
+                paths_not_in_target.append(source_path)
+        return paths_not_in_target
+
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands
         and respective filter files needed for a given
@@ -637,7 +646,7 @@ class Filters(object):
 
         return "ok", self.mass_cmd, "", 1
 
-    def _mass_cmd_get_pp(self) -> Tuple[str, List[Dict], str, int]:
+    def _mass_cmd_get_pp(self) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create a moo get command for retrieving .pp files.
 
         Returns
@@ -649,11 +658,24 @@ class Filters(object):
 
         filelist = self._create_pp_filelist(self.start_date, self.end_date)
         moo_uris = [self.source + "/" + file["filename"] for file in filelist]
+        uris_not_in_target = self._paths_not_in_target(moo_uris)
+        uri_count = len(uris_not_in_target)
+        logger = logging.getLogger(__name__)
+        if uri_count == len(filelist):
+            logger.info("{} pp files to moo get (none already present)".format(uri_count))
+        else:
+            logger.info("{} of {} pp files already present; {} pp files to moo get".format(
+                len(filelist) - uri_count, len(filelist), uri_count))
+
+        if filelist and not uris_not_in_target:
+            return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
+                len(filelist), self.target), "already_exists"
+
         start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
         end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
 
         cmd = {"moo_cmd": "get",
-               "param_args": ["-i"] + moo_uris + [self.target],
+             "param_args": ["-i"] + uris_not_in_target + [self.target],
                "start": start_tup,
                "end": end_tup}
 

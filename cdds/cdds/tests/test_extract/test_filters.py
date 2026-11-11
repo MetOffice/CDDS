@@ -682,6 +682,62 @@ class TestSkipExistingPpFiles(unittest.TestCase):
         self.assertEqual(missing_sequences, [pp_filelist[:2], pp_filelist[3:]])
 
 
+class TestSkipExistingPpGetFiles(unittest.TestCase):
+
+    def setUp(self):
+        self.filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
+        self.filters = Filters()
+        self.filters.source = "moose:/source"
+        self.filters.start_date = TimePointParser().parse("2000-01-01T00:00:00Z")
+        self.filters.end_date = TimePointParser().parse("2000-03-01T00:00:00Z")
+
+    def _create_empty_files(self, target_dir, filenames):
+        for filename in filenames:
+            open(os.path.join(target_dir, filename), "w").close()
+
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_get_pp_skips_when_all_files_exist(self, mock_create_pp_filelist):
+        mock_create_pp_filelist.return_value = self.filelist
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            self._create_empty_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(mass_cmd, [])
+        self.assertEqual(error, "all 3 pp files already present in {}".format(target_dir))
+        self.assertEqual(code, "already_exists")
+
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_get_pp_requests_only_missing_files(self, mock_create_pp_filelist):
+        mock_create_pp_filelist.return_value = self.filelist
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            self._create_empty_files(target_dir, ["a0.pp", "a2.pp"])
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(error, "")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(mass_cmd), 1)
+        self.assertEqual(mass_cmd[0]["param_args"], ["-i", "moose:/source/a1.pp", target_dir])
+
+    @patch("cdds.extract.filters.Filters._create_pp_filelist")
+    def test_mass_cmd_get_pp_requests_all_files_when_none_exist(self, mock_create_pp_filelist):
+        mock_create_pp_filelist.return_value = self.filelist
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(error, "")
+        self.assertEqual(code, 1)
+        self.assertEqual(len(mass_cmd), 1)
+        self.assertEqual(mass_cmd[0]["param_args"], [
+            "-i", "moose:/source/a0.pp", "moose:/source/a1.pp", "moose:/source/a2.pp", target_dir
+        ])
+
+
 class TestSubdailyFilters(unittest.TestCase):
 
     VAR_LIST = [
