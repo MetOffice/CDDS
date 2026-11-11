@@ -2580,3 +2580,23 @@ def add_osurf_axis(cube: iris.cube.Cube):
     cube.add_aux_coord(osurf_coord)
 
     return cube
+
+
+def correct_d10cm_units(cube: iris.cube.Cube):
+    """Updates the depth coordinate for d10cm cubes to be in cm. This avoid precision errors when converting to float64
+    in cmor.
+
+    Parameters
+    ----------
+    cube: iris.cube.Cube
+        The original cube.
+
+    Returns
+    -------
+    iris.cube.Cube
+        The update cube with depth in cm.
+    """
+    if not cube.coord("depth").units == "cm":
+        cube.coord("depth").convert_units("cm")
+
+    return cube
