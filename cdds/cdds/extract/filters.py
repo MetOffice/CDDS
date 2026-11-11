@@ -876,6 +876,8 @@ class Filters(object):
         else:
             # loop through substreams for this netcdf stream (e.g. grid-T)
             count = 0
+            expected_count = 0
+            files_to_retrieve_count = 0
 
             for substream, filter_str in self.filters.items():
                 count += 1
@@ -891,7 +893,10 @@ class Filters(object):
                 try:
                     regexp = netCDF_regexp()
                     moo_args = ["-i", file_name]
-                    self._update_mass_cmd(regexp, filelist, start, end, "filter", moo_args, substream)
+                    expected_count_for_substream, files_to_retrieve_for_substream = self._update_mass_cmd(
+                        regexp, filelist, start, end, "filter", moo_args, substream)
+                    expected_count += expected_count_for_substream
+                    files_to_retrieve_count += files_to_retrieve_for_substream
                 except MooseException as e:
                     error = str(e)
                     status["val"] = "stop"
@@ -899,6 +904,11 @@ class Filters(object):
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
+            logger.info("{} of {} nc files already present; {} nc files to moo filter".format(
+                expected_count - files_to_retrieve_count, expected_count, files_to_retrieve_count))
+            if status["val"] == "ok" and expected_count and not files_to_retrieve_count:
+                return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
+                    expected_count, self.target), "already_exists"
         return status["val"], self.mass_cmd, error, None
 
     def _mass_cmd_get_nc(self) -> Tuple[str, List[Dict], str, Optional[str]]:
@@ -1018,24 +1028,24 @@ class Filters(object):
         moo_cmd: str,
         moo_args: list,
         substream: str,
-    ):
-        files_on_tapes = defaultdict(list)
-        files_found = 0
+    ) -> Tuple[int, int]:
+        files_on_tapes: Dict[str, List[str]] = defaultdict(list)
+        expected_count = 0
         logger = logging.getLogger(__name__)
         for (tape, nc_file) in filelist:
             result = re.search(regexp, nc_file).groupdict()
             if result["substream"] == substream or not result["substream"]:
-                files_found += 1
                 file_start, file_end = result["start"], result["end"]
                 if file_start >= start.strftime("%Y%m%d") and file_end <= end.strftime("%Y%m%d"):
+                    expected_count += 1
                     files_on_tapes[tape].append(nc_file)
 
-        if not files_found:
-            return False
-        if not self.simulation:
+        files_on_tapes = {tape: self._paths_not_in_target(nc_files) for tape, nc_files in files_on_tapes.items()}
+        files_to_retrieve_count = sum(len(nc_files) for nc_files in files_on_tapes.values())
+        if files_to_retrieve_count and not self.simulation:
             logger.info(
                 "Using {} to retrieve {} files with chunk size of {}".format(
-                    regexp, files_found, MOOSE_MAX_NC_FILES
+                    regexp, files_to_retrieve_count, MOOSE_MAX_NC_FILES
                 )
             )
         # set tape limit manually. This will be removed in a future version of CDDS
@@ -1051,14 +1061,14 @@ class Filters(object):
                 "end": end,
             }
             self.mass_cmd.append(cmd)
-        if self.simulation:
+        if self.simulation and files_to_retrieve_count:
             self.mass_cmd.append({
                 "moo_cmd": "SIMULATED",
                 "param_args": moo_args + [self.target],
                 "start": start,
                 "end": end,
             })
-        return True
+        return expected_count, files_to_retrieve_count
 
 
 class FilterFileException(IOError):
