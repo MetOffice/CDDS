@@ -10,7 +10,7 @@ import os
 import re
 from collections import defaultdict
 from operator import itemgetter
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 from metomi.isodatetime.data import TimePoint
 import json
 
@@ -901,7 +901,7 @@ class Filters(object):
                 status["val"] = "stop"
         return status["val"], self.mass_cmd, error, None
 
-    def _mass_cmd_get_nc(self):
+    def _mass_cmd_get_nc(self) -> Tuple[str, List[Dict], str, Optional[str]]:
         """Create a moo get command for retrieving .nc files.
 
         Returns
@@ -925,17 +925,32 @@ class Filters(object):
         datestamps, _ = generate_datestamps_nc(self.start_date, self.end_date, file_frequency)
         start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
         end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
+        expected_count = 0
+        uris_to_get_count = 0
+        logger = logging.getLogger(__name__)
 
         for substream in self.filters:
             filenames = self.generate_filenames_nc(datestamps, substream)
             moo_uris = [self.source + "/" + file for file in filenames]
+            uris_to_get = self._paths_not_in_target(moo_uris)
+            expected_count += len(moo_uris)
+            uris_to_get_count += len(uris_to_get)
+
+            if moo_uris and not uris_to_get:
+                continue
 
             self.mass_cmd.append({
                 "moo_cmd": "get",
-                "param_args": ["-i"] + moo_uris + [self.target],
+                "param_args": ["-i"] + uris_to_get + [self.target],
                 "start": start_tup,
                 "end": end_tup,
             })
+
+        logger.info("{} of {} nc files already present; {} nc files to moo get".format(
+            expected_count - uris_to_get_count, expected_count, uris_to_get_count))
+        if expected_count and not uris_to_get_count:
+            return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
+                expected_count, self.target), "already_exists"
 
         return status["val"], self.mass_cmd, error, None
 

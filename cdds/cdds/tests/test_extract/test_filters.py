@@ -15,6 +15,7 @@ from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import configure_logger
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.common.plugins.plugins import PluginStore
 from cdds.common.request.request import read_request
 from cdds.extract.filters import Filters, MooseException
 
@@ -735,6 +736,75 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
         self.assertEqual(len(mass_cmd), 1)
         self.assertEqual(mass_cmd[0]["param_args"], [
             "-i", "moose:/source/a0.pp", "moose:/source/a1.pp", "moose:/source/a2.pp", target_dir
+        ])
+
+
+class TestSkipExistingNcGetFiles(unittest.TestCase):
+
+    def setUp(self):
+        load_plugin()
+        self.filters = Filters()
+        self.filters.stream = "onm"
+        self.filters.filters = {"grid-T": "", "grid-U": ""}
+        self.filters.source = "moose:/source"
+        self.filters.suite_id = "u-aw310"
+        self.filters.start_date = TimePointParser().parse("2000-01-01T00:00:00Z")
+        self.filters.end_date = TimePointParser().parse("2000-03-01T00:00:00Z")
+        self.filters.model_parameters = PluginStore.instance().get_plugin().models_parameters("UKESM1-0-LL")
+        self.filenames = {
+            "grid-T": [
+                "nemo_aw310o_1m_20000101-20000201_grid-T.nc",
+                "nemo_aw310o_1m_20000201-20000301_grid-T.nc",
+            ],
+            "grid-U": [
+                "nemo_aw310o_1m_20000101-20000201_grid-U.nc",
+                "nemo_aw310o_1m_20000201-20000301_grid-U.nc",
+            ],
+        }
+
+    def _create_empty_files(self, target_dir, filenames):
+        for filename in filenames:
+            open(os.path.join(target_dir, filename), "w").close()
+
+    def test_mass_cmd_get_nc_skips_when_all_files_exist(self):
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            self._create_empty_files(target_dir, self.filenames["grid-T"] + self.filenames["grid-U"])
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(mass_cmd, [])
+        self.assertEqual(error, "all 4 nc files already present in {}".format(target_dir))
+        self.assertEqual(code, "already_exists")
+
+    def test_mass_cmd_get_nc_requests_only_missing_substream_files(self):
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            self._create_empty_files(target_dir, self.filenames["grid-T"] + self.filenames["grid-U"][:1])
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(error, "")
+        self.assertIsNone(code)
+        self.assertEqual(len(mass_cmd), 1)
+        self.assertEqual(mass_cmd[0]["param_args"], ["-i", "moose:/source/" + self.filenames["grid-U"][1], target_dir])
+
+    def test_mass_cmd_get_nc_requests_all_files_when_none_exist(self):
+        with tempfile.TemporaryDirectory() as target_dir:
+            self.filters.target = target_dir
+            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+
+        self.assertEqual(status, "ok")
+        self.assertEqual(error, "")
+        self.assertIsNone(code)
+        self.assertEqual(len(mass_cmd), 2)
+        self.assertEqual(mass_cmd[0]["param_args"], [
+            "-i", "moose:/source/" + self.filenames["grid-T"][0],
+            "moose:/source/" + self.filenames["grid-T"][1], target_dir
+        ])
+        self.assertEqual(mass_cmd[1]["param_args"], [
+            "-i", "moose:/source/" + self.filenames["grid-U"][0],
+            "moose:/source/" + self.filenames["grid-U"][1], target_dir
         ])
 
 
