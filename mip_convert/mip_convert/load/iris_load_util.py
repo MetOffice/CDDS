@@ -460,6 +460,7 @@ def preprocess_callback(cube, field, filename):
     add_depth_coord(cube)
     add_substream(cube, substream)
     correct_cice_daily_time_coord(cube, filename)
+    replace_vertical_t_levels_with_depth(cube)
 
 
 def load_cubes_from_pp(all_input_data, pp_info, run_bounds, ancil_variables):
@@ -1071,3 +1072,17 @@ def rechunk(cube, chunk_config=None):
             lazy_data = lazy_data.rechunk(chunk_size)
             cube.data = lazy_data
     return cube
+
+
+def replace_vertical_t_levels_with_depth(cube: iris.cube.Cube):
+    """For a  handful of ocean grid-T files under UKCM", the depth coord is named `Vertical T levels`. This causes
+    issues when applying load constraints to the depth. To avoid this, we rename this axis to `depth` if no depth coord
+    exists.
+
+    Parameters
+    ----------
+    cube: iris.cube.Cube
+        The cube to modify
+    """
+    if cube.coords("Vertical T levels") and not cube.coords("depth"):
+        cube.coord("Vertical T levels").rename("depth")
