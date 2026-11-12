@@ -14,7 +14,7 @@ from cdds.common.constants import ANCIL_VARIABLES
 from mip_convert.load.iris_load_util import (
     ConstraintConstructor, pp_filter, compare_values, get_field_value,
     remove_duplicate_cubes, split_netCDF_filename, rechunk,
-    remove_cell_methods_intervals)
+    remove_cell_methods_intervals, replace_vertical_t_levels_with_depth)
 from mip_convert.tests.common import DummyField, realistic_3d_atmos
 from mip_convert.new_variable import VariableModelToMIPMapping
 from mip_convert.plugins.plugin_loader import load_mapping_plugin
@@ -491,6 +491,15 @@ class TestCellMethodsInterval(unittest.TestCase):
         cubes[1].cell_methods = (CellMethod(method='mean', intervals=('1800 s',)),)
         remove_cell_methods_intervals(cubes)
         self.assertEqual(cubes[0].cell_methods, cubes[1].cell_methods)
+
+
+class TestReplaceVerticalTLevels(unittest.TestCase):
+    def test_replace(self):
+        vertical_t_levels = iris.coords.DimCoord([0, 1, 2], long_name='Vertical T levels')
+        cube = iris.cube.Cube([0., 1., 2.], dim_coords_and_dims=[(vertical_t_levels, 0)])
+        replace_vertical_t_levels_with_depth(cube)
+        self.assertTrue(cube.coords("depth"))
+        self.assertFalse(cube.coords("Vertical T levels"))
 
 
 if __name__ == '__main__':

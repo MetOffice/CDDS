@@ -1084,5 +1084,7 @@ def replace_vertical_t_levels_with_depth(cube: iris.cube.Cube):
     cube: iris.cube.Cube
         The cube to modify
     """
+    logger = logging.getLogger(__name__)
     if cube.coords("Vertical T levels") and not cube.coords("depth"):
+        logger.info("Renaming 'Vertical T levels' coordinate axis to 'depth'.")
         cube.coord("Vertical T levels").rename("depth")
