@@ -461,7 +461,7 @@ class CollectionsCheckTestCase(unittest.TestCase):
             offset_point_sequence, msg
         )
 
-    def test_check_contiguity_with_half_hour_phase_starting_at_second_point(self):
+    def test_valid_contiguity_with_half_hour_phase_starting_at_second_point(self):
         cc = CollectionsCheck(self.request)
         run_start = TimePointParser().parse('1900-01-01T00:00:00')
         run_end = TimePointParser().parse('1900-01-02T00:00:00')
