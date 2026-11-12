@@ -461,6 +461,7 @@ class Variable(object):
         information is provided in the configuration file.
         """
         removal = self._variable_metadata.removal
+        rotated_grid_variables = {'lat_variable': 'grid_latitude', 'lon_variable': 'grid_longitude'}
         if self._variable_metadata.stream_id in removal:
             stream_removal = removal[self._variable_metadata.stream_id]
             for key, cube in self.input_variables.items():
@@ -470,22 +471,26 @@ class Variable(object):
                 else:
                     if new_cube.coords("latitude"):
                         new_cube = self._remove_latitude_halo(new_cube, stream_removal)
+                    if new_cube.coords("grid_latitude"):
+                        new_cube = self._remove_latitude_halo(new_cube, stream_removal, **rotated_grid_variables)
                     if new_cube.coords("longitude"):
-
                         new_cube = self._remove_longitude_halo(new_cube, stream_removal)
+                    if new_cube.coords("grid_longitude"):
+                        new_cube = self._remove_longitude_halo(new_cube, stream_removal, **rotated_grid_variables)
+
                     self.logger.debug(f'Haloes removed from {new_cube}')
 
                 self.input_variables[key] = new_cube
 
-    def _remove_latitude_halo(self, cube, stream_removal):
+    def _remove_latitude_halo(self, cube, stream_removal, lat_variable='latitude', lon_variable='longitude'):
         """Remove the latitude halo from the cube."""
-        new_latitude = cube.coord('latitude')[stream_removal.slice_latitude]
+        new_latitude = cube.coord(lat_variable)[stream_removal.slice_latitude]
 
         try:
             new_cube = cube.subset(new_latitude)
         except CoordinateMultiDimError:
-            lat_dims = cube.coord_dims('latitude')
-            lon_dims = cube.coord_dims('longitude')
+            lat_dims = cube.coord_dims(lat_variable)
+            lon_dims = cube.coord_dims(lon_variable)
             expected_dims = tuple(range(len(cube.shape)))[-2:]
             if not (lat_dims == lon_dims == expected_dims):
                 raise RuntimeError(
@@ -499,15 +504,15 @@ class Variable(object):
                 new_cube = cube[..., stream_removal.slice_latitude, :]
         return new_cube
 
-    def _remove_longitude_halo(self, cube, stream_removal):
+    def _remove_longitude_halo(self, cube, stream_removal, lat_variable='latitude', lon_variable='longitude'):
         """Remove the longitude halo from the cube."""
-        new_longitude = cube.coord('longitude')[stream_removal.slice_longitude]
+        new_longitude = cube.coord(lon_variable)[stream_removal.slice_longitude]
 
         try:
             new_cube = cube.subset(new_longitude)
         except CoordinateMultiDimError:
-            lat_dims = cube.coord_dims('latitude')
-            lon_dims = cube.coord_dims('longitude')
+            lat_dims = cube.coord_dims(lat_variable)
+            lon_dims = cube.coord_dims(lon_variable)
             expected_dims = tuple(range(len(cube.shape)))[-2:]
             if not (lat_dims == lon_dims == expected_dims):
                 raise RuntimeError(
