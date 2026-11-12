@@ -168,7 +168,9 @@ class CollectionsCheck(object):
         # Check tpt variables for a 30 minute offset between expected and actual first timepoint. This is seen in some
         # subdaily atmos variables.
         first_file = list(time_axis.keys())[0]
-        point_sequence = self._check_instantaneous_offset(point_sequence, time_axis[first_file][0], run_start, run_end)
+        if time_bounds is None:
+            point_sequence = self._check_instantaneous_offset(
+                point_sequence, time_axis[first_file][0], run_start, run_end)
         reference_index = 0
         # before checking individual values we'll check run bounds first
         run_bounds_errors, offset_adjustment = self._test_time_bounds(
