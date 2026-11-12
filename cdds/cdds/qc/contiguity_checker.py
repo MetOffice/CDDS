@@ -228,7 +228,8 @@ class CollectionsCheck(object):
         # Check whether there is a 30 minute offset between the expected and actual first timepoint.
         lower_bound = HALF_HOUR_IN_DAYS - tolerance
         upper_bound = HALF_HOUR_IN_DAYS + tolerance
-        # The first timepoint may be missing, so also compare against the second expected timepoint.
+        # The data may start at the first or second expected timepoint, so compare against both
+        # (e.g. 3hr data starting 03:30 is 30 min from 03:00, not 00:00).
         for reference_point in point_sequence[:2]:
             reference_time_point = self.calendar_calculator.days_since_base_date(
                 reference_point.strftime('%Y-%m-%dT%H:%MZ'))
