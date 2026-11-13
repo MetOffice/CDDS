@@ -703,7 +703,6 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
         mock_create_pp_filelist.return_value = self.filelist
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
-            # Every expected file is on disk, so nothing should be requested
             self._create_empty_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
             status, mass_cmd, message, code = self.filters._mass_cmd_get_pp()
 
@@ -780,7 +779,6 @@ class TestSkipExistingNcGetFiles(unittest.TestCase):
     def test_mass_cmd_get_nc_skips_when_all_files_exist(self):
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
-            # Every file for both substreams is on disk, so nothing should be requested
             self._create_empty_files(target_dir, self.filenames["grid-T"] + self.filenames["grid-U"])
             status, mass_cmd, message, code = self.filters._mass_cmd_get_nc()
 
@@ -871,7 +869,6 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
         return result, procdir, target_dir
 
     def test_mass_cmd_nc_filter_skips_when_all_files_exist(self):
-        # Every file for both substreams is on disk, so nothing should be requested
         existing_filenames = self.filenames["grid-T"] + self.filenames["grid-U"]
         (status, mass_cmd, message, code), _, target_dir = self._run_nc_filter(existing_filenames)
 
