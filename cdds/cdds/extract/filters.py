@@ -10,7 +10,7 @@ import os
 import re
 from collections import defaultdict
 from operator import itemgetter
-from typing import Dict, List, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union
 from metomi.isodatetime.data import TimePoint
 import json
 
@@ -575,6 +575,15 @@ class Filters(object):
             collated_missing_retrievals.append(missing_files_sequence)
         return collated_missing_retrievals
 
+    def _paths_not_in_target(self, source_paths: List[str]) -> List[str]:
+        """Return source paths whose files are not yet present in the target."""
+        paths_not_in_target = []
+        for source_path in source_paths:
+            target_path = os.path.join(self.target, os.path.basename(source_path))
+            if not os.path.exists(target_path):
+                paths_not_in_target.append(source_path)
+        return paths_not_in_target
+
     def _mass_cmd_pp(self, start: TimePoint, end: TimePoint) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create the list of mass commands
         and respective filter files needed for a given
@@ -637,7 +646,7 @@ class Filters(object):
 
         return "ok", self.mass_cmd, "", 1
 
-    def _mass_cmd_get_pp(self) -> Tuple[str, List[Dict], str, int]:
+    def _mass_cmd_get_pp(self) -> Tuple[str, List[Dict], str, Union[int, str]]:
         """Create a moo get command for retrieving .pp files.
 
         Returns
@@ -649,11 +658,24 @@ class Filters(object):
 
         filelist = self._create_pp_filelist(self.start_date, self.end_date)
         moo_uris = [self.source + "/" + file["filename"] for file in filelist]
+        uris_not_in_target = self._paths_not_in_target(moo_uris)
+        uri_count = len(uris_not_in_target)
+        logger = logging.getLogger(__name__)
+        if uri_count == len(filelist):
+            logger.info("{} pp files to moo get (none already present)".format(uri_count))
+        else:
+            logger.info("{} of {} pp files already present; {} pp files to moo get".format(
+                len(filelist) - uri_count, len(filelist), uri_count))
+
+        if filelist and not uris_not_in_target:
+            return "ok", self.mass_cmd, "all {} pp files already present in {}".format(
+                len(filelist), self.target), "already_exists"
+
         start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
         end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
 
         cmd = {"moo_cmd": "get",
-               "param_args": ["-i"] + moo_uris + [self.target],
+             "param_args": ["-i"] + uris_not_in_target + [self.target],
                "start": start_tup,
                "end": end_tup}
 
@@ -854,6 +876,8 @@ class Filters(object):
         else:
             # loop through substreams for this netcdf stream (e.g. grid-T)
             count = 0
+            expected_count = 0
+            files_to_retrieve_count = 0
 
             for substream, filter_str in self.filters.items():
                 count += 1
@@ -869,7 +893,10 @@ class Filters(object):
                 try:
                     regexp = netCDF_regexp()
                     moo_args = ["-i", file_name]
-                    self._update_mass_cmd(regexp, filelist, start, end, "filter", moo_args, substream)
+                    expected_count_for_substream, files_to_retrieve_for_substream = self._update_mass_cmd(
+                        regexp, filelist, start, end, "filter", moo_args, substream)
+                    expected_count += expected_count_for_substream
+                    files_to_retrieve_count += files_to_retrieve_for_substream
                 except MooseException as e:
                     error = str(e)
                     status["val"] = "stop"
@@ -877,9 +904,14 @@ class Filters(object):
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
+            logger.info("{} of {} nc files already present; {} nc files to moo filter".format(
+                expected_count - files_to_retrieve_count, expected_count, files_to_retrieve_count))
+            if status["val"] == "ok" and expected_count and not files_to_retrieve_count:
+                return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
+                    expected_count, self.target), "already_exists"
         return status["val"], self.mass_cmd, error, None
 
-    def _mass_cmd_get_nc(self):
+    def _mass_cmd_get_nc(self) -> Tuple[str, List[Dict], str, Optional[str]]:
         """Create a moo get command for retrieving .nc files.
 
         Returns
@@ -903,17 +935,32 @@ class Filters(object):
         datestamps, _ = generate_datestamps_nc(self.start_date, self.end_date, file_frequency)
         start_tup = self.start_date.year, self.start_date.month_of_year, self.start_date.day_of_month
         end_tup = self.end_date.year, self.end_date.month_of_year, self.end_date.day_of_month
+        expected_count = 0
+        uris_to_get_count = 0
+        logger = logging.getLogger(__name__)
 
         for substream in self.filters:
             filenames = self.generate_filenames_nc(datestamps, substream)
             moo_uris = [self.source + "/" + file for file in filenames]
+            uris_to_get = self._paths_not_in_target(moo_uris)
+            expected_count += len(moo_uris)
+            uris_to_get_count += len(uris_to_get)
+
+            if moo_uris and not uris_to_get:
+                continue
 
             self.mass_cmd.append({
                 "moo_cmd": "get",
-                "param_args": ["-i"] + moo_uris + [self.target],
+                "param_args": ["-i"] + uris_to_get + [self.target],
                 "start": start_tup,
                 "end": end_tup,
             })
+
+        logger.info("{} of {} nc files already present; {} nc files to moo get".format(
+            expected_count - uris_to_get_count, expected_count, uris_to_get_count))
+        if expected_count and not uris_to_get_count:
+            return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
+                expected_count, self.target), "already_exists"
 
         return status["val"], self.mass_cmd, error, None
 
@@ -981,24 +1028,24 @@ class Filters(object):
         moo_cmd: str,
         moo_args: list,
         substream: str,
-    ):
-        files_on_tapes = defaultdict(list)
-        files_found = 0
+    ) -> Tuple[int, int]:
+        files_on_tapes: Dict[str, List[str]] = defaultdict(list)
+        expected_count = 0
         logger = logging.getLogger(__name__)
         for (tape, nc_file) in filelist:
             result = re.search(regexp, nc_file).groupdict()
             if result["substream"] == substream or not result["substream"]:
-                files_found += 1
                 file_start, file_end = result["start"], result["end"]
                 if file_start >= start.strftime("%Y%m%d") and file_end <= end.strftime("%Y%m%d"):
+                    expected_count += 1
                     files_on_tapes[tape].append(nc_file)
 
-        if not files_found:
-            return False
-        if not self.simulation:
+        files_on_tapes = {tape: self._paths_not_in_target(nc_files) for tape, nc_files in files_on_tapes.items()}
+        files_to_retrieve_count = sum(len(nc_files) for nc_files in files_on_tapes.values())
+        if files_to_retrieve_count and not self.simulation:
             logger.info(
                 "Using {} to retrieve {} files with chunk size of {}".format(
-                    regexp, files_found, MOOSE_MAX_NC_FILES
+                    regexp, files_to_retrieve_count, MOOSE_MAX_NC_FILES
                 )
             )
         # set tape limit manually. This will be removed in a future version of CDDS
@@ -1014,14 +1061,14 @@ class Filters(object):
                 "end": end,
             }
             self.mass_cmd.append(cmd)
-        if self.simulation:
+        if self.simulation and files_to_retrieve_count:
             self.mass_cmd.append({
                 "moo_cmd": "SIMULATED",
                 "param_args": moo_args + [self.target],
                 "start": start,
                 "end": end,
             })
-        return True
+        return expected_count, files_to_retrieve_count
 
 
 class FilterFileException(IOError):
