@@ -686,8 +686,10 @@ class TestSkipExistingPpFiles(unittest.TestCase):
 class TestSkipExistingPpGetFiles(unittest.TestCase):
 
     def setUp(self):
+        # _mass_cmd_get_pp only reads each file's name, so no TimePoints are needed in the filelist
         self.filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
         self.filters = Filters()
+        # filters.source can be any string as _mass_cmd_get_pp builds commands - doesn't run them.
         self.filters.source = "moose:/source"
         self.filters.start_date = TimePointParser().parse("2000-01-01T00:00:00Z")
         self.filters.end_date = TimePointParser().parse("2000-03-01T00:00:00Z")
@@ -701,12 +703,14 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
         mock_create_pp_filelist.return_value = self.filelist
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
+            # Every expected file is on disk, so nothing should be requested
             self._create_empty_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_pp()
 
         self.assertEqual(status, "ok")
         self.assertEqual(mass_cmd, [])
-        self.assertEqual(error, "all 3 pp files already present in {}".format(target_dir))
+        self.assertEqual(message, "all 3 pp files already present in {}".format(target_dir))
+        # "already_exists" lets the runner report the stream as already extracted, not as failed
         self.assertEqual(code, "already_exists")
 
     @patch("cdds.extract.filters.Filters._create_pp_filelist")
@@ -714,12 +718,14 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
         mock_create_pp_filelist.return_value = self.filelist
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
+            # Only a1 is missing
             self._create_empty_files(target_dir, ["a0.pp", "a2.pp"])
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_pp()
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertEqual(code, 1)
+        # A single moo get requesting only the missing file
         self.assertEqual(len(mass_cmd), 1)
         self.assertEqual(mass_cmd[0]["param_args"], ["-i", "moose:/source/a1.pp", target_dir])
 
@@ -727,11 +733,12 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
     def test_mass_cmd_get_pp_requests_all_files_when_none_exist(self, mock_create_pp_filelist):
         mock_create_pp_filelist.return_value = self.filelist
         with tempfile.TemporaryDirectory() as target_dir:
+            # Empty target, so behaviour should match retrieval before skipping was added
             self.filters.target = target_dir
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_pp()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_pp()
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertEqual(code, 1)
         self.assertEqual(len(mass_cmd), 1)
         self.assertEqual(mass_cmd[0]["param_args"], [
@@ -742,15 +749,19 @@ class TestSkipExistingPpGetFiles(unittest.TestCase):
 class TestSkipExistingNcGetFiles(unittest.TestCase):
 
     def setUp(self):
+        # Real plugin model parameters are used so generate_filenames_nc builds genuine filenames
+        # from the stream's file frequency, rather than mocking them
         load_plugin()
         self.filters = Filters()
         self.filters.stream = "onm"
+        # Two substreams, as _mass_cmd_get_nc builds one moo get per substream
         self.filters.filters = {"grid-T": "", "grid-U": ""}
         self.filters.source = "moose:/source"
         self.filters.suite_id = "u-aw310"
         self.filters.start_date = TimePointParser().parse("2000-01-01T00:00:00Z")
         self.filters.end_date = TimePointParser().parse("2000-03-01T00:00:00Z")
         self.filters.model_parameters = PluginStore.instance().get_plugin().models_parameters("UKESM1-0-LL")
+        # The monthly files generate_filenames_nc is expected to produce for Jan-Feb 2000
         self.filenames = {
             "grid-T": [
                 "nemo_aw310o_1m_20000101-20000201_grid-T.nc",
@@ -769,34 +780,39 @@ class TestSkipExistingNcGetFiles(unittest.TestCase):
     def test_mass_cmd_get_nc_skips_when_all_files_exist(self):
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
+            # Every file for both substreams is on disk, so nothing should be requested
             self._create_empty_files(target_dir, self.filenames["grid-T"] + self.filenames["grid-U"])
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_nc()
 
         self.assertEqual(status, "ok")
         self.assertEqual(mass_cmd, [])
-        self.assertEqual(error, "all 4 nc files already present in {}".format(target_dir))
+        self.assertEqual(message, "all 4 nc files already present in {}".format(target_dir))
         self.assertEqual(code, "already_exists")
 
     def test_mass_cmd_get_nc_requests_only_missing_substream_files(self):
         with tempfile.TemporaryDirectory() as target_dir:
             self.filters.target = target_dir
+            # grid-T is complete and only the second grid-U file is missing
             self._create_empty_files(target_dir, self.filenames["grid-T"] + self.filenames["grid-U"][:1])
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_nc()
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertIsNone(code)
+        # The complete grid-T substream gets no command; grid-U requests only its missing file
         self.assertEqual(len(mass_cmd), 1)
         self.assertEqual(mass_cmd[0]["param_args"], ["-i", "moose:/source/" + self.filenames["grid-U"][1], target_dir])
 
     def test_mass_cmd_get_nc_requests_all_files_when_none_exist(self):
         with tempfile.TemporaryDirectory() as target_dir:
+            # Empty target, so behaviour should match retrieval before skipping was added
             self.filters.target = target_dir
-            status, mass_cmd, error, code = self.filters._mass_cmd_get_nc()
+            status, mass_cmd, message, code = self.filters._mass_cmd_get_nc()
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertIsNone(code)
+        # One moo get per substream, each requesting all of its files
         self.assertEqual(len(mass_cmd), 2)
         self.assertEqual(mass_cmd[0]["param_args"], [
             "-i", "moose:/source/" + self.filenames["grid-T"][0],
@@ -827,6 +843,8 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
                 "nemo_aw310o_1m_20000201-20000301_grid-U.nc",
             ],
         }
+        # Stands in for the moo ls output: (tape, MASS path) pairs, all on one tape so each
+        # substream fits in a single chunk
         self.mass_filelist = [
             ("01", "moose:/source/" + filename)
             for filenames in self.filenames.values()
@@ -837,6 +855,8 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
         for filename in filenames:
             open(os.path.join(target_dir, filename), "w").close()
 
+    # _mass_cmd_nc writes a filter file per substream to procdir/extract, so the test needs a real procdir.
+    # Only the moo ls call is patched; the substream/date matching and chunking run for real.
     def _run_nc_filter(self, existing_filenames):
         with tempfile.TemporaryDirectory() as procdir:
             extract_dir = os.path.join(procdir, "extract")
@@ -851,21 +871,24 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
         return result, procdir, target_dir
 
     def test_mass_cmd_nc_filter_skips_when_all_files_exist(self):
+        # Every file for both substreams is on disk, so nothing should be requested
         existing_filenames = self.filenames["grid-T"] + self.filenames["grid-U"]
-        (status, mass_cmd, error, code), _, target_dir = self._run_nc_filter(existing_filenames)
+        (status, mass_cmd, message, code), _, target_dir = self._run_nc_filter(existing_filenames)
 
         self.assertEqual(status, "ok")
         self.assertEqual(mass_cmd, [])
-        self.assertEqual(error, "all 4 nc files already present in {}".format(target_dir))
+        self.assertEqual(message, "all 4 nc files already present in {}".format(target_dir))
         self.assertEqual(code, "already_exists")
 
     def test_mass_cmd_nc_filter_requests_only_missing_files(self):
+        # grid-T is complete and only the second grid-U file is missing
         existing_filenames = self.filenames["grid-T"] + self.filenames["grid-U"][:1]
-        (status, mass_cmd, error, code), procdir, target_dir = self._run_nc_filter(existing_filenames)
+        (status, mass_cmd, message, code), procdir, target_dir = self._run_nc_filter(existing_filenames)
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertIsNone(code)
+        # The complete grid-T substream gets no command; grid-U filters only its missing file
         self.assertEqual(len(mass_cmd), 1)
         self.assertEqual(mass_cmd[0]["param_args"], [
             "-i", os.path.join(procdir, "extract", "onm_grid-Us.dff"),
@@ -873,11 +896,13 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
         ])
 
     def test_mass_cmd_nc_filter_requests_all_files_when_none_exist(self):
-        (status, mass_cmd, error, code), procdir, target_dir = self._run_nc_filter([])
+        # Empty target, so behaviour should match retrieval before skipping was added
+        (status, mass_cmd, message, code), procdir, target_dir = self._run_nc_filter([])
 
         self.assertEqual(status, "ok")
-        self.assertEqual(error, "")
+        self.assertEqual(message, "")
         self.assertIsNone(code)
+        # One moo filter per substream, each using its own filter file and requesting all of its files
         self.assertEqual(len(mass_cmd), 2)
         self.assertEqual(mass_cmd[0]["param_args"], [
             "-i", os.path.join(procdir, "extract", "onm_grid-Ts.dff"),
