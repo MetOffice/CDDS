@@ -5,7 +5,7 @@
 import os
 import unittest
 
-from metomi.isodatetime.data import TimePoint, Calendar
+from metomi.isodatetime.data import TimePoint, Calendar, Duration
 
 from cdds.common.plugins.plugins import PluginStore
 from cdds.common.plugins.plugin_loader import load_plugin
@@ -589,6 +589,39 @@ class TestStoredStateChecks(unittest.TestCase):
         output_state = stored_state_checks.check_state_multiple_embargoed(
             test_var_dict)
         self.assertEqual(None, output_state)
+
+    def test_calculate_extending_state_fixed_field(self):
+        var_dict = {'date_range': (None, None)}
+        result = stored_state_checks._calculate_extending_state(var_dict, {})
+        self.assertEqual(None, result, "Failed to capture extending state for fixed fields as 'None'.")
+
+    def test_calculate_extending_state_appending(self):
+        pass
+
+    def test_calculate_extending_state_prepending(self):
+        pass
+
+    def test_calculate_extending_state_none(self):
+        pass
+
+    def test_calc_freq_with_allowed_gaps_cmip7(self):
+        load_plugin("CMIP7")  # Specify the CMIP7 plugin
+        plugin = PluginStore.instance().get_plugin()
+        var_dict = {'variable_id': 'zostoga_tpt-u-hm-sea'}
+        cmip7_expected = {'6hr': Duration(hours=6), '3hr': Duration(hours=3), '1hr': Duration(hours=1)}
+        allowed_gaps = stored_state_checks._calc_freq_with_allowed_gaps(plugin, var_dict)
+        self.assertEqual(cmip7_expected, allowed_gaps, "Failed to identify allowed gaps for CMIP7 timepoint variables")
+
+    def test_calc_freq_with_allowed_gaps_default(self):
+        load_plugin()  # Default plugin
+        plugin = PluginStore.instance().get_plugin()
+        var_dict = {'variable_id': 'tas'}
+        expected = {'6hrPt': Duration(hours=6), '3hrPt': Duration(hours=3), '1hrPt': Duration(hours=1)}
+        allowed_gaps = stored_state_checks._calc_freq_with_allowed_gaps(plugin, var_dict)
+        self.assertEqual(expected, allowed_gaps, "Failed to identify default values for frequencies with allowed gaps "
+                         "for timepoint variables")
+
+
 
 
 if __name__ == '__main__':

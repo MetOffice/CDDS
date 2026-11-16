@@ -141,17 +141,15 @@ def _calculate_extending_state(var_dict, archived_data):
 
 
 def _calc_freq_with_allowed_gaps(plugin, var_dict):
+    # For time point data there will be a gap of one record, so need to allow an appropriate gap.
     if plugin.mip_era == 'CMIP7':
         time_branding = var_dict['variable_id'].split("_")[1].split("-")[0]
         if time_branding == "tpt":
+            # Use the CMIP7 frequncy structure e.g. 6hr (time branding is given as part of the variable branding)
             frequencies_with_allowed_gaps = {f"{i}hr": Duration(hours=i) for i in [6, 3, 1]}
     else:
-        # For time point data there will be a gap of one record, so need to allow an appropriate gap.
-        frequencies_with_allowed_gaps = {
-            '6hrPt': Duration(hours=6),
-            '3hrPt': Duration(hours=3),
-            '1hrPt': Duration(hours=1),
-        }
+        # Use the default timepoint variable frequency structure from CMIP6 e.g. 6hrPt
+        frequencies_with_allowed_gaps = {f"{i}hrPt": Duration(hours=i) for i in [6, 3, 1]}
 
     return frequencies_with_allowed_gaps
 
