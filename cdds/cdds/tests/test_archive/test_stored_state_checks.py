@@ -653,7 +653,5 @@ class TestStoredStateChecks(unittest.TestCase):
                          "for timepoint variables")
 
 
-
-
 if __name__ == '__main__':
     unittest.main()
