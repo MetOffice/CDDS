@@ -59,8 +59,8 @@ def arg_parser() -> argparse.Namespace:
     argparse.Namespace
         The argument parser to handle source file paths.
     """
-    parser = argparse.ArgumentParser(description=("This is a command line tool to append or remove an item from the "
-                                                  "known_issues.json file."))
+    parser = argparse.ArgumentParser(description=("Remove variables dependent on missing STASH using validate or "
+                                                  "convert logs."))
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to amend variables for. No specification will "
                         "process all streams listed in the request.")
