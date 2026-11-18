@@ -20,6 +20,7 @@ import gzip
 import re
 
 from pathlib import Path
+from pprint import pformat
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
@@ -342,8 +343,8 @@ def add_variable_to_issues(line: str, issues: dict, request: Request):
     model = request.metadata.model_id
     exp = request.metadata.experiment_id
     variant = request.metadata.variant_label
-    package = request.data.package
-    workflow = request.data.workflow_id
+    package = request.common.package
+    workflow = request.data.model_workflow_id
     if not issues:
         issues = {model: {exp: {variant: {}}}}
 
@@ -353,6 +354,8 @@ def add_variable_to_issues(line: str, issues: dict, request: Request):
         raise ValueError(f"Unable to identify variable string in line: {line.rstrip()!r}")
 
     issues[model][exp][variant][variable] = f"Missing STASH, production attempted with {workflow} ({package})"
+
+    return issues
 
 
 def save_new_variable_list(request: Request, updated_variable_list: list) -> None:
@@ -401,7 +404,7 @@ def main_update_variables_from_validate() -> None:
                     if variable in line and stream in line and not line.startswith("#"):
                         variable_list[i] = f"#{line} #removed due to extract validation error"
                         logger.info(f"      Removed variable `{variable}`")
-                        add_variable_to_issues(line, issues_dict, request)
+                        issues_dict = add_variable_to_issues(line, issues_dict, request)
                         count += 1
             if count == 0:
                 logger.info(f"  All problematic variables for stream {stream} have already been removed.")
