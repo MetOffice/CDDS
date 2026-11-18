@@ -461,6 +461,22 @@ class CollectionsCheckTestCase(unittest.TestCase):
             offset_point_sequence, msg
         )
 
+    def test_valid_contiguity_with_half_hour_phase_starting_at_second_point(self):
+        cc = CollectionsCheck(self.request)
+        run_start = TimePointParser().parse('1900-01-01T00:00:00')
+        run_end = TimePointParser().parse('1900-01-02T00:00:00')
+        point_sequence, _ = cc.calendar_calculator.get_sequence(run_start, run_end, 'PT3H', False)
+        half_hour_phase = [point + Duration(minutes=30) for point in point_sequence
+                           if run_start < point + Duration(minutes=30) < run_end]
+        time_axis = {
+            'bar.nc': [cc.calendar_calculator.days_since_base_date(point.strftime('%Y-%m-%dT%H:%MZ'))
+                       for point in half_hour_phase[1:]]
+        }
+
+        cc.check_contiguity('foo', time_axis, None, 'PT3H', run_start, run_end)
+
+        self.assertDictEqual(cc.results, {})
+
 
 if __name__ == '__main__':
     unittest.main()
