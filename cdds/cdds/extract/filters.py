@@ -577,10 +577,10 @@ class Filters(object):
 
     def _paths_not_in_target(self, source_paths: List[str]) -> List[str]:
         """Return source paths whose files are not yet present in the target."""
+        files_in_target = set(os.listdir(self.target)) if os.path.isdir(self.target) else set()
         paths_not_in_target = []
         for source_path in source_paths:
-            target_path = os.path.join(self.target, os.path.basename(source_path))
-            if not os.path.exists(target_path):
+            if os.path.basename(source_path) not in files_in_target:
                 paths_not_in_target.append(source_path)
         return paths_not_in_target
 
