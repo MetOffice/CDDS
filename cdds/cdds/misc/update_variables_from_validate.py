@@ -20,7 +20,6 @@ import gzip
 import re
 
 from pathlib import Path
-from pprint import pformat
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
