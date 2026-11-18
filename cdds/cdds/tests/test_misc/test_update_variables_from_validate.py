@@ -162,3 +162,15 @@ class TestUpdateVariablesFromValidate(unittest.TestCase):
             variables = read_variable_list(variable_list)
             expected = ["atmos/clt_tavg-u-hxy-u@day:ap6  # approved", "atmos/clt_tavg-u-hxy-u@mon:ap5  # approved"]
             self.assertEqual(variables, expected, "Failed to read variable list by lines.")
+
+    def test_add_variable_to_issues(self):
+        line = "atmos/clt_tavg-u-hxy-u@day:ap6  # approved"
+        issues_dict = add_variable_to_issues(line, {}, self.request)
+
+        expected = {
+            self.request.metadata.model_id: {
+                self.request.metadata.experiment_id: {
+                    self.request.metadata.variant_label: {
+                        "atmos/clt_tavg-u-hxy-u@day": "Missing STASH, production attempted with "
+                        f"{self.request.data.model_workflow_id} ({self.request.common.package})"}}}}
+        self.assertEqual(issues_dict, expected, "Failed to update issues dictionary with variable missing STASH")
