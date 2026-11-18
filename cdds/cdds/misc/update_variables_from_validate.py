@@ -370,7 +370,16 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
             f.write(f"{line}\n")
 
 
-def write_known_issues_to_json(prepare_dir, issues_dict):
+def write_known_issues_to_json(prepare_dir: Path, issues_dict: dict) -> None:
+    """Write issues dict to JSON.
+
+    Parameters
+    ----------
+    prepare_dir: Path
+        The prepare directory
+    issues_dict: dict
+        Issues dictionary to write to JSON.
+    """
     logger = logging.getLogger(__name__)
     if not Path.exists(prepare_dir):
         raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
@@ -394,7 +403,7 @@ def main_update_variables_from_validate() -> None:
     logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
 
     streams = request.data.streams if not args.streams else args.streams
-    issues_dict = {}
+    issues_dict: dict[str, dict[str, dict[str, dict[str, str]]]] = {}
 
     root_log_path, root_log_type = check_log_type(plugin, request)
     for stream in streams:
