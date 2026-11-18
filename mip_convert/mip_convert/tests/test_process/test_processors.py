@@ -20,7 +20,7 @@ from mip_convert.plugins.base.data.processors import (
     land_class_area, land_class_mean, level_sum, mask_copy, mask_zeros, mask_polar_column_zonal_means,
     mon_mean_from_day, ocean_quasi_barotropic_streamfunc, replace_altitude_with_height2m, tile_ids_for_class,
     remove_altitude_coords, volcello, vortmean, annual_from_monthly_2d, annual_from_monthly_3d,
-    calculate_thkcello_weights, check_data_is_monthly)
+    calculate_thkcello_weights, check_data_is_monthly, correct_d10cm_units)
 from mip_convert.tests.common import dummy_cube
 from functools import reduce
 
@@ -1022,6 +1022,38 @@ class TestRemoveAltitudeCoords(unittest.TestCase):
         result = remove_altitude_coords(self.cube)
         coord_names = [c.name() for c in result.coords()]
         self.assertNotIn('surface_altitude', coord_names)
+
+
+class TestCorrectD10cmUnits(unittest.TestCase):
+    def setUp(self):
+        depth = DimCoord(
+                    np.array([0.05], dtype=np.float32),
+                    standard_name="depth",
+                    units="",
+                    bounds=np.array([[0.0, 0.1]], dtype=np.float32)
+        )
+        self.cube = Cube(
+            np.array([1.0], dtype=np.float32),
+            long_name="Total Water Content of Soil Layer",
+            dim_coords_and_dims=[(depth, 0)]
+        )
+
+        return self
+
+    def test_correct_d10cm_units_success(self):
+        self.cube.coord("depth").units = "m"
+        result = correct_d10cm_units(self.cube)
+
+        self.assertEqual(result.coord("depth").units, "cm", "Failed to convert depth units to cm")
+        np.testing.assert_array_equal(result.coord("depth").bounds, np.array([[0., 10.]], dtype=np.float32),
+                                      "Failed to convert depth bounds values to cm")
+
+    def test_correct_d10cm_units_failure(self):
+        self.cube.coord("depth").units = "s"
+
+        with self.assertLogs(level='CRITICAL') as context:
+            correct_d10cm_units(self.cube)
+        self.assertIn("Unable to convert depth coordinate", context.output[0])
 
 
 if __name__ == '__main__':
