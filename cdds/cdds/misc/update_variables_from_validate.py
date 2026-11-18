@@ -59,8 +59,8 @@ def arg_parser() -> argparse.Namespace:
     argparse.Namespace
         The argument parser to handle source file paths.
     """
-    parser = argparse.ArgumentParser(description=(
-        "Remove variables dependent on missing STASH using logs from the extract validation or MIP Convert logs."))
+    parser = argparse.ArgumentParser(description=("Remove variables dependent on missing STASH using logs from the "
+                                                  "extract validation or MIP Convert logs."))
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to amend variables for. No specification will "
                         "process all streams listed in the request.")
