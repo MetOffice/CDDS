@@ -117,7 +117,8 @@ def _calculate_extending_state(var_dict, archived_data):
     # This date_range guard clause was added to handle fixed field data.
     if var_dict['date_range'] == (None, None):
         return None
-    model_file_info = PluginStore.instance().get_plugin().model_file_info()
+    plugin = PluginStore.instance().get_plugin()
+    model_file_info = plugin.model_file_info()
     file_list = [os.path.split(file_name)[-1]
                  for date, file_list in list(archived_data.items())
                  for file_name in file_list
@@ -125,26 +126,32 @@ def _calculate_extending_state(var_dict, archived_data):
     start_date, end_date = model_file_info.get_date_range(file_list, var_dict['frequency'])
     new_start_date, new_end_date = var_dict['date_range']
 
-    # To be appending, the start date of the new data must be the same as
-    # the end date of the previously published data, and the end date of
-    # the new data must be after that date. For time point data there will
-    # be a gap of one record, so need to allow an appropriate gap.
-
-    FREQUENCIES_WITH_ALLOWED_GAPS = {
-        '6hrPt': Duration(hours=6),
-        '3hrPt': Duration(hours=3),
-        '1hrPt': Duration(hours=1),
-    }
+    # To be appending, the start date of the new data must be the same as the end date of the previously published data,
+    # and the end date of the new data must be after that date.
+    frequencies_with_allowed_gaps = _calc_freq_with_allowed_gaps(plugin, var_dict)
     default_tolerance = Duration(hours=0)
-    tolerance = FREQUENCIES_WITH_ALLOWED_GAPS.get(var_dict['frequency'], default_tolerance)
+    tolerance = frequencies_with_allowed_gaps.get(var_dict['frequency'], default_tolerance)
 
     if (abs(new_start_date - end_date) <= tolerance) and new_end_date > end_date:
-        # if checks pass, then this is an append operation, which
-        # will be handled by another filter.
+        # if checks pass, then this is an append operation, which will be handled by another filter.
         return 'APPENDING'
     if new_end_date == start_date and new_start_date < start_date:
         return 'PREPENDING'
     return None
+
+
+def _calc_freq_with_allowed_gaps(plugin, var_dict):
+    # For time point data there will be a gap of one record, so need to allow an appropriate gap.
+    if plugin.mip_era == 'CMIP7':
+        time_branding = var_dict['variable_id'].split("_")[1].split("-")[0]
+        if time_branding == "tpt":
+            # Use the CMIP7 frequncy structure e.g. 6hr (time branding is given as part of the variable branding)
+            frequencies_with_allowed_gaps = {f"{i}hr": Duration(hours=i) for i in [6, 3, 1]}
+    else:
+        # Use the default timepoint variable frequency structure from CMIP6 e.g. 6hrPt
+        frequencies_with_allowed_gaps = {f"{i}hrPt": Duration(hours=i) for i in [6, 3, 1]}
+
+    return frequencies_with_allowed_gaps
 
 
 def check_state_recovery_continuation(var_dict):
