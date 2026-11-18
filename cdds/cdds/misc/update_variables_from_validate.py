@@ -414,5 +414,5 @@ def main_update_variables_from_validate() -> None:
 
     save_new_variable_list(request, variable_list)
     logger.info(f"Variable list {request.data.variable_list_file} successfully updated.")
-    logger.info("Please open an issue here https://github.com/UKNCSP/CDDS-simulation-metadata/issues/new and paste the "
-                f"following information:\n {issues_dict}")
+    logger.info("\n\nPlease open an issue here https://github.com/UKNCSP/CDDS-simulation-metadata/issues/new and paste the "
+                f"following information:\n\n{issues_dict}")
