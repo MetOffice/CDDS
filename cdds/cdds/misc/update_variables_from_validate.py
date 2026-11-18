@@ -18,6 +18,7 @@ import argparse
 import logging
 import gzip
 import re
+import json
 
 from pathlib import Path
 
@@ -26,23 +27,19 @@ from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 
 
-def get_logger(request: Request, plugin) -> logging.Logger:
+def get_logger(prepare_dir: Path) -> logging.Logger:
     """Configures and set up the log name ready for use.
 
     Parameters
     ----------
-    request: Request
-        The request configuration file.
-    plugin:
-        The plugin.
+    prepare_dir: Path
+        The prepare directory.
 
     Returns
     -------
     logging.Logger
         The logger.
     """
-    # Create the full log path and filename
-    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
     if not Path.exists(prepare_dir):
         raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
     log_name = prepare_dir / f"update_variable_list_from_validate"
@@ -373,13 +370,25 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
             f.write(f"{line}\n")
 
 
+def write_known_issues_to_json(prepare_dir, issues_dict):
+    logger = logging.getLogger(__name__)
+    if not Path.exists(prepare_dir):
+        raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
+
+    issues_json = prepare_dir / f"processing_failures.json"
+    with open(issues_json, "w") as f:
+        json.dump(issues_dict, f, indent=2)
+
+    logger.info(f"Variables removed due to missing STASH saved to {issues_json}")
+
+
 def main_update_variables_from_validate() -> None:
     """Main"""
     args = arg_parser()
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
-
-    logger = get_logger(request, plugin)
+    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
+    logger = get_logger(prepare_dir)
 
     variable_list = read_variable_list(request.data.variable_list_file)
     logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
@@ -414,5 +423,5 @@ def main_update_variables_from_validate() -> None:
 
     save_new_variable_list(request, variable_list)
     logger.info(f"Variable list {request.data.variable_list_file} successfully updated.")
-    logger.info("\n\nPlease open an issue here https://github.com/UKNCSP/CDDS-simulation-metadata/issues/new and paste the "
-                f"following information:\n\n{issues_dict}")
+
+    write_known_issues_to_json(prepare_dir, issues_dict)
