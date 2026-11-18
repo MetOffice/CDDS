@@ -563,8 +563,9 @@ class Filters(object):
         # a Jan-Dec select would re-fetch a May that was already on disk,
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
+        files_in_target = set(os.listdir(target)) if os.path.isdir(target) else set()
         for pp_file in pp_filelist:
-            on_disk = os.path.exists(os.path.join(target, pp_file["filename"]))
+            on_disk = pp_file["filename"] in files_in_target
             if not on_disk:
                 missing_files_sequence.append(pp_file)
             elif missing_files_sequence:
