@@ -1,3 +1,10 @@
+## Release 4.0.7 November 19, 2026
+
+-   Correct sizing duration for UKCM2-0-LL 3hrly data on plev6 (Adjust sizing info to produce hus_tpt-p6-hxy-air #1232)
+-   Rename update_variables_from_validate to cdds_remove_failed_variables`, the old command will remain as an alias until v4.1.0 (Fix description in update_variables_from_validate #1242)
+-   Optimise number of moose commands when using get and filter commands (Extend skipping input files functionality in extract to also cover moo filter and get commands #1224)
+-   Correct archiving when handling the prepending/appending of data to a data set where the sampling is time:point (Error in archiving when extending time point datasets #1240)
+
 ## Release 4.0.6 November 06, 2026
 
 -   CMIP7 inventory deactivation is now supported (#740)
