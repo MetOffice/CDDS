@@ -1,3 +1,9 @@
+## Release 4.0.7 November 19, 2026
+
+-   Fix code related to halo removal on rotated regional grids (regional model halo removal skipped when data has a rotated pole #1234)
+-   Updates to mappings (Investigate source of scalar bounds precision difference. #1229)
+-   Allow CDDS to handle unusual depth coordinate variable name in UKCM2 models (Investigate "No cubes found" variable constraints error #1192)
+
 ## Release 4.0.6 November 06, 2026
 
 -   Added the `UKESM1p3x` mappings plugin (#1171)
