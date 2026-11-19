@@ -1772,7 +1772,7 @@ the release branch to <code>main</code>.</p>
 <li>
 <p>Update the <code>CHANGES.md</code> files with all the relevant changes from the last release.</p>
 <ul>
-<li>Any new files added since the last release that do not have a <code>.py</code> extension are included in <code>MANIFEST.in</code> and <code>setup.py</code>.</li>
+<li>Any new files added since the last release that do not have a <code>.py</code> extension are included in <code>MANIFEST.in</code> and <code>setup.py</code> (it is likely these are already covered by the current includes in the <code>MANIFEST.in</code>'s, so you only need to add to these if the release you're undertaking introduces a new file format to <abbr title="Climate Data Dissemination System">CDDS</abbr>).</li>
 <li>The milestone issues filter can be useful to quickly view all the issues completed in the milestone you're releasing see <a href="https://github.com/MetOffice/CDDS/issues?q=is%3Aclosed%20milestone%3A%22CDDS%20v4.0.4%22">here</a> for an example.</li>
 <li>Double check with the rest of the team as to anything important that needs including.</li>
 </ul>
@@ -1844,9 +1844,9 @@ This will allow you cherry-pick release notes from the release branch into main.
 <li>
 <p>Ensure local copy of both <code>main</code> and <code>release_branch</code> are up to date.
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>checkout<span class="w"> </span>main
-git<span class="w"> </span>pull<span class="w"> </span>main
-git<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
-git<span class="w"> </span>pull<span class="w"> </span>checkout<span class="w"> </span>vX.Y_release
+git<span class="w"> </span>pull
+git<span class="w"> </span>checkout<span class="w"> </span>v&lt;X.Y&gt;_release
+git<span class="w"> </span>pull
 </code></pre></div></p>
 </li>
 <li>
