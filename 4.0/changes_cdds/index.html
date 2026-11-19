@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-406-november-06-2026" class="md-skip">
+        <a href="#release-407-november-19-2026" class="md-skip">
           Skip to content
         </a>
       
@@ -378,6 +378,13 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#release-407-november-19-2026" class="md-nav__link">
+    Release 4.0.7 November 19, 2026
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#release-406-november-06-2026" class="md-nav__link">
@@ -2257,6 +2264,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#release-407-november-19-2026" class="md-nav__link">
+    Release 4.0.7 November 19, 2026
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-406-november-06-2026" class="md-nav__link">
     Release 4.0.6 November 06, 2026
   </a>
@@ -2994,6 +3008,24 @@
 
   <h1>Changelog (CDDS)</h1>
 
+<h2 id="release-407-november-19-2026">Release 4.0.7 November 19, 2026</h2>
+<ul>
+<li>
+<p>Correct sizing duration for UKCM2-0-LL 3hrly data on plev6 (Adjust sizing info to produce hus_tpt-p6-hxy-air #1232)</p>
+</li>
+<li>
+<p>Rename update_variables_from_validate to cdds_remove_failed_variables`, the old command will remain as an alias until v4.1.0 (Fix description in update_variables_from_validate #1242)</p>
+</li>
+<li>
+<p>Optimise number of moose commands when using get and filter commands (Extend skipping input files functionality in extract to also cover moo filter and get commands #1224)</p>
+</li>
+<li>
+<p>Correct archiving when handling the prepending/appending of data to a data set where the sampling is time:point (Error in archiving when extending time point datasets #1240)</p>
+</li>
+<li>
+<p>Fixed a QC time-contiguity error for some instantaneous sub-daily data with timestamps shifted by 30 minutes (QC time contiguity errors for tpt-u-hxy-u (time stamps starting at 3:30) #1231).</p>
+</li>
+</ul>
 <h2 id="release-406-november-06-2026">Release 4.0.6 November 06, 2026</h2>
 <ul>
 <li>
