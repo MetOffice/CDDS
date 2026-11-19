@@ -4,6 +4,7 @@
 -   Rename update_variables_from_validate to cdds_remove_failed_variables`, the old command will remain as an alias until v4.1.0 (Fix description in update_variables_from_validate #1242)
 -   Optimise number of moose commands when using get and filter commands (Extend skipping input files functionality in extract to also cover moo filter and get commands #1224)
 -   Correct archiving when handling the prepending/appending of data to a data set where the sampling is time:point (Error in archiving when extending time point datasets #1240)
+-   Fixed a QC time-contiguity error for some instantaneous sub-daily data with timestamps shifted by 30 minutes (QC time contiguity errors for tpt-u-hxy-u (time stamps starting at 3:30) #1231).
 
 ## Release 4.0.6 November 06, 2026
 
