@@ -10,7 +10,9 @@ from typing import List, Type
 
 from cdds.common.plugins.common import LoadResults
 from cdds.common.plugins.base.base_models import BaseModelParameters, ModelId, BaseModelStore
-from cdds.common.plugins.cmip7.cmip7_grid_mapping import CMIP7GridMapping, CMIP7GridMappingUKESM1p3
+from cdds.common.plugins.cmip7.cmip7_grid_mapping import (
+    CMIP7GridMapping, CMIP7GridMappingHadGEM3GC31, CMIP7GridMappingUKESM1p3
+)
 
 
 class Cmip7ModelId(ModelId):
@@ -29,6 +31,7 @@ class Cmip7ModelId(ModelId):
     UKESM1_3_LL = 'UKESM1-3-LL'
     UKCM2_0_LL = 'UKCM2-0-LL'
     UKCM2A_0_HH = 'UKCM2a-0-HH'
+    HadGEM3_GC31_MM = 'HadGEM3-GC31-MM'
 
 
 class UKESM1_3_LL_Params(BaseModelParameters):
@@ -154,6 +157,47 @@ class UKCM2a_0_HH_Params(BaseModelParameters):
         return '10.8'
 
 
+class HadGEM3_GC31_MM_Params(BaseModelParameters):
+    """Class to store the parameters for the HadGEM3_GC31_MM model."""
+
+    def __init__(self) -> None:
+        super(HadGEM3_GC31_MM_Params, self).__init__(Cmip7ModelId.HadGEM3_GC31_MM)
+        self._grid_mappings: CMIP7GridMappingHadGEM3GC31 = CMIP7GridMappingHadGEM3GC31()
+
+    @property
+    def model_version(self) -> str:
+        """Returns the model version of the HadGEM3_GC31_MM model.
+
+        Returns
+        -------
+        str
+            Model version of HadGEM3_GC31_MM
+        """
+        return '3.1'
+
+    @property
+    def data_request_version(self) -> str:
+        """Returns the data request version of the HadGEM3_GC31_MM model.
+
+        Returns
+        -------
+        str
+            Data request version of HadGEM3_GC31_MM
+        """
+        return '01.00.17'
+
+    @property
+    def um_version(self) -> str:
+        """Returns the UM version of the HadGEM3_GC31_MM model.
+
+        Returns
+        -------
+        str
+            UM version of HadGEM3_GC31_MM
+        """
+        return '10.7'
+
+
 class Cmip7ModelsStore(BaseModelStore):
     """Singleton class to store for each model the corresponding parameters.
     The parameters are defined in json files. The default parameters are
@@ -167,6 +211,7 @@ class Cmip7ModelsStore(BaseModelStore):
             UKESM1_3_LL_Params(),
             UKCM2_0_LL_Params(),
             UKCM2a_0_HH_Params(),
+            HadGEM3_GC31_MM_Params(),
         ]
         super(Cmip7ModelsStore, self).__init__(model_instances)
         self.logger = logging.getLogger(self.__class__.__name__)
