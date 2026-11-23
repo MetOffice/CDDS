@@ -11,7 +11,9 @@ from cdds.common.plugins.streams import StreamInfo
 from cdds.common.plugins.base.base_plugin import BasePlugin, MipEra
 from cdds.common.plugins.base.base_models import BaseModelParameters
 from cdds.common.plugins.cmip7.cmip7_attributes import Cmip7GlobalAttributes
-from cdds.common.plugins.cmip7.cmip7_grid import Cmip7GridLabelUKCM_LL, Cmip7GridLabelUKCM_HH, Cmip7GridLabelUKESM1p3
+from cdds.common.plugins.cmip7.cmip7_grid import (
+    Cmip7GridLabelHadGEM3_GC31_MM, Cmip7GridLabelUKCM_LL, Cmip7GridLabelUKCM_HH, Cmip7GridLabelUKESM1p3
+)
 from cdds.common.plugins.cmip7.cmip7_models import Cmip7ModelsStore
 from cdds.common.plugins.cmip7.cmip7_streams import Cmip7StreamStore
 if TYPE_CHECKING:
@@ -65,6 +67,7 @@ class Cmip7Plugin(BasePlugin):
             Grid labels
         """
         grid_labels = {
+            "HadGEM3-GC31-MM": Cmip7GridLabelHadGEM3_GC31_MM,
             "UKCM2-0-LL": Cmip7GridLabelUKCM_LL,
             "UKCM2a-0-HH": Cmip7GridLabelUKCM_HH,
             "UKESM1-3-LL": Cmip7GridLabelUKESM1p3,
