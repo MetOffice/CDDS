@@ -317,15 +317,17 @@ class Process(object):
             code, cmd_out))
         return code, cmd_out
 
-    def delete_files(self, files_to_remove):
+    def delete_files(self, files_to_remove, description="faulty"):
         """Deletes files.
 
         Parameters
         ----------
         files_to_remove: list
             List of file paths pointing to files that ought to be removed.
+        description: str
+            Describes why the files are removed, used in the log message.
         """
         logger = logging.getLogger(__name__)
         for file_path in files_to_remove:
             os.remove(file_path)
-            logger.info("Deleted faulty file {}".format(file_path))
+            logger.info("Deleted {} file {}".format(description, file_path))

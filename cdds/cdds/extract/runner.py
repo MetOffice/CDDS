@@ -130,6 +130,9 @@ class ExtractRunner(object):
                     # submit one moose retrieval request (block)
                     # per period (pp) or substream (nc)
                     else:
+                        # Stale files lack fields the current request needs, so they are
+                        # deleted and retrieved again rather than skipped
+                        extract_process.delete_files(mappings.stale_files, "stale")
                         blocknum = 0
                         for block in mass_cmd:
                             blocknum += 1

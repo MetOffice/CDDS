@@ -634,6 +634,44 @@ class TestSkipExistingPpFiles(unittest.TestCase):
         # With nothing in the target directory, no file splits the list, so all files are requested together
         self.assertEqual(missing_retrievals, [pp_filelist])
 
+    def _missing_retrievals_with_stash(self, stash_by_filename):
+        pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
+        filters = Filters(procdir="foo")
+        filters.stream = "ap5"
+        filters.stash_codes = {"ap5": {"33", "3236", "30297"}}
+        with tempfile.TemporaryDirectory() as target_dir:
+            self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
+            with patch("cdds.extract.filters.get_stash_from_pp",
+                       side_effect=lambda path: stash_by_filename[os.path.basename(path)]):
+                missing_retrievals = filters._missing_pp_file_retrievals(pp_filelist, target_dir)
+        stale_filenames = [os.path.basename(path) for path in filters.stale_files]
+        return pp_filelist, missing_retrievals, stale_filenames
+
+    def test_missing_pp_file_retrievals_reselects_file_missing_requested_stash(self):
+        complete = {"33": 1, "3236": 1, "30297": 19}
+        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_stash(
+            {"a0.pp": complete, "a1.pp": {"33": 1, "3236": 1}, "a2.pp": complete})
+
+        self.assertEqual(missing_retrievals, [pp_filelist[1:2]])
+        self.assertEqual(stale_filenames, ["a1.pp"])
+
+    def test_missing_pp_file_retrievals_reselects_unreadable_file(self):
+        complete = {"3236": 1, "30297": 19}
+        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_stash(
+            {"a0.pp": None, "a1.pp": complete, "a2.pp": complete})
+
+        self.assertEqual(missing_retrievals, [pp_filelist[0:1]])
+        self.assertEqual(stale_filenames, ["a0.pp"])
+
+    def test_missing_pp_file_retrievals_ignores_missing_optional_stash(self):
+        # STASH 33 is often absent from extracted files, so lacking it alone must not trigger a reselect
+        complete_without_33 = {"3236": 1, "30297": 19}
+        _, missing_retrievals, stale_filenames = self._missing_retrievals_with_stash(
+            {"a0.pp": complete_without_33, "a1.pp": complete_without_33, "a2.pp": complete_without_33})
+
+        self.assertEqual(missing_retrievals, [])
+        self.assertEqual(stale_filenames, [])
+
     @patch("cdds.extract.filters.Filters._chunk_pp_filelist")
     @patch("cdds.extract.filters.Filters._create_pp_filelist")
     def test_mass_cmd_pp_skips_when_all_files_exist(self, mock_create_pp_filelist, mock_chunk_pp_filelist):
