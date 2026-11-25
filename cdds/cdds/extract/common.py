@@ -82,6 +82,36 @@ def get_stash_from_pp(filepath) -> dict[str, int] | None:
         return stash
 
 
+def get_stash_lbproc_from_pp(filepath: str) -> set[tuple[str, int]] | None:
+    """Executes a ppfp command as a subprocess and parses the output
+    to extract the STASH code and lbproc of each field.
+
+    Parameters
+    ----------
+    filepath : str
+        path to the pp file
+
+    Returns
+    -------
+    set[tuple[str, int]] | None
+        A set of (short STASH code, lbproc) pairs from the file or None if the command fails
+    """
+    command = ["ppfp", "-stash", "-proc", filepath]
+    process = subprocess.Popen(command, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, universal_newlines=True)
+    cmd_out = process.communicate()[0]
+    if process.returncode > 0:
+        return None
+    fields = set()
+    for line in cmd_out.split("\n")[NUM_PP_HEADER_LINES:]:
+        try:
+            stash, lbproc = (int(value) for value in line.split())
+        except ValueError:
+            continue
+        fields.add((str(stash), lbproc))
+    return fields
+
+
 def get_variables_from_netcdf(filepath: str) -> set[str] | None:
     """Reads the variable names from the header of a netCDF file.
 
