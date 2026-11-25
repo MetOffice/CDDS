@@ -177,14 +177,18 @@ This page attempts to describe ways in which we've seen things go wrong and thei
     For each stream, the output directory contains a main `<stream>` directory and two intermediate directories: `<stream>_concat` and `<stream>_mip_convert`. At this stage, the main `<stream>` directory will contain files; the two intermediate directories should be empty. Files left in either intermediate directory after sim review has run are the files to investigate.
 
     1. Find the output data directory (for example, `$CDDS_DATA/$USER/data/...../output/`).
+
     2. Check the sim review log for the path of the intermediate directory containing files. For example:
 
            Partial files found in intermediate directory: `$CDDS_DATA/$USER/data/...../output/ap6_mip_convert`
 
-       If the log does not identify a directory, check the stream's `<stream>_concat` and `<stream>_mip_convert` directories.
+        If the log does not identify a directory, check the stream's `<stream>_concat` and `<stream>_mip_convert` directories.
+
     3. Delete only the files in the intermediate directory identified in the log. Do not delete files from the main `<stream>` directory. If you cannot confidently identify the files to remove, stop and contact the CDDS team.
-    !!! Warning
-        Deleting files from the wrong directory can cause problems later and may require the workflow to be abandoned and reprocessed. If you are unsure which files to delete, contact the CDDS team before removing anything.
+
+        !!! Warning
+            Deleting files from the wrong directory can cause problems later and may require the workflow to be abandoned and reprocessed. If you are unsure which files to delete, contact the CDDS team before removing anything.
+
     4. Retrigger the sim review task in Cylc. If you cannot retry it through Cylc, run `cdds_sim_review <request.cfg>` from the command line and copy the resulting log file to the appropriate proc directory. The CDDS team needs this log to publish your data.
 
 === "JASMIN"
@@ -387,8 +391,11 @@ This page attempts to describe ways in which we've seen things go wrong and thei
 
            Partial files found in intermediate directory: `$CDDS_DATA/$USER/data/...../output/ap6_mip_convert`
 
-       If the log does not identify a directory, check the stream's `<stream>_concat` and `<stream>_mip_convert` directories.
+        If the log does not identify a directory, check the stream's `<stream>_concat` and `<stream>_mip_convert` directories.
+
     3. Delete only the files in the intermediate directory identified in the log. Do not delete files from the main `<stream>` directory. If you cannot confidently identify the files to remove, stop and contact the CDDS team.
-    !!! Warning
-        Deleting files from the wrong directory can cause problems later and may require the workflow to be abandoned and reprocessed. If you are unsure which files to delete, contact the CDDS team before removing anything.
+
+        !!! Warning
+            Deleting files from the wrong directory can cause problems later and may require the workflow to be abandoned and reprocessed. If you are unsure which files to delete, contact the CDDS team before removing anything.
+
     4. Retrigger the sim review task in Cylc. If you cannot retry it through Cylc, run `cdds_sim_review <request.cfg>` from the command line and copy the resulting log file to the appropriate proc directory. The CDDS team needs this log to publish your data.
