@@ -19,12 +19,16 @@ import logging
 import gzip
 import re
 import json
+import subprocess
 
 from pathlib import Path
 
 from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
+
+SIM_METADATA_REPO = "UKNCSP/CDDS-simulation-metadata"
+KNOWN_ISSUES_TEMPLATE_LINK = "https://github.com/UKNCSP/CDDS-simulation-metadata/issues/new"
 
 
 def get_logger(prepare_dir: Path) -> logging.Logger:
@@ -62,6 +66,8 @@ def arg_parser() -> argparse.Namespace:
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to amend variables for. No specification will "
                         "process all streams listed in the request.")
+    parser.add_argument("-i", "--create_issue", action="store_true", help="Automatically create an issue to add "
+                        "variables missing stash to the known issues list.")
 
     return parser.parse_args()
 
@@ -370,25 +376,28 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
             f.write(f"{line}\n")
 
 
-def write_known_issues_to_json(prepare_dir: Path, issues_dict: dict) -> None:
-    """Write issues dict to JSON.
-
-    Parameters
-    ----------
-    prepare_dir: Path
-        The prepare directory
-    issues_dict: dict
-        Issues dictionary to write to JSON.
-    """
+def open_issue(request: Request, issues_dict: dict) -> None:
     logger = logging.getLogger(__name__)
-    if not Path.exists(prepare_dir):
-        raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
-
-    issues_json = prepare_dir / f"processing_failures.json"
-    with open(issues_json, "w") as f:
-        json.dump(issues_dict, f, indent=2)
-
-    logger.info(f"Variables removed due to missing STASH saved to {issues_json}")
+    title = f"Update known issues from extract validate {request.data.model_workflow_id}"
+    try:
+        subprocess.run(
+            [
+                "gh", "issue", "create",
+                "--repo", SIM_METADATA_REPO,
+                "--title", title,
+                "--body-file", "-",
+            ],
+            input=json.dumps(issues_dict, indent=2),
+            text=True,
+            check=True,
+        )
+        logger.info(f"An issue has automatically been opened on {SIM_METADATA_REPO} to add these variables to the "
+                    "known issues dictionary.")
+    except Exception as e:
+        logger.info(f"Failed to automatically open issue on {SIM_METADATA_REPO}: {e}.\n")
+        logger.info(f"Please open manually open an issue here: {KNOWN_ISSUES_TEMPLATE_LINK} and paste the following"
+                    "dictionary into the issue body.")
+        logger.info(f"{json.dumps(issues_dict, indent=2)}")
 
 
 def main_update_variables_from_validate() -> None:
@@ -433,4 +442,5 @@ def main_update_variables_from_validate() -> None:
     save_new_variable_list(request, variable_list)
     logger.info(f"Variable list {request.data.variable_list_file} successfully updated.")
 
-    write_known_issues_to_json(prepare_dir, issues_dict)
+    if issues_dict and args.create_issue:
+        open_issue(request, issues_dict)
