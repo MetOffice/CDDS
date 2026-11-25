@@ -13,6 +13,8 @@ import sys
 from collections import defaultdict
 from operator import itemgetter
 
+import netCDF4
+
 from cdds.common import retry, run_command
 from cdds.extract.constants import (
     MAX_MOOSE_LOG_MESSAGE,
@@ -78,6 +80,26 @@ def get_stash_from_pp(filepath) -> dict[str, int] | None:
             except ValueError:
                 continue
         return stash
+
+
+def get_variables_from_netcdf(filepath: str) -> set[str] | None:
+    """Reads the variable names from the header of a netCDF file.
+
+    Parameters
+    ----------
+    filepath : str
+        path to the netCDF file
+
+    Returns
+    -------
+    set|None
+        The variable names in the file or None if the file cannot be read
+    """
+    try:
+        with netCDF4.Dataset(filepath) as dataset:
+            return set(dataset.variables)
+    except OSError:
+        return None
 
 
 def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):

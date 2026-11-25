@@ -11,6 +11,7 @@ import unittest
 from copy import deepcopy
 from unittest.mock import patch
 
+import netCDF4
 from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import configure_logger
@@ -887,19 +888,23 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
             for filename in filenames
         ]
 
-    def _create_empty_files(self, target_dir, filenames):
+    def _create_nc_files(self, target_dir, filenames, variables):
         for filename in filenames:
-            open(os.path.join(target_dir, filename), "w").close()
+            with netCDF4.Dataset(os.path.join(target_dir, filename), "w") as dataset:
+                for variable in variables:
+                    dataset.createVariable(variable, "f4")
 
     # _mass_cmd_nc writes a filter file per substream to procdir/extract, so the test needs a real procdir.
     # Only the moo ls call is patched; the substream/date matching and chunking run for real.
-    def _run_nc_filter(self, existing_filenames):
+    def _run_nc_filter(self, existing_filenames, incomplete_filenames=()):
         with tempfile.TemporaryDirectory() as procdir:
             extract_dir = os.path.join(procdir, "extract")
             os.mkdir(extract_dir)
             target_dir = os.path.join(procdir, "target")
             os.mkdir(target_dir)
-            self._create_empty_files(target_dir, existing_filenames)
+            self._create_nc_files(target_dir, existing_filenames, ["tos", "sos"])
+            # Incomplete files stand in for files extracted before variables were added to the request
+            self._create_nc_files(target_dir, incomplete_filenames, ["nav_lon"])
             self.filters.procdir = procdir
             self.filters.target = target_dir
             with patch("cdds.extract.filters.fetch_filelist_from_mass", return_value=(self.mass_filelist, None)):
@@ -929,6 +934,22 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
             "-i", os.path.join(procdir, "extract", "onm_grid-Us.dff"),
             "moose:/source/" + self.filenames["grid-U"][1], target_dir
         ])
+
+    def test_mass_cmd_nc_filter_refilters_file_missing_requested_variables(self):
+        # The second grid-T file lacks tos, so it must be filtered again and recorded for deletion
+        existing_filenames = self.filenames["grid-T"][:1] + self.filenames["grid-U"]
+        incomplete_filenames = self.filenames["grid-T"][1:]
+        (status, mass_cmd, message, code), procdir, target_dir = self._run_nc_filter(
+            existing_filenames, incomplete_filenames)
+
+        self.assertEqual(status, "ok")
+        self.assertIsNone(code)
+        self.assertEqual(len(mass_cmd), 1)
+        self.assertEqual(mass_cmd[0]["param_args"], [
+            "-i", os.path.join(procdir, "extract", "onm_grid-Ts.dff"),
+            "moose:/source/" + self.filenames["grid-T"][1], target_dir
+        ])
+        self.assertEqual(self.filters.stale_files, [os.path.join(target_dir, self.filenames["grid-T"][1])])
 
     def test_mass_cmd_nc_filter_requests_all_files_when_none_exist(self):
         # Empty target, so behaviour should match retrieval before skipping was added

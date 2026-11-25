@@ -21,7 +21,8 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_stash_from_pp, get_tape_limit, run_moo_cmd, condense_constraints)
+                                 get_stash, get_stash_from_pp, get_tape_limit, get_variables_from_netcdf, run_moo_cmd,
+                                 condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.common import generate_datestamps_nc
 
@@ -942,7 +943,10 @@ class Filters(object):
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
-            logger.info("{} of {} nc files already present; {} nc files to moo filter".format(
+            if self.stale_files:
+                logger.info("{} existing nc files are missing requested variables or cannot be read; "
+                            "they will be deleted and filtered again".format(len(self.stale_files)))
+            logger.info("{} of {} nc files already present and complete; {} nc files to moo filter".format(
                 expected_count - files_to_retrieve_count, expected_count, files_to_retrieve_count))
             if status["val"] == "ok" and expected_count and not files_to_retrieve_count:
                 return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
@@ -1078,7 +1082,9 @@ class Filters(object):
                     expected_count += 1
                     files_on_tapes[tape].append(nc_file)
 
-        files_on_tapes = {tape: self._paths_not_in_target(nc_files) for tape, nc_files in files_on_tapes.items()}
+        files_on_tapes = {
+            tape: self._nc_files_to_filter(nc_files, substream) for tape, nc_files in files_on_tapes.items()
+        }
         files_to_retrieve_count = sum(len(nc_files) for nc_files in files_on_tapes.values())
         if files_to_retrieve_count and not self.simulation:
             logger.info(
@@ -1107,6 +1113,41 @@ class Filters(object):
                 "end": end,
             })
         return expected_count, files_to_retrieve_count
+
+    def _nc_files_to_filter(self, source_paths: List[str], substream: str) -> List[str]:
+        """Return source paths whose files are missing from the target or are stale.
+
+        A file on disk is stale if it cannot be read or does not contain every variable
+        in the substream's filter (for example because variables were added to the
+        request since it was extracted). Stale files are recorded in ``self.stale_files``
+        so they can be deleted before they are filtered again.
+        """
+        expected_variables = {variable for variable in self.filters[substream].split(",") if variable}
+        files_in_target = set(os.listdir(self.target)) if os.path.isdir(self.target) else set()
+        files_to_filter = []
+        for source_path in source_paths:
+            filename = os.path.basename(source_path)
+            if filename in files_in_target:
+                file_path = os.path.join(self.target, filename)
+                if not expected_variables or not self._is_stale_nc_file(file_path, expected_variables):
+                    continue
+                self.stale_files.append(file_path)
+            files_to_filter.append(source_path)
+        return files_to_filter
+
+    def _is_stale_nc_file(self, file_path: str, expected_variables: set) -> bool:
+        """Return True if the nc file cannot be read or lacks any of the expected variables."""
+        logger = logging.getLogger(__name__)
+        variables_in_file = get_variables_from_netcdf(file_path)
+        if variables_in_file is None:
+            logger.info("Existing nc file {} cannot be read and will be filtered again".format(file_path))
+            return True
+        missing_variables = expected_variables - variables_in_file
+        if missing_variables:
+            logger.info("Existing nc file {} is missing requested variables {} and will be filtered again".format(
+                file_path, ", ".join(sorted(missing_variables))))
+            return True
+        return False
 
 
 class FilterFileException(IOError):
