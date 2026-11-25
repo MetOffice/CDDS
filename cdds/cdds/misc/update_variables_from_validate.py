@@ -17,6 +17,9 @@ The log file produced with this script can be found in the $proc_dir/prepare/log
 import argparse
 import logging
 import gzip
+import re
+import json
+import subprocess
 
 from pathlib import Path
 
@@ -24,24 +27,23 @@ from cdds.common import configure_logger
 from cdds.common.request.request import read_request, Request
 from cdds.common.plugins.plugins import PluginStore, CddsPlugin
 
+SIM_METADATA_REPO = "UKNCSP/CDDS-simulation-metadata"
+KNOWN_ISSUES_TEMPLATE_LINK = "https://github.com/UKNCSP/CDDS-simulation-metadata/issues/new"
 
-def get_logger(request: Request, plugin) -> logging.Logger:
+
+def get_logger(prepare_dir: Path) -> logging.Logger:
     """Configures and set up the log name ready for use.
 
     Parameters
     ----------
-    request: Request
-        The request configuration file.
-    plugin:
-        The plugin.
+    prepare_dir: Path
+        The prepare directory.
 
     Returns
     -------
     logging.Logger
         The logger.
     """
-    # Create the full log path and filename
-    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
     if not Path.exists(prepare_dir):
         raise FileNotFoundError(f"Prepare directory: '{prepare_dir}' does not exist.")
     log_name = prepare_dir / f"update_variable_list_from_validate"
@@ -64,6 +66,8 @@ def arg_parser() -> argparse.Namespace:
     parser.add_argument("request", help="The path to the request file.")
     parser.add_argument("-s", "--streams", nargs='*', help="The streams to amend variables for. No specification will "
                         "process all streams listed in the request.")
+    parser.add_argument("-i", "--create_issue", action="store_true", help="Automatically create an issue to add "
+                        "variables missing stash to the known issues list.")
 
     return parser.parse_args()
 
@@ -319,6 +323,43 @@ def read_variable_list(variable_list_file: str) -> list:
     return variable_list
 
 
+def add_variable_to_issues(line: str, issues: dict, request: Request):
+    """Extract ``<realm>/<var>_<branding>@<frequency>`` from a variable-list line and use it to update the dictionary of
+    variables to be added to the known issues due to missing STASH.
+
+    Parameters
+    ----------
+    line: str
+        A line from the variable list containing a variable that is missing STASH.
+    issues: dict
+        The current issues dictionary.
+    request: Request
+        The CDDS request object.
+
+    Raises
+    ------
+    ValueError
+        If the text before the optional stream/comment suffix is not in the
+        expected realm/variable@frequency format.
+    """
+    model = request.metadata.model_id
+    exp = request.metadata.experiment_id
+    variant = request.metadata.variant_label
+    package = request.common.package
+    workflow = request.data.model_workflow_id
+    if not issues:
+        issues = {model: {exp: {variant: {}}}}
+
+    entry = line.partition("#")[0].strip()
+    variable = entry.partition(":")[0].strip()
+    if not re.fullmatch(r"[^/:\s#]+/[^/@:\s#]+@[^/:\s#]+", variable):
+        raise ValueError(f"Unable to identify variable string in line: {line.rstrip()!r}")
+
+    issues[model][exp][variant][variable] = f"Missing STASH, production attempted with {workflow} ({package})"
+
+    return issues
+
+
 def save_new_variable_list(request: Request, updated_variable_list: list) -> None:
     """Saves the new variable list with commented out variable, overriding the old list.
 
@@ -335,18 +376,54 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
             f.write(f"{line}\n")
 
 
+def open_issue(request: Request, issues_dict: dict) -> None:
+    """Open a GitHub issue on CDDS-simulation-metadata to add all variable missing STASH to the known issues dictionary.
+    If the issue cannot be opened for any reason, the user will be prompted to open it manually.
+
+    Parameters
+    ----------
+    request: Request
+        The CDDS request object.
+    issues_dict: dict
+        The dictionary of variables missing STASH to include in the issue.
+    """
+    logger = logging.getLogger(__name__)
+    title = f"Update known issues from extract validate {request.data.model_workflow_id}"
+    try:
+        subprocess.run(
+            [
+                "gh", "issue", "create",
+                "--repo", SIM_METADATA_REPO,
+                "--title", title,
+                "--body-file", "-",
+            ],
+            input=json.dumps(issues_dict, indent=2),
+            text=True,
+            check=True,
+        )
+        logger.info(f"An issue has automatically been opened on {SIM_METADATA_REPO} to add these variables to the "
+                    "known issues dictionary.")
+    except Exception as e:
+        logger.info(f"Failed to automatically open issue on {SIM_METADATA_REPO}: {e}.\n")
+        logger.info(f"Please open manually open an issue here: {KNOWN_ISSUES_TEMPLATE_LINK} and paste the following"
+                    "dictionary into the issue body.")
+        logger.info(f"{json.dumps(issues_dict, indent=2)}")
+
+
 def main_update_variables_from_validate() -> None:
     """Main"""
     args = arg_parser()
     request = read_request(args.request)
     plugin = PluginStore.instance().get_plugin()
-
-    logger = get_logger(request, plugin)
+    prepare_dir = Path(plugin.proc_directory(request)) / "prepare" / "log"
+    logger = get_logger(prepare_dir)
 
     variable_list = read_variable_list(request.data.variable_list_file)
     logger.info(f"Reading variable list file `{request.data.variable_list_file}`")
 
     streams = request.data.streams if not args.streams else args.streams
+    issues_dict: dict[str, dict[str, dict[str, dict[str, str]]]] = {}
+
     root_log_path, root_log_type = check_log_type(plugin, request)
     for stream in streams:
         count = 0
@@ -357,13 +434,13 @@ def main_update_variables_from_validate() -> None:
         vars_to_remove = get_vars_to_remove(root_log_type, logs)
         if vars_to_remove:
             logger.info(f"  Identified variables with stash errors in {stream}")
-            # Iterate through the variable list line by line, if the variable in that line is also in the
-            # vars_to_remove list, comment them out.
+            # Iterate through the var list by lines, if the var is also in the vars_to_remove list, comment it out.
             for i, line in enumerate(variable_list):
                 for variable in vars_to_remove:
                     if variable in line and stream in line and not line.startswith("#"):
                         variable_list[i] = f"#{line} #removed due to extract validation error"
                         logger.info(f"      Removed variable `{variable}`")
+                        issues_dict = add_variable_to_issues(line, issues_dict, request)
                         count += 1
             if count == 0:
                 logger.info(f"  All problematic variables for stream {stream} have already been removed.")
@@ -374,3 +451,6 @@ def main_update_variables_from_validate() -> None:
 
     save_new_variable_list(request, variable_list)
     logger.info(f"Variable list {request.data.variable_list_file} successfully updated.")
+
+    if issues_dict and args.create_issue:
+        open_issue(request, issues_dict)

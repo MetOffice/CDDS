@@ -87,3 +87,71 @@ def simple_request():
                    inventory=inventory_section,
                    conversion=conversion_section,
                    netcdf_global_attributes=GlobalAttributesSection())
+
+
+def simple_request_cmip7():
+    variable_list_file = tempfile.mktemp()
+    with open(variable_list_file, 'w') as fh:
+        fh.writelines(["atmos/tas_tavg-h2m-hxy-u@mon:ap5"])
+
+    root_proc_dir = tempfile.mkdtemp(prefix='proc')
+    root_data_dir = tempfile.mkdtemp(prefix='data')
+
+    cdds_etc_dir = os.environ['CDDS_ETC']
+
+    conversion_section = ConversionSection()
+    inventory_section = InventorySection(inventory_check=False)
+    misc_section = MiscSection()
+    data_section = DataSection(
+        data_version='v20261118',
+        end_date=TimePoint(year=2000, month_of_year=1, day_of_month=1),
+        mass_data_class='crum',
+        start_date=TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        model_workflow_id='u-dw052',
+        streams=['ap5'],
+        output_mass_root='',
+        output_mass_suffix='',
+        variable_list_file=variable_list_file
+    )
+    common_section = CommonSection(
+        mip_table_dir=os.path.join(cdds_etc_dir, 'mip_tables/CMIP7/DR-1.2.2.5-v1.0.1'),
+        mode='strict',
+        package='round-1',
+        workflow_basename='UKCM2-0-LL_1pctCO2_r1i1p1f1_round-1',
+        root_proc_dir=root_proc_dir,
+        root_data_dir=root_data_dir,
+        root_ancil_dir=os.path.join(cdds_etc_dir, 'ancil'),
+        root_hybrid_heights_dir=os.path.join(cdds_etc_dir, 'vertical_coordinates'),
+        root_replacement_coordinates_dir=os.path.join(cdds_etc_dir, 'horizontal_coordinates'),
+        sites_file=os.path.join(cdds_etc_dir, 'cfmip2/cfmip2-sites-orog.txt'),
+        standard_names_version='93',
+        standard_names_dir=os.path.join(cdds_etc_dir, 'standard_names')
+    )
+    metadata_section = MetadataSection(
+        branch_method='standard',
+        branch_date_in_child=TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        branch_date_in_parent=TimePoint(year=2100, month_of_year=1, day_of_month=1),
+        base_date=TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        calendar='proleptic_gregorian',
+        experiment_id='1pctCO2',
+        institution_id='UKNCSP',
+        mip='CMIP',
+        mip_era='CMIP7',
+        model_id='UKCM2-0-LL',
+        parent_base_date=TimePoint(year=1850, month_of_year=1, day_of_month=1),
+        parent_experiment_id="piControl",
+        parent_mip="CMIP",
+        parent_mip_era="CMIP7",
+        parent_model_id="UKCM2-0-LL",
+        parent_time_units="days since 1850-01-01",
+        parent_variant_label="r1i1p1f1",
+        variant_label='r1i1p1f1'
+    )
+
+    return Request(common=common_section,
+                   data=data_section,
+                   metadata=metadata_section,
+                   misc=misc_section,
+                   inventory=inventory_section,
+                   conversion=conversion_section,
+                   netcdf_global_attributes=GlobalAttributesSection())
