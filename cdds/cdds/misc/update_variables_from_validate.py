@@ -377,6 +377,16 @@ def save_new_variable_list(request: Request, updated_variable_list: list) -> Non
 
 
 def open_issue(request: Request, issues_dict: dict) -> None:
+    """Open a GitHub issue on CDDS-simulation-metadata to add all variable missing STASH to the known issues dictionary.
+    If the issue cannot be opened for any reason, the user will be prompted to open it manually.
+
+    Parameters
+    ----------
+    request: Request
+        The CDDS request object.
+    issues_dict: dict
+        The dictionary of variables missing STASH to include in the issue.
+    """
     logger = logging.getLogger(__name__)
     title = f"Update known issues from extract validate {request.data.model_workflow_id}"
     try:
