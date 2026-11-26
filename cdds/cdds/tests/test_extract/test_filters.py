@@ -9,12 +9,8 @@ import os
 import tempfile
 import unittest
 from copy import deepcopy
-from types import SimpleNamespace
 from unittest.mock import patch
 
-import netCDF4
-import numpy as np
-from iris.fileformats.pp import SplittableInt
 from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import configure_logger
@@ -638,89 +634,6 @@ class TestSkipExistingPpFiles(unittest.TestCase):
         # With nothing in the target directory, no file splits the list, so all files are requested together
         self.assertEqual(missing_retrievals, [pp_filelist])
 
-    @staticmethod
-    def _pp_field(stash, lbproc=128, blev=0.0, lbtim=122):
-        return SimpleNamespace(lbuser=(1, 0, 0, stash, 0, 0, 1), lbproc=lbproc, blev=np.float32(blev), lblev=1,
-                               lbtim=SplittableInt(lbtim, {"ia": slice(2, None), "ib": 1, "ic": 0}))
-
-    def _missing_retrievals_with_fields(self, fields_by_filename, constraints):
-        pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
-        filters = Filters(procdir="foo")
-        filters.stream = "ap5"
-        filters.expected_pp_fields = {
-            "ap5": set().union(*(filters._expand_pp_constraint(constraint) for constraint in constraints))}
-        with tempfile.TemporaryDirectory() as target_dir:
-            self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
-            with patch("cdds.extract.filters.read_pp_fields",
-                       side_effect=lambda path: fields_by_filename[os.path.basename(path)]):
-                missing_retrievals = filters._missing_pp_file_retrievals(pp_filelist, target_dir)
-        stale_filenames = [os.path.basename(path) for path in filters.stale_files]
-        return pp_filelist, missing_retrievals, stale_filenames
-
-    def test_missing_pp_file_retrievals_reselects_file_missing_requested_stash(self):
-        complete = [self._pp_field(33), self._pp_field(3236), self._pp_field(30297)]
-        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete, "a1.pp": complete[:2], "a2.pp": complete},
-            [{"stash": "33"}, {"stash": "3236", "lbproc": 128}, {"stash": "30297", "lbproc": 128}])
-
-        self.assertEqual(missing_retrievals, [pp_filelist[1:2]])
-        self.assertEqual(stale_filenames, ["a1.pp"])
-
-    def test_missing_pp_file_retrievals_reselects_file_missing_requested_lbproc(self):
-        # e.g. tas (3236, lbproc=128) was extracted first, then tasmax (3236, lbproc=8192) was added
-        complete = [self._pp_field(3236, lbproc=128), self._pp_field(3236, lbproc=8192)]
-        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete, "a1.pp": complete, "a2.pp": complete[:1]},
-            [{"stash": "3236", "lbproc": 128}, {"stash": "3236", "lbproc": 8192}])
-
-        self.assertEqual(missing_retrievals, [pp_filelist[2:3]])
-        self.assertEqual(stale_filenames, ["a2.pp"])
-
-    def test_missing_pp_file_retrievals_reselects_file_missing_requested_level(self):
-        # e.g. zg at P500 was extracted first, then zg on more pressure levels was added.
-        # The 32-bit header value of 0.225 must still match the constraint.
-        complete = [self._pp_field(30297, blev=500.0), self._pp_field(30297, blev=1000.0),
-                    self._pp_field(8223, blev=0.225)]
-        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete, "a1.pp": complete[:1] + complete[2:], "a2.pp": complete},
-            [{"stash": "30297", "blev": [1000.0, 500.0], "lbproc": 128}, {"stash": "8223", "blev": 0.225}])
-
-        self.assertEqual(missing_retrievals, [pp_filelist[1:2]])
-        self.assertEqual(stale_filenames, ["a1.pp"])
-
-    def test_missing_pp_file_retrievals_reselects_file_missing_requested_lbtim(self):
-        fields = [self._pp_field(3236, lbtim=122)]
-        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": fields, "a1.pp": fields, "a2.pp": fields},
-            [{"stash": "3236", "lbtim_ia": 1, "lbtim_ib": 2}, {"stash": "3236", "lbtim_ia": 6, "lbtim_ib": 2}])
-
-        self.assertEqual(missing_retrievals, [pp_filelist])
-        self.assertEqual(stale_filenames, ["a0.pp", "a1.pp", "a2.pp"])
-
-    def test_missing_pp_file_retrievals_raises_for_unsupported_constraint(self):
-        fields = [self._pp_field(3236)]
-        with self.assertRaisesRegex(ValueError, "unknown_key"):
-            self._missing_retrievals_with_fields(
-                {"a0.pp": fields, "a1.pp": fields, "a2.pp": fields}, [{"stash": "3236", "unknown_key": 1}])
-
-    def test_missing_pp_file_retrievals_reselects_unreadable_file(self):
-        complete = [self._pp_field(3236)]
-        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": None, "a1.pp": complete, "a2.pp": complete}, [{"stash": "3236", "lbproc": 128}])
-
-        self.assertEqual(missing_retrievals, [pp_filelist[0:1]])
-        self.assertEqual(stale_filenames, ["a0.pp"])
-
-    def test_missing_pp_file_retrievals_ignores_missing_optional_stash(self):
-        # STASH 33 is often absent from extracted files, so lacking it alone must not trigger a reselect
-        complete_without_33 = [self._pp_field(3236)]
-        _, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete_without_33, "a1.pp": complete_without_33, "a2.pp": complete_without_33},
-            [{"stash": "33"}, {"stash": "3236", "lbproc": 128}])
-
-        self.assertEqual(missing_retrievals, [])
-        self.assertEqual(stale_filenames, [])
-
     @patch("cdds.extract.filters.Filters._chunk_pp_filelist")
     @patch("cdds.extract.filters.Filters._create_pp_filelist")
     def test_mass_cmd_pp_skips_when_all_files_exist(self, mock_create_pp_filelist, mock_chunk_pp_filelist):
@@ -936,23 +849,19 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
             for filename in filenames
         ]
 
-    def _create_nc_files(self, target_dir, filenames, variables):
+    def _create_empty_files(self, target_dir, filenames):
         for filename in filenames:
-            with netCDF4.Dataset(os.path.join(target_dir, filename), "w") as dataset:
-                for variable in variables:
-                    dataset.createVariable(variable, "f4")
+            open(os.path.join(target_dir, filename), "w").close()
 
     # _mass_cmd_nc writes a filter file per substream to procdir/extract, so the test needs a real procdir.
     # Only the moo ls call is patched; the substream/date matching and chunking run for real.
-    def _run_nc_filter(self, existing_filenames, incomplete_filenames=()):
+    def _run_nc_filter(self, existing_filenames):
         with tempfile.TemporaryDirectory() as procdir:
             extract_dir = os.path.join(procdir, "extract")
             os.mkdir(extract_dir)
             target_dir = os.path.join(procdir, "target")
             os.mkdir(target_dir)
-            self._create_nc_files(target_dir, existing_filenames, ["tos", "sos"])
-            # Incomplete files stand in for files extracted before variables were added to the request
-            self._create_nc_files(target_dir, incomplete_filenames, ["nav_lon"])
+            self._create_empty_files(target_dir, existing_filenames)
             self.filters.procdir = procdir
             self.filters.target = target_dir
             with patch("cdds.extract.filters.fetch_filelist_from_mass", return_value=(self.mass_filelist, None)):
@@ -982,22 +891,6 @@ class TestSkipExistingNcFilterFiles(unittest.TestCase):
             "-i", os.path.join(procdir, "extract", "onm_grid-Us.dff"),
             "moose:/source/" + self.filenames["grid-U"][1], target_dir
         ])
-
-    def test_mass_cmd_nc_filter_refilters_file_missing_requested_variables(self):
-        # The second grid-T file lacks tos, so it must be filtered again and recorded for deletion
-        existing_filenames = self.filenames["grid-T"][:1] + self.filenames["grid-U"]
-        incomplete_filenames = self.filenames["grid-T"][1:]
-        (status, mass_cmd, message, code), procdir, target_dir = self._run_nc_filter(
-            existing_filenames, incomplete_filenames)
-
-        self.assertEqual(status, "ok")
-        self.assertIsNone(code)
-        self.assertEqual(len(mass_cmd), 1)
-        self.assertEqual(mass_cmd[0]["param_args"], [
-            "-i", os.path.join(procdir, "extract", "onm_grid-Ts.dff"),
-            "moose:/source/" + self.filenames["grid-T"][1], target_dir
-        ])
-        self.assertEqual(self.filters.stale_files, [os.path.join(target_dir, self.filenames["grid-T"][1])])
 
     def test_mass_cmd_nc_filter_requests_all_files_when_none_exist(self):
         # Empty target, so behaviour should match retrieval before skipping was added

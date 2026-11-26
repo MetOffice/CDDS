@@ -5,7 +5,6 @@ using SELECT and FILTER
 
 """
 
-import itertools
 import logging
 import os
 import re
@@ -22,14 +21,9 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_pp_header_value, get_stash, get_tape_limit, get_variables_from_netcdf,
-                                 normalise_pp_value, read_pp_fields, run_moo_cmd, condense_constraints)
+                                 get_stash, get_tape_limit, run_moo_cmd, condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.common import generate_datestamps_nc
-
-# STASH codes that may legitimately be absent from extracted PP files (extract validation only warns about them),
-# so their absence must not make an existing file count as stale
-OPTIONAL_STASH_CODES = {33}
 
 
 class Filters(object):
@@ -65,8 +59,6 @@ class Filters(object):
         self.mappings_embargoed = {}
         self.simulation = simulation
         self.filters = {}
-        self.expected_pp_fields = {}
-        self.stale_files = []
         self.mass_cmd = []
         self.suite_id = None
         self.ensemble_member_id = None
@@ -263,7 +255,6 @@ class Filters(object):
         self.source = source
         self.target = target
         self.stream = stream
-        self.stale_files = []
         code = None
         logger = logging.getLogger(__name__)
         if self.moo_get:
@@ -304,7 +295,6 @@ class Filters(object):
         filter_msg = []
         filter_msg_exc = []
         stash_codes = set()
-        expected_pp_fields = set()
         self.filters = {stream: ""}
 
         # check if variables/mappings are defined for this data stream
@@ -344,16 +334,12 @@ class Filters(object):
                 stashes = []
                 stashes.extend(get_stash(unformatted_stash) for unformatted_stash in corresponding_stashes)
                 stash_codes.update(stashes)
-                for stash in stashes:
-                    expected_pp_fields.update(self._expand_pp_constraint(
-                        dict(deserialised_constraint_attributes, stash=stash)))
                 stash_values = ",".join(map(str, stashes))
                 filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
 
                 filter_block += "end\n"
                 self.filters[stream] += filter_block
 
-        self.expected_pp_fields[stream] = expected_pp_fields
         # sort variables in filter missing filter lists
         filter_msg = sorted(filter_msg, key=lambda y: y["name"])
         filter_msg_exc = sorted(filter_msg_exc, key=lambda y: y["name"])
@@ -553,16 +539,11 @@ class Filters(object):
         """Group the pp files missing from the target directory into retrievals of
         consecutive files.
 
-        A file on disk counts as missing if it is stale, i.e. it cannot be read or does
-        not contain every STASH code in the current filter (for example because variables
-        were added to the request since it was extracted). Stale files are recorded in
-        ``self.stale_files`` so they can be deleted before they are selected again.
-
         Each retrieval becomes its own moo select. A filter file can request a range of
         filenames, so a single select spanning a file already on disk would retrieve
-        that file again. Each complete file already on disk therefore ends the current
-        missing file sequence, and the next missing file starts a new one. For example,
-        if May is on disk and complete then Jan-Apr and Jun-Dec are separate retrievals.
+        that file again. Each file already on disk therefore ends the current missing file
+        sequence, and the next missing file starts a new one. For example, if May is on
+        disk then Jan-Apr and Jun-Dec are separate retrievals.
 
         Parameters
         ----------
@@ -583,15 +564,8 @@ class Filters(object):
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
         files_in_target = set(os.listdir(target)) if os.path.isdir(target) else set()
-        expected_fields = {field for field in self.expected_pp_fields.get(self.stream, set())
-                           if dict(field)["stash"] not in OPTIONAL_STASH_CODES}
         for pp_file in pp_filelist:
             on_disk = pp_file["filename"] in files_in_target
-            if on_disk and expected_fields:
-                file_path = os.path.join(target, pp_file["filename"])
-                if self._is_stale_pp_file(file_path, expected_fields):
-                    self.stale_files.append(file_path)
-                    on_disk = False
             if not on_disk:
                 missing_files_sequence.append(pp_file)
             elif missing_files_sequence:
@@ -601,42 +575,6 @@ class Filters(object):
         if missing_files_sequence:
             collated_missing_retrievals.append(missing_files_sequence)
         return collated_missing_retrievals
-
-    @staticmethod
-    def _expand_pp_constraint(constraint: Dict) -> set:
-        """Return the PP fields a constraint requires, each as a sorted tuple of (name, value) pairs.
-
-        A list value (e.g. the levels in blev) gives one field per value, as every value must be present.
-        """
-        names = sorted(constraint)
-        values = [value if isinstance(value, list) else [value] for value in (constraint[name] for name in names)]
-        return {tuple(zip(names, map(normalise_pp_value, combination))) for combination in itertools.product(*values)}
-
-    def _is_stale_pp_file(self, file_path: str, expected_fields: set) -> bool:
-        """Return True if the pp file cannot be read or lacks any of the expected fields.
-
-        Each expected field is compared using only the header elements its constraint specifies.
-        """
-        logger = logging.getLogger(__name__)
-        fields_in_file = read_pp_fields(file_path)
-        if fields_in_file is None:
-            logger.info("Existing pp file {} cannot be read and will be selected again".format(file_path))
-            return True
-        fields_by_names: Dict[Tuple, set] = {}
-        missing_fields = []
-        for expected_field in expected_fields:
-            names = tuple(name for name, _ in expected_field)
-            if names not in fields_by_names:
-                fields_by_names[names] = {tuple((name, get_pp_header_value(field, name)) for name in names)
-                                          for field in fields_in_file}
-            if expected_field not in fields_by_names[names]:
-                missing_fields.append(expected_field)
-        if missing_fields:
-            missing_stash_codes = sorted({int(dict(field)["stash"]) for field in missing_fields})
-            logger.info("Existing pp file {} is missing {} requested fields (STASH {}) and will be selected "
-                        "again".format(file_path, len(missing_fields), ", ".join(map(str, missing_stash_codes))))
-            return True
-        return False
 
     def _paths_not_in_target(self, source_paths: List[str]) -> List[str]:
         """Return source paths whose files are not yet present in the target."""
@@ -667,8 +605,7 @@ class Filters(object):
         -------
         Tuple[str, List[Dict], str, Union[int, str]]
             Status, list of mass cmds represented as dictionaries, message and status code.
-            Commands are only created for files missing from the target directory or
-            stale (see ``_missing_pp_file_retrievals``).
+            Commands are only created for files missing from the target directory.
             If no files are missing, the list is empty and the status code is
             "already_exists"; the runner then reports the stream as already extracted,
             not as failed.
@@ -678,13 +615,10 @@ class Filters(object):
         missing_retrievals = self._missing_pp_file_retrievals(pp_filelist, self.target)
         missing_count = sum(len(missing_files_sequence) for missing_files_sequence in missing_retrievals)
         logger = logging.getLogger(__name__)
-        if self.stale_files:
-            logger.info("{} existing pp files are missing requested STASH codes or cannot be read; "
-                        "they will be deleted and selected again".format(len(self.stale_files)))
         if missing_count == len(pp_filelist):
-            logger.info("{} pp files to moo select (none already present and complete)".format(missing_count))
+            logger.info("{} pp files to moo select (none already present)".format(missing_count))
         else:
-            logger.info("{} of {} pp files already present and complete; {} pp files to moo select".format(
+            logger.info("{} of {} pp files already present; {} pp files to moo select".format(
                 len(pp_filelist) - missing_count, len(pp_filelist), missing_count))
         # Return early so the runner reports the stream as already extracted, not as an empty "ok" result
         if not missing_retrievals:
@@ -971,10 +905,7 @@ class Filters(object):
             if count == 0:
                 error = "no matching variables to retrieve"
                 status["val"] = "stop"
-            if self.stale_files:
-                logger.info("{} existing nc files are missing requested variables or cannot be read; "
-                            "they will be deleted and filtered again".format(len(self.stale_files)))
-            logger.info("{} of {} nc files already present and complete; {} nc files to moo filter".format(
+            logger.info("{} of {} nc files already present; {} nc files to moo filter".format(
                 expected_count - files_to_retrieve_count, expected_count, files_to_retrieve_count))
             if status["val"] == "ok" and expected_count and not files_to_retrieve_count:
                 return status["val"], self.mass_cmd, "all {} nc files already present in {}".format(
@@ -1110,9 +1041,7 @@ class Filters(object):
                     expected_count += 1
                     files_on_tapes[tape].append(nc_file)
 
-        files_on_tapes = {
-            tape: self._nc_files_to_filter(nc_files, substream) for tape, nc_files in files_on_tapes.items()
-        }
+        files_on_tapes = {tape: self._paths_not_in_target(nc_files) for tape, nc_files in files_on_tapes.items()}
         files_to_retrieve_count = sum(len(nc_files) for nc_files in files_on_tapes.values())
         if files_to_retrieve_count and not self.simulation:
             logger.info(
@@ -1141,41 +1070,6 @@ class Filters(object):
                 "end": end,
             })
         return expected_count, files_to_retrieve_count
-
-    def _nc_files_to_filter(self, source_paths: List[str], substream: str) -> List[str]:
-        """Return source paths whose files are missing from the target or are stale.
-
-        A file on disk is stale if it cannot be read or does not contain every variable
-        in the substream's filter (for example because variables were added to the
-        request since it was extracted). Stale files are recorded in ``self.stale_files``
-        so they can be deleted before they are filtered again.
-        """
-        expected_variables = {variable for variable in self.filters[substream].split(",") if variable}
-        files_in_target = set(os.listdir(self.target)) if os.path.isdir(self.target) else set()
-        files_to_filter = []
-        for source_path in source_paths:
-            filename = os.path.basename(source_path)
-            if filename in files_in_target:
-                file_path = os.path.join(self.target, filename)
-                if not expected_variables or not self._is_stale_nc_file(file_path, expected_variables):
-                    continue
-                self.stale_files.append(file_path)
-            files_to_filter.append(source_path)
-        return files_to_filter
-
-    def _is_stale_nc_file(self, file_path: str, expected_variables: set) -> bool:
-        """Return True if the nc file cannot be read or lacks any of the expected variables."""
-        logger = logging.getLogger(__name__)
-        variables_in_file = get_variables_from_netcdf(file_path)
-        if variables_in_file is None:
-            logger.info("Existing nc file {} cannot be read and will be filtered again".format(file_path))
-            return True
-        missing_variables = expected_variables - variables_in_file
-        if missing_variables:
-            logger.info("Existing nc file {} is missing requested variables {} and will be filtered again".format(
-                file_path, ", ".join(sorted(missing_variables))))
-            return True
-        return False
 
 
 class FilterFileException(IOError):

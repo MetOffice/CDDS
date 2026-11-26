@@ -8,14 +8,10 @@ import logging
 import os
 import pwd
 import re
-import struct
 import subprocess
 import sys
 from collections import defaultdict
 from operator import itemgetter
-
-import iris.fileformats.pp as pp
-import netCDF4
 
 from cdds.common import retry, run_command
 from cdds.extract.constants import (
@@ -82,89 +78,6 @@ def get_stash_from_pp(filepath) -> dict[str, int] | None:
             except ValueError:
                 continue
         return stash
-
-
-# Getters for PP constraint names that are not plain attributes of an iris PPField
-PP_HEADER_GETTERS = {
-    "stash": lambda field: field.lbuser[3],
-    "lbuser_5": lambda field: field.lbuser[4],
-    "brsvd1": lambda field: field.brsvd[0],
-    "lbtim": lambda field: int(field.lbtim),
-    "lbtim_ia": lambda field: field.lbtim.ia,
-    "lbtim_ib": lambda field: field.lbtim.ib,
-}
-
-
-def normalise_pp_value(value) -> float:
-    """Return a PP header or constraint value in a form that can be compared,
-    allowing for 32-bit floats in PP headers (e.g. a blev of 0.225)."""
-    return round(float(value), 4)
-
-
-def get_pp_header_value(field, name: str) -> float:
-    """Return the normalised value of a PP constraint name from the header of an iris PPField.
-
-    Parameters
-    ----------
-    field : iris.fileformats.pp.PPField
-        the PP field
-    name : str
-        the constraint name, e.g. "stash", "lbproc" or "blev"
-
-    Returns
-    -------
-    float
-        the normalised header value
-
-    Raises
-    ------
-    ValueError
-        If the constraint name does not correspond to a PP header element
-    """
-    try:
-        value = PP_HEADER_GETTERS[name](field) if name in PP_HEADER_GETTERS else getattr(field, name)
-    except AttributeError:
-        raise ValueError('PP constraint "{}" cannot be checked against existing PP files'.format(name))
-    return normalise_pp_value(value)
-
-
-def read_pp_fields(filepath: str) -> list | None:
-    """Reads the field headers of a PP file without loading the data.
-
-    Parameters
-    ----------
-    filepath : str
-        path to the pp file
-
-    Returns
-    -------
-    list | None
-        The iris PPFields in the file or None if the file cannot be read
-    """
-    try:
-        return list(pp.load(filepath))
-    except (OSError, struct.error):
-        return None
-
-
-def get_variables_from_netcdf(filepath: str) -> set[str] | None:
-    """Reads the variable names from the header of a netCDF file.
-
-    Parameters
-    ----------
-    filepath : str
-        path to the netCDF file
-
-    Returns
-    -------
-    set|None
-        The variable names in the file or None if the file cannot be read
-    """
-    try:
-        with netCDF4.Dataset(filepath) as dataset:
-            return set(dataset.variables)
-    except OSError:
-        return None
 
 
 def run_moo_cmd(sub_cmd, args, simulate=False, verbose=True):
