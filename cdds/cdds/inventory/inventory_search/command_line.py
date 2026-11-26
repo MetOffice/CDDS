@@ -16,12 +16,13 @@ SEARCH_FACET_LIST = [
     'mip',
     'institution',
     'model',
+    'experiment',
+    'variant',
     'region',
     'frequency',
-    'experiment',
-    'grid',
     'variable',
-    'suffix'
+    'suffix',
+    'grid'
 ]
 
 
