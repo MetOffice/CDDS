@@ -59,6 +59,7 @@ class Filters(object):
         self.mappings_embargoed = {}
         self.simulation = simulation
         self.filters = {}
+        self.requested_fields = set()
         self.mass_cmd = []
         self.suite_id = None
         self.ensemble_member_id = None
@@ -264,6 +265,7 @@ class Filters(object):
             elif get_streamtype(stream) == STREAMTYPE_NC:
                 status, self.mass_cmd, error, code = self._mass_cmd_get_nc()
         else:
+            self._remove_stale_files()
             if get_streamtype(stream) == STREAMTYPE_PP:
                 status, self.mass_cmd, error, code = self._mass_cmd_pp(
                     self.start_date, self.end_date)
@@ -272,6 +274,40 @@ class Filters(object):
                     self.start_date, self.end_date)
 
         return status, self.mass_cmd, error, code
+
+    def _remove_stale_files(self):
+        """Delete the stream's existing files if they may not contain every requested field.
+
+        The fields requested for the stream are recorded in the extract proc directory.
+        Existing files are kept only if a record exists and the current request is a
+        subset of it, otherwise they are deleted so they are retrieved again with the
+        current filter, and the current request is recorded.
+        """
+        if self.simulation or not os.path.isdir(self.target):
+            return
+        logger = logging.getLogger(__name__)
+        record_path = os.path.join(self.procdir, "extract", "{}_extracted_fields.json".format(self.stream))
+        existing_files = [os.path.join(self.target, filename) for filename in os.listdir(self.target)]
+        if existing_files:
+            if os.path.isfile(record_path):
+                logger.info("Checking previously extracted fields in {} to skip unnecessary MOOSE "
+                            "commands".format(record_path))
+                with open(record_path) as record_file:
+                    if self.requested_fields <= set(json.load(record_file)):
+                        logger.info("All requested fields were previously extracted; keeping existing files in "
+                                    "{}".format(self.target))
+                        return
+                logger.info("Requested fields include fields not previously extracted")
+            else:
+                logger.info("No record of previously extracted fields found at {}".format(record_path))
+            logger.info("Existing files in {} may not contain all requested fields and will be retrieved "
+                        "again".format(self.target))
+            for file_path in existing_files:
+                os.remove(file_path)
+                logger.info("Deleted stale file {}".format(file_path))
+        with open(record_path, "w") as record_file:
+            json.dump(sorted(self.requested_fields), record_file, indent=1)
+        logger.info("Recorded requested fields in {}".format(record_path))
 
 # ----- PP specialisation methods ---------------------------------------------
     def _format_filter_pp(self, stream):
@@ -296,6 +332,7 @@ class Filters(object):
         filter_msg_exc = []
         stash_codes = set()
         self.filters = {stream: ""}
+        self.requested_fields = set()
 
         # check if variables/mappings are defined for this data stream
         if self.mappings.get(stream):
@@ -334,6 +371,7 @@ class Filters(object):
                 stashes = []
                 stashes.extend(get_stash(unformatted_stash) for unformatted_stash in corresponding_stashes)
                 stash_codes.update(stashes)
+                self.requested_fields.update("{} {}".format(stash, serialised_constraints) for stash in stashes)
                 stash_values = ",".join(map(str, stashes))
                 filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
 
@@ -773,6 +811,7 @@ class Filters(object):
         filter_msg = []
         filter_msg_exc = []
         self.filters = {}
+        self.requested_fields = set()
 
         # check if variables/mappings are defined for this data stream
         if self.mappings.get(stream):
@@ -829,6 +868,9 @@ class Filters(object):
                 var_list = filter_str.split(",")
                 self.filters[k] = \
                     ",".join(sorted(set(var_list), key=var_list.index))
+            self.requested_fields = {"{}:{}".format(substream, variable)
+                                     for substream, variables in self.filters.items()
+                                     for variable in variables.split(",")}
 
             filter_msg = sorted(filter_msg, key=lambda y: y["name"])
             filter_msg_exc = sorted(filter_msg_exc, key=lambda y: y["name"])
