@@ -9,9 +9,12 @@ import os
 import tempfile
 import unittest
 from copy import deepcopy
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import netCDF4
+import numpy as np
+from iris.fileformats.pp import SplittableInt
 from metomi.isodatetime.parsers import TimePointParser
 
 from cdds.common import configure_logger
@@ -635,60 +638,85 @@ class TestSkipExistingPpFiles(unittest.TestCase):
         # With nothing in the target directory, no file splits the list, so all files are requested together
         self.assertEqual(missing_retrievals, [pp_filelist])
 
-    def _missing_retrievals_with_fields(self, fields_by_filename, expected_fields=None):
+    @staticmethod
+    def _pp_field(stash, lbproc=128, blev=0.0, lbtim=122):
+        return SimpleNamespace(lbuser=(1, 0, 0, stash, 0, 0, 1), lbproc=lbproc, blev=np.float32(blev), lblev=1,
+                               lbtim=SplittableInt(lbtim, {"ia": slice(2, None), "ib": 1, "ic": 0}))
+
+    def _missing_retrievals_with_fields(self, fields_by_filename, constraints):
         pp_filelist = [{"filename": "a0.pp"}, {"filename": "a1.pp"}, {"filename": "a2.pp"}]
         filters = Filters(procdir="foo")
         filters.stream = "ap5"
-        if expected_fields is None:
-            expected_fields = {("33", 128), ("3236", 128), ("30297", 128)}
-        filters.expected_pp_fields = {"ap5": expected_fields}
+        filters.expected_pp_fields = {
+            "ap5": set().union(*(filters._expand_pp_constraint(constraint) for constraint in constraints))}
         with tempfile.TemporaryDirectory() as target_dir:
             self._create_empty_pp_files(target_dir, ["a0.pp", "a1.pp", "a2.pp"])
-            with patch("cdds.extract.filters.get_stash_lbproc_from_pp",
+            with patch("cdds.extract.filters.read_pp_fields",
                        side_effect=lambda path: fields_by_filename[os.path.basename(path)]):
                 missing_retrievals = filters._missing_pp_file_retrievals(pp_filelist, target_dir)
         stale_filenames = [os.path.basename(path) for path in filters.stale_files]
         return pp_filelist, missing_retrievals, stale_filenames
 
     def test_missing_pp_file_retrievals_reselects_file_missing_requested_stash(self):
-        complete = {("33", 128), ("3236", 128), ("30297", 128)}
+        complete = [self._pp_field(33), self._pp_field(3236), self._pp_field(30297)]
         pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete, "a1.pp": {("33", 128), ("3236", 128)}, "a2.pp": complete})
+            {"a0.pp": complete, "a1.pp": complete[:2], "a2.pp": complete},
+            [{"stash": "33"}, {"stash": "3236", "lbproc": 128}, {"stash": "30297", "lbproc": 128}])
 
         self.assertEqual(missing_retrievals, [pp_filelist[1:2]])
         self.assertEqual(stale_filenames, ["a1.pp"])
 
     def test_missing_pp_file_retrievals_reselects_file_missing_requested_lbproc(self):
         # e.g. tas (3236, lbproc=128) was extracted first, then tasmax (3236, lbproc=8192) was added
-        complete = {("3236", 128), ("3236", 8192)}
+        complete = [self._pp_field(3236, lbproc=128), self._pp_field(3236, lbproc=8192)]
         pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete, "a1.pp": complete, "a2.pp": {("3236", 128)}},
-            expected_fields={("3236", 128), ("3236", 8192)})
+            {"a0.pp": complete, "a1.pp": complete, "a2.pp": complete[:1]},
+            [{"stash": "3236", "lbproc": 128}, {"stash": "3236", "lbproc": 8192}])
 
         self.assertEqual(missing_retrievals, [pp_filelist[2:3]])
         self.assertEqual(stale_filenames, ["a2.pp"])
 
-    def test_missing_pp_file_retrievals_checks_only_stash_without_lbproc_constraint(self):
-        fields = {("3236", 128)}
-        _, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": fields, "a1.pp": fields, "a2.pp": fields}, expected_fields={("3236", None)})
+    def test_missing_pp_file_retrievals_reselects_file_missing_requested_level(self):
+        # e.g. zg at P500 was extracted first, then zg on more pressure levels was added.
+        # The 32-bit header value of 0.225 must still match the constraint.
+        complete = [self._pp_field(30297, blev=500.0), self._pp_field(30297, blev=1000.0),
+                    self._pp_field(8223, blev=0.225)]
+        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
+            {"a0.pp": complete, "a1.pp": complete[:1] + complete[2:], "a2.pp": complete},
+            [{"stash": "30297", "blev": [1000.0, 500.0], "lbproc": 128}, {"stash": "8223", "blev": 0.225}])
 
-        self.assertEqual(missing_retrievals, [])
-        self.assertEqual(stale_filenames, [])
+        self.assertEqual(missing_retrievals, [pp_filelist[1:2]])
+        self.assertEqual(stale_filenames, ["a1.pp"])
+
+    def test_missing_pp_file_retrievals_reselects_file_missing_requested_lbtim(self):
+        fields = [self._pp_field(3236, lbtim=122)]
+        pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
+            {"a0.pp": fields, "a1.pp": fields, "a2.pp": fields},
+            [{"stash": "3236", "lbtim_ia": 1, "lbtim_ib": 2}, {"stash": "3236", "lbtim_ia": 6, "lbtim_ib": 2}])
+
+        self.assertEqual(missing_retrievals, [pp_filelist])
+        self.assertEqual(stale_filenames, ["a0.pp", "a1.pp", "a2.pp"])
+
+    def test_missing_pp_file_retrievals_raises_for_unsupported_constraint(self):
+        fields = [self._pp_field(3236)]
+        with self.assertRaisesRegex(ValueError, "unknown_key"):
+            self._missing_retrievals_with_fields(
+                {"a0.pp": fields, "a1.pp": fields, "a2.pp": fields}, [{"stash": "3236", "unknown_key": 1}])
 
     def test_missing_pp_file_retrievals_reselects_unreadable_file(self):
-        complete = {("3236", 128), ("30297", 128)}
+        complete = [self._pp_field(3236)]
         pp_filelist, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": None, "a1.pp": complete, "a2.pp": complete})
+            {"a0.pp": None, "a1.pp": complete, "a2.pp": complete}, [{"stash": "3236", "lbproc": 128}])
 
         self.assertEqual(missing_retrievals, [pp_filelist[0:1]])
         self.assertEqual(stale_filenames, ["a0.pp"])
 
     def test_missing_pp_file_retrievals_ignores_missing_optional_stash(self):
         # STASH 33 is often absent from extracted files, so lacking it alone must not trigger a reselect
-        complete_without_33 = {("3236", 128), ("30297", 128)}
+        complete_without_33 = [self._pp_field(3236)]
         _, missing_retrievals, stale_filenames = self._missing_retrievals_with_fields(
-            {"a0.pp": complete_without_33, "a1.pp": complete_without_33, "a2.pp": complete_without_33})
+            {"a0.pp": complete_without_33, "a1.pp": complete_without_33, "a2.pp": complete_without_33},
+            [{"stash": "33"}, {"stash": "3236", "lbproc": 128}])
 
         self.assertEqual(missing_retrievals, [])
         self.assertEqual(stale_filenames, [])

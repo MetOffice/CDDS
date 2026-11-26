@@ -5,6 +5,7 @@ using SELECT and FILTER
 
 """
 
+import itertools
 import logging
 import os
 import re
@@ -21,15 +22,14 @@ from cdds.common.plugins.grid import GridType
 from cdds.common.plugins.plugins import PluginStore
 from cdds.extract.constants import MOOSE_CALL_LIMIT
 from cdds.extract.common import (check_moo_cmd, chunk_by_files_and_tapes, fetch_filelist_from_mass, get_streamtype,
-                                 get_stash, get_stash_lbproc_from_pp, get_tape_limit, get_variables_from_netcdf,
-                                 run_moo_cmd,
-                                 condense_constraints)
+                                 get_pp_header_value, get_stash, get_tape_limit, get_variables_from_netcdf,
+                                 normalise_pp_value, read_pp_fields, run_moo_cmd, condense_constraints)
 from cdds.extract.constants import GRID_LOOKUPS, MOOSE_MAX_NC_FILES, STREAMTYPE_PP, STREAMTYPE_NC
 from cdds.common import generate_datestamps_nc
 
 # STASH codes that may legitimately be absent from extracted PP files (extract validation only warns about them),
 # so their absence must not make an existing file count as stale
-OPTIONAL_STASH_CODES = {"33"}
+OPTIONAL_STASH_CODES = {33}
 
 
 class Filters(object):
@@ -344,8 +344,9 @@ class Filters(object):
                 stashes = []
                 stashes.extend(get_stash(unformatted_stash) for unformatted_stash in corresponding_stashes)
                 stash_codes.update(stashes)
-                lbproc = deserialised_constraint_attributes.get("lbproc")
-                expected_pp_fields.update((str(stash), lbproc) for stash in stashes)
+                for stash in stashes:
+                    expected_pp_fields.update(self._expand_pp_constraint(
+                        dict(deserialised_constraint_attributes, stash=stash)))
                 stash_values = ",".join(map(str, stashes))
                 filter_block += f" stash=({stash_values})\n" if len(stashes) > 1 else f" stash={stash_values}\n"
 
@@ -582,8 +583,8 @@ class Filters(object):
         # so build Jan-Apr and Jun-Dec as separate sequences.
         missing_files_sequence: List[Dict] = []
         files_in_target = set(os.listdir(target)) if os.path.isdir(target) else set()
-        expected_fields = {(stash, lbproc) for stash, lbproc in self.expected_pp_fields.get(self.stream, set())
-                           if stash not in OPTIONAL_STASH_CODES}
+        expected_fields = {field for field in self.expected_pp_fields.get(self.stream, set())
+                           if dict(field)["stash"] not in OPTIONAL_STASH_CODES}
         for pp_file in pp_filelist:
             on_disk = pp_file["filename"] in files_in_target
             if on_disk and expected_fields:
@@ -601,25 +602,39 @@ class Filters(object):
             collated_missing_retrievals.append(missing_files_sequence)
         return collated_missing_retrievals
 
-    def _is_stale_pp_file(self, file_path: str, expected_fields: set) -> bool:
-        """Return True if the pp file cannot be read or lacks any of the expected (STASH, lbproc) pairs.
+    @staticmethod
+    def _expand_pp_constraint(constraint: Dict) -> set:
+        """Return the PP fields a constraint requires, each as a sorted tuple of (name, value) pairs.
 
-        An expected lbproc of None means the constraint does not restrict lbproc, so only the STASH code is checked.
+        A list value (e.g. the levels in blev) gives one field per value, as every value must be present.
+        """
+        names = sorted(constraint)
+        values = [value if isinstance(value, list) else [value] for value in (constraint[name] for name in names)]
+        return {tuple(zip(names, map(normalise_pp_value, combination))) for combination in itertools.product(*values)}
+
+    def _is_stale_pp_file(self, file_path: str, expected_fields: set) -> bool:
+        """Return True if the pp file cannot be read or lacks any of the expected fields.
+
+        Each expected field is compared using only the header elements its constraint specifies.
         """
         logger = logging.getLogger(__name__)
-        fields_in_file = get_stash_lbproc_from_pp(file_path)
+        fields_in_file = read_pp_fields(file_path)
         if fields_in_file is None:
             logger.info("Existing pp file {} cannot be read and will be selected again".format(file_path))
             return True
-        stash_in_file = {stash for stash, _ in fields_in_file}
-        missing_fields = {
-            (stash, lbproc) for stash, lbproc in expected_fields
-            if (stash, lbproc) not in fields_in_file and not (lbproc is None and stash in stash_in_file)
-        }
+        fields_by_names: Dict[Tuple, set] = {}
+        missing_fields = []
+        for expected_field in expected_fields:
+            names = tuple(name for name, _ in expected_field)
+            if names not in fields_by_names:
+                fields_by_names[names] = {tuple((name, get_pp_header_value(field, name)) for name in names)
+                                          for field in fields_in_file}
+            if expected_field not in fields_by_names[names]:
+                missing_fields.append(expected_field)
         if missing_fields:
-            logger.info("Existing pp file {} is missing requested fields {} and will be selected again".format(
-                file_path, ", ".join("stash={} lbproc={}".format(stash, lbproc)
-                                     for stash, lbproc in sorted(missing_fields, key=str))))
+            missing_stash_codes = sorted({int(dict(field)["stash"]) for field in missing_fields})
+            logger.info("Existing pp file {} is missing {} requested fields (STASH {}) and will be selected "
+                        "again".format(file_path, len(missing_fields), ", ".join(map(str, missing_stash_codes))))
             return True
         return False
 

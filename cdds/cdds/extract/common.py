@@ -8,11 +8,13 @@ import logging
 import os
 import pwd
 import re
+import struct
 import subprocess
 import sys
 from collections import defaultdict
 from operator import itemgetter
 
+import iris.fileformats.pp as pp
 import netCDF4
 
 from cdds.common import retry, run_command
@@ -82,9 +84,52 @@ def get_stash_from_pp(filepath) -> dict[str, int] | None:
         return stash
 
 
-def get_stash_lbproc_from_pp(filepath: str) -> set[tuple[str, int]] | None:
-    """Executes a ppfp command as a subprocess and parses the output
-    to extract the STASH code and lbproc of each field.
+# Getters for PP constraint names that are not plain attributes of an iris PPField
+PP_HEADER_GETTERS = {
+    "stash": lambda field: field.lbuser[3],
+    "lbuser_5": lambda field: field.lbuser[4],
+    "brsvd1": lambda field: field.brsvd[0],
+    "lbtim": lambda field: int(field.lbtim),
+    "lbtim_ia": lambda field: field.lbtim.ia,
+    "lbtim_ib": lambda field: field.lbtim.ib,
+}
+
+
+def normalise_pp_value(value) -> float:
+    """Return a PP header or constraint value in a form that can be compared,
+    allowing for 32-bit floats in PP headers (e.g. a blev of 0.225)."""
+    return round(float(value), 4)
+
+
+def get_pp_header_value(field, name: str) -> float:
+    """Return the normalised value of a PP constraint name from the header of an iris PPField.
+
+    Parameters
+    ----------
+    field : iris.fileformats.pp.PPField
+        the PP field
+    name : str
+        the constraint name, e.g. "stash", "lbproc" or "blev"
+
+    Returns
+    -------
+    float
+        the normalised header value
+
+    Raises
+    ------
+    ValueError
+        If the constraint name does not correspond to a PP header element
+    """
+    try:
+        value = PP_HEADER_GETTERS[name](field) if name in PP_HEADER_GETTERS else getattr(field, name)
+    except AttributeError:
+        raise ValueError('PP constraint "{}" cannot be checked against existing PP files'.format(name))
+    return normalise_pp_value(value)
+
+
+def read_pp_fields(filepath: str) -> list | None:
+    """Reads the field headers of a PP file without loading the data.
 
     Parameters
     ----------
@@ -93,23 +138,13 @@ def get_stash_lbproc_from_pp(filepath: str) -> set[tuple[str, int]] | None:
 
     Returns
     -------
-    set[tuple[str, int]] | None
-        A set of (short STASH code, lbproc) pairs from the file or None if the command fails
+    list | None
+        The iris PPFields in the file or None if the file cannot be read
     """
-    command = ["ppfp", "-stash", "-proc", filepath]
-    process = subprocess.Popen(command, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE, universal_newlines=True)
-    cmd_out = process.communicate()[0]
-    if process.returncode > 0:
+    try:
+        return list(pp.load(filepath))
+    except (OSError, struct.error):
         return None
-    fields = set()
-    for line in cmd_out.split("\n")[NUM_PP_HEADER_LINES:]:
-        try:
-            stash, lbproc = (int(value) for value in line.split())
-        except ValueError:
-            continue
-        fields.add((str(stash), lbproc))
-    return fields
 
 
 def get_variables_from_netcdf(filepath: str) -> set[str] | None:
