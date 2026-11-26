@@ -4,6 +4,7 @@
 
 """Tests for extract filters."""
 from copy import deepcopy
+import json
 import logging
 import os
 import tempfile
@@ -598,6 +599,77 @@ class TestFilters(unittest.TestCase):
             "review your request config and variables files before re-running (in "
             "particular check the assignment of variables to streams)."
         )
+
+
+class TestRemoveStaleFiles(unittest.TestCase):
+
+    def setUp(self):
+        self.tmp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp_dir.cleanup)
+        os.makedirs(os.path.join(self.tmp_dir.name, "extract"))
+        self.target = os.path.join(self.tmp_dir.name, "ap5")
+        os.makedirs(self.target)
+        self.record_path = os.path.join(self.tmp_dir.name, "extract", "ap5_extracted_fields.json")
+        self.filters = Filters(procdir=self.tmp_dir.name)
+        self.filters.target = self.target
+        self.filters.stream = "ap5"
+
+    def _write_record(self, fields):
+        with open(self.record_path, "w") as record_file:
+            json.dump(fields, record_file)
+
+    def _read_record(self):
+        with open(self.record_path) as record_file:
+            return json.load(record_file)
+
+    def _create_data_file(self):
+        open(os.path.join(self.target, "a.pp"), "w").close()
+
+    def test_keeps_files_and_record_when_request_is_subset_of_record(self):
+        self._create_data_file()
+        self._write_record(["3236 {}", "5216 {}"])
+        self.filters.requested_fields = {"3236 {}"}
+
+        self.filters._remove_stale_files()
+
+        self.assertEqual(os.listdir(self.target), ["a.pp"])
+        self.assertEqual(self._read_record(), ["3236 {}", "5216 {}"])
+
+    def test_deletes_files_and_updates_record_when_request_has_new_fields(self):
+        self._create_data_file()
+        self._write_record(["3236 {}"])
+        self.filters.requested_fields = {"3236 {}", "30297 {}"}
+
+        self.filters._remove_stale_files()
+
+        self.assertEqual(os.listdir(self.target), [])
+        self.assertEqual(self._read_record(), ["30297 {}", "3236 {}"])
+
+    def test_deletes_files_when_no_record_exists(self):
+        self._create_data_file()
+        self.filters.requested_fields = {"3236 {}"}
+
+        self.filters._remove_stale_files()
+
+        self.assertEqual(os.listdir(self.target), [])
+        self.assertEqual(self._read_record(), ["3236 {}"])
+
+    def test_writes_record_when_target_is_empty(self):
+        self.filters.requested_fields = {"onm:thetao"}
+
+        self.filters._remove_stale_files()
+
+        self.assertEqual(self._read_record(), ["onm:thetao"])
+
+    def test_does_nothing_in_simulation_mode(self):
+        self._create_data_file()
+        self.filters.simulation = True
+        self.filters.requested_fields = {"3236 {}"}
+
+        self.filters._remove_stale_files()
+
+        self.assertEqual(os.listdir(self.target), ["a.pp"])
+        self.assertFalse(os.path.exists(self.record_path))
 
 
 class TestSkipExistingPpFiles(unittest.TestCase):
