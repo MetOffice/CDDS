@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2025, Met Office.
+# (C) British Crown Copyright 2020-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import logging
@@ -176,16 +176,17 @@ def build_sql_query(facets):
     COLUMN_MAP = {
         'mip_era': 'mip_era.name',
         'mip': 'mip.name',
+        'institution': 'institution.name',
         'model': 'model.name',
-        'experiment': 'experiment.name',
-        'variant': 'variant',
         'region': 'region.name',
         'frequency': 'frequency.name',
-        'variable': 'variable.name',
-        'suffix': 'suffix.name',
-        'institution': 'institution.name',
+        'experiment': 'experiment.name',
         'grid': 'grid.name',
-        'status': 'current_status',
+        'suffix': 'suffix.name',
+        'status': 'status.name',
+        'variable': 'variable.name',
+        'dataset': 'd.dataset_id',
+        'variant': 'd.variant'
     }
 
     condition = ['{} = :{}'.format(COLUMN_MAP[key], key) for key, val in facets.items() if val is not None]
@@ -208,8 +209,9 @@ def build_sql_query(facets):
         'INNER JOIN variable ON d.variable_id = variable.id '
         'INNER JOIN suffix ON d.suffix_id = suffix.id '
         'INNER JOIN status ON d.status_id = status.id '
-        'WHERE {} '
-    ).format(' AND '.join(condition))
+    )
+    if condition:
+        sql += 'WHERE {} '.format(' AND '.join(condition))
     return sql
 
 
