@@ -125,7 +125,8 @@ def generate_variable_list(arguments: Namespace) -> int:
 
     inventory = InventoryVariablesConstructor(db, request)
     requested_variables = resolve_requested_variables(user_requested_variables, model_to_mip_mappings, inventory,
-                                                      request.inventory.inventory_check)
+                                                      request.inventory.inventory_check,
+                                                      arguments.invert_inventory_check)
     variable_constructor = VariablesConstructor(request, requested_variables)
     var_list = variable_constructor.construct_requested_variables_list()
 
@@ -352,6 +353,7 @@ def resolve_requested_variables(
     model_to_mip_mappings,
     inventory,
     inventory_check: bool,
+    invert_inventory_check: bool,
 ) -> list[dict[str, Any]]:
     """Return the resolved |MIP requested variables|.
 
@@ -363,6 +365,9 @@ def resolve_requested_variables(
         The |model to MIP mappings| for the |MIP requested variables|.
     inventory: :class:`InventoryVariablesConstructor`
         The inventory database constructor for checking variable status.
+    invert_inventory_check: bool
+        Whether to invert the inventory check.
+
     Returns
     -------
     list[dict]
@@ -384,7 +389,7 @@ def resolve_requested_variables(
 
         # Combine all above flags to determine whether this variable should be active.
         # Note the negation of variable_in_inventory
-        active = all([variable_in_model, variable_in_mappings, not variable_in_inventory])
+        active = all((variable_in_model, variable_in_mappings, variable_in_inventory == invert_inventory_check))
 
         requested_variable = {
             "active": active,
