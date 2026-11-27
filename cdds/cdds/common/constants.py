@@ -103,13 +103,13 @@ DAYS_IN_YEAR = 360
 JASMIN_URL_IDS = {'.ac.uk'}
 
 INPUT_DATA_DIRECTORY = 'input'
-INVENTORY_DB_FILENAME = 'inventory'
+INVENTORY_DB_FILENAME = 'inventory_cmip7'
 INVENTORY_ROOT_DIR = os.path.join(os.environ['CDDS_ETC'], 'inventory')
 INVENTORY_FACET_LIST = ["mip_era", "mip", "institution", "model", "experiment", "variant", "region", "frequency",
                         "variable", "suffix", "grid", "status", "timestamp"]
-INVENTORY_HEADINGS = ['Mip Era', 'Mip', 'Institute', 'Model', 'Experiment', 'Variant', 'Mip Table', 'Variable Name',
-                      'Grid', 'Status', 'Version', 'Facet String']
-INVENTORY_HEADINGS_FORMAT = '{:7} {:6} {:10} {:18} {:15} {:10} {:10} {:20} {:4} {:10} {:10} {:10}'
+INVENTORY_HEADINGS = ['Mip Era', 'Mip', 'Institute', 'Model', 'Experiment', 'Variant', 'Frequency', 'Variable Name',
+                      'Suffix', 'Grid', 'Status', 'Version', 'Facet String']
+INVENTORY_HEADINGS_FORMAT = '{:7} {:6} {:10} {:18} {:15} {:10} {:10} {:20} {:16} {:4} {:10} {:10} {:10}'
 LOG_DIRECTORY = 'log'
 LOG_TIMESTAMP_FORMAT = '%Y-%m-%dT%H%MZ'
 MIP_CONVERT_DATETIME_FORMAT = ('{0.year:04d}-{0.month_of_year:02d}-{0.day_of_month:02d}T'

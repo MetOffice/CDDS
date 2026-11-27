@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2025, Met Office.
+# (C) British Crown Copyright 2020-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 import argparse
@@ -18,9 +18,11 @@ SEARCH_FACET_LIST = [
     'model',
     'experiment',
     'variant',
-    'mip_table',
+    'region',
+    'frequency',
     'variable',
-    'grid',
+    'suffix',
+    'grid'
 ]
 
 
@@ -47,8 +49,19 @@ def parse_args():
     """
     default_inventory_path = os.path.join(INVENTORY_ROOT_DIR, '{}.db'.format(INVENTORY_DB_FILENAME))
 
-    parser = argparse.ArgumentParser('A commandline tool for querying the inventory.db database.')
-    parser.add_argument('facet_pattern')
+    epilog = (
+        'Example usage:\n\n'
+        '  Everything for one model and experiment:\n'
+        '    `search_inventory CMIP7.*.*.UKCM2-0-LL.1pctCO2.*.*.*.*.*.*`\n\n'
+        '  One variable, with locations in MASS:\n'
+        '    `search_inventory CMIP7.CMIP.UKNCSP.UKCM2-0-LL.1pctCO2.r1i1p1f1.glb.mon.tas.tavg-h2m-hxy-u.g110 -s`'
+    )
+    parser = argparse.ArgumentParser('A commandline tool for querying the inventory_cmip7.db database.',
+                                     formatter_class=argparse.RawDescriptionHelpFormatter, epilog=epilog)
+    parser.add_argument('facet_pattern',
+                        help='Facet pattern to search for in the format '
+                        '<mip_era>.<mip>.<institution>.<model>.<experiment>.<variant>.<region>.<frequency>.<variable>.'
+                        '<suffix>.<grid>. Any facet may be replaced by a * to act as a wildcard.')
     parser.add_argument('-s', '--show_location',
                         help='Flag to show individual file locations in MASS',
                         action='store_true')

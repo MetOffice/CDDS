@@ -1,4 +1,4 @@
-# (C) British Crown Copyright 2020-2025, Met Office.
+# (C) British Crown Copyright 2020-2026, Met Office.
 # Please see LICENSE.md for license details.
 
 from cdds.common.constants import INVENTORY_HEADINGS, INVENTORY_HEADINGS_FORMAT
@@ -49,8 +49,9 @@ def print_query(rows, arguments):
                   db_variable_instance.model,
                   db_variable_instance.experiment,
                   db_variable_instance.variant,
-                  db_variable_instance.mip_table,
+                  db_variable_instance.frequency,
                   db_variable_instance.name,
+                  db_variable_instance.suffix,
                   db_variable_instance.grid,
                   db_variable_instance.status,
                   db_variable_instance.version]
