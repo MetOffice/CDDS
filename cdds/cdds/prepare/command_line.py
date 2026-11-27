@@ -100,6 +100,9 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
 
     # Log version.
     logger.info('Using CDDS Prepare version {}'.format(__version__))
+    # Warn if using inverted inventory check
+    if args.invert_inventory_check:
+        logger.warning('**INVERTED INVENTORY CHECK IS ENABLED**; this may cause already-published data to be recreated')
 
     try:
         result = generate_variable_list(args)
@@ -236,6 +239,11 @@ def parse_generate_args(arguments: List[str]) -> Namespace:
         '-t', '--remove_orphaned_tasks', action='store_true', help=(
             'Reinstall and reload an already running conversion workflow so that tasks for components '
             'that no longer have any variables are removed. This implies --reconfigure.')
+    )
+    parser.add_argument(
+        '-i', '--invert_inventory_check', action='store_true', help=(
+            'Invert the inventory check so that variables that are **not** in the inventory are deactivated. Any '
+            'variables in the inventory will remain active.')
     )
 
     output_dir_group = parser.add_mutually_exclusive_group()
