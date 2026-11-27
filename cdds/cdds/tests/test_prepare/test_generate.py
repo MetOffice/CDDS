@@ -6,17 +6,19 @@
 import configparser
 import os.path
 import unittest
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
 from cdds.common.mip_tables import UserMipTables
 from cdds.common.plugins.plugin_loader import load_plugin
+from cdds.prepare.user_variable import UserDefinedVariable
 from cdds.prepare.generate import (
     check_mappings,
     parse_variable_list,
     check_variables_recognised,
     check_streams_match_variables,
+    resolve_requested_variables
 )
 from cdds.tests.factories.request_factory import simple_request
 from cdds.tests.test_common.common import DummyMapping
@@ -167,3 +169,60 @@ class TestCheckVariableValidation(unittest.TestCase):
             self.var_list_with_substreams, self.request
         )
         self.assertEqual(result, 0)
+
+
+class TestResolveRequestedVariables(unittest.TestCase):
+    def setUp(self):
+        mip_table = "atmos"
+        test_variables = ["tas_tavg-h2m-hxy-u", "vas_tavg-h10m-hxy-u"]
+        metadata = {"cell_measures": "", "cell_methods": "", "comment": "", "long_name": "", "positive": "",
+                    "standard_name": "", "units": "", "dimensions": "", "frequency": "mon"}
+
+        self.request_variables = [
+            UserDefinedVariable(mip_table=mip_table, var_name=test_variables[0], variable_metadata=dict(metadata),
+                                stream="ap5", frequency="mon"),
+            UserDefinedVariable(mip_table=mip_table, var_name=test_variables[1], variable_metadata=dict(metadata),
+                                stream="ap6", frequency="day")
+        ]
+        self.model_to_mip_mappings = {
+            mip_table: {
+                test_variables[0]: MagicMock(),
+                test_variables[1]: MagicMock(),
+            }
+        }
+        self.inventory = MagicMock()
+        self.inventory_check = False
+        self.invert_inventory_check = False
+
+    def test_no_inventory_check(self):
+        result = resolve_requested_variables(self.request_variables, self.model_to_mip_mappings, self.inventory,
+                                             self.inventory_check, self.invert_inventory_check)
+        self.assertTrue(result[0].get("active"), msg="Incorrectly deactivated variables when inventory_check is False.")
+        self.assertTrue(result[1].get("active"), msg="Incorrectly deactivated variables when inventory_check is False.")
+
+    def test_inventory_check(self):
+        self.inventory_check = True
+        # The first call to check_variable_in_inventory returns True (in inventory), the second returns False.
+        self.inventory.check_variable_in_inventory.side_effect = [True, False]
+        result = resolve_requested_variables(self.request_variables, self.model_to_mip_mappings, self.inventory,
+                                             self.inventory_check, self.invert_inventory_check)
+        self.assertFalse(result[0].get("active"),
+                         msg="Failed to deactivate variable in inventory when inventory check is True")
+        self.assertTrue(result[1].get("active"),
+                        msg="Incorrectly deactivated variable not in inventory when inventory check is True")
+
+    def test_inverted_inventory_check(self):
+        self.inventory_check = True
+        self.invert_inventory_check = True
+        # The first call to check_variable_in_inventory returns True (in inventory), the second returns False.
+        self.inventory.check_variable_in_inventory.side_effect = [True, False]
+        result = resolve_requested_variables(self.request_variables, self.model_to_mip_mappings, self.inventory,
+                                                self.inventory_check, self.invert_inventory_check)
+        self.assertTrue(result[0].get("active"),
+                        msg="Incorrectly deactivated variable in inventory when inverted inventory check is True")
+        self.assertFalse(result[1].get("active"),
+                        msg="Failed to deactivate variable not in inventory when inverted inventory check is True")
+
+
+if __name__ == '__main__':
+    unittest.main()
