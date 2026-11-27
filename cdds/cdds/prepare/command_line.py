@@ -237,6 +237,11 @@ def parse_generate_args(arguments: List[str]) -> Namespace:
             'Reinstall and reload an already running conversion workflow so that tasks for components '
             'that no longer have any variables are removed. This implies --reconfigure.')
     )
+    parser.add_argument(
+        '-i', '--invert_inventory_check', action='store_true', help=(
+            'Invert the inventory check so that variables that are **not** in the inventory are deactivated. Any '
+            'variables in the inventory will remain active.')
+    )
 
     output_dir_group = parser.add_mutually_exclusive_group()
     output_dir_group.add_argument(
