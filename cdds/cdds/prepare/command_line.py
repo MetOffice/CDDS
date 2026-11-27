@@ -100,6 +100,9 @@ def main_generate_variable_list(arguments: List[str] = None) -> int:
 
     # Log version.
     logger.info('Using CDDS Prepare version {}'.format(__version__))
+    # Warn if using inverted inventory check
+    if args.invert_inventory_check:
+        logger.warning('**INVERTED INVENTORY CHECK IS ENABLED**; this may cause already-published data to be recreated')
 
     try:
         result = generate_variable_list(args)
